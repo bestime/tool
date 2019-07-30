@@ -1,9 +1,4 @@
-const cssStr = `
-  .bt-pager{font-size:0;user-select: none;}
-  .bt-pager .inwp, .bt-pager .page{display:inline-block;font-size:12px;background:#000;color:#fff;line-height:24px;text-align:center;cursor:pointer;padding:0 10px;margin:1px;}
-  .bt-pager .pages{display:inline-block;}
-  .bt-pager .pages span.active{background:red;}
-`
+
 
 
 
@@ -14,14 +9,12 @@ const getByClass = require('./getByClass')
 const addClass = require('./addClass')
 const each = require('./each')
 const numberLimit = require('./numberLimit')
-const createStyleElement = require('./createStyleElement')
 
 function Pager (opt) {
   opt = _Object(opt)
   var el = opt.el;
   addClass(el, 'bt-pager')
   if(!el) return;
-  createStyleElement('bg-pater', cssStr)
   el.innerHTML = '\
     <div class="inwp first">首页</div>\
     <div class="inwp pre">上一页</div>\

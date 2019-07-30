@@ -1,6 +1,6 @@
 
 
-const createStyleElement = require('./createStyleElement')
+
 const isEmpty = require('./isEmpty')
 const removeClass = require('./removeClass')
 const isObject = require('./isObject')
@@ -11,13 +11,6 @@ const addClass = require('./addClass')
 const _Object = require('./_Object')
 const _String = require('./_String')
 
-const cssStr = `
-  #loading-bt-wrapper{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:80001;display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0;transition:0.2s;}
-  .loading-bt-text{font-size:14px;color:#fff;}
-  #loading-bt-wrapper.active{opacity:1;}
-  .loading-bt-close{position:absolute;right:10px;top:10px;font-size:12px;color:rgba(255,255,255,0.8);cursor:pointer;}
-  .loading-bt-close:hover{color:#fff;}
-`
 
 function oWrapperReady (callback) {
   clearInterval(window.jcy.loading.timer_r)
@@ -74,21 +67,18 @@ function showLoading (msg, iconHtml) {
 
   window.jcy.loading.exist = true
 
-  createStyleElement('bt-loading-css', cssStr, function () {
-    var el = document.createElement('div')
-    el.id = 'loading-bt-wrapper';
-    el.innerHTML = `
-      <div class="loading-bt-icon">${iconHtml}</div>
-      <div class="loading-bt-text">${msg}</div>
-      <div class="loading-bt-close">关闭</div>
-    `;
-    document.body.appendChild(el)
-    getByClass('loading-bt-close', el)[0].onclick = hideLoading
-    setTimeout(function () {      
-      addClass(el, 'active')
-    }, 16)
-  })
-
+  var el = document.createElement('div')
+  el.id = 'loading-bt-wrapper';
+  el.innerHTML = `
+    <div class="loading-bt-icon">${iconHtml}</div>
+    <div class="loading-bt-text">${msg}</div>
+    <div class="loading-bt-close">关闭</div>
+  `;
+  document.body.appendChild(el)
+  getByClass('loading-bt-close', el)[0].onclick = hideLoading
+  setTimeout(function () {      
+    addClass(el, 'active')
+  }, 16);
 }
 
 function hideLoading () {
