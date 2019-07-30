@@ -1,7 +1,4 @@
-
-
-
-#### Array.$forEach(handle) 可跳出循环的便利
+#### Array.$forEach(handle) 可跳出循环的遍历
 ```javascript
 [1, 2, 3].$forEach((item, index, source) => {
   if(item===2) {
@@ -13,7 +10,7 @@
   }
 })
 ```
-
+-------
 #### Array.$map(handle)
 #### Array.$filter(handle)
 #### Array.$some(handle)
@@ -23,6 +20,7 @@
 #### Object.$map
 #### String.$trim
 
+-------
 #### bestime.getQuery(String | null)
 #### bestime.drag(opt)
 #### bestime.dialog(opt)
@@ -36,7 +34,7 @@
 #### bestime.onDomRoll(el, opt)
 #### bestime.Parabola(opt)
 
-
+-------
 #### bestime.defaultType(type, data)
 #### bestime._Array(data) 强制转换为 Array
 #### bestime._Boolean(data) 强制转换为 Boolean
@@ -45,6 +43,7 @@
 #### bestime._Object(data) 强制转换为 Json
 #### bestime._String(data) 强制转换为 String
 
+-------
 #### bestime.isArray(data)
 #### bestime.isEmpty(data)
 #### bestime.isFunction(data)
@@ -54,6 +53,7 @@
 #### bestime.isString(data)
 
 
+-------
 #### bestime.addClass(el, className)
 #### bestime.toggleClass(el, className)
 #### bestime.average(section, num, decimal)
