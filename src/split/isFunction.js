@@ -1,7 +1,5 @@
-const getType = require('./getType')
-
 function isFunction (data) {
-  return getType(data)==='Function'
+  return typeof data === 'function'
 }
 
 module.exports = isFunction

@@ -1,5 +1,3 @@
-
-
 const isFunction = require('./isFunction')
 const _Number = require('./_Number')
 

@@ -7,7 +7,42 @@
   <title>测试页面</title>
   <script src="./js/bestime.min.js"></script>
   
+  </style>
 </head>
 <body>
+<script>
+
+
+var query = {
+  json: {
+    name: '张三',
+    job: undefined,
+    jcy: {
+      key: undefined
+    }
+  },
+  info: '测试',
+  arr: [
+    1,
+    undefined,
+    {
+      hh: '健康的',
+      bb: null,
+      cc: undefined
+    }
+  ],
+  hh: '',
+  pp: null,
+  qq: undefined,
+  nb: function () {
+    return '3'
+  }
+}
+
+var dd = ns.clean(query)
+// console.log('====================')
+console.log(dd)
+
+</script>
 </body>
 </html>

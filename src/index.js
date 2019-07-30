@@ -9,14 +9,14 @@ var bestimeGroup = {
   average: require('./split/average'),
   barCode: require('./split/barCode'),
   bind: require('./split/bind'),
-  clear: require('./split/clear'),
+  clear: require('./split/clear'),// 废除
   clone: require('./split/clone'),
   convertTime: require('./split/convertTime'),
   createStyleElement: require('./split/createStyleElement'),
   createUUID: require('./split/createUUID'),
   defaultType: require('./split/defaultType'),
   drag: require('./split/drag'),
-  each: require('./split/each'),
+  each: require('./split/each'), // 废除
   fillHtml: require('./split/fillHtml'),
   fixed: require('./split/fixed'),
   getByClass: require('./split/getByClass'),
@@ -49,7 +49,7 @@ var bestimeGroup = {
   removeElement: require('./split/removeElement'),
   setCookie: require('./split/setCookie'),
   split: require('./split/split'),
-  trim: require('./split/trim'),
+  trim: require('./split/trim'),// 废除
   unbind: require('./split/unbind'),
   unique: require('./split/unique'),
 
@@ -76,13 +76,14 @@ var bestimeGroup = {
   onlyOneAddClass: require('./split/onlyOneAddClass'),
   replaceCustom: require('./split/replaceCustom'),
   https: require('./split/https'),
-  reduce: require('./split/reduce'),
+  reduce: require('./split/reduce'),// 废除
   Pager: require('./split/Pager'),
   numberLimit: require('./split/numberLimit'),
-  map: require('./split/map'),
-  mapJson: require('./split/mapJson'),
-  some: require('./split/some'),
-  toggleClass: require('./split/toggleClass')
+  map: require('./split/map'),// 废除
+  mapJson: require('./split/mapJson'),// 废除
+  some: require('./split/some'),// 废除
+  toggleClass: require('./split/toggleClass'),
+  clean: require('./split/clean')
 };
 
 
