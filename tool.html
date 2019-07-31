@@ -13,35 +13,104 @@
 <script>
 
 
-var query = {
-  json: {
-    name: '张三',
-    job: undefined,
-    jcy: {
-      key: undefined
-    }
-  },
-  info: '测试',
-  arr: [
-    1,
-    undefined,
-    {
-      hh: '健康的',
-      bb: null,
-      cc: undefined
-    }
-  ],
-  hh: '',
-  pp: null,
-  qq: undefined,
-  nb: function () {
-    return '3'
+
+
+
+
+
+
+
+
+
+
+// var BB = (function () {
+//   var BB = function(selector) {
+//     return new BB.fn.init(selector);
+//   };
+
+//   BB.fn = BB.prototype = {
+//     constructor: BB,
+//     init: function (selector) {
+      
+//     }
+//   };
+
+//   BB.fn.init.prototype = BB.fn;
+
+//   BB.extend = BB.fn.extend = function(){
+    
+//   };
+//   return BB;
+// })();
+
+
+
+var timers = 10000000
+function push () {
+  let start = + new Date()
+  let arr = []
+  for(let a=0; a<timers; a++) {
+    arr.push(a)
   }
+  console.log('结束：', +new Date() - start)
+  console.log(arr)
 }
 
-var dd = ns.clean(query)
-// console.log('====================')
-console.log(dd)
+function pushLength () {
+  let start = + new Date()
+  let arr = []
+  for(let a=0; a<timers; a++) {
+    arr[arr.length] = a
+  }
+  console.log('结束：', +new Date() - start)
+  console.log(arr)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </script>
 </body>

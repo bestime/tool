@@ -1,6 +1,4 @@
 const zero = require('./zero')
-
-
 function convertTime (date) { 
 	return {
 		year         : zero(date.getFullYear()),
