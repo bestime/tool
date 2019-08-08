@@ -86,5 +86,6 @@ module.exports = {
   some: require('./split/some'),
   find: require('./split/find'),
   indexOf: require('./split/indexOf'),
-  reduce: require('./split/reduce')
+  reduce: require('./split/reduce'),
+  scrollToElement: require('./split/scrollToElement')
 };
