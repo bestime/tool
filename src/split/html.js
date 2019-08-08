@@ -1,4 +1,4 @@
-isEmpty = require('./isEmpty')
+const isEmpty = require('./isEmpty')
 
 var html = {
   encode: function (str) {

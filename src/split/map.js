@@ -1,6 +1,5 @@
 
 const isFunction = require('./_Function')
-
 const clone = require('./clone')
 
 function map (arr, handle) {

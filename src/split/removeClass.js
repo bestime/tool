@@ -5,11 +5,6 @@
  */
 
 
-
-
-
-
-
 const trim = require('./trim')
 const each = require('./each')
 const unique = require('./unique')

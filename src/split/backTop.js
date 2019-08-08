@@ -1,4 +1,7 @@
-//返回顶部
+/**
+ * 
+ * @param {Dom} el 返回顶部的容器，默认body 
+ */
 function backTop (el) {
 	var currentTop = 0;
 	if(el) {
@@ -9,7 +12,7 @@ function backTop (el) {
 	
 	var timer = null;
 	clearInterval(timer);
-	timer= setInterval(function() {
+	timer = setInterval(function() {
 		currentTop = parseInt(currentTop - (currentTop / 5));
 		if (currentTop <= 0) {
 			clearInterval(timer);

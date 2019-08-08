@@ -42,8 +42,6 @@ function getMonthInfo (timestamp) {
 		}
 	}
 	
-	
-	
 	function getDays () {
 		var arr = [];
 		var currentMonthArr = []

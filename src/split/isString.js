@@ -1,7 +1,5 @@
-const getType = require('./getType')
-
 function isString (data) {
-  return getType(data)==='String'
+  return typeof data === 'string'
 }
 
 module.exports = isString

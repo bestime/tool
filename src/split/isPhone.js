@@ -5,8 +5,6 @@
  * @param {*} str 
  */
 
-
-
 const trim = require('./trim')
 
 function isPhone (str) {
