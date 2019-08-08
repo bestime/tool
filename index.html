@@ -21,6 +21,7 @@
       height: 300px;
       background: red;
       overflow: auto;
+      position: relative;
     }
     #test li {
       line-height: 40px;
@@ -29,6 +30,14 @@
       margin: 10px;
     }
   </style>
+    <a href="http://www.baidu.com" onClick="test02()">点击弹框，右键跳转</a>
+    <script>
+      function test02 (ev) {
+        ev = ev || window.event;
+        window.event? window.event.returnValue = false : ev.preventDefault();
+        console.log('被点击了')
+      }
+    </script>
     <ul id="test">
       <li>1</li>
       <li>2</li>
@@ -49,5 +58,7 @@
   ns.scrollToElement(document.getElementById('tartet'), false, function () {
     console.log('完了')
   })
+
+
 </script>
 </html>
