@@ -98,6 +98,7 @@ function Pager (opt) {
       }        
       _pagehtml += '<span real-page="'+ a +'" class="'+ _class +'">'+ _pageText +'</span>'
     }
+
     oPages.innerHTML = _pagehtml
 
     each(getByClass('page', oPages), function (onePage) {
@@ -105,9 +106,7 @@ function Pager (opt) {
         goTo(onePage.getAttribute('real-page'))
       }        
     })
-
-   
-
+    
     oTotalNum.innerHTML = pageTotal
   }
 

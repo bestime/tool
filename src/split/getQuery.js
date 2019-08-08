@@ -4,14 +4,14 @@
 
 /**
  * getQuery 获取url查询参数
- * @param {String} str # [可选], 被查询的字符串，不填则为浏览器地址
+ * @param {String} str # [可选], 被查询的字符串，不填则为当前url
  * @return {Object} json对象
  */
 
 function getQuery (str) {
-  var res = {}
-  var href = ''; try { href = window.location.href } catch (e) {};
-  (str!==null || typeof str!=='undefined' ? str : href).replace(/[^=?&]*=[^=&?]*/g, function (g) {
+  var res = {}, href = '';
+  try { href = window.location.href } catch (e) {};
+  (typeof str === 'string' ? str : href).replace(/[^=?&]*=[^=&?]*/g, function (g) {
     res[decodeURIComponent(g.replace(/=.*/g, ''))] = decodeURIComponent(g.replace(/.*=/g, ''))
   });
   return res

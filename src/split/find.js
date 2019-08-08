@@ -1,15 +1,14 @@
-
 const isFunction = require('./_Function')
 
-const clone = require('./clone')
-
-function map (arr, handle) {
+function find (arr, handle) {
   if(!isFunction(handle)) return;
-  var res = [];
+  var res;
   for(var a=0, len = arr.length; a < len; a++) {
-    res.push(handle(clone(arr[a]), a, arr))
+    if(handle(arr[a], a, arr)) {
+      res = arr[a]
+    }
   }
   return res
 }
 
-module.exports = map
+module.exports = find

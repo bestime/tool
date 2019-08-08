@@ -1,86 +1,64 @@
 const path = require('path')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-var pkg = require('./package.json');
-var webpack = require('webpack')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-function convertTime (date, isString, typeNumber) {	
-	date = isString ? new Date(Number(date)) : date;	
-	var result =  {
-		year         : date.getFullYear(),
-		month        : date.getMonth() + 1,
-		day          : date.getDate(),
-		hours        : date.getHours(),
-		minutes      : date.getMinutes(),
-		seconds      : date.getSeconds(),
-		milliSeconds : date.getMilliseconds()
-	}
-
-	if(!typeNumber) {
-		for(var key in result) {
-			if(parseInt(result[key]) < 10) result[key] = '0' + result[key];
-		}	
-	}
-
-	return result;
+function zero (num) {
+	num = Number(num) || 0
+	return num < 10 ? `0${num}` : num
 }
 
-function _getNowTime () {
-	const t = convertTime(new Date())
-	return `${t.year}-${t.month}-${t.day} ${t.hours}:${t.minutes}:${t.seconds}`
+function convertTime (date) { 
+	return {
+		year        : zero(date.getFullYear()),
+		month       : zero(date.getMonth() + 1),
+		day         : zero(date.getDate()),
+		hour        : zero(date.getHours()),
+		minute      : zero(date.getMinutes()),
+		second      : zero(date.getSeconds()),
+		milliSecond : zero(date.getMilliseconds())
+	}
 }
 
-
-function getBanner () {
-	return `Bestime Tool ${_getNowTime()}`
+function TransNowTime () {
+	const t = convertTime(new Date)
+	return `${t.year}-${t.month}-${t.day} ${t.hour}:${t.minute}:${t.second}`
 }
 
 module.exports = {
-	//入口文件
+	mode: 'production',
 	entry: {
 		['bestime']: './src/index.js'
 	},
-	//出口文件
 	output: {
-		filename: `../js/[name].min.js`,
-		path: path.resolve(__dirname, 'js')
+		filename: `[name].min.js`,
+		path: path.resolve(__dirname, 'js'),
+		library: 'ns',
+		libraryTarget: 'var'
 	},
-	//插件
-	plugins: [
-		new UglifyJSPlugin({
-			uglifyOptions: {
-				ie8: true,
-				ecma: 5,
-				warnings: false,
-				mangle: true, // 混淆,默认true
-				output: {
-					beautify: false
+	optimization: {
+		minimizer: [
+			new UglifyJsPlugin({
+        uglifyOptions: {         
+          ie8: true,
+					ecma: 5,
+					warnings: false,
+					compress: true,
+					output: {
+						beautify: false,
+						comments: true
+					}
+				},
+				extractComments: {
+					banner: `Bestime Tool (2) ${TransNowTime()}`
 				}
-			}
-		}),
-		new webpack.BannerPlugin(getBanner()),
-		new ExtractTextPlugin({
-			filename: (getPath) => {
-				return getPath(`js/[name]/[name]@${pkg.version}.css`).replace('css/js', 'css');
-			},
-			allChunks: true
-		})
-	],
+      })
+		]
+	},
 	module: {
 		rules: [
 			{
 				test: /\.js$/,
-				exclude: /(node_modules|bower_components)/,
-				use: {
-					loader: 'babel-loader'
-				}
-			},
-			{
-				test: /\.css$/,
-				use: ExtractTextPlugin.extract({
-					fallback: "style-loader",
-					use: "css-loader"
-				})
+				loader: 'babel-loader',
+				exclude: /(node_modules|bower_components)/
 			}
 		]
 	}

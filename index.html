@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./css/bestime.css"/>
+  <script src="./js/bestime.Y.min.js"></script>
+  <script src="https://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+  <title>Document</title>
+</head>
+<body>
+
+  <style>
+    *{
+      list-style:none;
+      margin: 0;
+      padding: 0;
+    }
+    #test {
+      height: 300px;
+      background: red;
+      overflow: auto;
+    }
+    #test li {
+      line-height: 40px;
+      background: #000;
+      color:#fff;
+      margin: 10px;
+    }
+  </style>
+  
+    <ul id="test">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li id="tartet">6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+      <li>10</li>
+      <li>11</li>
+      <li>12</li>
+    </ul>
+  
+
+</body>
+
+<script>
+    function scrollToElement (dom, oFather, callback) {
+      oFather = oFather || dom.parentNode
+      var timer, now = oFather.scrollTop, to = dom.offsetTop, step = 10;
+      timer = setInterval(function () {
+        if(now<to) {
+          now += step
+          if(now>=to) {
+            now = to
+          }
+        } else {
+          now -= to
+          if(now<=to) {
+            now = to
+          }
+        }
+        oFather.scrollTop = now
+        now === to && toStop()
+      }, 20)
+
+      function toStop () {
+        clearInterval(timer)
+        typeof callback === 'function' && callback();
+      }
+    }    
+    
+    scrollToElement(document.getElementById('tartet'), false, function () {
+      alert('完了')
+    })
+
+
+
+    
+  
+    </script>
+</html>

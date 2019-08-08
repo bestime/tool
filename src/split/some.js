@@ -1,15 +1,15 @@
-const isArray = require('./isArray')
+const isFunction = require('./_Function')
 
 function some (arr, handle) {
-  var bol = false
-  if(isArray(arr)) {
-    for(var a=0; a<arr.length; a++) {
-      if(handle(arr[a], index)===true) {
-        break;
-      }
+  if(!isFunction(handle)) return;
+  var res = false;
+  for(var a=0, len = arr.length; a < len; a++) {
+    if(handle(arr[a], a, arr)) {
+      res = true
+      break;
     }
   }
-  return bol
+  return res
 }
 
 module.exports = some

@@ -2,7 +2,6 @@
 
 const unique = require('./unique')
 const hasClass = require('./hasClass')
-const each = require('./each')
 const getType = require('./getType')
 
 /**
@@ -12,9 +11,10 @@ const getType = require('./getType')
  */
 module.exports = function (el, addClassName) {
   if(getType(addClassName)=='Array') {
-    each((unique(addClassName)), function (_item) {
-      addOne(_item);
-    });
+    var arr = unique(addClassName, true)
+    for(var a=0, len = arr.length; a<len; a++) {
+      addOne(arr[a]);
+    }
   }else {
     addOne(addClassName);
   }

@@ -1,22 +1,17 @@
-var each = require('./each')
-var isEmpty = require('./isEmpty')
+const isFunction = require('./isFunction')
 
-function reduce (arr, handle , initialValue) {
-	var startIndex = 1;	
-	var result = initialValue;
-	
-	if(isEmpty(initialValue)) {
-		startIndex = 0;
-		result = '';
-	}
-	
-	each(arr, function (item, index) {
-		if(startIndex<=index) {
-			result = handle(result, item, index, arr);
-		}		
-	});
-	
-	return result;
+function reduce (arr, handle, initVal) {
+  if(!isFunction(handle)) return;
+  var res =  '', index = 0;
+  if(typeof initVal !== 'undefined' && initVal !== null) {
+    res = initVal
+    index = 1
+  }
+  while (index < arr.length) {
+    res = handle(res, arr[index])
+    index++
+  }
+  return res
 }
 
 module.exports = reduce

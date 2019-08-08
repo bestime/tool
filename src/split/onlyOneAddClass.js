@@ -1,4 +1,4 @@
-const each = require('./each.js')
+
 const addClass = require('./addClass.js')
 const removeClass = require('./removeClass.js')
 
@@ -10,13 +10,13 @@ const removeClass = require('./removeClass.js')
  * @param className    需要切换的class  
  */
 function onlyOneAddClass (arr, index, className) {
-	each(arr, function (el, i) {
-		if(i===index){
+	for(let a = 0, len = arr.length; a < len; a++) {
+		if(a === index) {
 			addClass(el, className);
-		}else {
+		} else {
 			removeClass(el, className);
 		}
-	});
+	}
 }
 
 module.exports = onlyOneAddClass
