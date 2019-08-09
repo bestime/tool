@@ -1,6 +1,8 @@
 const isFunction = require('./isFunction')
 const _Number = require('./_Number')
 
+
+
 function debounce (opt) {
   if(!isFunction(opt.handle)) return;
   var delay = opt.delay

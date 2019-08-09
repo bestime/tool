@@ -14,31 +14,51 @@
     *{
       list-style:none;
       margin: 0;
-      padding: 0;
-      transition:0.2s ease-out;
+      padding: 0;      
     }
     #test {
       height: 300px;
-      background: red;
+      background: #fff;
       overflow: auto;
       position: relative;
+      width: 600px;
+      border:#ddd solid 1px;
+      margin: 20px;
     }
     #test li {
       line-height: 40px;
-      background: #000;
-      color:#fff;
+      background: #f9f9f9;
+      color:#444;
       margin: 10px;
+      border:#ddd solid 1px;
+      text-align:center;
+    }
+
+    #sbgs12{
+      width: 100px;
+      line-height:2;
+      text-align:center;
+      background:#f9f9f9;
+      color:#999;
+      margin: 20px;
+      cursor:pointer;
+    }
+    #sbgs12.active{
+      background:red;
+      color:#fff;
     }
   </style>
     <a href="http://www.baidu.com" onClick="test02()">点击弹框，右键跳转</a>
-    <div id="mouse-01" style="width:100px;height:100px;background:rgba(255, 255, 0, 0.7);position:fixed;z-index:500;"></div>
-    <div id="mouse-02" style="width:130px;height:50px;background:rgba(255, 0, 255, 0.7);position:fixed;z-index:500;"></div>
-
-    <div id="mouse-03" style="width:50px;height:130px;background:rgba(0, 255, 255, 0.7);position:fixed;z-index:500;"></div><script>
+    <div id="sbgs12" class="active">鼠标移入<br>切换跟随</div>
+    <div id="mouse-01" style="transition:0.2s ease-out;width:100px;height:100px;background:rgba(255, 255, 0, 0.7);position:fixed;z-index:100;display:none;"></div>
+    <div id="mouse-02" style="transition:0.3s ease-out;width:130px;height:50px;background:rgba(255, 0, 255, 0.7);position:fixed;z-index:100;display:none;"></div>
+    <div id="mouse-03" style="transition:0.15s ease-out;width:50px;height:130px;background:rgba(0, 255, 255, 0.7);position:fixed;z-index:100;display:none;"></div>
+    
+    <script>
       function test02 (ev) {
         ev = ev || window.event;
         window.event? window.event.returnValue = false : ev.preventDefault();
-        console.log('被点击了')
+        ns.dialog({ msg: '被点击了, 不会跳转' })
       }
     </script>
     <ul id="test">
@@ -47,10 +67,10 @@
       <li>3</li>
       <li>4</li>
       <li>5</li>
-      <li>6</li>
+      <li id="tartet">6</li>
       <li>7</li>
       <li>8</li>
-      <li id="tartet">9</li>
+      <li>9</li>
       <li>10</li>
       <li>11</li>
       <li>12</li>
@@ -63,19 +83,34 @@ ns.scrollToElement(document.getElementById('tartet'), false, function () {
 })
 
 
+var mus01, mus02, mus03;
+openGenSui()
 ns.DomMouse({
-  el: document.getElementById('tartet'),
+  el: document.getElementById('sbgs12'),
   onMouseEnter: function () {
-    console.log('enter')
+    if(mus01 && mus01.isActive()) {
+      mus01.remove()
+      mus02.remove()
+      mus03.remove()
+      ns.removeClass(document.getElementById('sbgs12'), 'active')
+    } else {
+      ns.addClass(document.getElementById('sbgs12'), 'active')
+      openGenSui()
+    }
   },
   onMouseLeave: function () {
     console.log('leave')
   }
 })
 
-ns.ContainerFollowMouse(document.getElementById('mouse-01'))
-ns.ContainerFollowMouse(document.getElementById('mouse-02'))
-ns.ContainerFollowMouse(document.getElementById('mouse-03'))
+
+function openGenSui () {
+  mus01 = ns.ContainerFollowMouse(document.getElementById('mouse-01'))
+  mus02 = ns.ContainerFollowMouse(document.getElementById('mouse-02'))
+  mus03 = ns.ContainerFollowMouse(document.getElementById('mouse-03'))  
+}
+
+
 
 </script>
 </html>

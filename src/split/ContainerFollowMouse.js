@@ -49,7 +49,7 @@ function ContainerFollowMouse (el) {
       clearTimeout(timer)
       timer = setTimeout(function () {
         handleMove(ev)
-      }, 50)
+      }, 25)
     } else {
       handleMove(ev)
     }
@@ -65,8 +65,8 @@ function ContainerFollowMouse (el) {
   
   return {
     remove: remove,
-    removeEvent: function () {
-      unbind(document, id, 'mousemove')
+    isActive: function () {
+      return show
     }
   }
 }

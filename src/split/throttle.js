@@ -6,7 +6,6 @@ const _Object = require('./_Object')
 
 /**
  * 
- * 
  * @param {Function} handle 处理主函数 
  * @param {Number} delay 延时
  * @param {Boolean} isFirstWork 第一次是否触发，默认true 
