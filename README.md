@@ -4,7 +4,7 @@
 ```javascript
 <link href="https://bestime.github.io/tool/css/bestime.css" rel="stylesheet" type="text/css">
 ```
-#### 在线 jascript 地址
+#### 在线 javascript 地址
 ```javascript
 <script src="https://bestime.github.io/tool/js/bestime.min.js"></script>
 ```
