@@ -6,12 +6,12 @@ const createUUID = require('./createUUID')
 const throttle = require('./throttle')
 
 function ContainerFollowMouse (el) {
+  var id = createUUID()
   var x = 0;
   var y = 0;
   var winSize, timer, show;
-  var id = createUUID()
+  
   el.style.opacity = '0'
-
   var handleMove = throttle({
     handle: function (ev) {
       winSize = getWindowSize()
@@ -36,7 +36,6 @@ function ContainerFollowMouse (el) {
   
       el.style.left = x + 'px'
       el.style.top = y + 'px'
-      
       el.style.opacity = '1'
       show = true
     },

@@ -2,5 +2,6 @@
 
 #### 在线引用
 ```javascript
+<link href="https://bestime.github.io/tool/css/bestime.css" rel="stylesheet" type="text/css">
 <script src="https://bestime.github.io/tool/js/bestime.min.js"></script>
 ```
