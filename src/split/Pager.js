@@ -7,7 +7,7 @@ const _Number = require('./_Number')
 const _Function = require('./_Function')
 const getByClass = require('./getByClass')
 const addClass = require('./addClass')
-const each = require('./each')
+const forEach = require('./forEach')
 const numberLimit = require('./numberLimit')
 
 function Pager (opt) {

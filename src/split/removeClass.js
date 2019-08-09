@@ -6,14 +6,14 @@
 
 
 const trim = require('./trim')
-const each = require('./each')
+const forEach = require('./forEach')
 const unique = require('./unique')
 const hasClass = require('./hasClass')
 const getType = require('./getType')
 
 function removeClass (element, cl) {
   if(getType(cl)=='Array') {
-    each((unique(cl)), function (_item) {
+    forEach((unique(cl)), function (_item) {
       removeOne(_item)
     });
   }else {
