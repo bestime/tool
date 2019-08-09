@@ -10,6 +10,7 @@ const _Object = require('./_Object')
  * @param {Function} handle 处理主函数 
  * @param {Number} delay 延时
  * @param {Boolean} isFirstWork 第一次是否触发，默认true 
+ * @param {Function} onFast 操作频率过快的回调函数 
  */
 
 function throttle (opt) {
@@ -33,7 +34,7 @@ function throttle (opt) {
     } else {
       needWait = delay + last - now
       if(needWait > 0){
-        onFast(needWait)
+        onFast.apply(this, [needWait])
       }
     }
   }

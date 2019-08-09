@@ -15,6 +15,7 @@
       list-style:none;
       margin: 0;
       padding: 0;
+      transition:0.2s ease-out;
     }
     #test {
       height: 300px;
@@ -30,7 +31,10 @@
     }
   </style>
     <a href="http://www.baidu.com" onClick="test02()">点击弹框，右键跳转</a>
-    <script>
+    <div id="mouse-01" style="width:100px;height:100px;background:rgba(255, 255, 0, 0.7);position:fixed;z-index:500;"></div>
+    <div id="mouse-02" style="width:130px;height:50px;background:rgba(255, 0, 255, 0.7);position:fixed;z-index:500;"></div>
+
+    <div id="mouse-03" style="width:50px;height:130px;background:rgba(0, 255, 255, 0.7);position:fixed;z-index:500;"></div><script>
       function test02 (ev) {
         ev = ev || window.event;
         window.event? window.event.returnValue = false : ev.preventDefault();
@@ -43,10 +47,10 @@
       <li>3</li>
       <li>4</li>
       <li>5</li>
-      <li id="tartet">6</li>
+      <li>6</li>
       <li>7</li>
       <li>8</li>
-      <li>9</li>
+      <li id="tartet">9</li>
       <li>10</li>
       <li>11</li>
       <li>12</li>
@@ -54,8 +58,24 @@
 </body>
 
 <script>
-  ns.scrollToElement(document.getElementById('tartet'), false, function () {
-    console.log('完了')
-  })
+ns.scrollToElement(document.getElementById('tartet'), false, function () {
+  console.log('完了')
+})
+
+
+ns.DomMouse({
+  el: document.getElementById('tartet'),
+  onMouseEnter: function () {
+    console.log('enter')
+  },
+  onMouseLeave: function () {
+    console.log('leave')
+  }
+})
+
+ns.ContainerFollowMouse(document.getElementById('mouse-01'))
+ns.ContainerFollowMouse(document.getElementById('mouse-02'))
+ns.ContainerFollowMouse(document.getElementById('mouse-03'))
+
 </script>
 </html>

@@ -48,7 +48,10 @@ module.exports = {
 					}
 				},
 				extractComments: {
-					banner: `Bestime Tool (2) ${TransNowTime()}`
+					banner: `Bestime Tool (2) ${TransNowTime()}`,
+					filename: function () {
+						return false
+					}
 				}
       })
 		]

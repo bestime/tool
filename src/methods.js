@@ -76,9 +76,11 @@ module.exports = {
   https: require('./split/https'),
   Pager: require('./split/Pager'),
   numberLimit: require('./split/numberLimit'),
+  trim: require('./split/trim'),
   toggleClass: require('./split/toggleClass'),
   clean: require('./split/clean'),
   assign: require('./split/assign'),
+  mapJson: require('./split/mapJson'),
 
   forEach: require('./split/forEach'),
   map: require('./split/map'),
@@ -87,5 +89,7 @@ module.exports = {
   find: require('./split/find'),
   indexOf: require('./split/indexOf'),
   reduce: require('./split/reduce'),
-  scrollToElement: require('./split/scrollToElement')
+  scrollToElement: require('./split/scrollToElement'),
+  ContainerFollowMouse: require('./split/ContainerFollowMouse'),
+  DomMouse: require('./split/DomMouse')
 };

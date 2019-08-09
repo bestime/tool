@@ -4,10 +4,10 @@ function scrollToElement (dom, oFather, callback) {
   timer = setInterval(function () {
     if(now<to) {
       now += step
-      if(now >= to) now = to;
+      if(now >= to) now = to
     } else {
       now -= to
-      if(now <= to) now = to;
+      if(now <= to) now = to
     }
     oFather.scrollTop = now
     now === to && toStop()
@@ -17,6 +17,6 @@ function scrollToElement (dom, oFather, callback) {
     clearInterval(timer)
     typeof callback === 'function' && callback();
   }
-}    
+}
 
 module.exports = scrollToElement

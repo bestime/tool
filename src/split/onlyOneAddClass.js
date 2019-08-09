@@ -12,9 +12,9 @@ const removeClass = require('./removeClass.js')
 function onlyOneAddClass (arr, index, className) {
 	for(let a = 0, len = arr.length; a < len; a++) {
 		if(a === index) {
-			addClass(el, className);
+			addClass(arr[a], className);
 		} else {
-			removeClass(el, className);
+			removeClass(arr[a], className);
 		}
 	}
 }

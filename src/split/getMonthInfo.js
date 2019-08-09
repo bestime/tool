@@ -2,9 +2,6 @@ const convertTime =  require('./convertTime.js')
 const _Number =  require('./_Number.js')
 const zero = require('./zero')
 
-
-
-
 function getMonthInfo (timestamp) {
 	timestamp = _Number(timestamp) || +new Date()
 	var t = convertTime(new Date(timestamp));
@@ -93,9 +90,8 @@ function getMonthInfo (timestamp) {
 	function getWeek (day) {
 		return new Date([t.year, t.month, day].join('/')).getDay()
 	}
-	
+
 	var filterArr = getDays()
-	
 	
 	var res = {
 		current: filterArr[0],// 本月数据数组
