@@ -1,7 +1,3 @@
-
-
-
-
 const _Object = require('./_Object')
 const _Number = require('./_Number')
 const _Function = require('./_Function')
@@ -30,8 +26,7 @@ function Pager (opt) {
   var pageTotal = _Number(opt.pageTotal) // 总页数
   var pageActive = _Number(opt.pageActive) // 当前页
   var showNum = _Number(opt.showNum) // 展示的页数,最小值3
-  
-  
+
   var oPages = getByClass('pages', el)[0]
   var oPre = getByClass('pre', el)[0]
   var oNext = getByClass('next', el)[0]
@@ -101,7 +96,7 @@ function Pager (opt) {
 
     oPages.innerHTML = _pagehtml
 
-    each(getByClass('page', oPages), function (onePage) {
+    forEach(getByClass('page', oPages), function (onePage) {
       onePage.onclick = function () {
         goTo(onePage.getAttribute('real-page'))
       }        
