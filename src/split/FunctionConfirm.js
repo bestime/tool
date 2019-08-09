@@ -6,7 +6,7 @@ const _Function = require('./_Function')
  * 
  * @param {Object} opt 配置json
  *  @key {Function} opt.handle 主函数
- *  @key {Function} opt.fast 操作过快函数
+ *  @key {Function} opt.onFast 操作过快函数
  */
 
 function FunctionConfirm (opt) {
@@ -24,7 +24,7 @@ function FunctionConfirm (opt) {
     }
 
     if(lock) {
-      _Function(opt.fast).apply(this, args);
+      _Function(opt.onFast).apply(this, args);
     } else {
       lock = true
       _Function(opt.handle).apply(this, args)

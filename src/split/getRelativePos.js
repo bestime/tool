@@ -2,7 +2,7 @@ const getScrollPosition = require('./getScrollPosition')
 
 //获取元素相对窗口的距离
 function getRelativePos(el) {
-	var scrollPos = getScrollPosition();
+	// var scrollPos = getScrollPosition();
 	const bound = el.getBoundingClientRect()
 	return {
 		x: bound.left,

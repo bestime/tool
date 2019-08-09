@@ -1,7 +1,3 @@
-
-
-
-
 /**
  * getQuery 获取url查询参数
  * @param {String} str # [可选], 被查询的字符串，不填则为当前url

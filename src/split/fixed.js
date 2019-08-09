@@ -1,5 +1,4 @@
-
-
+const _Number = require('./_Number')
 
 /**
  * toFixed()优化版
@@ -12,8 +11,6 @@
  * 	fixed(2)(100) => 100.00
  *  
  */
-
-const _Number = require('./_Number')
 function fixed (fix) {
 	fix = _Number(fix)
 	fix = fix < 0 ? 0 : fix
