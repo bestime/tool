@@ -3,8 +3,7 @@
  * @param {*} str 
  */
 function trim (str) {
-  if(typeof str ==='undefined') return ''
-  return String(str).replace(/(^\s*)|(\s*$)/g, '');
+  return typeof str ==='undefined' ? '' : String(str).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
 }
 
 module.exports = trim

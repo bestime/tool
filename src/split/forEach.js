@@ -9,7 +9,7 @@ const getType = require('./getType')
  * @param {Function} handle 处理函数
  */
 function forEach (arr, handle) {
-  if(!isFunction(handle)) return;
+  if(!isFunction(handle) || !arr.length) return;
   var res,
       a = 0,
       len;

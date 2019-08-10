@@ -49,11 +49,10 @@
     }
   </style>
     <a href="http://www.baidu.com" onClick="test02()">点击弹框，右键跳转</a>
-    <div id="sbgs12" class="active">鼠标移入<br>切换跟随</div>
+    <div id="sbgs12" class="active map array some">鼠标移入<br>切换跟随</div>
     <div id="mouse-01" style="transition:0.2s ease-out;width:100px;height:100px;background:rgba(255, 255, 0, 0.7);position:fixed;z-index:100;display:none;"></div>
     <div id="mouse-02" style="transition:0.3s ease-out;width:130px;height:50px;background:rgba(255, 0, 255, 0.7);position:fixed;z-index:100;display:none;"></div>
     <div id="mouse-03" style="transition:0.15s ease-out;width:50px;height:130px;background:rgba(0, 255, 255, 0.7);position:fixed;z-index:100;display:none;"></div>
-    
     <script>
       function test02 (ev) {
         ev = ev || window.event;
@@ -82,7 +81,6 @@ ns.scrollToElement(document.getElementById('tartet'), false, function () {
   console.log('完了')
 })
 
-
 var mus01, mus02, mus03;
 openGenSui()
 ns.DomMouse({
@@ -103,14 +101,12 @@ ns.DomMouse({
   }
 })
 
-
 function openGenSui () {
   mus01 = ns.ContainerFollowMouse(document.getElementById('mouse-01'))
   mus02 = ns.ContainerFollowMouse(document.getElementById('mouse-02'))
   mus03 = ns.ContainerFollowMouse(document.getElementById('mouse-03'))  
 }
 
-
-
+ns.removeClass(document.getElementById('sbgs12'), 'some')
 </script>
 </html>

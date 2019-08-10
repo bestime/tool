@@ -1,5 +1,8 @@
+
+
 function hasClass (obj, cl){
-  return obj.className.match(new RegExp('(\\s|^)' + cl + '(\\s|$)'));  
+  var str = typeof obj === 'string' ? obj : obj.className 
+  return str.match(new RegExp('(\\s|^)' + cl + '(\\s|$)'));  
 }
 
 module.exports = hasClass
