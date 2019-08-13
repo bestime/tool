@@ -2,10 +2,10 @@
 
 
 const isFunction = require('./isFunction')
-const isObject = require('./isObject')
+const _Object = require('./_Object')
 
 function onDomRoll (el, opt) {
-  if(!isObject(opt)) return;  
+  opt = _Object(opt)
   var doing = false
   el.onscroll = function () {
     if(!doing) {
@@ -20,6 +20,7 @@ function onDomRoll (el, opt) {
           doing = false
         })
       } else {
+        console.log(el.scrollHeight, el.scrollTop)
         doing = false
       }
     }

@@ -35,7 +35,7 @@
     }
 
     #sbgs12{
-      width: 100px;
+      width: 100rem;
       line-height:2;
       text-align:center;
       background:#f9f9f9;
@@ -60,24 +60,31 @@
         ns.dialog({ msg: '被点击了, 不会跳转' })
       }
     </script>
-    <ul id="test">
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
-      <li>5</li>
-      <li id="tartet">6</li>
-      <li>7</li>
-      <li>8</li>
-      <li>9</li>
-      <li>10</li>
-      <li>11</li>
-      <li>12</li>
-    </ul>
+
+    <div>
+      <button onclick="scrollToBottom01()">滚动到底部</button>
+    </div>
+    <div id="test">
+      <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li id="tartet">6</li>
+        <li>7</li>
+        <li>8</li>
+        <li>9</li>
+        <li>10</li>
+        <li>11</li>
+        <li>12</li>
+      </ul>
+    </div>
+    
 </body>
 
 <script>
-ns.scrollToElement(document.getElementById('tartet'), false, function () {
+ns.scrollToElement(document.getElementById('tartet'), document.getElementById('test'), function () {
   console.log('完了')
 })
 
@@ -108,5 +115,19 @@ function openGenSui () {
 }
 
 ns.removeClass(document.getElementById('sbgs12'), 'some')
+
+
+
+
+
+
+
+
+ns.onDomRoll(document.getElementById('test'))
+
+function scrollToBottom01 () {
+  ns.scrollToBottom(document.getElementById('test'))
+}
+
 </script>
 </html>

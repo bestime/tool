@@ -90,6 +90,7 @@ module.exports = {
   indexOf: require('./split/indexOf'),
   reduce: require('./split/reduce'),
   scrollToElement: require('./split/scrollToElement'),
+  scrollToBottom: require('./split/scrollToBottom'),
   ContainerFollowMouse: require('./split/ContainerFollowMouse'),
   DomMouse: require('./split/DomMouse')
 };
