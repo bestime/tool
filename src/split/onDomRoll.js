@@ -20,7 +20,6 @@ function onDomRoll (el, opt) {
           doing = false
         })
       } else {
-        console.log(el.scrollHeight, el.scrollTop)
         doing = false
       }
     }
