@@ -1,11 +1,9 @@
-const getType = require('./getType')
 function emptyFunction () {}
-const name = 'Function'
-
+const NAME = 'function'
 
 function _Function (data, def) {
-  const tempFun = getType(def) === name ? def : emptyFunction
-  return getType(data)===name ? data : tempFun
+  const TEMP = typeof def === NAME ? def : emptyFunction
+  return typeof data === NAME ? data : TEMP
 }
 
 module.exports = _Function
