@@ -18,7 +18,7 @@ function forEach (data, handle, type) {
       for(key in data) {
         res = handle(data[key], key, index, data)
         index++
-        if(checkRes(res)){
+        if(res===true){
           break;
         }
       }
@@ -26,7 +26,7 @@ function forEach (data, handle, type) {
     default:
       for(len = data.length; index < len; index++) {
         res = handle(data[index], index, data)
-        if(checkRes(res)){
+        if(res===true){
           break;
         }
       }
@@ -34,8 +34,6 @@ function forEach (data, handle, type) {
 }
 
 
-function checkRes (res) {
-  return typeof res !== 'undefined' && getType(res) !== 'Null'
-}
+
 
 module.exports = forEach
