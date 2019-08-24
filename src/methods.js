@@ -7,6 +7,7 @@ module.exports = {
   _Number: require('./split/_Number'),
   _Object: require('./split/_Object'),
   _String: require('./split/_String'),
+  symbolNumber: require('./split/symbolNumber'),
   addClass: require('./split/addClass'),
   average: require('./split/average'),
   barCode: require('./split/barCode'),
