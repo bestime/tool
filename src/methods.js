@@ -93,5 +93,6 @@ module.exports = {
   scrollToElement: require('./split/scrollToElement'),
   scrollToBottom: require('./split/scrollToBottom'),
   ContainerFollowMouse: require('./split/ContainerFollowMouse'),
-  DomMouse: require('./split/DomMouse')
+  DomMouse: require('./split/DomMouse'),
+  ArrayDelete: require('./split/ArrayDelete')
 };
