@@ -6,16 +6,28 @@ const getType = require('./getType')
  * @return {Boolean}
  */
 function isEmpty (data) {
+	var res = true
 	switch(getType(data)) {
+		case 'Function':
+		case 'Date':
+		case 'Boolean':
+		case 'Number':
+			res = false
+			break;
 		case 'Object':
-			for(var key in data) return false
-			return true
-		case 'Array': return !data.length
-		case 'Boolean': return false
-		case 'Number': return false
-		case 'String': return data=='undefined' || data=='' ? true : false
-		default: return !data
+			for(var key in data) {
+				res = false
+			}
+			break;
+		case 'Array':
+			res = data.length ? false : true
+			break;
+		case 'String':
+			res = data=='' ? true : false
+			break;
+		default: res = !data
 	}
+	return res
 }
 
 module.exports = isEmpty

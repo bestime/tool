@@ -128,18 +128,5 @@ function scrollToBottom01 () {
 
 
 
-
-function demo (arr) {
-  return ns.reduce(arr, (max, item) => {
-    max = ns._Number(max)
-    return Math.max(max, ns._Number(item.height))
-  })
-}
-
-
-var res = demo()
-
-
-console.log(res) // => 920
 </script>
 </html>

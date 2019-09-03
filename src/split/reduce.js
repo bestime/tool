@@ -3,18 +3,20 @@ const isArray = require('./isArray')
 
 function reduce (arr, handle, initVal) {
   if(isArray(arr) && isFunction(handle)) {
-    var res = initVal,
+    var total = initVal,
         index = 0,
         len = arr.length;
+
     if(typeof initVal === 'undefined') {
-      res = arr[0]
+      total = arr[0]
       index = 1
     }
 
     for (; index < len; index++) {
-      res = handle(res, arr[index])
+      total = handle(total, arr[index], index, arr)
     }
-    return res
+
+    return total
   }
 
   // arr 不是数组 或者 handle 不是方法，就返回 initVal
