@@ -23,7 +23,6 @@ module.exports = {
   getByClass: require('./split/getByClass'),
   getById: require('./split/getById'),
   getCookie: require('./split/getCookie'),
-  getData: require('./split/getData'),
   getQuery: require('./split/getQuery'),
   getRandom: require('./split/getRandom'),
   getRelativePos: require('./split/getRelativePos'),
@@ -94,5 +93,10 @@ module.exports = {
   scrollToBottom: require('./split/scrollToBottom'),
   ContainerFollowMouse: require('./split/ContainerFollowMouse'),
   DomMouse: require('./split/DomMouse'),
-  ArrayDelete: require('./split/ArrayDelete')
+  ArrayDelete: require('./split/ArrayDelete'),
+  setStorage: require('./split/setStorage'),
+  getStorage: require('./split/getStorage'),
+  removeStorage: require('./split/removeStorage'),
+  
+
 };

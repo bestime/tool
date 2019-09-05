@@ -128,5 +128,21 @@ function scrollToBottom01 () {
 
 
 
+
+
+ns.ready(function () {
+  ns.dialog({
+    msg: '开始卡',
+    // oFather: document.getElementById('use-main-wrapper'),
+    zIndexBase: 99999,
+    closed: function (type) {
+      // alert(type)
+    },
+    startClose: function (next) {
+      next(false, 'asdfasdf')
+    }
+  })
+})
+
 </script>
 </html>

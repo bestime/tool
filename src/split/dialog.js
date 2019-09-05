@@ -1,19 +1,17 @@
 
-const PlugName = 'bestime-dialog'
-const getData  = require('./getData')
-const drag  = require('./drag')
-const unbind  = require('./unbind')
-const bind  = require('./bind')
-const isFunction  = require('./isFunction')
-const getType  = require('./getType')
-const removeElement  = require('./removeElement')
+const _String  = require('./_String')
 const removeClass  = require('./removeClass')
+const _Number  = require('./_Number')
 const getByClass  = require('./getByClass')
 const addClass  = require('./addClass')
-const _Number  = require('./_Number')
+const removeElement  = require('./removeElement')
 const _Function  = require('./_Function')
-const _String  = require('./_String')
-const _Object  = require('./_Object')
+const getWindowSize  = require('./getWindowSize')
+const isFunction  = require('./isFunction')
+const setJcy  = require('./setJcy')
+const getJcy  = require('./getJcy')
+const mouseWheel  = require('./mouseWheel')
+const getType  = require('./getType')
 
 
 /**
@@ -26,133 +24,111 @@ const _Object  = require('./_Object')
  * onShow
  */
 
-function dialog (opt) {  
-  opt = _Object(opt)
-  opt.title = _String(opt.title) || '提示' // 标题
-  opt.msg = _String(opt.msg) // 显示的内容
-  opt.startClose = opt.startClose || null // 关闭前回调
-  opt.closed = _Function(opt.closed) // 关闭完成回调
-  opt.onShow = _Function(opt.onShow) // 显示完成回调
+function dialog (opt) {
+  if(getType(opt)!=='Object') {
+    opt = {
+      msg: _String(opt)
+    }
+  }
+  var NAME = 'dialog-id'
+  var id = _Number(getJcy(NAME)) + 1
+  setJcy(NAME, id)
 
-  
-  const jcy = getData(); // 统一数据存放中心
-  jcy.dialog_id = _Number(jcy.dialog_id) + 1;
-  var useId = PlugName + '-' + jcy.dialog_id; // 弹窗ID  
+  var oFather = opt.oFather || document.body
+  var msg = _String(opt.msg)
+  var zIndexBase = _Number(opt.zIndexBase) || 999999999
+  var title = _String(opt.title) || '提示'
+  var startClose = opt.startClose
+  var closed = _Function(opt.closed)
+  var onShow = _Function(opt.onShow)
 
-  var closeing = false; // 关闭中，禁止多次点击
-  var timer_show = null; // 显示的timer
-  var timer_autoClose = null // 自动关闭的timer
-  var oldWrappers = getByClass('dialog-vbt')
-  var oWrapper = document.createElement('div')
-  var gpName = oldWrappers.length ? ` group dialog-${oldWrappers.length}` : ''
-  var maxWidth = opt.maxWidth ? `max-width:${opt.maxWidth};` : null;
-  oWrapper.className = 'dialog-vbt' + gpName
-  oWrapper.id = useId
-  oWrapper.innerHTML = `
-    <div class="dialog-bg"></div>
-    <div class="dialog-content" style="${maxWidth}">
-      <div class="dialog-title">
-        <span>${opt.title}</span>
-        <b class="duration"></b>
+  var el = document.createElement('div')
+  el.className = 'dialog-wrapper-19'
+  el.setAttribute('data-id', id);
+  el.innerHTML = `
+    <div class="dig-bg"></div>
+    <div class="dig-content">
+      <div class="dig-top">
+        <p>${title}</p>
       </div>
-      <div class="dialog-msg-box">${_String(opt.msg) || '默认信息'}</div>
-      <div class="dialog-btn-box">
-      <div class="dialog-btn cancel">取消</div>
-        <div class="dialog-btn confirm">确定</div>
+      <div class="dig-msg-box">${msg}</div>
+      <div class="dig-btn-box">
+        <a class="close-btn">关闭</a>
+        <a class="confirm">确定</a>
       </div>
     </div>
-  `;
-  document.body.appendChild(oWrapper)
-  setTimeout(function () {
-    listenKeyBoard()
-    addClass(oWrapper, 'active')
-    doAutoClose()
-    if (!/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) {
-      drag({
-        oHandle: getByClass('dialog-title', oWrapper)[0],
-        oWrapper: getByClass('dialog-content', oWrapper)[0]
+  `
+  oFather.appendChild(el)
+  addClass(oFather, 'dig-hide-scroll')
+
+  var oBg = getByClass('dig-bg', el)[0]
+  var oContent = getByClass('dig-content', el)[0]
+  var oMsg = getByClass('dig-msg-box', el)[0]
+  var oClose = getByClass('close-btn', el)[0]
+  var oConfirm = getByClass('confirm', el)[0]
+  var positionCss = oFather === document.body ? 'fixed' : 'absolute'
+
+
+  mouseWheel(oContent, null, true)
+  mouseWheel(oBg, null, true)
+
+  oClose && (oClose.onclick = function () {
+    doClose()
+  });
+  
+  oConfirm && (oConfirm.onclick = function () {
+    hide('confirm')
+  })
+
+  if (oBg) {
+    oBg.style['z-index'] = zIndexBase + id
+    oBg.style['position'] = positionCss
+  }
+
+  function hide (type) {
+    if(isFunction(startClose)) {
+      startClose(function (isClose, checkedMsg) {
+        if(isClose===true) {
+          doClose(type)
+        } else {
+          oMsg.innerHTML = checkedMsg
+        }
       })
-    }      
-    timer_show = setTimeout(function () {
-      opt.onShow()
-    }, 200 + 16)
-  }, 16);
-
-  var oMsgBox = getByClass('dialog-msg-box', oWrapper)[0]
-  var oDuration = getByClass('duration', oWrapper)[0]
-
-  // getByClass('dialog-bg', oWrapper)[0].onclick = checkToClose
-  getByClass('confirm', oWrapper)[0].onclick = function () {
-    checkToClose('confirm')
-  }
-  getByClass('cancel', oWrapper)[0].onclick = function () {
-    checkToClose('cancel')
-  }
-
-  // 监听按键
-  function listenKeyBoard () {
-    bind(document, useId, 'keydown', function (e) {
-      var ev = e || window.event        
-      if(ev.keyCode ==27) {
-        checkToClose()
-      }
-    })
-  }
-
-  // 移除按键监听
-  function removeKeyBoard () {
-    unbind(document, useId, 'keydown')
-  }
-
-  // 计算自动关闭
-  function doAutoClose () {
-    if(getType(opt.autoClose)=='Number') {
-      var duration = opt.autoClose < 2000 ? 2000 : opt.autoClose; // 最小值2000
-      oDuration.innerHTML = '(' + Math.ceil(duration/1000) + 's)';
-      timer_autoClose = setInterval(function () {
-        if(duration<=0) {
-          checkToClose()
-          clearInterval(timer_autoClose)
-        } else {
-          duration -= 1000
-          oDuration.innerHTML = '(' + Math.ceil(duration/1000) + 's)';
-        }
-      }, 1000)
-    }
-  }
-
-  // 关闭主函数
-  function checkToClose (hideType) {
-    if(closeing) return;
-    clearTimeout(timer_show)
-    closeing = true
-    hideType = _String(hideType) || 'default'
-    if(hideType=='confirm' && isFunction(opt.startClose)) {
-      opt.startClose(function (isClose, checkedMsg) {
-        if(isClose!==false) {
-          removeDialog(hideType)
-        } else {
-          oMsgBox.innerHTML = checkedMsg
-          closeing = false
-        }
-      }, hideType)
     } else {
-      removeDialog(hideType)
+      doClose(type)
     }
   }
 
-  // 执行关闭
-  function removeDialog (hideType) {
-    removeKeyBoard()
-    removeClass(oWrapper, 'active')
-    setTimeout(function () {
-      clearInterval(timer_autoClose)
-      removeElement(oWrapper)
-      opt.closed(hideType)
-      closeing = false
-      oWrapper = null;
-    }, 200 + 16)
+  function doClose (type) {
+    removeElement(el)
+    closed(type)
+    removeClass(oFather, 'dig-hide-scroll')
   }
+
+  function getSize () {
+    if(oFather===document.body) {
+      return getWindowSize()
+    } else {
+      return {
+        width: oFather.offsetWidth,
+        height: oFather.offsetHeight
+      }
+    }
+  }
+
+  oMsg.style['max-height'] = getSize().height - 200 + 'px'
+  setTimeout(function () {
+    oContent.style['z-index'] = zIndexBase + id + 1
+    oContent.style['margin-left'] = -oContent.offsetWidth / 2 + 'px'
+    oContent.style['margin-top'] = -oContent.offsetHeight / 2 + 'px'
+    oContent.style['position'] = positionCss
+    setTimeout(function () {
+      addClass(el, 'show')
+      oBg.style['visibility'] = 'visible'
+      oContent.style['visibility'] = 'visible'
+      onShow()
+    }, 30)
+  }, 30)
 }
 
 

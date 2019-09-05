@@ -5,10 +5,10 @@ const unbind = require('./unbind')
 const addClass = require('./addClass')
 const _Number = require('./_Number')
 const getStyle = require('./getStyle')
-const getData = require('./getData')
 const prevent = require('./prevent')
 const getWindowSize = require('./getWindowSize')
-const createUUID = require('./createUUID')
+const setJcy  = require('./setJcy')
+const getJcy  = require('./getJcy')
 
 
 /**
@@ -23,25 +23,24 @@ const createUUID = require('./createUUID')
 
 
 function drag (opt) {
+  var name = 'drag-id'
+  var id = _Number(getJcy(name)) + 1
+  id = id < 500 ? 500 : id
+  setJcy(name, id)
   opt = _Object(opt)
   var oWrapper = opt.oWrapper;
   if(!oWrapper) throw new Error('拖拽对象无效')
-  var startX = 0;
-  var startY = 0;
-  var downX = 0;
-  var downY = 0;
-  
-  var id = 'drag_' + createUUID()
+  var startX = 0,
+      startY = 0,
+      downX = 0,
+      downY = 0;
   oWrapper.setAttribute('data-id', id)
   addClass(oWrapper, 'bt-drag')
-  if(!opt.oFather) {
-    addClass(oWrapper, 'bt-drag-body')
-  }
-  
+  if(!opt.oFather) addClass(oWrapper, 'bt-drag-body')
   setZindex()
   opt.oHandle.onmousedown = function (e) {
-    prevent(e)
     var ev = e || window.event
+    prevent(e)
     startX = oWrapper.offsetLeft
     startY = oWrapper.offsetTop
     downX = ev.clientX
@@ -86,17 +85,12 @@ function drag (opt) {
 
   function setZindex () {
     var zIndex = _Number(getStyle(oWrapper, 'z-index'))
-    var jcy = getData()
-    var oldIndex = _Number(jcy.drag_index)
-    if(oldIndex<500) {
-      zIndex = 500
-    } else if(zIndex < oldIndex) {
-      zIndex = oldIndex + 1
-    } else {
-      zIndex = oldIndex
+    id = _Number(getJcy(name))
+    if(zIndex < id) {
+      zIndex = id + 1
+      setJcy(name, zIndex)
+      oWrapper.style.zIndex = zIndex
     }
-    jcy.drag_index = zIndex
-    oWrapper.style.zIndex = zIndex
   }
 
   return {
@@ -110,6 +104,5 @@ function drag (opt) {
     }
   }
 }
-
 
 module.exports = drag

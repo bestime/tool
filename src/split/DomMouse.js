@@ -2,14 +2,19 @@
 const getRelativePos = require('./getRelativePos')
 const bind = require('./bind')
 const unbind = require('./unbind')
-const createUUID = require('./createUUID')
 const _Function = require('./_Function')
+const setJcy  = require('./setJcy')
+const getJcy  = require('./getJcy')
+const _Number  = require('./_Number')
 
 
 function DomMouse (opt) {
-  var el = opt.el
-  var pos, isEnter;
-  var id = createUUID()
+  var name = 'DomMouse-id'
+  var el = opt.el,
+      pos,
+      isEnter,
+      id = _Number(getJcy(name)) + 1;
+  setJcy(name, id)
   el.onmouseover = function (ev) {
     if(isEnter) return;
     _Function(opt.onMouseEnter)()
@@ -22,7 +27,7 @@ function DomMouse (opt) {
         ev.clientY > pos.y &&
         ev.clientY < pos.y + el.offsetHeight
       ) {
-        //console.log('在里面')
+        // console.log('在里面')
       } else {
         isEnter = false
         _Function(opt.onMouseLeave)()

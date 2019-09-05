@@ -66,3 +66,76 @@
 .bt-pager .pages{display:inline-block;}
 .bt-pager .pages span.active{background:red;}
 /* pager end */
+
+
+
+
+.dialog-wrapper-19 .dig-bg{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.7);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.dialog-wrapper-19 .dig-content{
+  visibility: hidden;
+  left: 50%;
+  top: 50%;
+  background: #fff;
+  min-width: 300px;
+  max-width: 80%;
+  display: inline-block;
+  opacity: 0;
+}
+
+.dialog-wrapper-19.show .dig-bg{
+  opacity: 1;
+  transition: 0.2s;
+}
+
+.dialog-wrapper-19.show .dig-content{
+  opacity: 1;
+  transition: 0.2s;
+}
+
+.dialog-wrapper-19 .dig-top {
+  padding: 7px 15px;
+  font-size:14px;
+  color:#444;
+  border-bottom:#f9f9f9 solid 1px;
+}
+.dialog-wrapper-19 .dig-msg-box {
+  font-size:14px;
+  padding: 15px;
+  color:#999;
+  overflow: auto;
+  font-weight: normal;
+}
+.dialog-wrapper-19 .dig-btn-box {
+  text-align:right;
+  padding: 10px 10px 10px 0;
+  border-top:#f9f9f9 solid 1px;
+}
+
+.dialog-wrapper-19 .dig-btn-box a{
+  display: inline-block;
+  font-size: 12px;
+  padding: 5px 15px;
+  background:#e7e7e7;
+  color:#a7a7a7;
+  font-weight: normal;
+  cursor:pointer;
+}
+.dialog-wrapper-19 .dig-btn-box a.confirm{
+  background:#136b78;
+  color:#fff;
+  
+}
+
+.dig-hide-scroll {
+  overflow: hidden;
+}

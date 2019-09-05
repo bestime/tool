@@ -10,7 +10,8 @@
 const bindEasy = require('./bindEasy.js')
 const _Function = require('./_Function')
 
-function mouseWheel (el, callback, isPrevent) {	
+function mouseWheel (el, callback, isPrevent) {
+	if(!el) return;	
 	/**
 	 * ie/chrome : onmousewheel
 	 *    event.wheelDelta
