@@ -1,5 +1,5 @@
 const hasClass = require('./hasClass')
-const getType = require('./getType')
+const isArray = require('./isArray')
 const forEach = require('./forEach')
 
 /**
@@ -9,7 +9,7 @@ const forEach = require('./forEach')
  */
 module.exports = function (el, names) {
   var res = el.className
-  var arr = getType(names)==='Array' ? names : [names]
+  var arr = isArray(names) ? names : [names]
   forEach(arr, function (item) {
     if(!hasClass(res, item)) {
       res += res ? ' ' + item : item;

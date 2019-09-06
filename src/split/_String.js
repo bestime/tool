@@ -2,7 +2,7 @@ const getType = require('./getType')
 const NAME = 'String'
 
 module.exports = function (data, def) {
-  const TEMP = getType(def)===NAME ? def : ''
+  const TEMP = getType(def) === NAME ? def : ''
   
   switch (getType(data)) {
     case 'Number': data = String(data); break;

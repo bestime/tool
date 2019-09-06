@@ -10,43 +10,63 @@
 
 const getType = require('./getType')
 const getById = require('./getById')
+const forEach = require('./forEach')
+const hasClass = require('./hasClass')
 
-function getByClass (className, father){        
-    var length = arguments.length;
-    var FatherErr = [];
-    if(length == 1) {
-        father = document.body;
-    }else if(length == 2) {
-        var type = getType(father);
-        if(type == 'String') {
-            if(father.length) {
-                father = getById(father);
-            }else {
-                return FatherErr;
-            }
-        }else if(type == 'Undefined') {
-            return FatherErr;
-        }else if(father == null) {
-            return FatherErr
-        }
-    }        
-    var tagName = tagName || "*";
-    if(document.getElementsByClassName) {                  
-        return father.getElementsByClassName(className);
-    }else{
-        var tag = father.getElementsByTagName(tagName);  
-        var tagAll = []; 
-        for(var i=0;i<tag.length;i++){
-            var classArr = tag[i].className.split(' ')
-            for (var j=0; j<classArr.length; j++){
-                if(classArr[j]==className){
-                    tagAll.push(tag[i]);
-                    break;
-                }
-            }
-        }
-        return tagAll;
-    }
+function getByClass (str, oFather){
+  var res;
+  if(typeof oFather === 'string') {
+    oFather = getById(oFather)
+  }
+
+  if (!oFather) {
+    oFather = document.body
+  }
+
+  if(document.getElementsByClassName) {
+    res = oFather.getElementsByClassName(str)
+  } else {
+    res = []
+    forEach(oFather.getElementsByTagName('*'), function (item) {
+      hasClass(item, str) && res.push(item)
+    })
+  }
+  return res || []
+    // var argLen = arguments.length;
+    // var FatherErr = [];
+    // if(argLen == 1) {
+    //     father = document.body;
+    // }else if(argLen == 2) {
+    //     var type = getType(father);
+    //     if(type == 'String') {
+    //         if(father.length) {
+    //             father = getById(father);
+    //         }else {
+    //             return FatherErr;
+    //         }
+    //     }else if(type == 'Undefined') {
+    //         return FatherErr;
+    //     }else if(father == null) {
+    //         return FatherErr
+    //     }
+    // }
+
+    // if(document.getElementsByClassName) {                  
+    //     return father.getElementsByClassName(className);
+    // } else {
+    //     var tag = father.getElementsByTagName('*');  
+    //     var tagAll = []; 
+    //     for(var i=0;i<tag.length;i++){
+    //         var classArr = tag[i].className.split(' ')
+    //         for (var j=0; j<classArr.length; j++){
+    //             if(classArr[j]==className){
+    //                 tagAll.push(tag[i]);
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     return tagAll;
+    // }
 }
 module.exports = getByClass
 

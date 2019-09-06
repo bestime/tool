@@ -1,4 +1,5 @@
 const getType = require('./getType')
+const filter = require('./filter')
 
 
 /**
@@ -22,21 +23,20 @@ function clean (data) {
       index === -1 && (res = undefined);
       break;
     case 'Array':
-      res = []
-      var index, len = data.length, item;
-      for(index = 0; index < len; index++) {
-        item = data[index]
-        typeof item ==='object' && (item = clean(item));
-        canAdd(item) && res.push(item);
-      }
-      res.length === 0 && (res = undefined);
+      res = filter(data, function (item) {
+        typeof item === 'object' && (item = clean(item));
+        return canAdd(item)
+      })
+      !res.length && (res = undefined);
       break;
     default: res = data;
   }
-  function canAdd (data) {
-    return typeof data !== 'undefined' && data !== null
-  }
   return res
+}
+
+
+function canAdd (data) {
+  return typeof data !== 'undefined' && data !== null
 }
 
 module.exports = clean

@@ -10,6 +10,7 @@ const isFunction  = require('./isFunction')
 const setJcy  = require('./setJcy')
 const getJcy  = require('./getJcy')
 const mouseWheel  = require('./mouseWheel')
+const isSupportStyle  = require('./isSupportStyle')
 const getType  = require('./getType')
 const InnerBus  = require('../InnerBus')
 
@@ -32,11 +33,11 @@ function dialog (opt) {
   var NAME = 'dialog-id'
   var id = _Number(getJcy(NAME)) + 1,
       ibus,
-      myBus = InnerBus();
+      timer,
+      myBus = InnerBus(),
+      canTransition = isSupportStyle('Transition');
   setJcy(NAME, id)
 
-
-  console.log('myBus', myBus)
 
   var oFather = opt.oFather || document.body
   var msg = _String(opt.msg) || '这个人很懒，什么都没说！'
@@ -64,7 +65,6 @@ function dialog (opt) {
   `
   oFather.appendChild(el)
   addClass(oFather, 'dig-hide-scroll')
-
   var oBg = getByClass('dig-bg', el)[0]
   var oContent = getByClass('dig-content', el)[0]
   var oMsg = getByClass('dig-msg-box', el)[0]
@@ -81,7 +81,7 @@ function dialog (opt) {
   });
   
   oConfirm && (oConfirm.onclick = function () {
-    hide('confirm')
+    checkToClose('confirm')
   })
 
   if (oBg) {
@@ -89,7 +89,7 @@ function dialog (opt) {
     oBg.style['position'] = positionCss
   }
 
-  function hide (type) {
+  function checkToClose (type) {
     if(isFunction(startClose)) {
       startClose(function (isClose, checkedMsg) {
         if(isClose===true) {
@@ -104,13 +104,25 @@ function dialog (opt) {
   }
 
   function doClose (type) {
-    myBus.clear(ibus)
-    removeElement(el)
-    closed(type)
+    clearTimeout(timer)
     var num = _Number(getJcy(NAME))
     setJcy(NAME, num - 1)
-    if(num === 1) {
-      removeClass(oFather, 'dig-hide-scroll')
+    myBus.clear(ibus)
+    if (canTransition) {
+      addClass(el, 'start-close')
+      removeClass(el, 'show')
+      timer = setTimeout(removeDialog, 300)
+    } else {
+      removeDialog()
+    }
+
+    function removeDialog () {
+      clearTimeout(timer)
+      removeElement(el)
+      closed(type)
+      if(num === 1) {
+        removeClass(oFather, 'dig-hide-scroll')
+      }
     }
   }
 
@@ -120,7 +132,7 @@ function dialog (opt) {
   })
 
   function getSize () {
-    if(oFather===document.body) {
+    if(oFather === document.body) {
       return getWindowSize()
     } else {
       return {
@@ -132,6 +144,8 @@ function dialog (opt) {
 
   oMsg.style['max-height'] = getSize().height - 200 + 'px'
   setTimeout(function () {
+    oContent.style['width'] = oContent.offsetWidth + 'px'
+    oContent.style['max-width'] = 'none'
     oContent.style['z-index'] = zIndexBase + id + 1
     oContent.style['margin-left'] = -oContent.offsetWidth / 2 + 'px'
     oContent.style['margin-top'] = -oContent.offsetHeight / 2 + 'px'
