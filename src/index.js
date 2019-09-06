@@ -2,7 +2,20 @@ const getType = require('./split/getType')
 const pro_list =require('./prototype.js')
 const methods = require('./methods.js')
 const assign = require('./split/assign.js')
+const bindEasy = require('./split/bindEasy.js')
+const InnerBus = require('./InnerBus')
+
 function CreateMain () {
+  var myBus = InnerBus()
+  bindEasy(document, 'keydown', function (e) {
+    var ev = e || window.event
+    switch (ev.keyCode) {
+      case 27:
+        myBus.emit('ESC');
+        break;
+    }
+  })
+  
   var main = function(v) {
     return new main.fn.init(v);
   }

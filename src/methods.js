@@ -97,6 +97,7 @@ module.exports = {
   setStorage: require('./split/setStorage'),
   getStorage: require('./split/getStorage'),
   removeStorage: require('./split/removeStorage'),
+  CreateEventBus: require('./split/CreateEventBus')
   
 
 };

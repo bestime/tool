@@ -1,6 +1,3 @@
-
-
-
 const isEmpty = require('./isEmpty')
 const removeClass = require('./removeClass')
 const isObject = require('./isObject')
@@ -10,7 +7,6 @@ const getById = require('./getById')
 const addClass = require('./addClass')
 const _Object = require('./_Object')
 const _String = require('./_String')
-
 
 function oWrapperReady (callback) {
   clearInterval(window.jcy.loading.timer_r)

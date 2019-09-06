@@ -1,29 +1,44 @@
-
 const getWindowSize = require('./getWindowSize')
 const bind = require('./bind')
 const unbind = require('./unbind')
-const createUUID = require('./createUUID')
 const throttle = require('./throttle')
+const setJcy  = require('./setJcy')
+const getJcy  = require('./getJcy')
+const _Number  = require('./_Number')
+const _Object  = require('./_Object')
 
-function ContainerFollowMouse (el) {
-  var id = createUUID()
-  var x = 0;
-  var y = 0;
-  var winSize, timer, show;
-  
-  el.style.opacity = '0'
+
+/**
+ * 
+ * @param {Dom} el 跟随容器
+ * @param {Object} opt 配置
+ */
+function ContainerFollowMouse (el, opt) {
+  var NAME = 'ctfw'
+  var num = _Number(getJcy(NAME)) + 1
+  setJcy(NAME, num)
+  opt = _Object(opt)
+  var id = NAME + num,
+      x = 0,
+      y = 0,
+      winSize,
+      timer,
+      show,
+      offsetHorizontal = _Number(opt.offsetHorizontal),
+      offsetVertical = _Number(opt.offsetVertical);
+  el.style.opacity = '0';
   var handleMove = throttle({
     handle: function (ev) {
       winSize = getWindowSize()
-      x = ev.clientX
-      y = ev.clientY
-      
+      x = ev.clientX + offsetHorizontal
+      y = ev.clientY + offsetVertical
+
       if (x + el.offsetWidth > winSize.width) {
-        x = x - el.offsetWidth
+        x = x - el.offsetWidth - offsetHorizontal * 2
       }
   
       if (y + el.offsetHeight > winSize.height) {
-        y = y - el.offsetHeight
+        y = y - el.offsetHeight - offsetVertical * 2
       }
   
       if(x < 0) {

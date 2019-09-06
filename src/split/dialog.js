@@ -1,4 +1,3 @@
-
 const _String  = require('./_String')
 const removeClass  = require('./removeClass')
 const _Number  = require('./_Number')
@@ -12,13 +11,13 @@ const setJcy  = require('./setJcy')
 const getJcy  = require('./getJcy')
 const mouseWheel  = require('./mouseWheel')
 const getType  = require('./getType')
+const InnerBus  = require('../InnerBus')
 
 
 /**
  * 
  * title
  * msg
- * maxWidth // 最大宽度
  * startClose
  * closed
  * onShow
@@ -31,11 +30,16 @@ function dialog (opt) {
     }
   }
   var NAME = 'dialog-id'
-  var id = _Number(getJcy(NAME)) + 1
+  var id = _Number(getJcy(NAME)) + 1,
+      ibus,
+      myBus = InnerBus();
   setJcy(NAME, id)
 
+
+  console.log('myBus', myBus)
+
   var oFather = opt.oFather || document.body
-  var msg = _String(opt.msg)
+  var msg = _String(opt.msg) || '这个人很懒，什么都没说！'
   var zIndexBase = _Number(opt.zIndexBase) || 999999999
   var title = _String(opt.title) || '提示'
   var startClose = opt.startClose
@@ -100,10 +104,20 @@ function dialog (opt) {
   }
 
   function doClose (type) {
+    myBus.clear(ibus)
     removeElement(el)
     closed(type)
-    removeClass(oFather, 'dig-hide-scroll')
+    var num = _Number(getJcy(NAME))
+    setJcy(NAME, num - 1)
+    if(num === 1) {
+      removeClass(oFather, 'dig-hide-scroll')
+    }
   }
+
+  // 监听ESC按键
+  ibus = myBus.on('ESC', function () {
+    doClose()
+  })
 
   function getSize () {
     if(oFather===document.body) {

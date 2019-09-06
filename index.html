@@ -113,9 +113,13 @@ ns.DomMouse({
 })
 
 function openGenSui () {
-  mus01 = ns.ContainerFollowMouse(document.getElementById('mouse-01'))
-  mus02 = ns.ContainerFollowMouse(document.getElementById('mouse-02'))
-  mus03 = ns.ContainerFollowMouse(document.getElementById('mouse-03'))  
+  var options = {
+    offsetHorizontal: 5,
+    offsetVertical: 5
+  }
+  mus01 = ns.ContainerFollowMouse(document.getElementById('mouse-01'), options)
+  mus02 = ns.ContainerFollowMouse(document.getElementById('mouse-02'), options)
+  mus03 = ns.ContainerFollowMouse(document.getElementById('mouse-03'), options)  
 }
 
 ns.removeClass(document.getElementById('sbgs12'), 'some')
