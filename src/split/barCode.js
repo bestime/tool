@@ -81,7 +81,6 @@ function check (str) {
   let ck = 10 - total % 10
   ck = ck === 10 ? 0 : ck
   // console.log('10-各位 得出校验码：', ck)
-  console.log(`${str} 结果：${right}=${ck}`, right==ck)
 
   return right == ck
 }

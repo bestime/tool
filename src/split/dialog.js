@@ -13,6 +13,8 @@ const mouseWheel  = require('./mouseWheel')
 const isSupportStyle  = require('./isSupportStyle')
 const getType  = require('./getType')
 const InnerBus  = require('../InnerBus')
+const bindEasy  = require('./bindEasy')
+const prevent  = require('./prevent')
 
 
 /**
@@ -87,6 +89,7 @@ function dialog (opt) {
   if (oBg) {
     oBg.style['z-index'] = zIndexBase + id
     oBg.style['position'] = positionCss
+    bindEasy(oBg, 'touchstart', prevent)
   }
 
   function checkToClose (type) {

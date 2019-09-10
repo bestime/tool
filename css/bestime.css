@@ -81,7 +81,7 @@
 }
 
 .dialog-wrapper-19 .dig-top {
-  padding: 7px 15px;
+  padding: 12px 15px;
   font-size:14px;
   color:#444;
   border-bottom:#f9f9f9 solid 1px;
@@ -98,6 +98,7 @@
   text-align:right;
   padding: 10px 10px 10px 0;
   border-top:#f9f9f9 solid 1px;
+  font-size: 0;
 }
 
 .dialog-wrapper-19 .dig-btn-box a{
@@ -108,6 +109,7 @@
   color:#a7a7a7;
   font-weight: normal;
   cursor:pointer;
+  margin-left: 10px;
 }
 .dialog-wrapper-19 .dig-btn-box a.confirm{
   background:#136b78;

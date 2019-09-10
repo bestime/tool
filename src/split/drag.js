@@ -10,7 +10,6 @@ const getWindowSize = require('./getWindowSize')
 const setJcy  = require('./setJcy')
 const getJcy  = require('./getJcy')
 
-
 /**
  * 拖拽
  * @param {Object} opt

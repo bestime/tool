@@ -1,6 +1,4 @@
-
 const isFunction = require('./_Function')
-const getType = require('./getType')
 
 /**
  * 改进版forEach，循环中 return 非空数据将执行 break 跳出循环
@@ -11,29 +9,22 @@ const getType = require('./getType')
  */
 function forEach (data, handle, type) {
   if(!isFunction(handle)) return;
-  var res, index = 0, len, key;
-
+  var index = 0;
   switch (type) {
     case 'json': 
-      for(key in data) {
-        res = handle(data[key], key, index, data)
-        index++
-        if(res===true){
+      for(var key in data) {
+        if(handle(data[key], key, index++, data) === true){
           break;
         }
       }
       break;
     default:
-      for(len = data.length; index < len; index++) {
-        res = handle(data[index], index, data)
-        if(res===true){
+      for(var len = data.length; index < len; index++) {
+        if(handle(data[index], index, data) === true){
           break;
         }
       }
   }
 }
-
-
-
 
 module.exports = forEach

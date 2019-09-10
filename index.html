@@ -10,6 +10,18 @@
   <title>测试页面</title>
 </head>
 <body>
+    <div style="margin:20px;">
+      <div>可输入小数，正负数</div>
+      <input style="border:red solid 1px;line-height:24px;width:100%;" placeholder="只能输入数字" id="axmk165a"/>
+    </div>
+    <script>
+      document.getElementById('axmk165a').oninput = function () {
+        this.value = ns.symbolNumber(this.value)
+      }
+    </script>
+
+
+
   <style>
    
 
@@ -64,8 +76,6 @@
       }
     </script>
 
-    <span class="iconfont">&#xe873;</span>
-    <i class="iconfont">&#xe719;</i>
     <div>
       <button onclick="scrollToBottom01()">滚动到底部</button>
     </div>
@@ -86,17 +96,33 @@
       </ul>
     </div>
 
-    <table style="border:red solid 1px;">
-      <th>
-        adfasdfasdf
-      </th>
-      <tr>
-        <td>标题一</td>
-        <td>标题一</td>
-        <td>标题一</td>
-        <td>标题一</td>
-      </tr>
-    </table>
+<style>
+  #test15645{
+    display: inline-block;
+    padding: 5px 10px;
+    background:red;
+    color:#fff;
+  }
+</style>
+<div id="test15645"></div>
+<script>
+  function demo (el, msg) {
+    el.innerHTML = msg
+    var timer = setInterval(function () {
+      msg = msg.substring(1) + msg.substr(0, 1)
+      el.innerHTML = msg
+    }, 150)
+  }
+
+  demo(document.getElementById('test15645'), '欢迎使用XXX示例，这只是测试数据！')
+</script>
+
+
+
+
+
+
+
 </body>
 
 <script>
@@ -105,7 +131,6 @@ ns.scrollToElement(document.getElementById('tartet'), document.getElementById('t
 })
 
 var mus01, mus02, mus03;
-openGenSui()
 ns.DomMouse({
   el: document.getElementById('sbgs12'),
   onMouseEnter: function () {
@@ -159,6 +184,11 @@ ns.ready(function () {
     }
   })
 })
+
+
+
+
+
 
 </script>
 </html>
