@@ -31,7 +31,6 @@ function symbolNumber (data, isDecimals) {
   if( isDecimals === false ) {
     res = res.replace(/\./g, '')
   }
-
   return res
 }
 

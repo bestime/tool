@@ -5,8 +5,9 @@ const filter = require('./filter')
 /**
  * 清空[undefined, null]数据
  * @param {*} data
+ * @param {Boolean} removeEmptyStr 是否过滤空字符串，默认false
  */
-function clean (data) {
+function clean (data, removeEmptyStr) {
   var res;
   switch (getType(data)) {
     case 'Object':
@@ -31,12 +32,19 @@ function clean (data) {
       break;
     default: res = data;
   }
+
+  function canAdd (data) {
+    let bol = typeof data !== 'undefined' && data !== null
+    if (removeEmptyStr && getType(data)==='String') {
+      bol = data !== ''
+    }
+    return bol
+  }
+  
   return res
 }
 
 
-function canAdd (data) {
-  return typeof data !== 'undefined' && data !== null
-}
+
 
 module.exports = clean

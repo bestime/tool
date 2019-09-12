@@ -160,16 +160,10 @@ function openGenSui () {
 }
 
 ns.removeClass(document.getElementById('sbgs12'), 'some')
-
 ns.onDomRoll(document.getElementById('test'))
-
 function scrollToBottom01 () {
   ns.scrollToBottom(document.getElementById('test'))
 }
-
-
-
-
 
 ns.ready(function () {
   ns.dialog({
@@ -184,10 +178,17 @@ ns.ready(function () {
     }
   })
 })
+// 上十字 => 右下，上左，面逆，上右，面顺，右上
+// 鱼头 => 右下，上右，右上，右下，上右右，右上
 
+function demo (str) {
+  return str.match(/([^、]*\([^()]*\)[^、]*(?=、?))|([^、]*（[^（）]*）[^、]*(?=、?))|([^、]+(?=、?))/g)
+}
 
-
-
+var str = '1、12、13(文字描述)、03（文字描1、35%、測試）、09(文字描述)、+12（文字描述、百分十50%）、+03(文字描述)、+15'
+console.log(demo(str)) // => ["1", "12", "13(文字描述)", "03（文字描1、35%、測試）", "09(文字描述)", "+12（文字描述、百分十50%）", "+03(文字描述)", "+15"]
+console.log(demo('')) // => null
+console.log(demo('32')) // => 32
 
 
 </script>
