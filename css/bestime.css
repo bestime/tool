@@ -32,7 +32,7 @@
   right: 0;
   top: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.4);
   visibility: hidden;
   opacity: 0;
   -webkit-opacity: 0;
@@ -52,7 +52,7 @@
   transform: scale(0.5);
   -webkit-transform: scale(0.5);
   box-shadow: 0 0 80px rgba(0,0,0,0.3);
-  -webkit-box-shadow: 0 0 80px rgba(0, 0, 0, 0.8);
+  -webkit-box-shadow: 0 0 80px rgba(0, 0, 0, 0.3);
 }
 
 .dialog-wrapper-19.show .dig-bg{

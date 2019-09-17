@@ -99,5 +99,7 @@ module.exports = {
   removeStorage: require('./split/removeStorage'),
   CreateEventBus: require('./split/CreateEventBus'),
   isSupportStyle: require('./split/isSupportStyle'),
-  Tween: require('./split/Tween')
+  Tween: require('./split/Tween'),
+  getNowStep: require('./split/getNowStep'),
+  getRandomArray: require('./split/getRandomArray')
 };

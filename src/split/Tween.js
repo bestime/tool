@@ -270,7 +270,6 @@ Tween.getAnimate = function (startValue, changeValue, fx, duration, callback) {
   function start () {	
     if(!isStop) return;
     isStop = false;
-    
     if(isFinish) return;
     startTime = getNowTimeStamp();
     clearInterval(timer);

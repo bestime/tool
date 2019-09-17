@@ -1,6 +1,9 @@
 const trim = require('./trim')
 const zero = require('./zero')
 
+/**
+ * 获取身份证信息 
+ */
 function getUserFromIdCard(id) {
 	id = trim(id)
 	var year = id.substr(6, 4)
@@ -10,7 +13,7 @@ function getUserFromIdCard(id) {
 		year: zero(year),
 		month: zero(month),
 		day: zero(day),
-		sex: id[16] % 2 ? 'man' : 'female'
+		sex: id[16] % 2 // 1表示男，0表示女
 	} : false
 }
 

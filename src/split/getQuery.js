@@ -4,11 +4,16 @@
  * @return {Object} json对象
  */
 
+const _Number = require('./_Number')
 function getQuery (str) {
-  var res = {}, href = '';
+  var res = {}, href = '', val;
   try { href = window.location.href } catch (e) {};
   (typeof str === 'string' ? str : href).replace(/[^=?&]*=[^=&?]*/g, function (g) {
-    res[decodeURIComponent(g.replace(/=.*/g, ''))] = decodeURIComponent(g.replace(/.*=/g, ''))
+    val = decodeURIComponent(g.replace(/.*=/g, ''))
+    if(/^\d+$/g.test(val)) {
+      val = _Number(val)
+    }
+    res[decodeURIComponent(g.replace(/=.*/g, ''))] = val
   });
   return res
 }

@@ -120,10 +120,25 @@
 
 
 
-
+<div class="demo">
+    <h1>啊手动阀</h1>
+  </div>
+  <style>
+  .demo {
+    text-align:center;
+  }
+  .demo img {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  </style>
 
 
 </body>
+
 
 <script>
 ns.scrollToElement(document.getElementById('tartet'), document.getElementById('test'), function () {
@@ -181,15 +196,42 @@ ns.ready(function () {
 // 上十字 => 右下，上左，面逆，上右，面顺，右上
 // 鱼头 => 右下，上右，右上，右下，上右右，右上
 
-function demo (str) {
-  return str.match(/([^、]*\([^()]*\)[^、]*(?=、?))|([^、]*（[^（）]*）[^、]*(?=、?))|([^、]+(?=、?))/g)
+
+
+
+function demo (list) {
+  let keys = [], item;
+  for (let a = list.length - 1; a >= 0; a--) {
+    item = list[a]
+    if(keys.some(t => t === item.topic)) {
+      list.splice(a, 1)
+    } else {
+      keys.push(item.topic)
+    }
+  }
+  return list
 }
 
-var str = '1、12、13(文字描述)、03（文字描1、35%、測試）、09(文字描述)、+12（文字描述、百分十50%）、+03(文字描述)、+15'
-console.log(demo(str)) // => ["1", "12", "13(文字描述)", "03（文字描1、35%、測試）", "09(文字描述)", "+12（文字描述、百分十50%）", "+03(文字描述)", "+15"]
-console.log(demo('')) // => null
-console.log(demo('32')) // => 32
-
+var arr = [
+  {
+    name: '张三',
+    topic: '班主任'
+  },
+  {
+    name: '李四',
+    topic: '体育老师'
+  },
+  {
+    name: '王五',
+    topic: '班主任'
+  },
+  {
+    name: '赵六',
+    topic: '体育老师'
+  }
+]
+var res = demo(arr)
+console.log(JSON.stringify(res)) // => [{"name":"王五","topic":"班主任"},{"name":"赵六","topic":"体育老师"}]
 
 </script>
 </html>
