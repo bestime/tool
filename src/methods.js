@@ -101,5 +101,6 @@ module.exports = {
   isSupportStyle: require('./split/isSupportStyle'),
   Tween: require('./split/Tween'),
   getNowStep: require('./split/getNowStep'),
-  getRandomArray: require('./split/getRandomArray')
+  getRandomArray: require('./split/getRandomArray'),
+  timeFormatToRecent: require('./split/timeFormatToRecent')
 };

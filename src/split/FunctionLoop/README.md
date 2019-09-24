@@ -7,7 +7,7 @@
 | --------   | -----:  |
 | handle(next, stop, timer)     | 主处理函数   |
 | sleepTime      | 轮询频率，在执行完成之后至下一次执行的时间间隔  |
-| overTime: { time, handle }      | 超时配置  |
+| overTime: { time, handle, every }      | 超时配置  |
 
 #### 实例化
 ```javascript

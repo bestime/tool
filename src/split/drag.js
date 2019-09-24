@@ -45,33 +45,36 @@ function drag (opt) {
     downX = ev.clientX
     downY = ev.clientY
     setZindex()
-
     bind(document, id, 'mousemove', function (e) {        
       var ev = e || window.event
-      var winSize = getWindowSize()
-      var setX = startX + ev.clientX - downX
-      var setY = startY + ev.clientY - downY
-    
-      if(setX<=0) {
-        setX = 0
-      } else {
-        var maxWidth = winSize.width - oWrapper.offsetWidth;
-        if(opt.oFather) maxWidth = opt.oFather.offsetWidth - oWrapper.offsetWidth;
-        if(setX > maxWidth) setX = maxWidth;
-      }
-
-      if(setY<=0) {
-        setY = 0
-      } else {
-        var maxHeight = winSize.height - oWrapper.offsetHeight;
-        if(opt.oFather) maxHeight = opt.oFather.offsetHeight - oWrapper.offsetHeight;
-        if(setY > maxHeight) setY = maxHeight;
-      }
+      if(ev.buttons==1) {// 鼠标左键
+        var winSize = getWindowSize()
+        var setX = startX + ev.clientX - downX
+        var setY = startY + ev.clientY - downY
       
-      oWrapper.style.left = setX + 'px'
-      oWrapper.style.top = setY + 'px'
-      oWrapper.style.bottom = 'auto'
-      oWrapper.style.right = 'auto'
+        if(setX<=0) {
+          setX = 0
+        } else {
+          var maxWidth = winSize.width - oWrapper.offsetWidth;
+          if(opt.oFather) maxWidth = opt.oFather.offsetWidth - oWrapper.offsetWidth;
+          if(setX > maxWidth) setX = maxWidth;
+        }
+
+        if(setY<=0) {
+          setY = 0
+        } else {
+          var maxHeight = winSize.height - oWrapper.offsetHeight;
+          if(opt.oFather) maxHeight = opt.oFather.offsetHeight - oWrapper.offsetHeight;
+          if(setY > maxHeight) setY = maxHeight;
+        }
+        
+        oWrapper.style.left = setX + 'px'
+        oWrapper.style.top = setY + 'px'
+        oWrapper.style.bottom = 'auto'
+        oWrapper.style.right = 'auto'
+      } else {
+        clearEvent()
+      }
     })
     bind(document, id, 'mouseup', clearEvent)
   }

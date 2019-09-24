@@ -25,12 +25,20 @@ function FunctionLoop (opt) {
     const self = this
     times++
     if(times===1) {
+      var startTime = +new Date()
+      var now = startTime
       // 检测超时
       if(isObject(opt.overTime)) {
-        timer_out = setTimeout(function () {
-          stop.call(self)
-          _Function(opt.overTime.handle).call(self)
-        }, opt.overTime.time)
+        _Function(opt.overTime.every).call(self, opt.overTime.time)
+        timer_out = setInterval(function () {
+          now = +new Date()
+          if( now- startTime > opt.overTime.time) {
+            stop.call(self)
+            _Function(opt.overTime.handle).call(self)
+          } else {
+            _Function(opt.overTime.every).call(self, opt.overTime.time - (now - startTime))
+          }
+        }, 1000)
       }
     }
 

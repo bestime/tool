@@ -7,7 +7,7 @@ function convertTime (date) {
 		hour: zero(date.getHours()),
 		minute: zero(date.getMinutes()),
 		second: zero(date.getSeconds()),
-		milliSecond: zero(date.getMilliseconds())
+		milliSecond: zero(date.getMilliseconds(), '000')
 	}
 }
 
