@@ -8,7 +8,6 @@ const _Function = require('./_Function.js')
  * @param callback(json)   回调函数
  */
 
-
 function getImgSize (src, callback) {
 	var oImg = document.createElement('img'); 
 	oImg.onload = function () {
@@ -19,7 +18,7 @@ function getImgSize (src, callback) {
 		})
 	};
 
-	oImg.src = src;
+	oImg.src = src
 }
 
 module.exports = getImgSize

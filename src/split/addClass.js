@@ -10,11 +10,14 @@ const forEach = require('./forEach')
 module.exports = function (el, names) {
   var res = el.className
   var arr = isArray(names) ? names : [names]
+  
   forEach(arr, function (item) {
     if(!hasClass(res, item)) {
       res += res ? ' ' + item : item;
     }
   })
 
-  el.className = res
+  if (res !==el.className) {
+    el.className = res
+  }
 }

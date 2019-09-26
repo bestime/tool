@@ -102,5 +102,6 @@ module.exports = {
   Tween: require('./split/Tween'),
   getNowStep: require('./split/getNowStep'),
   getRandomArray: require('./split/getRandomArray'),
-  timeFormatToRecent: require('./split/timeFormatToRecent')
+  timeFormatToRecent: require('./split/timeFormatToRecent'),
+  _UpperCase: require('./split/_UpperCase')
 };

@@ -2,7 +2,6 @@ const trim = require('./trim')
 const forEach = require('./forEach')
 const getType = require('./getType')
 
-
 /**
  * 移除class
  * @param {object} element # dom元素 
@@ -10,12 +9,14 @@ const getType = require('./getType')
  */
 
 function removeClass (el, deleteNames) {
-  var res = el.className;
+  var res = el.className
   deleteNames = getType(deleteNames) === 'String' ? [deleteNames] : deleteNames
   forEach(deleteNames, function (oneName) {
     res = res.replace(new RegExp('(\\s|^)' + oneName + '(\\s|$)', 'g'), ' ')
   })
-  res !== el.className && (el.className = trim(res));
+  if(res !== el.className) {
+    el.className = trim(res)
+  }
 }
 
 module.exports = removeClass

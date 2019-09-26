@@ -3,6 +3,7 @@ const convertTime = require('./convertTime')
 const _Object = require('./_Object')
 
 /**
+ * 格式化时间为最近时间
  * @param {Number} millisecond 毫秒 
  * @param {Object} opt 毫秒
  *    @option {Boolean} show_second 结果是否显示秒

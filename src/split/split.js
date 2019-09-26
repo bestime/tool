@@ -4,8 +4,6 @@
  * @param flag {String} 需要分隔的标识符
  */
 
-
-
 const _String = require('./_String')
 const isEmpty = require('./isEmpty')
 

@@ -394,27 +394,5 @@ function demo (e, t, n, a, o) {
 
 
 
-
-
-let data = ['ab','ab','ac','a','a','a']
-demo(data) // => ['ab1','ab2','ac1','a1','a2','a3']
-
-function demo (arr) {
-  let res = [], map = arr.reduce((obj, key) => {
-    obj[key] = (obj[key] || 0) + 1
-    return obj
-  }, {})
-  
-  for(let key in map) {
-    for(let a=0; a < map[key]; a++) {
-      res.push(`${key}${a+1}`)
-    }
-  }
-
-  return res
-}
-
-
-
 </script>
 </html>
