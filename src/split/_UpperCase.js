@@ -1,5 +1,6 @@
 
 var _Number = require('./_Number')
+var _String = require('./_String')
 
 /**
  * 字符串转大写
@@ -8,7 +9,7 @@ var _Number = require('./_Number')
  */
 function _UpperCase (str, index) {
   let res;
-  str = typeof str === 'undefined' ? '' : String(str)
+  str = _String(str)
   if(typeof index === 'undefined') {
     res = str.replace(/./g, function (item) {
       return item.toUpperCase()

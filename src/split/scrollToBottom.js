@@ -21,6 +21,7 @@ function scrollToBottom (el, callback, fx, dutation) {
     to = el.scrollHeight - el.offsetHeight
     now = el.scrollTop
   }
+  
   return Tween.getAnimate(now, to - now, fx, dutation, function (val, isStop) {
     if(el===document.body) {
       window.scrollTo(0, val);

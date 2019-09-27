@@ -6,8 +6,8 @@
  * @return {Number|String}
  */
 function _Number (data, canEmpty) {
-  var res = Number(data);
-  var errorValue = 0
+  var res = Number(data),
+      errorValue = 0;
   if (canEmpty) {
     if (data === '' || typeof data === 'undefined') {
       res = ''

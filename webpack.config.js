@@ -9,7 +9,7 @@ function zero (num) {
 function convertTime (date) { 
 	return {
 		year        : zero(date.getFullYear()),
-		month       : zero(date.getMonth() + 1),
+		month       : zero(date.getMonth()+1),
 		day         : zero(date.getDate()),
 		hour        : zero(date.getHours()),
 		minute      : zero(date.getMinutes()),

@@ -53,7 +53,7 @@ function timeFormatToRecent (millisecond, opt) {
     if(opt['show_millsecond']) str += `:${oldTime.milliSecond}`  
     return str
   }
-  console.log(`[${oldTime.year}-${oldTime.month}-${oldTime.day} ${oldTime.hour}:${oldTime.minute}:${oldTime.second}:${oldTime.milliSecond}] => ${res}`)
+  // console.log(`[${oldTime.year}-${oldTime.month}-${oldTime.day} ${oldTime.hour}:${oldTime.minute}:${oldTime.second}:${oldTime.milliSecond}] => ${res}`)
 
   return res
 }
