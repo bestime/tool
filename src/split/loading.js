@@ -7,6 +7,7 @@ const getById = require('./getById')
 const addClass = require('./addClass')
 const _Object = require('./_Object')
 const _String = require('./_String')
+const getConfig = require('./getConfig')
 
 function oWrapperReady (callback) {
   clearInterval(window.jcy.loading.timer_r)
@@ -39,6 +40,7 @@ function useOldLoading (msg) {
 }
 
 function showLoading (msg, iconHtml) {
+  var oFather = getConfig().loading_father
   msg = _String(msg) || '加载中'
   iconHtml = _String(iconHtml) || `
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
@@ -70,7 +72,11 @@ function showLoading (msg, iconHtml) {
     <div class="loading-bt-text">${msg}</div>
     <div class="loading-bt-close">关闭</div>
   `;
-  document.body.appendChild(el)
+  try {
+    oFather.appendChild(el)
+  } catch (e) {
+    document.body.appendChild(el)
+  }
   getByClass('loading-bt-close', el)[0].onclick = hideLoading
   setTimeout(function () {      
     addClass(el, 'active')

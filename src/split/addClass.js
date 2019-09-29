@@ -1,6 +1,7 @@
 const hasClass = require('./hasClass')
 const isArray = require('./isArray')
 const forEach = require('./forEach')
+const trim = require('./trim')
 
 /**
  * 添加class
@@ -12,6 +13,7 @@ module.exports = function (el, names) {
   var arr = isArray(names) ? names : [names]
   
   forEach(arr, function (item) {
+    item = trim(item)
     if(!hasClass(res, item)) {
       res += res ? ' ' + item : item;
     }

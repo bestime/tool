@@ -1,8 +1,8 @@
 
 
 const CreateEventBus = require('./split/CreateEventBus')
-const getJcy = require('./split/getJcy')
-const setJcy = require('./split/setJcy')
+const getConfig = require('./split/getConfig')
+const setConfig = require('./split/setConfig')
 const isObject = require('./split/isObject')
 
 /**
@@ -10,10 +10,10 @@ const isObject = require('./split/isObject')
  */
 function InnerBus () {
   var NAME = 'inner-bus'
-  var bus = getJcy(NAME)
+  var bus = getConfig(NAME)
   if(!isObject(bus)) {
     bus = new CreateEventBus()
-    setJcy(NAME, bus)
+    setConfig(NAME, bus)
   }
   return bus
 }

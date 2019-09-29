@@ -2,8 +2,8 @@ const getWindowSize = require('./getWindowSize')
 const bind = require('./bind')
 const unbind = require('./unbind')
 const throttle = require('./throttle')
-const setJcy  = require('./setJcy')
-const getJcy  = require('./getJcy')
+const setConfig  = require('./setConfig')
+const getConfig  = require('./getConfig')
 const _Number  = require('./_Number')
 const _Object  = require('./_Object')
 
@@ -15,8 +15,8 @@ const _Object  = require('./_Object')
  */
 function ContainerFollowMouse (el, opt) {
   var NAME = 'ctfw'
-  var num = _Number(getJcy(NAME)) + 1
-  setJcy(NAME, num)
+  var num = _Number(getConfig(NAME)) + 1
+  setConfig(NAME, num)
   opt = _Object(opt)
   var id = NAME + num,
       x = 0,

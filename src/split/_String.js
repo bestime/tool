@@ -1,13 +1,8 @@
-const getType = require('./getType')
-const NAME = 'String'
-
-module.exports = function (data, def) {
-  const TEMP = getType(def) === NAME ? def : ''
-  
-  switch (getType(data)) {
-    case 'Number': data = String(data); break;
-    case 'Undefined': data = ''; break;
+module.exports = function (data) {
+  switch (typeof data) {
+    case 'number': data = String(data); break;
+    case 'undefined': data = ''; break;
   }
   
-  return getType(data)===NAME ? data : TEMP
+  return data
 }

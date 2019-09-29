@@ -7,8 +7,8 @@ const _Number = require('./_Number')
 const getStyle = require('./getStyle')
 const prevent = require('./prevent')
 const getWindowSize = require('./getWindowSize')
-const setJcy  = require('./setJcy')
-const getJcy  = require('./getJcy')
+const setConfig  = require('./setConfig')
+const getConfig  = require('./getConfig')
 
 /**
  * 拖拽
@@ -23,9 +23,9 @@ const getJcy  = require('./getJcy')
 
 function drag (opt) {
   var name = 'drag-id'
-  var id = _Number(getJcy(name)) + 1
+  var id = _Number(getConfig(name)) + 1
   id = id < 500 ? 500 : id
-  setJcy(name, id)
+  setConfig(name, id)
   opt = _Object(opt)
   var oWrapper = opt.oWrapper;
   if(!oWrapper) throw new Error('拖拽对象无效')
@@ -87,10 +87,10 @@ function drag (opt) {
 
   function setZindex () {
     var zIndex = _Number(getStyle(oWrapper, 'z-index'))
-    id = _Number(getJcy(name))
+    id = _Number(getConfig(name))
     if(zIndex < id) {
       zIndex = id + 1
-      setJcy(name, zIndex)
+      setConfig(name, zIndex)
       oWrapper.style.zIndex = zIndex
     }
   }

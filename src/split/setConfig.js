@@ -1,8 +1,8 @@
 const _Object  = require('./_Object')
 
-function setJcy (key, val) {
+function setConfig (key, val) {
   window['jcy'] = _Object(window['jcy'])
   window['jcy'][key] = val
 }
 
-module.exports = setJcy
+module.exports = setConfig

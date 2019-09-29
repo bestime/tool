@@ -7,8 +7,8 @@ const removeElement  = require('./removeElement')
 const _Function  = require('./_Function')
 const getWindowSize  = require('./getWindowSize')
 const isFunction  = require('./isFunction')
-const setJcy  = require('./setJcy')
-const getJcy  = require('./getJcy')
+const setConfig  = require('./setConfig')
+const getConfig  = require('./getConfig')
 const mouseWheel  = require('./mouseWheel')
 const isSupportStyle  = require('./isSupportStyle')
 const getType  = require('./getType')
@@ -33,12 +33,12 @@ function dialog (opt) {
     }
   }
   var NAME = 'dialog-id'
-  var id = _Number(getJcy(NAME)) + 1,
+  var id = _Number(getConfig(NAME)) + 1,
       ibus,
       timer,
       myBus = InnerBus(),
       canTransition = isSupportStyle('Transition');
-  setJcy(NAME, id)
+  setConfig(NAME, id)
 
 
   var oFather = opt.oFather || document.body
@@ -108,8 +108,8 @@ function dialog (opt) {
 
   function doClose (type) {
     clearTimeout(timer)
-    var num = _Number(getJcy(NAME))
-    setJcy(NAME, num - 1)
+    var num = _Number(getConfig(NAME))
+    setConfig(NAME, num - 1)
     myBus.clear(ibus)
     if (canTransition) {
       addClass(el, 'start-close')

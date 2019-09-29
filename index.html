@@ -4,399 +4,107 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="./css/bestime.css"/>
-  <script src="./js/bestime.min.js"></script>
-  <script src="https://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
-  <title>测试页面</title>
+  <title>Document</title>
+<style>
+#loader-wrapper{position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: #000; z-index: 15; overflow: hidden;}
+
+.loader{width: 150px; height: 150px; border: 1px #fff solid; position: absolute; left: 50%; top: 50%; margin: -75px 0 0 -75px; border-radius: 50%;}
+
+.loader .loading{font-size: 10px; position: absolute; width: 100%; text-align: center; line-height: 14px; font-family: 'Century Gothic', sans-serif; font-style: italic; left: 0; top: 50%; margin-top: 20px; color: #fff; font-weight: bold; text-transform: uppercase;}
+
+.loader-circle-1{width: 138px; height: 138px; left: 5px; top: 5px; border: 1px #fff solid; border-radius: 50%; position: absolute; border-right-color: transparent;
+-webkit-animation: spin 3s linear infinite;
+        animation: spin 3s linear infinite;
+}
+
+.loader-circle-2{width: 126px; height: 126px; left: 5px; top: 5px; border: 1px transparent solid; border-radius: 50%; position: absolute; border-right-color: #e81512;
+-webkit-animation: spin 5s linear infinite;
+        animation: spin 5s linear infinite;
+}
+
+.loader .line{width: 10px; height: 2px; background: #fff; position: absolute;}
+
+.loader .line:nth-child(1){left: 16px; top: 50%; margin-top: -1px;}
+
+.loader .line:nth-child(2){transform: rotate(45deg); -moz-transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); left: 33px; top: 33px;}
+
+.loader .line:nth-child(3){top: 16px; left: 50%; width: 2px; height: 10px;}
+
+.loader .line:nth-child(4){transform: rotate(135deg); -moz-transform: rotate(135deg); -webkit-transform: rotate(135deg); -ms-transform: rotate(135deg); right: 33px; top: 33px;}
+
+.loader .line:nth-child(5){right: 16px; top: 50%; margin-top: -1px;}
+
+.loader .line:nth-child(6){transform: rotate(45deg); -moz-transform: rotate(45deg); -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); right: 33px; bottom: 33px; background: #e81512;}
+
+.loader .subline{position: absolute; width: 3px; height: 2px; background: #fff;}
+
+.loader .subline:nth-child(7){transform: rotate(22.5deg); -moz-transform: rotate(22.5deg); -webkit-transform: rotate(22.5deg); -ms-transform: rotate(22.5deg); left: 21px; top: 50px;}
+
+.loader .subline:nth-child(8){transform: rotate(67.5deg); -moz-transform: rotate(67.5deg); -webkit-transform: rotate(67.5deg); -ms-transform: rotate(67.5deg); left: 50px; top: 21px;}
+
+.loader .subline:nth-child(9){transform: rotate(112.5deg); -moz-transform: rotate(112.5deg); -webkit-transform: rotate(112.5deg); -ms-transform: rotate(112.5deg); right: 50px; top: 21px;}
+
+.loader .subline:nth-child(10){transform: rotate(157.5deg); -moz-transform: rotate(157.5deg); -webkit-transform: rotate(157.5deg); -ms-transform: rotate(157.5deg); right: 21px; top: 50px;}
+
+.loader .subline:nth-child(11){transform: rotate(22.5deg); -moz-transform: rotate(22.5deg); -webkit-transform: rotate(22.5deg); -ms-transform: rotate(22.5deg); right: 20px; bottom: 49px; background: #e81512;}
+
+.loader .needle{width: 14px; height: 14px; border-radius: 50%; border: 1px #fff solid; position: absolute; left: 50%; top: 50%; margin: -8px 0 0 -8px;  z-index: 1;  
+-webkit-animation: pegIt 3s infinite ease-in-out;
+        animation: pegIt 3s infinite ease-in-out;
+}
+
+.loader .needle:before{content: ""; width: 0; height: 0; border-style: solid; border-width: 3.5px 50px 3.5px 0; border-color: transparent #e81512 transparent transparent; position: absolute; right: 50%; top: 50%; margin: -3.5px 0 0 0; border-radius: 0 50% 50% 0;}
+
+@keyframes pegIt {
+  0% {transform: rotate(0deg);}
+  16% {transform: rotate(75deg);}
+  25% {transform: rotate(55deg);}
+  30% {transform: rotate(90deg);}
+  36% {transform: rotate(170deg);}
+  42% {transform: rotate(150deg);}
+  50% {transform: rotate(227deg);}
+  100% {transform: rotate(0deg);}
+}
+
+@-webkit-keyframes pegIt {
+  0% {-webkit-transform: rotate(0deg);}
+  16% {-webkit-transform: rotate(75deg);}
+  25% {-webkit-transform: rotate(55deg);}
+  30% {-webkit-transform: rotate(90deg);}
+  36% {-webkit-transform: rotate(170deg);}
+  42% {-webkit-transform: rotate(150deg);}
+  50% {-webkit-transform: rotate(227deg);}
+  100% {-webkit-transform: rotate(0deg);}
+}
+
+@-webkit-keyframes spin {
+  0% {-webkit-transform: rotate(0deg);}
+  100% {-webkit-transform: rotate(360deg);}
+}
+@keyframes spin {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+	}
+</style>
 </head>
 <body>
-    <div style="margin:20px;">
-      <div>可输入小数，正负数</div>
-      <input style="border:red solid 1px;line-height:24px;width:100%;" placeholder="只能输入数字" id="axmk165a"/>
+  <div id="loader-wrapper">
+    <div class="loader">
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="line"></div>
+      <div class="subline"></div>
+      <div class="subline"></div>
+      <div class="subline"></div>
+      <div class="subline"></div>
+      <div class="subline"></div>
+      <div class="loader-circle-1"><div class="loader-circle-2"></div></div>
+      <div class="needle"></div>
+      <div class="loading">Loading</div>
     </div>
-    <script>
-      document.getElementById('axmk165a').oninput = function () {
-        this.value = ns.symbolNumber(this.value)
-      }
-    </script>
-
-
-
-  <style>
-   
-
-    *{
-      list-style:none;
-      margin: 0;
-      padding: 0;      
-    }
-    #test {
-      height: 300px;
-      background: #fff;
-      overflow: auto;
-      position: relative;
-      width: 600px;
-      border:#ddd solid 1px;
-      margin: 20px;
-    }
-    #test li {
-      line-height: 40px;
-      background: #f9f9f9;
-      color:#444;
-      margin: 10px;
-      border:#ddd solid 1px;
-      text-align:center;
-    }
-
-    #sbgs12{
-      width: 100rem;
-      line-height:2;
-      text-align:center;
-      background:#f9f9f9;
-      color:#999;
-      margin: 20px;
-      cursor:pointer;
-    }
-    #sbgs12.active{
-      background:red;
-      color:#fff;
-    }
-  </style>
-    
-    <a href="http://www.baidu.com" onClick="test02()">点击弹框，右键跳转</a>
-    <div id="sbgs12" class="active map array some">鼠标移入<br>切换跟随</div>
-    <div id="mouse-01" style="transition:0.2s ease-out;width:100px;height:100px;background:rgba(255, 255, 0, 0.7);position:fixed;z-index:100;display:none;"></div>
-    <div id="mouse-02" style="transition:0.3s ease-out;width:130px;height:50px;background:rgba(255, 0, 255, 0.7);position:fixed;z-index:100;display:none;"></div>
-    <div id="mouse-03" style="transition:0.15s ease-out;width:50px;height:130px;background:rgba(0, 255, 255, 0.7);position:fixed;z-index:100;display:none;"></div>
-    <script>
-      function test02 (ev) {
-        ev = ev || window.event;
-        window.event? window.event.returnValue = false : ev.preventDefault();
-        ns.dialog({ msg: '被点击了, 不会跳转' })
-      }
-    </script>
-
-    <div>
-      <button onclick="scrollToBottom01()">滚动到底部</button>
-    </div>
-    <div id="test">
-      <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-        <li>5</li>
-        <li id="tartet">6</li>
-        <li>7</li>
-        <li>8</li>
-        <li>9</li>
-        <li>10</li>
-        <li>11</li>
-        <li>12</li>
-      </ul>
-    </div>
-
-<style>
-  #test15645{
-    display: inline-block;
-    padding: 5px 10px;
-    background:red;
-    color:#fff;
-  }
-</style>
-<div id="test15645"></div>
-<script>
-  function demo (el, msg) {
-    el.innerHTML = msg
-    var timer = setInterval(function () {
-      msg = msg.substring(1) + msg.substr(0, 1)
-      el.innerHTML = msg
-    }, 150)
-  }
-
-  demo(document.getElementById('test15645'), '欢迎使用XXX示例，这只是测试数据！')
-</script>
-
-
-
-
-<div class="demo">
-  <h1>啊手动阀</h1>
-</div>
-<style>
-.demo {
-  text-align:center;
-}
-.demo img {
-  display: inline-block;
-  vertical-align: middle;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-}
-</style>
-
-
+  </div>
 </body>
-
-
-<script>
-ns.scrollToElement(document.getElementById('tartet'), document.getElementById('test'), function () {
-  console.log('完了')
-})
-
-var mus01, mus02, mus03;
-ns.DomMouse({
-  el: document.getElementById('sbgs12'),
-  onMouseEnter: function () {
-    if(mus01 && mus01.isActive()) {
-      mus01.remove()
-      mus02.remove()
-      mus03.remove()
-      ns.removeClass(document.getElementById('sbgs12'), 'active')
-    } else {
-      ns.addClass(document.getElementById('sbgs12'), 'active')
-      openGenSui()
-    }
-  },
-  onMouseLeave: function () {
-    console.log('leave')
-  }
-})
-
-function openGenSui () {
-  var options = {
-    offsetHorizontal: 5,
-    offsetVertical: 5
-  }
-  mus01 = ns.ContainerFollowMouse(document.getElementById('mouse-01'), options)
-  mus02 = ns.ContainerFollowMouse(document.getElementById('mouse-02'), options)
-  mus03 = ns.ContainerFollowMouse(document.getElementById('mouse-03'), options)  
-}
-
-ns.removeClass(document.getElementById('sbgs12'), 'some')
-ns.onDomRoll(document.getElementById('test'))
-function scrollToBottom01 () {
-  ns.scrollToBottom(document.getElementById('test'))
-}
-
-ns.ready(function () {
-  ns.dialog({
-    msg: '开始卡',
-    // oFather: document.getElementById('use-main-wrapper'),
-    zIndexBase: 99999,
-    closed: function (type) {
-      // alert(type)
-    },
-    startClose: function (next) {
-      next(false, '关闭失败')
-    }
-  })
-})
-// 上十字 => 右下，上左，面逆，上右，面顺，右上
-// 鱼头 => 右下，上右，右上，右下，上右右，右上
-
-
-
-
-function isFuFeiMuisc (item) {
-  let disabled = false; 
-  const pay = ns.defaultType('Object', item.pay)
-  item.action = ns.defaultType('Object', item.action)
-  let switchArr = []
-  try {
-    switchArr = (item.action['switch'] || item.action.switches).toString(2).split('');
-  }catch(e) {
-    return false
-  }
-  const arr = [
-    "play_lq", 
-    "play_hq", 
-    "play_sq", 
-    "down_lq", 
-    "down_hq", 
-    "down_sq", 
-    "soso", 
-    "fav", 
-    "share", 
-    "bgm", 
-    "ring", 
-    "sing", 
-    "radio", 
-    "try", 
-    "give"
-  ];
-  switchArr.pop()
-  switchArr.reverse()
-  const action = {}
-  for(let a=0; a<arr.length; a++) {
-    action[arr[a]] = parseInt(switchArr[a], 10) || 0
-  }
-
-  action.play = 0
-  if(action.play_lq || action.play_hq || action.play_sq) {
-    action.play = 1
-  }
-
-  let tryPlay = 0
-  if(action["try"] && item.file.size_try > 0) {
-    tryPlay = 1
-  }
-
-  if(!action.play && !pay.pay_play && !pay.pay_down) {
-    if(!tryPlay) {
-      disabled = true;
-    }
-  }
-
-  console.log('isFuFeiMuisc', disabled)
-  return disabled
-}
-
-
-
-var m1 = {
-				"action": {
-					"alert": 41,
-					"icons": 12992380,
-					"msg": 13,
-					"switch": 17405185
-				},
-				"album": {
-					"id": 1853998,
-					"mid": "0011IIJE3XYf9L",
-					"name": "三生三世十里桃花 电视剧原声带",
-					"subtitle": "《三生三世十里桃花》电视剧主题曲",
-					"title": "三生三世十里桃花 电视剧原声带",
-					"title_hilight": "<em>三</em>生<em>三</em>世十里桃花 电视剧原声带"
-				},
-				"chinesesinger": 0,
-				"desc": "",
-				"desc_hilight": "",
-				"docid": "7739327862269580814",
-				"file": {
-					"b_30s": 0,
-					"e_30s": 60000,
-					"media_mid": "000gZeJm3Okp2H",
-					"size_128": 4123385,
-					"size_128mp3": 4123385,
-					"size_320": 10307615,
-					"size_320mp3": 10307615,
-					"size_aac": 6234301,
-					"size_ape": 0,
-					"size_dts": 0,
-					"size_flac": 30780832,
-					"size_ogg": 5997514,
-					"size_try": 960887,
-					"strMediaMid": "000gZeJm3Okp2H",
-					"try_begin": 0,
-					"try_end": 0
-				},
-				"fnote": 4009,
-				"genre": 37,
-				"grp": [],
-				"id": 200397365,
-				"index_album": 1,
-				"index_cd": 0,
-				"interval": 257,
-				"isonly": 1,
-				"ksong": {
-					"id": 2478107,
-					"mid": "001DRn704ReRI9"
-				},
-				"language": 0,
-				"lyric": "《三生三世十里桃花》电视剧主题曲",
-				"lyric_hilight": "《三生三世十里桃花》电视剧主题曲",
-				"mid": "000hscqh1l8UlG",
-				"mv": {
-					"id": 1073637,
-					"vid": "h00220ueui9"
-				},
-				"name": "三生三世",
-				"newStatus": 2,
-				"nt": 3226041893,
-				"pay": {
-					"pay_down": 1,
-					"pay_month": 1,
-					"pay_play": 1,
-					"pay_status": 0,
-					"price_album": 0,
-					"price_track": 200,
-					"time_free": 0
-				},
-				"pure": 0,
-				"singer": [{
-					"id": 6499,
-					"mid": "002azErJ0UcDN6",
-					"name": "张杰",
-					"title": "张杰",
-					"title_hilight": "张杰",
-					"type": 0,
-					"uin": 0
-				}],
-				"status": 0,
-				"subtitle": "《三生三世十里桃花》电视剧主题曲",
-				"t": 1,
-				"tag": 11,
-				"time_public": "2017-02-18",
-				"title": "三生三世",
-				"title_hilight": "<em>三</em>生<em>三</em>世",
-				"type": 0,
-				"url": "http://stream10.qqmusic.qq.com/200397365.wma",
-				"ver": 0,
-				"volume": {
-					"gain": -8.963000297546387,
-					"lra": 5.182000160217285,
-					"peak": 1.0
-				}
-      }
-      
-
-
-
-function demo (e, t, n, a, o) {
-  t = 1
-  o = 2
-  o = o || ""
-  var s = e;
-  ("number" == typeof s || "string" == typeof s) && (s = [s]);
-  var r = 0
-    , l = 0
-    , p = []
-    , y = []
-    , c = []
-    , u = 0;
-  for (i = 0; i < s.length; i++) {
-      var d = s[i];
-      p.push(d.songid),
-      y.push(d.type);
-      var g = !0;
-      d && d.action && d.action.play || (r = 1,
-      (s.length > 1 || !d.tryPlay) && (g = !1)),
-      !window.limitWhite && d && d.pay && (d.pay.pay_down || d.pay.paydownload) && (d.pay.payplay || d.pay.pay_play) && (l = 2 | l,
-      d.flagCopyrightPay = 2,
-      g = !1),
-      window.limitWhite || user.isLogin() || !d || !d.pay || !d.pay.pay_down && !d.pay.paydownload || d.pay.payplay || d.pay.pay_play || (l = 1 | l,
-      d.flagCopyrightPay = 1,
-      g = !1),
-      (0 == d.type && (d.size128 <= 0 || d.interval <= 0) || 0 != d.type && 111 != d.type && 112 != d.type && 113 != d.type && !d.songurl) && (l = 4 | l,
-      d.flagCopyrightPay = 4,
-      g = !1),
-      g && u++,
-      d.docid = d.docid || "",
-      c.push(d)
-  }
-  if (0 == u) {
-    return false
-  }
-  return true
-}
-
-
-
-
-
-
-
-</script>
 </html>

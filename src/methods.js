@@ -103,5 +103,7 @@ module.exports = {
   getNowStep: require('./split/getNowStep'),
   getRandomArray: require('./split/getRandomArray'),
   timeFormatToRecent: require('./split/timeFormatToRecent'),
-  _UpperCase: require('./split/_UpperCase')
+  _UpperCase: require('./split/_UpperCase'),
+  setConfig: require('./split/setConfig'),
+  getConfig: require('./split/getConfig')
 };
