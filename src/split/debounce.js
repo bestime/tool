@@ -1,13 +1,11 @@
 const isFunction = require('./isFunction')
 const _Number = require('./_Number')
 
-
-
 function debounce (opt) {
   if(!isFunction(opt.handle)) return;
   var delay = opt.delay
   var handle = opt.handle
-  var isFirstWork = opt.isFirstWorkisFirstWork === false ? false : true
+  var isFirstWork = opt.isFirstWork === false ? false : true
   delay = _Number(delay)
   var timer, ts, times = 0;
   return function () {    
@@ -18,9 +16,7 @@ function debounce (opt) {
     if(isFirstWork && !times) {
       doOne()
     } else {
-      timer = setTimeout(function () {
-        doOne()
-      }, delay)
+      timer = setTimeout(doOne, delay)
     }
 
     function doOne () {

@@ -1,10 +1,11 @@
 const _String  = require('./_String')
-const removeClass  = require('./removeClass')
 const _Number  = require('./_Number')
+const _Function  = require('./_Function')
+const _Object  = require('./_Object')
+const removeClass  = require('./removeClass')
 const getByClass  = require('./getByClass')
 const addClass  = require('./addClass')
 const removeElement  = require('./removeElement')
-const _Function  = require('./_Function')
 const getWindowSize  = require('./getWindowSize')
 const isFunction  = require('./isFunction')
 const setConfig  = require('./setConfig')
@@ -16,7 +17,6 @@ const InnerBus  = require('../InnerBus')
 const bindEasy  = require('./bindEasy')
 const prevent  = require('./prevent')
 
-
 /**
  * 
  * title
@@ -25,7 +25,6 @@ const prevent  = require('./prevent')
  * closed
  * onShow
  */
-
 function dialog (opt) {
   if(getType(opt)!=='Object') {
     opt = {
@@ -61,7 +60,7 @@ function dialog (opt) {
       <div class="dig-msg-box">${msg}</div>
       <div class="dig-btn-box">
         <a class="close-btn">关闭</a>
-        <a class="confirm">确定</a>
+        <a class="confirm">${opt.confirmText ? opt.confirmText : '确定'}</a>
       </div>
     </div>
   `
@@ -70,21 +69,16 @@ function dialog (opt) {
   var oBg = getByClass('dig-bg', el)[0]
   var oContent = getByClass('dig-content', el)[0]
   var oMsg = getByClass('dig-msg-box', el)[0]
-  var oClose = getByClass('close-btn', el)[0]
-  var oConfirm = getByClass('confirm', el)[0]
   var positionCss = oFather === document.body ? 'fixed' : 'absolute'
-
-
+  
   mouseWheel(oContent, null, true)
   mouseWheel(oBg, null, true)
 
-  oClose && (oClose.onclick = function () {
-    doClose()
-  });
-  
-  oConfirm && (oConfirm.onclick = function () {
+  _Object(getByClass('close-btn', el)[0]).onclick = doClose
+
+  _Object(getByClass('confirm', el)[0]).onclick = function () {
     checkToClose('confirm')
-  })
+  }
 
   if (oBg) {
     oBg.style['z-index'] = zIndexBase + id

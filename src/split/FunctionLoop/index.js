@@ -8,10 +8,25 @@ const _Number = require('../_Number')
 
 
 
+/*
+
+
+var func = ns.FunctionLoop({
+  handle: function (next, stop, count, data) {
+    console.log('轮询：', this, count, data)
+    next()
+  },
+  sleepTime: 2000
+})
+
+func.start.call('自己', '数据')
+
+
+ */ 
+
 function FunctionLoop (opt) {
   opt = _Object(opt)
-  let times = 0
-  let timer, timer_out;
+  let times = 0, timer, timer_out, self;
 
   // 停止
   function stop () {
@@ -21,8 +36,8 @@ function FunctionLoop (opt) {
   }
 
   // 开始
-  function start () {
-    const self = this
+  function start (data) {
+    self = this
     times++
     if(times===1) {
       var startTime = +new Date()
@@ -47,10 +62,11 @@ function FunctionLoop (opt) {
       self,
 
       // 【继续】 回调
-      function () {
+      function (newData) {
+        newData = typeof newData === 'undefined' ? data : newData
         clearTimeout(timer)
         timer = setTimeout(function () {
-          times > 0 && start.call(self)
+          times > 0 && start.call(self, newData)
         }, numberMin(opt.sleepTime, 20))
       },
 
@@ -60,7 +76,10 @@ function FunctionLoop (opt) {
       },
 
       // 本次执行次数
-      times
+      times,
+      
+      // 附带的数据
+      data
     )
   }
 

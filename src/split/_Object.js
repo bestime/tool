@@ -7,6 +7,6 @@ const name = 'Object'
  * @param {*} def 默认数据，如果data不是json，返回此数据
  */
 module.exports = function (data, def) {
-  const temp = getType(def)===name ? def : {}
-  return getType(data)===name ? data : temp
+  const temp = getType(def) === name ? def : {}
+  return getType(data) === name ? data : temp
 }

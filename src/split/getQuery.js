@@ -4,22 +4,26 @@
  * @return {Object} json对象
  */
 
-const _Number = require('./_Number')
 function getQuery (str) {
-  var res = {}, href = '', val;
+  var res = {}, href = '';
   try { href = window.location.href } catch (e) {};
-  (typeof str === 'string' ? str : href).replace(/[^=?&]*=[^=&?]*/g, function (g) {
-    val = decodeURIComponent(g.replace(/.*=/g, ''))
-    if(/^\d+$/g.test(val)) {
-      val = _Number(val)
+  (typeof str === 'string' ? str : href).replace(/([^=?&]*)=([^=&?/#]*)/g, function (item, key, val) {
+    if (/^\d+$/g.test(val)) {
+      val = Number(val)
+    } else if (val==='false') {
+      val = false
+    } else if (val==='true') {
+      val = true
+    } else {
+      val = decodeURIComponent(val)
     }
-    res[decodeURIComponent(g.replace(/=.*/g, ''))] = val
+    res[decodeURIComponent(key)] =  val
   });
   return res
 }
 
 // getQuery('name=张三'); // => { name: "张三" }
-// getQuery('???name=张三?&?age=26'); // => { name: "张三", age: "26" }
+// getQuery('???name=张三?&?age=26'); // => { name: "张三", age: 26 }
 // getQuery(null); // => {}
 // getQuery(undefined); // => {}
 // getQuery(''); // => {}

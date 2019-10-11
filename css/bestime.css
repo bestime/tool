@@ -121,3 +121,52 @@
 .dig-hide-scroll {
   overflow: hidden;
 }
+
+.bt-notice-wrapper{
+  position:fixed;
+  left: 0;
+  top: 0;
+  right:0;
+  bottom:0;
+  z-index: 10;
+  visibility: hidden;
+}
+
+.bt-notice-wrapper .bg{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom:0;
+  background:rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: 0.15s ease-out;
+}
+
+.bt-notice-wrapper .main {
+  font-size: 14px;
+  background:rgba(255, 255, 255, 1);
+  position:absolute;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  padding: 10px;
+  opacity: 0;
+  transition: 0.15s ease-out;
+  transform: translateY(100%);
+  border-radius: 5px;
+}
+
+.bt-notice-wrapper.ready-show{
+  visibility: visible;
+}
+
+
+.bt-notice-wrapper.ready-show .main {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bt-notice-wrapper.ready-show .bg {
+  opacity: 1;
+}

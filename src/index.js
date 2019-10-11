@@ -7,6 +7,7 @@ const InnerBus = require('./InnerBus')
 
 function CreateMain () {
   var myBus = InnerBus()
+
   bindEasy(document, 'keydown', function (e) {
     var ev = e || window.event
     switch (ev.keyCode) {
@@ -34,7 +35,9 @@ function CreateMain () {
       res[key] = main[key]
     }
   }
+
   main.fn.init.prototype = main.fn
+
   main.extend = main.fn.extend = function() {
     switch (getType(arguments[0])) {
       case 'Object':
@@ -50,6 +53,7 @@ function CreateMain () {
   }
 
   main.extend(methods)
+
   return main
 }
 

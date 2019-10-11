@@ -17,11 +17,10 @@ function throttle (opt) {
   if(!isFunction(opt.handle)) return;
   var handle = opt.handle
   var delay = opt.delay
-  var isFirstWork = opt.isFirstWork
+  var isFirstWork = opt.isFirstWork === false ? false : true
   var onFast = _Function(opt.onFast)
   
   delay = _Number(delay)
-  isFirstWork = isFirstWork === false ? false : true
   var last = +new Date()
   var needWait = 0
   return function () {
@@ -38,6 +37,9 @@ function throttle (opt) {
     }
   }
 }
+
+
+
 
 
 

@@ -6,7 +6,7 @@ const setConfig = require('./split/setConfig')
 const isObject = require('./split/isObject')
 
 /**
- * 工具内部使用的订阅发布，外部无法使用 
+ * 仅限工具内部使用 => 【订阅发布】
  */
 function InnerBus () {
   var NAME = 'inner-bus'

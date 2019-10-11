@@ -5,7 +5,7 @@
 
 | 参数        | 描述  | 
 | --------   | -----:  |
-| handle(next, stop, timer)     | 主处理函数   |
+| handle(next, stop, timer, data)     | 主处理函数   |
 | sleepTime      | 轮询频率，在执行完成之后至下一次执行的时间间隔  |
 | overTime: { time, handle, every }      | 超时配置  |
 
@@ -13,7 +13,7 @@
 ```javascript
 const demo = FunctionLoop({
   sleepTime: 500,
-  handle: function (next, stop, times) {
+  handle: function (next, stop, times, data) {
     $.ajax({
       url: './test',
       success: function (isLogin) {
@@ -34,6 +34,9 @@ const demo = FunctionLoop({
     time: 5000, // 超时事件
     handle: function () {
       dialog({ msg: '获取登录状态超时' })
+    },
+    every: function (last) {
+      console.log(`剩余时间：${last}`)
     }
   }
 })
@@ -41,7 +44,7 @@ const demo = FunctionLoop({
 
 #### 执行
 ```javascript
-demo.start.call(this); 
+demo.start.call(this, '这里可以带数据'); 
 ```
 
 #### 动态改变配置

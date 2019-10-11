@@ -5,14 +5,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="./css/bestime.css"/>
-  <script src="./js/bestime.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="../css/bestime.css"/>
+  <script src="../js/bestime.min.js"></script>
   <script src="https://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
   <title>测试页面</title>
 </head>
 <body>
+
     <div style="margin:20px;">
       <div>可输入小数，正负数</div>
       <input style="border:red solid 1px;line-height:24px;width:100%;" placeholder="只能输入数字" id="axmk165a"/>
@@ -109,7 +109,7 @@
 </style>
 <div id="test15645"></div>
 <script>
-  function demo (el, msg) {
+  function wetw (el, msg) {
     el.innerHTML = msg
     var timer = setInterval(function () {
       msg = msg.substring(1) + msg.substr(0, 1)
@@ -117,7 +117,7 @@
     }, 150)
   }
 
-  demo(document.getElementById('test15645'), '欢迎使用XXX示例，这只是测试数据！')
+  wetw(document.getElementById('test15645'), '欢迎使用XXX示例，这只是测试数据！')
 </script>
 
 
@@ -184,17 +184,17 @@ function scrollToBottom01 () {
 }
 
 ns.ready(function () {
-  ns.dialog({
-    msg: '开始卡',
-    // oFather: document.getElementById('use-main-wrapper'),
-    zIndexBase: 99999,
-    closed: function (type) {
-      // alert(type)
-    },
-    startClose: function (next) {
-      next(false, '关闭失败')
-    }
-  })
+  // ns.dialog({
+  //   msg: '开始卡',
+  //   // oFather: document.getElementById('use-main-wrapper'),
+  //   zIndexBase: 99999,
+  //   closed: function (type) {
+  //     // alert(type)
+  //   },
+  //   startClose: function (next) {
+  //     next(false, '关闭失败')
+  //   }
+  // })
 })
 // 上十字 => 右下，上左，面逆，上右，面顺，右上
 // 鱼头 => 右下，上右，右上，右下，上右右，右上
@@ -202,201 +202,141 @@ ns.ready(function () {
 
 
 
-function isFuFeiMuisc (item) {
-  let disabled = false; 
-  const pay = ns.defaultType('Object', item.pay)
-  item.action = ns.defaultType('Object', item.action)
-  let switchArr = []
-  try {
-    switchArr = (item.action['switch'] || item.action.switches).toString(2).split('');
-  }catch(e) {
-    return false
-  }
-  const arr = [
-    "play_lq", 
-    "play_hq", 
-    "play_sq", 
-    "down_lq", 
-    "down_hq", 
-    "down_sq", 
-    "soso", 
-    "fav", 
-    "share", 
-    "bgm", 
-    "ring", 
-    "sing", 
-    "radio", 
-    "try", 
-    "give"
-  ];
-  switchArr.pop()
-  switchArr.reverse()
-  const action = {}
-  for(let a=0; a<arr.length; a++) {
-    action[arr[a]] = parseInt(switchArr[a], 10) || 0
-  }
 
-  action.play = 0
-  if(action.play_lq || action.play_hq || action.play_sq) {
-    action.play = 1
-  }
 
-  let tryPlay = 0
-  if(action["try"] && item.file.size_try > 0) {
-    tryPlay = 1
-  }
 
-  if(!action.play && !pay.pay_play && !pay.pay_down) {
-    if(!tryPlay) {
-      disabled = true;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _Object = ns._Object
+var _Function = ns._Function
+var removeElement = ns.removeElement
+var getByClass = ns.getByClass
+var addClass = ns.addClass
+
+function _createElement (opt) {
+  opt = _Object(opt)
+  var oFather = opt.oFather || document.body // 父容器
+  var tagName = opt.tagName || 'div' // 标签名
+  var className = opt.className // 类名
+  var id = opt.id // id
+  var _html = opt._html || '' // html
+  var mounted = _Function(opt.mounted) // 加载完成
+  
+  var el = document.createElement(tagName) 
+  el.className = className
+  el.innerHTML = _html
+  oFather.appendChild(el)
+  function remove () {
+    
+    removeElement(el)
+  }
+  setTimeout(function () {
+    addClass(el, 'ready-show')
+    mounted(el, remove)
+  }, 30)
+}
+
+
+function Notice (opt) {
+  opt = _Object(opt)
+  _createElement({
+    tagName: 'div',
+    className: 'bt-notice-wrapper',
+    _html: `
+      <div class="bg"></div>
+      <div class="main">
+        <div>
+          ${opt.msg || '默认内容'}
+        </div>
+        <div>
+          <div>确定</div>
+          <div>取消</div>
+        </div>
+      </div>
+    `,
+    mounted: function (el) {
+      var oMain = getByClass('main', el)[0]
     }
-  }
-
-  console.log('isFuFeiMuisc', disabled)
-  return disabled
+  })
 }
 
 
+Notice({
+  msg: '测试内容'
+})
 
-var m1 = {
-				"action": {
-					"alert": 41,
-					"icons": 12992380,
-					"msg": 13,
-					"switch": 17405185
-				},
-				"album": {
-					"id": 1853998,
-					"mid": "0011IIJE3XYf9L",
-					"name": "三生三世十里桃花 电视剧原声带",
-					"subtitle": "《三生三世十里桃花》电视剧主题曲",
-					"title": "三生三世十里桃花 电视剧原声带",
-					"title_hilight": "<em>三</em>生<em>三</em>世十里桃花 电视剧原声带"
-				},
-				"chinesesinger": 0,
-				"desc": "",
-				"desc_hilight": "",
-				"docid": "7739327862269580814",
-				"file": {
-					"b_30s": 0,
-					"e_30s": 60000,
-					"media_mid": "000gZeJm3Okp2H",
-					"size_128": 4123385,
-					"size_128mp3": 4123385,
-					"size_320": 10307615,
-					"size_320mp3": 10307615,
-					"size_aac": 6234301,
-					"size_ape": 0,
-					"size_dts": 0,
-					"size_flac": 30780832,
-					"size_ogg": 5997514,
-					"size_try": 960887,
-					"strMediaMid": "000gZeJm3Okp2H",
-					"try_begin": 0,
-					"try_end": 0
-				},
-				"fnote": 4009,
-				"genre": 37,
-				"grp": [],
-				"id": 200397365,
-				"index_album": 1,
-				"index_cd": 0,
-				"interval": 257,
-				"isonly": 1,
-				"ksong": {
-					"id": 2478107,
-					"mid": "001DRn704ReRI9"
-				},
-				"language": 0,
-				"lyric": "《三生三世十里桃花》电视剧主题曲",
-				"lyric_hilight": "《三生三世十里桃花》电视剧主题曲",
-				"mid": "000hscqh1l8UlG",
-				"mv": {
-					"id": 1073637,
-					"vid": "h00220ueui9"
-				},
-				"name": "三生三世",
-				"newStatus": 2,
-				"nt": 3226041893,
-				"pay": {
-					"pay_down": 1,
-					"pay_month": 1,
-					"pay_play": 1,
-					"pay_status": 0,
-					"price_album": 0,
-					"price_track": 200,
-					"time_free": 0
-				},
-				"pure": 0,
-				"singer": [{
-					"id": 6499,
-					"mid": "002azErJ0UcDN6",
-					"name": "张杰",
-					"title": "张杰",
-					"title_hilight": "张杰",
-					"type": 0,
-					"uin": 0
-				}],
-				"status": 0,
-				"subtitle": "《三生三世十里桃花》电视剧主题曲",
-				"t": 1,
-				"tag": 11,
-				"time_public": "2017-02-18",
-				"title": "三生三世",
-				"title_hilight": "<em>三</em>生<em>三</em>世",
-				"type": 0,
-				"url": "http://stream10.qqmusic.qq.com/200397365.wma",
-				"ver": 0,
-				"volume": {
-					"gain": -8.963000297546387,
-					"lra": 5.182000160217285,
-					"peak": 1.0
-				}
-      }
-      
+
+var arrlist = [
+  'https://www.baidu.com',  
+  'http://www.baidu.com',
+  'www.baidu.com',
+  'file:///D:/bestime/git/bestime-git/tool/demo/demo.html',
+  'file://server/Disk/云之翼/skin/tft/index.html'
+]
+
+
+arrlist.forEach(item => {
+  // console.log(item, ' ==> ', ns._http(item))
+  console.log(item, ' ==> ', ns._https(item))
+})
 
 
 
-function demo (e, t, n, a, o) {
-  t = 1
-  o = 2
-  o = o || ""
-  var s = e;
-  ("number" == typeof s || "string" == typeof s) && (s = [s]);
-  var r = 0
-    , l = 0
-    , p = []
-    , y = []
-    , c = []
-    , u = 0;
-  for (i = 0; i < s.length; i++) {
-      var d = s[i];
-      p.push(d.songid),
-      y.push(d.type);
-      var g = !0;
-      d && d.action && d.action.play || (r = 1,
-      (s.length > 1 || !d.tryPlay) && (g = !1)),
-      !window.limitWhite && d && d.pay && (d.pay.pay_down || d.pay.paydownload) && (d.pay.payplay || d.pay.pay_play) && (l = 2 | l,
-      d.flagCopyrightPay = 2,
-      g = !1),
-      window.limitWhite || user.isLogin() || !d || !d.pay || !d.pay.pay_down && !d.pay.paydownload || d.pay.payplay || d.pay.pay_play || (l = 1 | l,
-      d.flagCopyrightPay = 1,
-      g = !1),
-      (0 == d.type && (d.size128 <= 0 || d.interval <= 0) || 0 != d.type && 111 != d.type && 112 != d.type && 113 != d.type && !d.songurl) && (l = 4 | l,
-      d.flagCopyrightPay = 4,
-      g = !1),
-      g && u++,
-      d.docid = d.docid || "",
-      c.push(d)
-  }
-  if (0 == u) {
-    return false
-  }
-  return true
+function todo (count) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(count)
+    }, 2000)
+  })
 }
 
+async function demo () {
+  let queue = []
+  for (let a = 0; a < 5; a++) {
+    queue.push(todo(a))
+  }
+  return await Promise.all(queue)
+}
 
-
+!async function () {
+  console.log('请求开始')
+  const res = await demo()
+  console.log('请求完毕', res)
+} ()
 
 
 

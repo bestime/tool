@@ -1,8 +1,6 @@
-module.exports = function (data) {
-  switch (typeof data) {
-    case 'number': data = String(data); break;
-    case 'undefined': data = ''; break;
-  }
-  
-  return data
+function _String (data) {
+  // typeof data === 'undefined' || data === null
+  return data == null ? '' : String(data)
 }
+
+module.exports = _String

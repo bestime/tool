@@ -12,7 +12,7 @@ const getRandom = require('./getRandom')
 
 function getRandomArray (arr, num) {
   var usedIndex = {}, res = [], rdIdx;
-  ;(function add () {
+  function add () {
     if(res.length < num && res.length < arr.length) {
       rdIdx = getRandom(0, arr.length - 1)
       if(usedIndex[rdIdx]) {
@@ -23,13 +23,15 @@ function getRandomArray (arr, num) {
         add()
       }
     }
-  })();
+  }
 
+  add()
   for(var a = res.length; a<num; a++) {
     res.push('R_'  + a)
   }
   
   return res
+  
 }
 
 module.exports = getRandomArray

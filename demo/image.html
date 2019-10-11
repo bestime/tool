@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .wrapper {
+      border: red solid 2px;
+      text-align: center;
+      vertical-align: middle;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .wrapper img {
+      display: inline-block;
+      margin: 0;
+      border:none;
+    }
+    
+    .type2 img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>第一种</h1><hr>
+  <div class="wrapper type2" style="width:100px;height:100px;"><img src="../images/d1.jpg"/></div>
+  <div class="wrapper type2" style="width:100px;height:50px;"><img src="../images/d1.jpg"/></div>
+
+  <h1>第二种</h1><hr>
+  <div class="wrapper" style="width:100px;height:100px;"><img src="../images/d1.jpg"/></div>
+  <div class="wrapper" style="width:100px;height:50px;"><img src="../images/d1.jpg"/></div>
+  <div class="wrapper" style="width:300px;height:100px;"><img src="../images/d1.jpg"/></div>
+  <div class="wrapper" style="width:100px;height:300px;"><img src="../images/d1.jpg"/></div>
+  
+</body>
+</html>

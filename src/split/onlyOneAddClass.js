@@ -1,22 +1,24 @@
 
 const addClass = require('./addClass.js')
 const removeClass = require('./removeClass.js')
+const forEach = require('./forEach.js')
 
 /**
  * 仅给数组中当前索引的对象添加class  其余对象移除class
  * toggleClass 改名为 onlyOneAddClass
- * @param arr          对象合集的数组
- * @param index        当前对象的下标
- * @param className    需要切换的class  
+ * @param {Array<Element>} arr 对象合集的数组
+ * @param {Number} index 当前对象的下标
+ * @param {String} className 需要切换的class  
  */
+
 function onlyOneAddClass (arr, index, className) {
-	for(let a = 0, len = arr.length; a < len; a++) {
+	forEach(arr, function (item, a) {
 		if(a === index) {
-			addClass(arr[a], className);
+			addClass(item, className);
 		} else {
-			removeClass(arr[a], className);
+			removeClass(item, className);
 		}
-	}
+	})
 }
 
 module.exports = onlyOneAddClass

@@ -1,5 +1,3 @@
-
-
 module.exports = {
   _Array: require('./split/_Array.js'),
   _Boolean: require('./split/_Boolean'),
@@ -7,6 +5,9 @@ module.exports = {
   _Number: require('./split/_Number'),
   _Object: require('./split/_Object'),
   _String: require('./split/_String'),
+  _http: require('./split/_http'),
+  _https: require('./split/_https'),
+  _UpperCase: require('./split/_UpperCase'),
   symbolNumber: require('./split/symbolNumber'),
   addClass: require('./split/addClass'),
   average: require('./split/average'),
@@ -73,7 +74,6 @@ module.exports = {
   getUserFromIdCard: require('./split/getUserFromIdCard'),
   onlyOneAddClass: require('./split/onlyOneAddClass'),
   replaceCustom: require('./split/replaceCustom'),
-  https: require('./split/https'),
   Pager: require('./split/Pager'),
   numberLimit: require('./split/numberLimit'),
   trim: require('./split/trim'),
@@ -81,7 +81,6 @@ module.exports = {
   clean: require('./split/clean'),
   assign: require('./split/assign'),
   mapJson: require('./split/mapJson'),
-
   forEach: require('./split/forEach'),
   map: require('./split/map'),
   filter: require('./split/filter'),
@@ -103,7 +102,6 @@ module.exports = {
   getNowStep: require('./split/getNowStep'),
   getRandomArray: require('./split/getRandomArray'),
   timeFormatToRecent: require('./split/timeFormatToRecent'),
-  _UpperCase: require('./split/_UpperCase'),
   setConfig: require('./split/setConfig'),
   getConfig: require('./split/getConfig')
 };
