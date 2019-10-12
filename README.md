@@ -24,7 +24,7 @@
 - [x] `average`
 - [x] `barCode`
 - [x] `bind`
-- [x] `clone`
+- [x] `clone(data: any): any` 复制
 - [x] `convertTime`
 - [x] `createStyleElement`
 - [x] `createUUID`
@@ -34,22 +34,22 @@
 - [x] `fixed`
 - [x] `getByClass`
 - [x] `getById`
-- [x] `getCookie`
-- [x] `getQuery`
-- [x] `getRandom`
+- [x] `getCookie(key: string): any` 获取cookie
+- [x] `getQuery(url?: string): object` 获取url参数
+- [x] `getRandom(start: number, end: number): number` 获取随机数
 - [x] `getRelativePos`
 - [x] `getScrollPosition`
 - [x] `getStyle`
 - [x] `getType`
 - [x] `getWindowSize`
-- [x] `hasClass`
-- [x] `isArray`
-- [x] `isEmpty`
-- [x] `isFunction`
-- [x] `isNumber`
-- [x] `isObject`
+- [x] `hasClass(el: Element, className: string): boolean` dom是否包含类
+- [x] `isArray(data: any): boolean`
+- [x] `isEmpty(data: any): boolean`
+- [x] `isFunction(data: any): boolean`
+- [x] `isNumber(data: any): boolean`
+- [x] `isObject(data: any): boolean`
+- [x] `isString(data: any): boolean`
 - [x] `isPhone`
-- [x] `isString`
 - [x] `loading`
 - [x] `numberMax`
 - [x] `numberMin`

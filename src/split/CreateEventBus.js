@@ -1,4 +1,5 @@
 const getType = require('./getType')
+const _Array = require('./_Array')
 
 function Bus () {
   this.events = {}; // 事件存放中心
@@ -7,7 +8,7 @@ function Bus () {
 
 // 基础注册函数
 Bus.prototype.create = function (customeid, name, handle, isOnce, onlyOne) {
-  if(getType(handle) !== 'Function') return null;
+  if(getType(handle) !== 'Function') return;
   var useId = customeid ? customeid : this.autoId++
   var oneHandle = {      
     name: name,
@@ -19,7 +20,7 @@ Bus.prototype.create = function (customeid, name, handle, isOnce, onlyOne) {
   if(onlyOne) {
     this.events[name] = oneHandle
   } else {
-    getType(this.events[name]) !== 'Array' && (this.events[name] = []);
+    this.events[name] = _Array(this.events[name])
     var isFind = false
     for(var a = 0; a< this.events[name].length; a++) {
       if(this.events[name][a].id === useId) {
@@ -43,7 +44,7 @@ Bus.prototype.emit = function (name, data) {
       }
       break;
     case 'Array':
-      for(var a=this.events[name].length-1; a>=0; a--) {
+      for(var a = this.events[name].length-1; a >= 0; a--) {
         var item = this.events[name][a]
         item.handle(data, item)
         if(item.isOnce) {
@@ -96,7 +97,5 @@ Bus.prototype.one = function (name, handle) {
 Bus.prototype.oneonce = function (name, handle) {    
   return this.create(null, name, handle, true, true)
 }
-
-
 
 module.exports = Bus
