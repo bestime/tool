@@ -300,39 +300,106 @@ Notice({
 })
 
 
-var arrlist = [
-  'https://www.baidu.com',  
-  'http://www.baidu.com',
-  'www.baidu.com',
-  'file:///D:/bestime/git/bestime-git/tool/demo/demo.html',
-  'file://server/Disk/云之翼/skin/tft/index.html'
+
+
+var forEach = ns.forEach
+function unique (arr, vague, handle) {
+  var res = [], exist = {}, checkKey;
+  forEach(arr, function (item) {
+    checkKey = typeof handle === 'function' ? handle(item) : item
+    checkKey = typeof checkKey === 'number' || vague ? checkKey : `"${checkKey}"`
+    if(!exist[checkKey]) {
+      exist[checkKey] = true;
+      res.push(item);
+    }
+  })
+
+  return res;
+};
+
+
+
+
+
+
+
+// demo(['a', 'b', 'c', 'd', 'e', 'f', 'g'], 3)
+function demo (arr, num, getKey, callback) {
+  if(num < 2) return arr
+  var res = [], startKey = {}, count = 0, abcd=  0; // 子项是否已经为首项
+
+  ;(function findOnce (list, prekey, prefix) {
+    count++
+    if(prekey == null) {
+      var pItem = list.shift(0)
+      prefix = [pItem]
+      prekey = [typeof getKey === 'function' ? getKey(pItem) : pItem]
+    }
+
+    if(prefix.length === num) {
+      res.push(typeof callback === 'function' ? callback(prefix) : prefix)
+    } else if(prefix.length < num && list.length && !startKey[prekey]) {
+      startKey[prekey] = true
+      for(var newArr, item, nowKey, index = 0; index < list.length; index++) {
+        newArr = list.slice(index + 1)
+        item = list[index]
+        nowKey = typeof getKey === 'function' ? getKey(item) : item
+        findOnce(newArr, [nowKey], [item])
+        findOnce(newArr, prekey.concat(nowKey), prefix.concat(item))
+      }
+    } else {
+      abcd++
+    }
+  })(arr);
+  // 63 113
+  console.log('次数：', count, abcd, res)
+  return res
+}
+
+var testList = [
+  {id: 1, name: '张三'},
+  {id: 2, name: '李四'},
+  {id: 3, name: '王五'},
+  {id: 4, name: '赵六'},
+  {id: 5, name: '黄七'},
+  {id: 6, name: '周八'}
 ]
 
 
-arrlist.forEach(item => {
-  // console.log(item, ' ==> ', ns._http(item))
-  console.log(item, ' ==> ', ns._https(item))
-})
+var arr2 = ['a', 'b', 'c', 'd', 'e', 'f']
 
 
 
 
 
-/**
- * parseInt(string, radix) 实际上这个函数接收两个参数
- * 而replace的回调也有多个项
- * 第一个值为匹配到的完整结果，后面的以此为每一个分组
- * 也许见过 xxx.replace(/(a)(b)(c)/g, '$1-$2-$3') 这样的写法
- * ---------------------------------
- * 而你这个情况实际上翻译出来是下面这样
- */
-"1 2 3 4 5 6".replace(/\d/g, (g, $1) => {
-	console.log('g', g, $1)
-	return parseInt(g, $1)
-})
 
-// 如果要达到你目前想要的结果，可以这样写
-"1 2 3 4 5 6".replace(/\d/g, g => parseInt(g))
+
+
+
+
+
+console.log(ns.getMinAndMax(testList, function (item) {
+  return item.id
+}))
+
+
+
+ns.assembly(['a', 'b', 'c', 'd', 'e', 'f','g', 'h', 'i', 'j', 'k', 'l', 'm', 'o', 'p', 'q', 'p', 'q'], 9, g => g.join(''))
+
+
+
+
+var testData = [
+  {id: 1, name: '张三'},
+  {id: '2', name: '李四'},
+]
+var testData2 = [
+  {id: 1, name: '张三'},
+  {id: 2, name: '李四'},
+]
+
+
+
 
 
 

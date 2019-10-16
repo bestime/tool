@@ -7,7 +7,7 @@ const InnerBus = require('./InnerBus')
 
 function CreateMain () {
   var myBus = InnerBus()
-
+  
   bindEasy(document, 'keydown', function (e) {
     var ev = e || window.event
     switch (ev.keyCode) {
@@ -28,13 +28,7 @@ function CreateMain () {
       this.selector = d    
     }
   }, pro_list)
-
-  main.getMethods = function () {
-    let res = {}
-    for(let key in main) {
-      res[key] = main[key]
-    }
-  }
+  
 
   main.fn.init.prototype = main.fn
 

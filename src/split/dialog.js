@@ -74,10 +74,16 @@ function dialog (opt) {
   mouseWheel(oContent, null, true)
   mouseWheel(oBg, null, true)
 
-  _Object(getByClass('close-btn', el)[0]).onclick = doClose
+  var btnClose = getByClass('close-btn', el)[0]
+  if(btnClose) {
+    btnClose.onclick = doClose
+  }
 
-  _Object(getByClass('confirm', el)[0]).onclick = function () {
-    checkToClose('confirm')
+  var btnConfirm = getByClass('confirm', el)[0]
+  if(btnConfirm) {
+    btnConfirm.onclick = function () {
+      checkToClose('confirm')
+    }
   }
 
   if (oBg) {

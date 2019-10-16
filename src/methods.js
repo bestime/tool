@@ -103,5 +103,9 @@ module.exports = {
   getRandomArray: require('./split/getRandomArray'),
   timeFormatToRecent: require('./split/timeFormatToRecent'),
   setConfig: require('./split/setConfig'),
-  getConfig: require('./split/getConfig')
+  getConfig: require('./split/getConfig'),
+  getMinAndMax: require('./split/getMinAndMax'),
+  assembly: require('./split/assembly'),
+  isEqualArray: require('./split/isEqualArray'),
+  equal: require('./split/equal'),
 };
