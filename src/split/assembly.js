@@ -1,3 +1,7 @@
+
+/**
+ * 组合所有肯能性 
+ */
 function assembly (arr, num, handleGroup) {
   var count = 0, start = +new Date();
   var res = (function toFind(arr, length, start, coll){
@@ -12,8 +16,14 @@ function assembly (arr, num, handleGroup) {
     }
     return res
   })(arr, num, 0, []);
-  console.log('次数：', count, +new Date() - start)
+  console.log('次数：', count, '用时：', +new Date() - start)
   return res;
 }
 
 module.exports = assembly
+
+
+
+/**
+ * ns.assembly(['a', 'b', 'c', 'd', 'e', 'f','g', 'h', 'i', 'j', 'k', 'l', 'm', 'o', 'p', 'q', 'p', 'q'], 9, g => g.join(''))
+ */

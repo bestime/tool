@@ -1,13 +1,13 @@
 const _Number = require('./_Number')
 const convertTime = require('./convertTime')
 const _Object = require('./_Object')
-
 /**
  * 格式化时间为最近时间
  * @param {Number} millisecond 毫秒 
  * @param {Object} opt 毫秒
  *    @option {Boolean} show_second 结果是否显示秒
  *    @option {Boolean} show_millsecond 结果是否显示毫秒
+ *    @option {Number} nowStamp 当前时间戳 毫秒
  * @return {String}
  */
 function timeFormatToRecent (millisecond, opt) {
@@ -18,12 +18,12 @@ function timeFormatToRecent (millisecond, opt) {
   var oneSecond = 1000
   millisecond = _Number(millisecond)
 
-  var nowStamp = +new Date
+  var nowStamp = _Number(opt.nowStamp) || +new Date
   var oldTime = convertTime(new Date(millisecond))
   var nowTime = convertTime(new Date(nowStamp))
   // 今日过了多少秒
   var nowDayPass = nowTime.hour * oneHour + nowTime.minute * oneMinute + nowTime.second * oneSecond + _Number(nowTime.milliSecond);
-  last = nowStamp - millisecond
+  var last = nowStamp - millisecond
   var chaDay = last - nowDayPass
 
   var res = ''

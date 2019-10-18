@@ -108,4 +108,5 @@ module.exports = {
   assembly: require('./split/assembly'),
   isEqualArray: require('./split/isEqualArray'),
   equal: require('./split/equal'),
+  reduceTime: require('./split/reduceTime'),
 };
