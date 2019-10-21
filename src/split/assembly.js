@@ -3,7 +3,7 @@
  * 组合所有肯能性 
  */
 function assembly (arr, num, handleGroup) {
-  var count = 0, start = +new Date();
+  var count = 0, begin = +new Date();
   var res = (function toFind(arr, length, start, coll){
     var res = []
     count++
@@ -16,7 +16,7 @@ function assembly (arr, num, handleGroup) {
     }
     return res
   })(arr, num, 0, []);
-  console.log('次数：', count, '用时：', +new Date() - start)
+  console.log('次数：', count, '用时：', +new Date() - begin)
   return res;
 }
 
