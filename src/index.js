@@ -8,8 +8,8 @@ const InnerBus = require('./InnerBus')
 function CreateMain () {
   var myBus = InnerBus()
   
-  bindEasy(document, 'keydown', function (e) {
-    var ev = e || window.event
+  bindEasy(document, 'keydown', function (ev) {
+    ev = ev || window.event
     switch (ev.keyCode) {
       case 27:
         myBus.emit('ESC');
@@ -20,7 +20,7 @@ function CreateMain () {
   var main = function(v) {
     return new main.fn.init(v);
   }
-
+  
   main.fn = main.prototype = assign({
     constructor: main,
     info: 'bestime-tool 2019',

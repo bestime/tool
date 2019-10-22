@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>backTop,scrollToElement,scrollToBottom</title>
+  <link rel="stylesheet" href="../css/bestime.css"/>
+  <script src="../js/bestime.min.js"></script>
+  
+  <style>
+    .x5w4e {
+      overflow: hidden;
+    }
+    .x5w4e ul {
+      float:left;
+    }
+
+    .x5w4e .ew545 {
+      float:right;
+    }
+
+    .ase45ewt87we{
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 200px;
+      height: 200px;
+      margin-left: -100px;
+      margin-top: -100px;
+      background:red;
+    }
+
+    .asfwe4 {
+      width: 100px;
+      height: 100px;
+      left: 50px;
+      top: 50px;
+      background:#ddd;
+      position:absolute;
+    }
+
+    .sagwew45 {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .test-032 {
+      display: inline-block;
+      padding: 5px 10px;
+      background: #dd4215;
+      color:#fff;
+      border-radius: 3px;
+      font-size: 12px;
+      margin: 10px;
+      width: 100px;
+      max-width: 200px;
+      text-align:justify;
+    }
+  </style>
+</head>
+<body style="height: 2000px;">
+  <div class="x5w4e">
+    <ul>
+      <li><span class="test-032">哈哈我的</span></li>
+      <li><span class="test-032">哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的哈哈我的</span></li>
+      <li><span class="test-032">哈哈我的</span></li>
+      <li><span class="test-032">哈哈我的</span></li>
+      <li><span class="test-032">哈哈我的</span></li>
+      <li><span class="test-032">哈哈我的</span></li>
+      <li><span class="test-032">哈哈我的</span></li>
+      <li><span class="test-032">哈哈我的</span></li>
+      <li><span class="test-032">哈哈我的</span></li>
+    </ul>
+    <div class="ew545">
+      <span class="test-032">骄傲咯六十九特理事长凯乐科技日哦无阿按他为人十分啊手动阀就是</span>
+      <span class="test-032">没考虑经济欧文人家开始就佛牌五二尽快了解据科技沃厄普若脾胃u人</span>
+    </div>
+  </div>
+
+  <div class="ase45ewt87we">
+    <div class="asfwe4">
+      <span class="test-032 sagwew45">这个是什么</span>
+    </div>
+  </div>
+<script>
+
+
+
+
+ns.bindEasy(window, 'load', function () {
+  ns.forEach(ns.getByClass('test-032'), function (item) {
+    ns.MouseTip({
+      el: item,
+      triangleSize: 6,
+      render: true || function () {
+        return `
+          <div style="border:red solid 1px;">自定义render。可为空</div>
+        `
+      }
+    })
+  })
+})
+</script>
+</body>
+</html>
+

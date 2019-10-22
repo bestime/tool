@@ -3,14 +3,12 @@ const _Number = require('./_Number')
 
 function debounce (opt) {
   if(!isFunction(opt.handle)) return;
-  var delay = opt.delay
+  var delay = _Number(opt.delay)
   var handle = opt.handle
   var isFirstWork = opt.isFirstWork === false ? false : true
-  delay = _Number(delay)
   var timer, ts, times = 0;
   return function () {    
-    var self = this
-    var arg = arguments
+    var self = this, arg = arguments;
     clearTimeout(ts)
     clearTimeout(timer)
     if(isFirstWork && !times) {
@@ -30,6 +28,5 @@ function debounce (opt) {
     }
   }
 }
-
 
 module.exports = debounce

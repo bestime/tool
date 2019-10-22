@@ -109,4 +109,7 @@ module.exports = {
   isEqualArray: require('./split/isEqualArray'),
   equal: require('./split/equal'),
   reduceTime: require('./split/reduceTime'),
+  shuffle: require('./split/shuffle'),
+  ArrayExchangeIndex: require('./split/ArrayExchangeIndex'),
+  MouseTip: require('./split/MouseTip'),
 };

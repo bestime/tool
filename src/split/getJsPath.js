@@ -4,12 +4,12 @@
  */
 
 function getJsPath (tir) {
-  tir = tir || 0; 
-  var reg = '\/[^/]*', jsPath = document.scripts;
+  tir = typeof tir === 'number' ? tir : 0 
+  var reg = '\/[^/]*', arr = document.scripts;
   for (var a = 0; a < tir; a++) {
     reg += reg
   }
-	return jsPath[jsPath.length-1].src.replace(new RegExp(reg + '$'), '/');
+	return arr[arr.length-1].src.replace(new RegExp(reg + '$'), '/');
 }
 
 module.exports = getJsPath
