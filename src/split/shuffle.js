@@ -1,6 +1,7 @@
 /**
  * 数组乱序
  * @param {Array} list
+ * @return {Array}
  */
 function shuffle (list) {
   for (var idx, temp, len = list.length; len; len--) {

@@ -1,14 +1,11 @@
+const FN_FORMAT_STRING_VALUE = require('./FN_FORMAT_STRING_VALUE')
 //获取cookie
 function getCookie (key) {
-  var res, arr2, arr1 = document.cookie.split('; ');
-  for(var i = 0; i < arr1.length; i++){
-    arr2 = arr1[i].split('=');
-    if(arr2[0] == key){
-      res = decodeURI(arr2[1]);
-      try { res = JSON.parse(res) } catch (e) { }
-      return res
-    }
-  }
+  var res;
+  document.cookie.replace(new RegExp(key + '=(.*?)($|(; ))'), function (g, $1) {
+    res = FN_FORMAT_STRING_VALUE(decodeURIComponent($1))
+  })
+  return res
 }
 
 module.exports = getCookie

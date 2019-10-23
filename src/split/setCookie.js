@@ -2,6 +2,9 @@
 // t 单位（毫秒）
 function setCookie (key, value, t){
   var oDate = new Date();
+  if(typeof value === 'object') {
+    value = JSON.stringify(value)
+  }
   oDate.setTime(oDate.getTime() + t);
   //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//
   // 不能这样写[目前知道百度浏览器这样写会有bug，获取cookie【document.cookie】的时候会把cookie删除]，一定要像下面这样写

@@ -87,9 +87,6 @@
   </div>
 <script>
 
-
-
-
 ns.bindEasy(window, 'load', function () {
   ns.forEach(ns.getByClass('test-032'), function (item) {
     ns.MouseTip({
@@ -103,6 +100,21 @@ ns.bindEasy(window, 'load', function () {
     })
   })
 })
+
+demo('a') // => false
+demo('aa') // => false
+demo('aa2a1a2s1df5we56f45') // => false
+demo('a1') // => true
+demo('aa2') // => true
+demo('aa2a') // => true
+
+function demo (str) {
+  str = String(str)
+  var res = /^[a-zA-Z][a-zA-Z0-9]{1,11}$/.test(str) && /[\d]/.test(str)
+  console.log(str, res)
+  return res
+}
+
 </script>
 </body>
 </html>

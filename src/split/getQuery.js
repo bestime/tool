@@ -1,3 +1,5 @@
+const FN_FORMAT_STRING_VALUE = require('./FN_FORMAT_STRING_VALUE')
+
 /**
  * getQuery 获取url查询参数
  * @param {String} str # [可选], 被查询的字符串，不填则为当前url
@@ -8,16 +10,7 @@ function getQuery (str) {
   var res = {}, href = '';
   try { href = window.location.href } catch (e) {};
   (typeof str === 'string' ? str : href).replace(/([^=?&]*)=([^=&?/#]*)/g, function (item, key, val) {
-    if (/^\d+$/g.test(val)) {
-      val = Number(val)
-    } else if (val==='false') {
-      val = false
-    } else if (val==='true') {
-      val = true
-    } else {
-      val = decodeURIComponent(val)
-    }
-    res[decodeURIComponent(key)] =  val
+    res[decodeURIComponent(key)] =  FN_FORMAT_STRING_VALUE(val)
   });
   return res
 }

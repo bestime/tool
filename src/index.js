@@ -20,7 +20,7 @@ function CreateMain () {
   var main = function(v) {
     return new main.fn.init(v);
   }
-  
+
   main.fn = main.prototype = assign({
     constructor: main,
     info: 'bestime-tool 2019',
@@ -28,6 +28,7 @@ function CreateMain () {
       this.selector = d    
     }
   }, pro_list)
+  
   
 
   main.fn.init.prototype = main.fn

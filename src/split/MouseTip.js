@@ -1,4 +1,3 @@
-
 var getById = require('./getById')
 var getRelativePos = require('./getRelativePos')
 var addClass = require('./addClass')
@@ -9,7 +8,7 @@ var getWindowSize = require('./getWindowSize')
 var isFunction = require('./isFunction')
 
 var MouseTip = (function () {
-  document.write('<div id="bt-mouse-tip"><i class="before"></i><i class="after"></i><div class="btmt-content">嘎嘎嘎</div></div>')
+  document.write('<div id="bt-mouse-tip"><i class="before"></i><i class="after"></i><div class="btmt-content"></div></div>')
   var oWrapper,
       pos,
       centerX,
@@ -23,8 +22,8 @@ var MouseTip = (function () {
       timer_02,
       timer03,
       yFlag = 'top',
-      oAfter,
       oBefore,
+      oAfter,
       agSize; // 三角尺寸
   return function (opt) {
     var el = opt.el, render = isFunction(opt.render) ? opt.render : false
@@ -36,12 +35,8 @@ var MouseTip = (function () {
     el.onmouseenter = function () {
       clearTimeout(timer_01)
       winSize = getWindowSize()
-      oWrapper.className = ''
-      if(render) {
-        addClass(oWrapper, 'custom')
-      } else {
-        removeClass(oWrapper, 'custom')
-      }
+      oWrapper.className = render ? 'custom' : ''
+
       timer_01 = setTimeout(function () {
         oWrapper.style.cssText = ''
         oText.innerHTML = render ? render() : trim(el.innerHTML)
@@ -98,9 +93,9 @@ var MouseTip = (function () {
       clearTimeout(timer03)
       clearTimeout(timer_01)
       clearTimeout(timer_02)
-      removeClass(oWrapper, 'active')
       clearTimeout(show_timer)
       clearTimeout(e_timer)
+      removeClass(oWrapper, 'active')
     }
   };
 }) ();
