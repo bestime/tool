@@ -202,6 +202,21 @@ ns.ready(function () {
 
 
 
+var query = {
+  a: undefined,
+  b: null,
+  c: {},
+  d: [],
+  e: 0,
+  f: '',
+  g: false
+}
+
+
+console.log('清除：', ns.clean(query, true))
+
+
+
 
 
 
