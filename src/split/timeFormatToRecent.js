@@ -33,27 +33,26 @@ function timeFormatToRecent (millisecond, opt) {
   var second = Math.floor(last/oneSecond); last = last % oneSecond;
 
   if(second<1) res = '刚刚'
-  if(second) res = `${second}秒前`
-  if(minute) res = `${minute}分前`
-  if(hour) res = `${hour}小时前`
+  if(second) res = second + '秒前'
+  if(minute) res = minute + '分前'
+  if(hour) res = hour + '小时前'
   
   if(chaDay>0) {
     if(chaDay <= oneDay) {
-      res = `昨天 ${substrTime()}`
+      res = '昨天 ' + substrTime()
     } else if(chaDay <= oneDay * 2) {
-      res = `前天 ${substrTime()}`
+      res = '前天 ' + substrTime()
     } else {
       res = `${oldTime.year===nowTime.year ? '' : oldTime.year + '-'}` + `${oldTime.month}-${oldTime.day} ${substrTime()}`
     }
   }
 
-  function substrTime (s, ms) {
+  function substrTime () {
     let str = `${oldTime.hour}:${oldTime.minute}`
     if(opt['show_second']) str += `:${oldTime.second}`  
     if(opt['show_millsecond']) str += `:${oldTime.milliSecond}`  
     return str
   }
-  // console.log(`[${oldTime.year}-${oldTime.month}-${oldTime.day} ${oldTime.hour}:${oldTime.minute}:${oldTime.second}:${oldTime.milliSecond}] => ${res}`)
 
   return res
 }
