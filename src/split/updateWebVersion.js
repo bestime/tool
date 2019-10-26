@@ -10,7 +10,7 @@ const getQuery = require('./getQuery')
  */
 function updateWebVersion (key, checkValue) {
   if(key && checkValue) {
-    var old = getQuery().key
+    var old = getQuery()[key]
     if(!old || old !== checkValue) {
       var newUrl = updateQuery(key, checkValue)
       // console.log(window.location.href===newUrl, window.location.href, newUrl)
