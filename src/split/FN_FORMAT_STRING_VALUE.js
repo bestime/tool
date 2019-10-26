@@ -5,7 +5,7 @@ function FN_FORMAT_STRING_VALUE (data) {
     default:
       if (/^\d+$/.test(data)) {
         data = Number(data)
-      } else if(res == 'false') {
+      } else if(data == 'false') {
         data = false
       }else if(data == 'true') {
         data = true

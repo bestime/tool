@@ -112,4 +112,6 @@ module.exports = {
   shuffle: require('./split/shuffle'),
   ArrayExchangeIndex: require('./split/ArrayExchangeIndex'),
   MouseTip: require('./split/MouseTip'),
+  updateWebVersion: require('./split/updateWebVersion'),
+  updateQuery: require('./split/updateQuery'),
 };

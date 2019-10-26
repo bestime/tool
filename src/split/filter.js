@@ -1,12 +1,29 @@
+const isFunction = require('./isFunction')
+const getType = require('./getType')
+const forEach = require('./forEach')
+const defaultType = require('./defaultType')
 
-const isFunction = require('./_Function')
-
-function filter (arr, handle) {
-  if(!isFunction(handle)) return;
-  var res = [];
-  for(var a=0, len = arr.length; a < len; a++) {
-    handle(arr[a], a, arr) && res.push(arr[a])
+function filter (data, handle) {
+  var TYPE = getType(data)
+  if(!isFunction(handle)) return defaultType(TYPE);
+  var res;
+  switch (TYPE) {
+    case 'Array':
+      res = []
+      forEach(data, function (item, index) {
+        handle(item, index) && res.push(item)
+      })
+      break;
+    case 'Object':
+      res = {}
+      for(var key in data) {
+        if(handle(data[key], key)) {
+          res[key] = data[key]
+        }
+      }
+      break;
   }
+  
   return res
 }
 

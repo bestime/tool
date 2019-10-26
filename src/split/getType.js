@@ -14,7 +14,7 @@ function getType (data) {
     case 'boolean':
       res = _UpperCase(res, 0)
       break;
-  default:
+    default:
       res = Object.prototype.toString.call(data).replace(/(.*\s)|.$/g, '')
   }
   

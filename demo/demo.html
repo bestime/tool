@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link rel="stylesheet" href="../css/bestime.css"/>
   <script src="../js/bestime.min.js"></script>
+  <script>document.write('<script src="../js/update-version.js?t='+ +new Date +'"><\/script>')</script>
   <script src="https://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
   <title>测试页面</title>
 </head>
@@ -201,19 +202,6 @@ ns.ready(function () {
 
 
 
-
-var query = {
-  a: undefined,
-  b: null,
-  c: {},
-  d: [],
-  e: 0,
-  f: '',
-  g: false
-}
-
-
-console.log('清除：', ns.clean(query, true))
 
 
 
