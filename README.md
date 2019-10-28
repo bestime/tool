@@ -9,6 +9,25 @@
 <script src="https://bestime.github.io/tool/js/bestime.min.js"></script>
 ```
 
+#### git 常用操作
+```
+// git pull 相当于
+git fetch origin <branch>
+git merge FETCH_HEAD
+
+// 合并分支
+git fetch origin <branch>
+git merge <branch>
+
+// 放弃本地修改，使用最新的远程代码
+git fetch origin <branch>
+git reset --hard FETCH_HEAD
+
+// 创建并切换到分支
+git checkout -b <branch>
+
+```
+
 
 - [x] `_Array(data: any): any[]` 强制转换类型：Array
 - [x] `_Boolean(data: any): boolean` 强制转换类型：Boolean
