@@ -31,7 +31,7 @@ const demo = FunctionLoop({
 
   // 这一项，不配置则不生效，如果不主动执行 demo(false)，将一直轮询
   overTime: {
-    time: 5000, // 超时事件
+    time: 5000, // 超时时间
     handle: function () {
       dialog({ msg: '获取登录状态超时' })
     },

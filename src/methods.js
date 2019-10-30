@@ -114,4 +114,5 @@ module.exports = {
   MouseTip: require('./split/MouseTip'),
   updateWebVersion: require('./split/updateWebVersion'),
   updateQuery: require('./split/updateQuery'),
+  dataLayout: require('./split/dataLayout'),
 };

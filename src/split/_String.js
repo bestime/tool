@@ -1,6 +1,6 @@
 function _String (data) {
   // typeof data === 'undefined' || data === null
-  return data == null ? '' : String(data)
+  return typeof data !== 'string' ? '' : String(data)
 }
 
 module.exports = _String
