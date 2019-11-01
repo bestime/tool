@@ -115,4 +115,5 @@ module.exports = {
   updateWebVersion: require('./split/updateWebVersion'),
   updateQuery: require('./split/updateQuery'),
   dataLayout: require('./split/dataLayout'),
+  updateClass: require('./split/updateClass'),
 };

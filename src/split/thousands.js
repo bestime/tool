@@ -6,15 +6,11 @@ const _String  = require('./_String')
  * @param {Sting} symbol 千分位替换符号，默认逗号 
  */
 function thousands (str, symbol) {
-    symbol = symbol || ','
-    // 任意字符版
-    return _String(str).replace(/([^.]*)?(\.)?(.*)?/, function(item, pre, dot, next) {
-        pre = pre || ''
-        dot = dot || ''
-        next = next || ''
-        return pre.replace(/(.(?=(.{3})+$))/g, '$1' + symbol) + dot + next
-    }) 
-    // return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, symbol || ',');
+  symbol = symbol || ','
+  return _String(str).replace(/([^.]*)?(\.)?(.*)?/, function(item, pre, dot, next) {
+    return _String(pre).replace(/(.(?=(.{3})+$))/g, '$1' + symbol) + _String(dot) + _String(next)
+  }) 
+  // return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, symbol || ',');
 }
 
 module.exports = thousands
