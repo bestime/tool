@@ -51,6 +51,9 @@
       border:#ddd solid 1px;
       text-align:center;
     }
+    #test li:after{
+      content: '';
+    }
 
     #sbgs12{
       width: 100rem;
@@ -209,5 +212,14 @@ ns.ready(function () {
 
 
 ns.updateClass({className: 'abc def g active bestime'}, ['abc', 'active', 'bestime'], ['a465', 'a465', 'a465'])
+
+// => <p a="we" b="we1">*ood *od ** *reen 哈哈</p><p a="we" b="we1">*ood *od ** *reen 哈哈</p>
+console.log(demo('<p a="we" b="we1">Good god gg green 哈哈</p><p a="we" b="we1">Good god gg green 哈哈</p>'))
+
+function demo (str) {
+  return str.replace(/(<.*?>)(.*?)(<.*?>)/g, function (g, $1, $2, $3) {
+    return $1 + $2.replace(/g/gi, '*') + $3
+  })
+}
 </script>
 </html>
