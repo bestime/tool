@@ -1,5 +1,4 @@
 const $createStyle = require('./split/$createStyle')
-const STYLE = $createStyle()
 
 module.exports = {
   _Array: require('./split/_Array.js'),
@@ -119,7 +118,5 @@ module.exports = {
   dataLayout: require('./split/dataLayout'),
   updateClass: require('./split/updateClass'),
   $createStyle: $createStyle,
-  styleTextConcat: STYLE.concat,
-  styleTextUpdate: STYLE.update,
-
+  style: $createStyle()
 };

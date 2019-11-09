@@ -3,11 +3,11 @@ const filter = require('./filter')
 const defaultType = require('./defaultType')
 
 /**
- * 清空[undefined, null]数据
+ * 清空无效数据
  * @param {*} data
  * @param {Boolean} removeEmptyStr 是否过滤空字符串，默认false
+ * @return {*} data 与清理过的和传入数据相同格式的数据
  */
-
 function clean (data, removeEmptyStr) {
   return defaultType(getType(data), doOnce(data, removeEmptyStr))
 }
@@ -37,12 +37,10 @@ function doOnce (data, removeEmptyStr) {
       break;
     default: res = data;
   }
-
-
   
   function canAdd (data) {
     var bol = typeof data !== 'undefined' && data != null
-    if (removeEmptyStr && getType(data)==='String') {
+    if (removeEmptyStr && getType(data) === 'String') {
       bol = data !== ''
     }
     return bol
@@ -50,8 +48,5 @@ function doOnce (data, removeEmptyStr) {
   
   return res
 }
-
-
-
 
 module.exports = clean

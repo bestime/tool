@@ -1,7 +1,7 @@
 /**
  * 移除首尾空格
  * @param {*} str
- * @param {?:Number} 1左侧, -1 右侧, undefined 两侧
+ * @param {?:Number} pos => 1左侧, -1 右侧, undefined 两侧
  */
 function trim (str, pos) {
   str = str == null ? '' : String(str)

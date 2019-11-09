@@ -1,8 +1,6 @@
-
 const fillHtml = require('./fillHtml')
 const _String = require('./_String')
 const trim = require('./trim')
-const NAME = 'bt-style-'
 let id = 0
 
 /**
@@ -14,8 +12,13 @@ let id = 0
  */
 function $createStyle(className) {
   id++
-  var isChange, computedCssStr = '', CSS_BOX = document.createElement('style');
-  CSS_BOX.className = className || NAME + id;
+  className = trim(className)
+  if(!className || /^[0-9]/.test(className)) {
+    className = 'bt-style-' + id
+  }
+  
+  var temp, computedCssStr = '', CSS_BOX = document.createElement('style');
+  CSS_BOX.className = className;
   document.getElementsByTagName("head")[0].appendChild(CSS_BOX);
 
   return {
@@ -33,18 +36,12 @@ function $createStyle(className) {
      * @param {String} str css字符串 
      */
     update: function (str) {
-      isChange = false
-      _String(str).replace(/(.*?)({.*?})/g, function (g, newKey, newValue) {
+      temp = computedCssStr
+      _String(str).replace(/(.*?)({.*?})/g, function (item, newKey, newValue) {
         newKey = trim(newKey)
-        newValue = trim(newValue)
-        computedCssStr = computedCssStr.replace(new RegExp('('+ newKey +'\\s*?)({.*?})', 'g'), function () {
-          isChange = true
-          console.log('css-key：['+ newKey +']')
-          return newKey + newValue
-          
-        })
+        computedCssStr = computedCssStr.replace(new RegExp('('+ newKey +'\\s*?)({.*?})', 'g'), newKey + trim(newValue))
       })
-      isChange && fillHtml(CSS_BOX, computedCssStr)
+      temp !== computedCssStr && fillHtml(CSS_BOX, computedCssStr)
     }
   }
 }

@@ -9,6 +9,7 @@ function equal () {
   var FIRST = ARG[0]
   var TYPE = getType(FIRST)
   var HANDLE = ARG[ARG.length - 1]
+  
   if(!isFunction(HANDLE)) {
     HANDLE = false
   }
