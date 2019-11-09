@@ -1,3 +1,6 @@
+const $createStyle = require('./split/$createStyle')
+const STYLE = $createStyle()
+
 module.exports = {
   _Array: require('./split/_Array.js'),
   _Boolean: require('./split/_Boolean'),
@@ -15,7 +18,6 @@ module.exports = {
   bind: require('./split/bind'),
   clone: require('./split/clone'),
   convertTime: require('./split/convertTime'),
-  createStyleElement: require('./split/createStyleElement'),
   createUUID: require('./split/createUUID'),
   defaultType: require('./split/defaultType'),
   drag: require('./split/drag'),
@@ -116,4 +118,8 @@ module.exports = {
   updateQuery: require('./split/updateQuery'),
   dataLayout: require('./split/dataLayout'),
   updateClass: require('./split/updateClass'),
+  $createStyle: $createStyle,
+  styleTextConcat: STYLE.concat,
+  styleTextUpdate: STYLE.update,
+
 };

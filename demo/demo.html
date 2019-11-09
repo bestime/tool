@@ -207,19 +207,13 @@ ns.ready(function () {
 
 
 
+var res = ns.map([1,2,3,null,null,6,7,8], function (item, index) {
+  return item ? `pre-${item}` : undefined
+}, true, undefined)
 
+console.log('sssssssss',  res)
 
-
-
-ns.updateClass({className: 'abc def g active bestime'}, ['abc', 'active', 'bestime'], ['a465', 'a465', 'a465'])
-
-// => <p a="we" b="we1">*ood *od ** *reen 哈哈</p><p a="we" b="we1">*ood *od ** *reen 哈哈</p>
-console.log(demo('<p a="we" b="we1">Good god gg green 哈哈</p><p a="we" b="we1">Good god gg green 哈哈</p>'))
-
-function demo (str) {
-  return str.replace(/(<.*?>)(.*?)(<.*?>)/g, function (g, $1, $2, $3) {
-    return $1 + $2.replace(/g/gi, '*') + $3
-  })
-}
+ns.styleTextConcat('#sbgs12{background:blue !important;}h1{background:blue !important;}')
+// ns.styleTextUpdate(' #sbgs12 {background:#000 !important;color:#fff !important;} h1 {background:#000 !important;color:white;}')
 </script>
 </html>
