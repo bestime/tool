@@ -118,5 +118,6 @@ module.exports = {
   dataLayout: require('./split/dataLayout'),
   updateClass: require('./split/updateClass'),
   $createStyle: $createStyle,
-  style: $createStyle()
+  style: $createStyle(),
+  write: require('./split/write'),
 };

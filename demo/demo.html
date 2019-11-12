@@ -6,9 +6,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <link rel="stylesheet" href="../css/bestime.css"/>
   <script src="../js/bestime.min.js"></script>
-  <script>document.write('<script src="../js/update-version.js?t='+ +new Date +'"><\/script>')</script>
+
+  <script>
+    ns.write('style', '../css/bestime.css', true)
+    ns.write('script', '../js/update-version.js', true)
+  </script>
   <script src="https://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
   <title>测试页面</title>
 </head>
@@ -215,5 +218,31 @@ console.log('sssssssss',  res)
 
 ns.style.concat('#sbgs12{background:blue !important;}h1{background:blue !important;}')
 // ns.style.update(' #sbgs12 {background:#000 !important;color:#fff !important;} h1 {background:#000 !important;color:white;}')
+
+
+// => 法法 aaa↵bbb ccc↵dd afa
+demo('↵法法 aaa↵↵↵ bbb ccc↵↵↵ dd afa↵')
+
+function demo (str) {
+  str = str.replace(/^↵|↵$|(↵+\s+)/g, (g, $1) => {
+    return $1 ? '↵' : ''
+  })
+  console.log('str', str)
+}
+
+
+
+var bind = ns.bind
+var getEventTarget = ns.getEventTarget
+function mouseMove () {
+  var dom;
+  bind(document, 'id', 'mousemove', function (ev) {
+    dom = getEventTarget(ev)
+    console.log('dom', dom)
+  })
+}
+
+mouseMove()
+
 </script>
 </html>

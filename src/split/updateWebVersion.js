@@ -13,7 +13,6 @@ function updateWebVersion (key, checkValue) {
     var old = getQuery()[key]
     if(!old || old !== checkValue) {
       var newUrl = updateQuery(key, checkValue)
-      // console.log(window.location.href===newUrl, window.location.href, newUrl)
       if(window.location.href !== newUrl) {
         window.location.href = newUrl
       }

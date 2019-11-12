@@ -1,4 +1,3 @@
-
 const getRandom = require('./getRandom')
 
 /**
@@ -7,9 +6,6 @@ const getRandom = require('./getRandom')
  * @param  {Number} num 取的个数
  * @return {Array}
  */
-
-
-
 function getRandomArray (arr, num) {
   var usedIndex = {}, res = [], rdIdx;
   function add () {
@@ -26,12 +22,13 @@ function getRandomArray (arr, num) {
   }
 
   add()
+
+  // 长度不够就随机生成数据
   for(var a = res.length; a<num; a++) {
     res.push('R_'  + a)
   }
   
   return res
-  
 }
 
 module.exports = getRandomArray

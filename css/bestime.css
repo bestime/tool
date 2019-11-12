@@ -179,6 +179,9 @@
   position:fixed;
   left: 0;
   top: 0;
+  right: auto;
+  bottom: auto;
+  height: auto;
   background:#000;
   border-radius: 4px;
   color:#fff;
@@ -207,6 +210,8 @@
   display: none;
   
 }
+
+
 
 #bt-mouse-tip.bottom .after{
   display: block;
@@ -240,7 +245,7 @@
 }
 #bt-mouse-tip.active {
   opacity: 1;
-  z-index: 100;
+  z-index: 9999;
   
 }
 #bt-mouse-tip.custom {

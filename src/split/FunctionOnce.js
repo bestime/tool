@@ -1,4 +1,3 @@
-const _Function = require('./_Function')
 
 /**
  * 一次性函数，使用一次后失效
