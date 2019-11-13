@@ -210,39 +210,6 @@ ns.ready(function () {
 
 
 
-var res = ns.map([1,2,3,null,null,6,7,8], function (item, index) {
-  return item ? `pre-${item}` : undefined
-}, true, undefined)
-
-console.log('sssssssss',  res)
-
-ns.style.concat('#sbgs12{background:blue !important;}h1{background:blue !important;}')
-// ns.style.update(' #sbgs12 {background:#000 !important;color:#fff !important;} h1 {background:#000 !important;color:white;}')
-
-
-// => 法法 aaa↵bbb ccc↵dd afa
-demo('↵法法 aaa↵↵↵ bbb ccc↵↵↵ dd afa↵')
-
-function demo (str) {
-  str = str.replace(/^↵|↵$|(↵+\s+)/g, (g, $1) => {
-    return $1 ? '↵' : ''
-  })
-  console.log('str', str)
-}
-
-
-
-var bind = ns.bind
-var getEventTarget = ns.getEventTarget
-function mouseMove () {
-  var dom;
-  bind(document, 'id', 'mousemove', function (ev) {
-    dom = getEventTarget(ev)
-    console.log('dom', dom)
-  })
-}
-
-mouseMove()
 
 </script>
 </html>
