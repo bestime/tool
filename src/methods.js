@@ -9,6 +9,7 @@ module.exports = {
   _String: require('./split/_String'),
   _http: require('./split/_http'),
   _https: require('./split/_https'),
+  _Url: require('./split/_Url'),
   _UpperCase: require('./split/_UpperCase'),
   symbolNumber: require('./split/symbolNumber'),
   addClass: require('./split/addClass'),

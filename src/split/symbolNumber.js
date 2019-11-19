@@ -1,16 +1,19 @@
 const _Number = require('./_Number')
 const trim = require('./trim')
+const isEmpty = require('./isEmpty')
 
 /**
  * 
  * @param {*} data 需要转换的数据
- * @param {Boolean} isDecimals 是否小数，如果不是，将自动移除小数点
+ * @param {Boolean} isDecimals 默认ture, 是否小数，如果不是，将自动移除小数点
  * @return {Number|String}
  * @description 多用于表单数字输入可为 【空字符，正，负】情况下
  */
 function symbolNumber (data, isDecimals) {
   var res = data
-  if(typeof data === 'number') {
+  if(isEmpty(data)) {
+    res = data
+  } else if(typeof data === 'number') {
     res = _Number(data, true)
   } else {
     var str = trim(data)

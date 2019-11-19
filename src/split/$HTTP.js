@@ -3,7 +3,7 @@ function $HTTP (url, mode) {
     find = true
     return /http/.test(pre) ? mode : pre
   });
-  return find ? res : `${mode}://${url}`
+  return find ? res : mode + '://' + url
 }
 
 module.exports = $HTTP

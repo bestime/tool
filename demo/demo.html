@@ -211,5 +211,70 @@ ns.ready(function () {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+demo([
+  {
+    score: 20,
+    name: '小红'
+  },
+  {
+    score: 100,
+    name: '小绿'
+  }, {
+    score: 60,
+    name: '小明'
+  }, {
+    score: 100,
+    name: '小天'
+  }, {
+    score: 30,
+    name: '小赵'
+  }
+])
+
+function demo (arr) {
+  var map = arr.reduce((group, item) => {
+      if(!group.some(score => score === item.score)) {
+        group.push(Number(item.score))
+      }
+      return group
+    }, [])
+    .sort((a, b) => a > b ? -1 : 1)
+    .reduce((map, score, index) => {
+      map[score] = index + 1
+      return map
+    }, {})
+  arr.forEach(item => {
+    item.ranking = `第${map[Number(item.score)]}名`
+  })
+  console.log('arr', arr)
+  return arr
+}
+
+
+
 </script>
+
+
+
+
 </html>

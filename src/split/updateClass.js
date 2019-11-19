@@ -4,15 +4,17 @@ const trim = require('./trim')
 const _String = require('./_String')
 
 /**
- * 添加class
- * @param {object} element # dom元素 
- * @param {String || Array} oldVal # 需要修改的className
- * @param {String || Array} newVal # 修改对应索引的值，为空则替换
+ * 修改元素 className, 没有就添加
+ * @param {object} el dom元素 
+ * @param {String || Array} oldVal 要修改的className
+ * @param {String || Array} newVal 修改对应索引的值，为空则替换
  */
+
 function updateClass (el, oldVal, newVal) {
-  var res = el.className, exitMap = {};
+  var className = el.className, exitMap = {};
   oldVal = isArray(oldVal) ? oldVal : [oldVal]
   newVal = isArray(newVal) ? newVal : [newVal]
+  var findOne, oneNewName;
 
   // 去重
   for(var a = newVal.length - 1; a >= 0; a--) {
@@ -24,14 +26,24 @@ function updateClass (el, oldVal, newVal) {
   }
   
   forEach(oldVal, function (item, index) {
-    res = res.replace(new RegExp('(\\s|^)' + trim(item) + '(\\s|$)'), '$1' + _String(newVal[index]) + '$2')
+    findOne = false
+    oneNewName = _String(newVal[index])
+    className = className.replace(new RegExp('(\\s|^)' + trim(item) + '(\\s|$)'), function (nouse, $1, $2) {
+      findOne = true
+      return $1 + oneNewName + $2
+    })
+
+    if(!findOne) {
+      className += ' ' + oneNewName
+    }
   })
 
   // 去除多余空格
-  res = trim(res.replace(/\s{2,}/g, ' '))
+  className = trim(className.replace(/\s+/g, ' '))
   
-  if (res !==el.className) {
-    el.className = res
+  if (className !==el.className) {
+    el.className = className
+    return true
   }
 }
 
