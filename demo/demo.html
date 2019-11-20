@@ -1,25 +1,24 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <script src="../js/bestime.min.js"></script>
 
-  <script>
-    ns.write('style', '../css/bestime.css', true)
-    ns.write('script', '../js/update-version.js', true)
-  </script>
-  <script src="https://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
-  <title>测试页面</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="../js/bestime.min.js"></script>
+
+    <script>
+      ns.write('style', '../css/bestime.css', true)
+      ns.write('script', '../js/update-version.js', true)
+    </script>
+    <script src="https://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <title>测试页面</title>
+  </head>
+
+  <body>
 
     <div style="margin:20px;">
       <div>可输入小数，正负数</div>
-      <input style="border:red solid 1px;line-height:24px;width:100%;" placeholder="只能输入数字" id="axmk165a"/>
+      <input style="border:red solid 1px;line-height:24px;width:100%;" placeholder="只能输入数字" id="axmk165a" />
     </div>
     <script>
       document.getElementById('axmk165a').oninput = function () {
@@ -29,59 +28,67 @@
 
 
 
-  <style>
-   
+    <style>
+      * {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
 
-    *{
-      list-style:none;
-      margin: 0;
-      padding: 0;      
-    }
-    #test {
-      height: 300px;
-      background: #fff;
-      overflow: auto;
-      position: relative;
-      width: 600px;
-      border:#ddd solid 1px;
-      margin: 20px;
-    }
-    #test li {
-      line-height: 40px;
-      background: #f9f9f9;
-      color:#444;
-      margin: 10px;
-      border:#ddd solid 1px;
-      text-align:center;
-    }
-    #test li:after{
-      content: '';
-    }
+      #test {
+        height: 300px;
+        background: #fff;
+        overflow: auto;
+        position: relative;
+        width: 600px;
+        border: #ddd solid 1px;
+        margin: 20px;
+      }
 
-    #sbgs12{
-      width: 100rem;
-      line-height:2;
-      text-align:center;
-      background:#f9f9f9;
-      color:#999;
-      margin: 20px;
-      cursor:pointer;
-    }
-    #sbgs12.active{
-      background:red;
-      color:#fff;
-    }
-  </style>
-    
+      #test li {
+        line-height: 40px;
+        background: #f9f9f9;
+        color: #444;
+        margin: 10px;
+        border: #ddd solid 1px;
+        text-align: center;
+      }
+
+      #test li:after {
+        content: '';
+      }
+
+      #sbgs12 {
+        width: 100rem;
+        line-height: 2;
+        text-align: center;
+        background: #f9f9f9;
+        color: #999;
+        margin: 20px;
+        cursor: pointer;
+      }
+
+      #sbgs12.active {
+        background: red;
+        color: #fff;
+      }
+    </style>
+
     <a href="http://www.baidu.com" onClick="test02()">点击弹框，右键跳转</a>
     <div id="sbgs12" class="active map array some">鼠标移入<br>切换跟随</div>
-    <div id="mouse-01" style="transition:0.2s ease-out;width:100px;height:100px;background:rgba(255, 255, 0, 0.7);position:fixed;z-index:100;display:none;"></div>
-    <div id="mouse-02" style="transition:0.3s ease-out;width:130px;height:50px;background:rgba(255, 0, 255, 0.7);position:fixed;z-index:100;display:none;"></div>
-    <div id="mouse-03" style="transition:0.15s ease-out;width:50px;height:130px;background:rgba(0, 255, 255, 0.7);position:fixed;z-index:100;display:none;"></div>
+    <div id="mouse-01"
+      style="transition:0.2s ease-out;width:100px;height:100px;background:rgba(255, 255, 0, 0.7);position:fixed;z-index:100;display:none;">
+    </div>
+    <div id="mouse-02"
+      style="transition:0.3s ease-out;width:130px;height:50px;background:rgba(255, 0, 255, 0.7);position:fixed;z-index:100;display:none;">
+    </div>
+    <div id="mouse-03"
+      style="transition:0.15s ease-out;width:50px;height:130px;background:rgba(0, 255, 255, 0.7);position:fixed;z-index:100;display:none;">
+    </div>
     <script>
-      function test02 (ev) {
+      function test02(ev) {
         ev = ev || window.event;
-        window.event? window.event.returnValue = false : ev.preventDefault();
+        window.event ? window.event.returnValue = false : ev.preventDefault();
         ns.dialog({ msg: '被点击了, 不会跳转' })
       }
     </script>
@@ -106,105 +113,106 @@
       </ul>
     </div>
 
-<style>
-  #test15645{
-    display: inline-block;
-    padding: 5px 10px;
-    background:red;
-    color:#fff;
-  }
-</style>
-<div id="test15645"></div>
-<script>
-  function wetw (el, msg) {
-    el.innerHTML = msg
-    var timer = setInterval(function () {
-      msg = msg.substring(1) + msg.substr(0, 1)
-      el.innerHTML = msg
-    }, 150)
-  }
+    <style>
+      #test15645 {
+        display: inline-block;
+        padding: 5px 10px;
+        background: red;
+        color: #fff;
+      }
+    </style>
+    <div id="test15645"></div>
+    <script>
+      function wetw(el, msg) {
+        el.innerHTML = msg
+        var timer = setInterval(function () {
+          msg = msg.substring(1) + msg.substr(0, 1)
+          el.innerHTML = msg
+        }, 150)
+      }
 
-  wetw(document.getElementById('test15645'), '欢迎使用XXX示例，这只是测试数据！')
-</script>
-
-
+      wetw(document.getElementById('test15645'), '欢迎使用XXX示例，这只是测试数据！')
+    </script>
 
 
-<div class="demo">
-  <h1>啊手动阀</h1>
-</div>
-<style>
-.demo {
-  text-align:center;
-}
-.demo img {
-  display: inline-block;
-  vertical-align: middle;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-}
-</style>
 
 
-</body>
+    <div class="demo">
+      <h1>啊手动阀</h1>
+    </div>
+    <style>
+      .demo {
+        text-align: center;
+      }
+
+      .demo img {
+        display: inline-block;
+        vertical-align: middle;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
 
 
-<script>
-ns.scrollToElement(document.getElementById('tartet'), document.getElementById('test'), function () {
-  console.log('完了')
-})
+  </body>
 
-var mus01, mus02, mus03;
-ns.DomMouse({
-  el: document.getElementById('sbgs12'),
-  onMouseEnter: function () {
-    if(mus01 && mus01.isActive()) {
-      mus01.remove()
-      mus02.remove()
-      mus03.remove()
-      ns.removeClass(document.getElementById('sbgs12'), 'active')
-    } else {
-      ns.addClass(document.getElementById('sbgs12'), 'active')
-      openGenSui()
+
+  <script>
+    ns.scrollToElement(document.getElementById('tartet'), document.getElementById('test'), function () {
+      console.log('完了')
+    })
+
+    var mus01, mus02, mus03;
+    ns.DomMouse({
+      el: document.getElementById('sbgs12'),
+      onMouseEnter: function () {
+        if (mus01 && mus01.isActive()) {
+          mus01.remove()
+          mus02.remove()
+          mus03.remove()
+          ns.removeClass(document.getElementById('sbgs12'), 'active')
+        } else {
+          ns.addClass(document.getElementById('sbgs12'), 'active')
+          openGenSui()
+        }
+      },
+      onMouseLeave: function () {
+        console.log('leave')
+      }
+    })
+
+    function openGenSui() {
+      var options = {
+        offsetHorizontal: 5,
+        offsetVertical: 5
+      }
+      mus01 = ns.ContainerFollowMouse(document.getElementById('mouse-01'), options)
+      mus02 = ns.ContainerFollowMouse(document.getElementById('mouse-02'), options)
+      mus03 = ns.ContainerFollowMouse(document.getElementById('mouse-03'), options)
     }
-  },
-  onMouseLeave: function () {
-    console.log('leave')
-  }
-})
 
-function openGenSui () {
-  var options = {
-    offsetHorizontal: 5,
-    offsetVertical: 5
-  }
-  mus01 = ns.ContainerFollowMouse(document.getElementById('mouse-01'), options)
-  mus02 = ns.ContainerFollowMouse(document.getElementById('mouse-02'), options)
-  mus03 = ns.ContainerFollowMouse(document.getElementById('mouse-03'), options)  
-}
+    ns.removeClass(document.getElementById('sbgs12'), 'some')
+    ns.onDomRoll(document.getElementById('test'))
+    function scrollToBottom01() {
+      ns.scrollToBottom(document.getElementById('test'))
+    }
 
-ns.removeClass(document.getElementById('sbgs12'), 'some')
-ns.onDomRoll(document.getElementById('test'))
-function scrollToBottom01 () {
-  ns.scrollToBottom(document.getElementById('test'))
-}
-
-ns.ready(function () {
-  // ns.dialog({
-  //   msg: '开始卡',
-  //   // oFather: document.getElementById('use-main-wrapper'),
-  //   zIndexBase: 99999,
-  //   closed: function (type) {
-  //     // alert(type)
-  //   },
-  //   startClose: function (next) {
-  //     next(false, '关闭失败')
-  //   }
-  // })
-})
-// 上十字 => 右下，上左，面逆，上右，面顺，右上
-// 鱼头 => 右下，上右，右上，右下，上右右，右上
+    ns.ready(function () {
+      // ns.dialog({
+      //   msg: '开始卡',
+      //   // oFather: document.getElementById('use-main-wrapper'),
+      //   zIndexBase: 99999,
+      //   closed: function (type) {
+      //     // alert(type)
+      //   },
+      //   startClose: function (next) {
+      //     next(false, '关闭失败')
+      //   }
+      // })
+    })
+    // 上十字 => 右下，上左，面逆，上右，面顺，右上
+    // 鱼头 => 右下，上右，右上，右下，上右右，右上
 
 
 
@@ -230,49 +238,73 @@ ns.ready(function () {
 
 
 
-
-demo([
+// 结果 => 2
+demo('666', [
   {
-    score: 20,
-    name: '小红'
+    label: "111"
   },
   {
-    score: 100,
-    name: '小绿'
-  }, {
-    score: 60,
-    name: '小明'
-  }, {
-    score: 100,
-    name: '小天'
-  }, {
-    score: 30,
-    name: '小赵'
+    label: "222",
+    children: [
+      {
+        label: "333"
+      }
+    ]
+  },
+  {
+    label: "444",
+    children: [
+      {
+        label: "555",
+        children: [
+          {
+            label: "7777",
+            children: [
+              {
+                label: "999"
+              }
+            ]
+          },
+          {
+            label: "666"
+          },
+          {
+            label: "8888"
+          }
+        ]
+      }
+    ]
   }
 ])
 
-function demo (arr) {
-  var map = arr.reduce((group, item) => {
-      if(!group.some(score => score === item.score)) {
-        group.push(Number(item.score))
+function demo(label, arr) {
+  let temp, res = -1;
+  (function doOneFloor(list, count) {
+    if(Array.isArray(list)) {
+      let item, a, len = list.length;
+      for(a = 0; a < len; a++) {
+        item = list[a]
+        temp = 1
+        if(item.label === label) {
+          res = count
+          break;
+        } else {
+          doOneFloor(item.children, count + temp)
+        }
       }
-      return group
-    }, [])
-    .sort((a, b) => a > b ? -1 : 1)
-    .reduce((map, score, index) => {
-      map[score] = index + 1
-      return map
-    }, {})
-  arr.forEach(item => {
-    item.ranking = `第${map[Number(item.score)]}名`
-  })
-  console.log('arr', arr)
-  return arr
+    }
+  })(arr, 0)
+  console.log('哈哈', res)
+  return res
 }
 
+// gist id => f15d0cbf48c20e528d8c8495cc231002
+// gist token => 2076c5f4c12c0517648c0d50bff12a5cd421728c
 
 
-</script>
+
+
+  </script>
 
 
 
