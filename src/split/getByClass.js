@@ -8,7 +8,7 @@
  */
 
 
-const getType = require('./getType')
+
 const getById = require('./getById')
 const forEach = require('./forEach')
 const hasClass = require('./hasClass')

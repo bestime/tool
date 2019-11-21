@@ -238,68 +238,15 @@
 
 
 
-// 结果 => 2
-demo('666', [
-  {
-    label: "111"
-  },
-  {
-    label: "222",
-    children: [
-      {
-        label: "333"
-      }
-    ]
-  },
-  {
-    label: "444",
-    children: [
-      {
-        label: "555",
-        children: [
-          {
-            label: "7777",
-            children: [
-              {
-                label: "999"
-              }
-            ]
-          },
-          {
-            label: "666"
-          },
-          {
-            label: "8888"
-          }
-        ]
-      }
-    ]
-  }
-])
-
-function demo(label, arr) {
-  let temp, res = -1;
-  (function doOneFloor(list, count) {
-    if(Array.isArray(list)) {
-      let item, a, len = list.length;
-      for(a = 0; a < len; a++) {
-        item = list[a]
-        temp = 1
-        if(item.label === label) {
-          res = count
-          break;
-        } else {
-          doOneFloor(item.children, count + temp)
-        }
-      }
-    }
-  })(arr, 0)
-  console.log('哈哈', res)
-  return res
-}
 
 // gist id => f15d0cbf48c20e528d8c8495cc231002
 // gist token => 2076c5f4c12c0517648c0d50bff12a5cd421728c
+
+
+
+
+// 外网的 => http://5be11b734c27011958.tun.guanliyuangong.com/console.php/screen/tips
+// 内网的 => http://192.168.0.224:18099/console.php/screen/tips
 
 
 
