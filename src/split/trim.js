@@ -1,9 +1,11 @@
+const getType = require('./getType')
 /**
  * 移除首尾空格
  * @param {*} str
  * @param {?:Number} pos => 1左侧, -1 右侧, undefined 两侧
  */
 function trim (str, pos) {
+  if(getType(str)==='Array') return typeof str
   str = str == null ? '' : String(str)
   switch (pos) {
     case 1: return str.replace(/^[\s\uFEFF\xA0]+/, ''); // 左侧

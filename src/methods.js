@@ -121,4 +121,5 @@ module.exports = {
   $createStyle: $createStyle,
   style: $createStyle(),
   write: require('./split/write'),
+  array: require('./split/array'),
 };
