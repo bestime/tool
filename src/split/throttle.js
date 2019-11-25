@@ -23,6 +23,7 @@ function throttle (opt) {
     
     return function () {
       var now = +new Date()
+      clearTimeout(timer3)
       if((isFirstWork) || now - last > delay) {
         // 此时可执行
         isFirstWork = false
@@ -34,15 +35,14 @@ function throttle (opt) {
         if(needWait > 0 && isFunction(opt.onFast)){
           opt.onFast.apply(this, [needWait])
         }
-      }
 
-      // 最后停了之后是否执行，有些情况是需要最后一次执行的
-      // debounce 不能满足需求，所以加了这个接口
-      if (isLastWork) {
-        clearTimeout(timer3)
-        timer3 = setTimeout(function () {
-          handle.apply(this, arguments)
-        }, delay)
+        // 最后停了之后是否执行，有些情况是需要最后一次执行的
+        // debounce 不能满足需求，所以加了这个接口
+        if (isLastWork) {
+          timer3 = setTimeout(function () {
+            handle.apply(this, arguments)
+          }, delay)
+        }
       }
     }
   }
