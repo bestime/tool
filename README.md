@@ -27,3 +27,50 @@ git reset --hard FETCH_HEAD
 git checkout -b <branch>
 ```
 
+
+
+### 目录 <http://192.168.0.224:100/>
+- `bestime`
+  - `app`
+   - `activity_details` 活动
+   - `bscreen` 背屏
+   - `huodong_01` 活动
+   - `liuyan` 留言板
+   - `molika` 魔力卡
+   - `netbar-privilege` 网吧游戏特权
+   - `paihang` 排行榜
+   - `pop1` 弹框01
+   - `pop2` 弹框02
+   - `pop3` 弹框03
+   - `staff` 员工评价
+   - `tm_card_guide` TM刷卡引导
+   - `wb-0312` 旧控制台，没用了
+   - `wins` 连胜活动
+   - `yxzt` 游戏状态
+  - `console` 控制台
+  - `desktop` 桌面
+  - `HBuilder` app相关
+  - `pages`
+    - `daily` 经营日报
+    - `DataMonitor` 注册数据统计
+    - `wx_phone` 微信绑定手机
+    - `wxtable0302` 微信统计
+  - `public` 公共资源对应svn
+  - `WeChat`
+    - `taizhuo3` 台桌小程序
+- `console-slide` 控制台侧栏
+- `ginkgo.network` app
+- `lynn` 元元
+- `lzx` 刘志鑫
+- `plugins` 一些插件
+- `san-TFT` 云顶之弈工具
+- `TFT_Dialog`
+- `TFT_h5`
+- `TM_h5`
+- `拉客猫`
+  - `invite-cat-desk`
+- `商超小程序`
+- `徐瑶`
+- `约晴`
+- `云顶之弈工具官网`
+

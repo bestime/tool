@@ -1,1 +1,1 @@
-ns.updateWebVersion('version', 'v6')
+ns.updateWebVersion('t', 'v6')
