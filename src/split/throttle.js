@@ -49,8 +49,4 @@ function throttle (opt) {
 }
 
 
-
-
-
-
 module.exports = throttle

@@ -14,7 +14,7 @@ module.exports = {
   symbolNumber: require('./split/symbolNumber'),
   addClass: require('./split/addClass'),
   average: require('./split/average'),
-  barCode: require('./split/barCode'),
+  barCode: require('./split/barCode'), // 意义不大，考虑移除
   bind: require('./split/bind'),
   clone: require('./split/clone'),
   convertTime: require('./split/convertTime'),
@@ -42,10 +42,10 @@ module.exports = {
   isPhone: require('./split/isPhone'),
   isString: require('./split/isString'),
   loading: require('./split/loading'),
-  numberMax: require('./split/numberMax'),
-  numberMin: require('./split/numberMin'),
+  numberMax: require('./split/numberMax'), // 意义不大，考虑移除
+  numberMin: require('./split/numberMin'), // 意义不大，考虑移除
   onDomRoll: require('./split/onDomRoll'),
-  Parabola: require('./split/Parabola'),
+  Parabola: require('./split/Parabola'), 
   prevent: require('./split/prevent'),
   removeClass: require('./split/removeClass'),
   removeCookie: require('./split/removeCookie'),
@@ -56,8 +56,8 @@ module.exports = {
   unique: require('./split/unique'),
   throttle: require('./split/throttle'),
   debounce: require('./split/debounce'),
-  FunctionOnce: require('./split/FunctionOnce'),
-  FunctionConfirm: require('./split/FunctionConfirm'),
+  FunctionOnce: require('./split/FunctionOnce'), // 意义不大，考虑移除
+  FunctionConfirm: require('./split/FunctionConfirm'), // 意义不大，考虑移除
   FunctionLoop: require('./split/FunctionLoop'),
   getNowTime: require('./split/getNowTime'),
   zero: require('./split/zero'),
@@ -77,7 +77,7 @@ module.exports = {
   onlyOneAddClass: require('./split/onlyOneAddClass'),
   replaceCustom: require('./split/replaceCustom'),
   Pager: require('./split/Pager'),
-  numberLimit: require('./split/numberLimit'),
+  numberLimit: require('./split/numberLimit'), // 意义不大，考虑移除
   trim: require('./split/trim'),
   toggleClass: require('./split/toggleClass'),
   clean: require('./split/clean'),

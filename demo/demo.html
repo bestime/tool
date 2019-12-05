@@ -220,58 +220,16 @@
 
 
 
+const user = demo('回复@@@<{"name": "张三"}>@@@:不错')
+console.log('user', user)
 
-
-
-
-
-
-
-
-
-
-
-
-
-console.log(888, ns.replaceCustom({
-  value: 'abcdefg',
-  start: 20,
-  end: 0,
-  mark: '***'
-}))
-
-
-
-
-
-
-
-
-
-
-// gist id => f15d0cbf48c20e528d8c8495cc231002
-// gist token => 2076c5f4c12c0517648c0d50bff12a5cd421728c
-
-
-
-
-// 外网的 => http://5be11b734c27011958.tun.guanliyuangong.com/console.php/screen/tips
-// 内网的 => http://192.168.0.224:18099/console.php/screen/tips
-
-
-// 404f971643f74af5
-
-console.log(ns.array.replenish([{name: '张三'}], 4))
-
-
-
-
-
-
-
-
-
-
+function demo (str) {
+  let item = {};
+  str.replace(/(@@@<)(.*?)(>@@@)/, function (g, $1, $2, $3) {
+    try { item = JSON.parse($2) } catch (e) {}
+  })
+  return item
+}
 
   </script>
 
