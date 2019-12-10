@@ -37,25 +37,27 @@ Bus.prototype.create = function (customeid, name, handle, isOnce, onlyOne) {
 // 事件触发
 Bus.prototype.emit = function (name) {  
   var data = []
-  var isSuccess = false;
+  var isSuccess = false, tempHandle;
   for(var a = 1, len = arguments.length; a < len; a++) {
     data.push(arguments[a])
-  }  
+  }
   switch (getType(this.events[name])) {
     case 'Object':
       this.events[name].handle.apply(this.events[name], data)
-      if(this.events[name].isOnce) {
+      if(isObject(this.events[name]) && this.events[name].isOnce) {
         delete this.events[name]
       }
       isSuccess = true
       break;
     case 'Array':
       for(var a = this.events[name].length-1; a >= 0; a--) {
-        var item = this.events[name][a]
-        item.handle.apply(item, data)
-        isSuccess = true
-        if(item.isOnce) {
-          this.events[name].splice(a, 1)
+        if(isObject(item)) {
+          var item = this.events[name][a]
+          item.handle.apply(item, data)
+          isSuccess = true
+          if(item.isOnce) {
+            this.events[name].splice(a, 1)
+          }
         }
       }
       break;

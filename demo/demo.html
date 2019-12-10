@@ -220,16 +220,21 @@
 
 
 
-const user = demo('回复@@@<{"name": "张三"}>@@@:不错')
-console.log('user', user)
+demo()
 
-function demo (str) {
-  let item = {};
-  str.replace(/(@@@<)(.*?)(>@@@)/, function (g, $1, $2, $3) {
-    try { item = JSON.parse($2) } catch (e) {}
-  })
-  return item
+function demo () {
+  let count = 1, times, line;
+  while (count <= 7) {
+    times = 0, line = '';
+    while (times < count) {
+      line += count % 2 ? '#' : '*'
+      times++
+    }
+    console.log(line)
+    count++
+  }
 }
+
 
   </script>
 
