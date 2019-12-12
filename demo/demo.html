@@ -220,20 +220,31 @@
 
 
 
-demo()
-
-function demo () {
-  let count = 1, times, line;
-  while (count <= 7) {
-    times = 0, line = '';
-    while (times < count) {
-      line += count % 2 ? '#' : '*'
-      times++
-    }
-    console.log(line)
-    count++
+var _String = ns._String
+function _Url (url, prefix) {
+  url = _String(url)
+  prefix = _String(prefix)
+  if(!/https?:\/\//.test(url)) {
+    url = prefix +'/' +url
   }
+  var isFull = false
+  url = url.replace(/(.*\w+\.\w+?(?=\/))(.*)/g, function (g, $1, $2) {
+    $1 = !$1 ? '' : $1.replace(/\/\/+/g, '//')
+    $2 = !$2 ? '' : $2.replace(/\/+/g, '/')
+    isFull = true
+    return $1 + $2
+  })
+  url = isFull ? url : url.replace(/\/+/g, '/').replace(/\.{3,}/, '..')
+  return url
 }
+
+_Url('///a//b/c', 'http://www.baudu.com')
+_Url('///a//b/c', '/')
+_Url('///a//b/c', './')
+_Url('a//b/c', 'http://www.baudu.com')
+_Url('//at.alicdn.com/t/font_1272829_fqvuz0qj10n.eot')
+_Url('images/yq-1.png', '/')
+_Url('images/yq-1.png', '..../../../')
 
 
   </script>

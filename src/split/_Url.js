@@ -10,9 +10,16 @@ function _Url (url, prefix) {
   url = _String(url)
   prefix = _String(prefix)
   if(!/https?:\/\//.test(url)) {
-    prefix = prefix.replace(/\/+$/, '')
-    url = prefix + url.replace(/^\/\/+/, '')
+    url = prefix +'/' +url
   }
+  var isFull = false
+  url = url.replace(/(.*\w+\.\w+?(?=\/))(.*)/g, function (g, $1, $2) {
+    $1 = !$1 ? '' : $1.replace(/\/\/+/g, '//')
+    $2 = !$2 ? '' : $2.replace(/\/+/g, '/')
+    isFull = true
+    return $1 + $2
+  })
+  url = isFull ? url : url.replace(/\/+/g, '/').replace(/\.{3,}/, '..')
   return url
 }
 
