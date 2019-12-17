@@ -1,5 +1,6 @@
 const getType = require('./getType')
 const _Array = require('./_Array')
+const isObject = require('./isObject')
 
 function Bus () {
   this.events = {}; // 事件存放中心
@@ -51,8 +52,8 @@ Bus.prototype.emit = function (name) {
       break;
     case 'Array':
       for(var a = this.events[name].length-1; a >= 0; a--) {
+        var item = this.events[name][a]
         if(isObject(item)) {
-          var item = this.events[name][a]
           item.handle.apply(item, data)
           isSuccess = true
           if(item.isOnce) {
