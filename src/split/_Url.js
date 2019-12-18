@@ -19,6 +19,7 @@ function _Url (url, prefix) {
     isFull = true
     return $1 + $2
   })
+  // 相对路径
   url = isFull ? url : url.replace(/\/+/g, '/').replace(/\.{3,}/, '..')
   return url
 }
