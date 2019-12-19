@@ -92,8 +92,8 @@ module.exports = {
   reduce: require('./split/reduce'),
   scrollToElement: require('./split/scrollToElement'),
   scrollToBottom: require('./split/scrollToBottom'),
-  ContainerFollowMouse: require('./split/ContainerFollowMouse'),
-  DomMouse: require('./split/DomMouse'),
+  ContainerFollowMouse: require('./split/ContainerFollowMouse'), // 考虑移除
+  DomMouse: require('./split/DomMouse'),  // 考虑移除
   ArrayDelete: require('./split/ArrayDelete'),
   setStorage: require('./split/setStorage'),
   getStorage: require('./split/getStorage'),
