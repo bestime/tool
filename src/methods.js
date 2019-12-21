@@ -122,4 +122,6 @@ module.exports = {
   style: $createStyle(),
   write: require('./split/write'),
   array: require('./split/array'),
+  pcScroll: require('./split/pcScroll'),
+  
 };
