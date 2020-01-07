@@ -5,8 +5,10 @@ const _String = require('./_String')
 const _Number = require('./_Number')
 const _Boolean = require('./_Boolean')
 
+
+
 function defaultType (type, data) {
-  let res = ''
+  let res = data
   switch (type) {
     case 'Function': res = _Function(data); break;
     case 'Object': res = _Object(data); break;

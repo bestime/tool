@@ -66,15 +66,13 @@ function pcScroll (opt) {
   }, 30)
   
   mouseWheel(el, function (dir) {
-    if(oContent.offsetHeight<=el.offsetHeight) return;
-    if(!canScroll) return;
+    if(!canScroll || oContent.offsetHeight < el.offsetHeight) return;
     maxBarDis = oScrollBarWrapper.offsetHeight - oScrollInner.offsetHeight
     var goBarDis =  120 / (oContent.offsetHeight - el.offsetHeight) * maxBarDis
-    if(diff<0 || diff > maxBarDis) return;
     diff = diff - dir * goBarDis
-    if(diff<0) {
+    if(diff < 0) {
       diff = 0
-    } else if(diff >= maxBarDis) {
+    } else if(diff > maxBarDis) {
       diff = maxBarDis
     }
     toMove()

@@ -123,5 +123,7 @@ module.exports = {
   write: require('./split/write'),
   array: require('./split/array'),
   pcScroll: require('./split/pcScroll'),
-  
+  JSONPARSE: require('./split/JSONPARSE'),
+  $null: require('./split/$null'),
+  CreateToast: require('./split/CreateToast'),
 };

@@ -1,5 +1,5 @@
-const getType = require('./getType')
-const name = 'Object'
+var JSONPARSE = require('./JSONPARSE')
+var isObject = require('./isObject')
 
 /**
  * 强制转换json
@@ -7,6 +7,12 @@ const name = 'Object'
  * @param {*} def 默认数据，如果data不是json，返回此数据
  */
 module.exports = function (data, def) {
-  const temp = getType(def) === name ? def : {}
-  return getType(data) === name ? data : temp
+  var res = data
+  if(!isObject(res)) {
+    res = JSONPARSE(res)
+    if(!isObject(res)) {
+      res = isObject(def) ? def : {}
+    }
+  }
+  return res
 }

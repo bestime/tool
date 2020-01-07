@@ -1,7 +1,7 @@
 const isArray = require('./isArray')
 const forEach = require('./forEach')
 const trim = require('./trim')
-const _String = require('./_String')
+const hasClass = require('./hasClass')
 
 /**
  * 修改元素 className, 没有就添加
@@ -14,7 +14,6 @@ function updateClass (el, oldVal, newVal) {
   var className = el.className, exitMap = {};
   oldVal = isArray(oldVal) ? oldVal : [oldVal]
   newVal = isArray(newVal) ? newVal : [newVal]
-  var findOne, oneNewName;
 
   // 去重
   for(var a = newVal.length - 1; a >= 0; a--) {
@@ -25,16 +24,13 @@ function updateClass (el, oldVal, newVal) {
     }
   }
   
-  forEach(oldVal, function (item, index) {
-    findOne = false
-    oneNewName = _String(newVal[index])
-    className = className.replace(new RegExp('(\\s|^)' + trim(item) + '(\\s|$)'), function (nouse, $1, $2) {
-      findOne = true
-      return $1 + oneNewName + $2
-    })
+  forEach(oldVal, function (item) {
+    className = className.replace(new RegExp('(\\s|^)' + trim(item) + '(\\s|$)'), '')
+  })
 
-    if(!findOne) {
-      className += ' ' + oneNewName
+  forEach(newVal, function (item) {
+    if(!hasClass(className, item)) {
+      className = className + ' ' + item
     }
   })
 

@@ -194,29 +194,41 @@
     }
 
     ns.removeClass(document.getElementById('sbgs12'), 'some')
-    ns.onDomRoll(document.getElementById('test'))
+  
     function scrollToBottom01() {
       ns.scrollToBottom(document.getElementById('test'))
     }
 
     ns.ready(function () {
-      // ns.dialog({
-      //   msg: '开始卡',
-      //   // oFather: document.getElementById('use-main-wrapper'),
-      //   zIndexBase: 99999,
-      //   closed: function (type) {
-      //     // alert(type)
-      //   },
-      //   startClose: function (next) {
-      //     next(false, '关闭失败')
-      //   }
-      // })
+      ns.onDomRoll(document.getElementById('test'), {
+        onBottom: function (next) {
+          console.log('到底了')
+          next()
+        }
+      })
     })
     // 上十字 => 右下，上左，面逆，上右，面顺，右上
     // 鱼头 => 右下，上右，右上，右下，上右右，右上
   </script>
 
 
+
+
+
+
+
+
+
+<script>
+
+demo('<img src="https://domain/1.jpg" data-origin="oss" alt="测试" /><img  data-origin="oss" src="https://domain/2.jpg" />')
+
+function demo (str) {
+  res = str.match(/([^= ]*)=([^= ]*)/g)
+  console.log('结果：', res)
+}
+
+</script>
 
 
 

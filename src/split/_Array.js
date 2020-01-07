@@ -1,6 +1,15 @@
 var isArray = require('./isArray')
+var JSONPARSE = require('./JSONPARSE')
 
-module.exports = function (data, def) {
-  const temp = isArray(def) ? def : []
-  return isArray(data) ? data : temp  
+function _Array (data, def) {
+  var res = data
+  if (!isArray(data)) {
+    res = JSONPARSE(data)
+    if(!isArray(res)) {
+      res = isArray(def) ? def : []
+    }
+  }
+  return res
 }
+
+module.exports = _Array
