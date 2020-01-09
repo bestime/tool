@@ -1,7 +1,6 @@
 const _String  = require('./_String')
 const _Number  = require('./_Number')
 const _Function  = require('./_Function')
-const _Object  = require('./_Object')
 const removeClass  = require('./removeClass')
 const getByClass  = require('./getByClass')
 const addClass  = require('./addClass')

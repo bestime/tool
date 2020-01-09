@@ -18,7 +18,6 @@
     #wrapper{
       width: 500px;
       height: 400px;
-      border:red solid 1px;
       
     }
 
@@ -39,50 +38,142 @@
 
 </style>
 <body>
+  <button onclick="add()">添加一条</button>
   <div id="wrapper">
-    <div id="content">
-      <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li><li>1</li>
-        <li>2</li>
-        <li>3</li><li>1</li>
-        <li>2</li>
-        <li>3</li><li>1</li>
-        <li>2</li>
-        <li>3</li><li>1</li>
-        <li>2</li>
-        <li>3</li><li>1</li>
-        <li>2</li>
-        <li>3</li><li>1</li>
-        <li>2</li>
-        <li>3</li><li>1</li>
-        <li>2</li>
-        <li>3</li><li>1</li>
-        <li>2</li>
-        <li>3</li><li>1</li>
-        <li>2</li>
-        <li>3</li><li>1</li>
-        <li>2</li>
-        <li>3</li><li>1</li>
-        <li>2</li>
-        <li>3</li>
+    <div id="content" style="background: #bdabff;overflow:hidden;">
+      <ul id="ul">
+        
       </ul>
     </div>
   </div>
 
-
+<script>
+var num = 0;
+for(var a=0; a<20; a++) {
+  add()
+}
+function add () {
+  document.getElementById('ul').innerHTML += '<li>'+ ++num +'</li>'
+}
+</script>
 
 
 <script>
+
+var _Object = ns._Object
+var addClass = ns.addClass
+var removeClass = ns.removeClass
+var bind = ns.bind
+var unbind = ns.unbind
+var getConfig = ns.getConfig
+var setConfig = ns.setConfig
+var _Number = ns._Number
+var NAME = 'jcy-pc-scroll'
+function pcScroll (opt) {
+  var id = _Number(getConfig(NAME)) + 1
+  setConfig(NAME, id)
+  id = NAME + id
+  opt = _Object(opt)
+  var el = opt.el
+  var oContent = opt.oContent
+  var scrollBarFade = opt.scrollBarFade === false ? false : true
+
+  
+  
+  var timer, y0=0, maxBarTop=0, barHeight, barTop=0, oViewHeight=0, scrollHeight=0, isPressing, isIn;
+  addClass(el, NAME)
+  // addClass(oContent, NAME + '-content')
+  var oScroll = document.createElement('div')
+  oScroll.className = NAME + '-main'
+  oScroll.appendChild(oContent)
+
+  var oScrollBar = document.createElement('div')
+  oScrollBar.className = NAME + '-bar-wrapper'
+  oScrollBar.innerHTML = '<b class="'+ NAME +'-bar-inner"></b>'
+
+  el.appendChild(oScroll)
+  el.appendChild(oScrollBar)
+  var oInnerBar = oScrollBar.getElementsByTagName('b')[0]
+  
+  function update () {
+    oViewHeight = oScroll.offsetHeight - 17
+    scrollHeight = oScroll.scrollHeight
+    if(oViewHeight<scrollHeight) {
+      barHeight = oViewHeight / scrollHeight * oViewHeight
+      oInnerBar.style.height = barHeight + 'px'
+      maxBarTop = oViewHeight - barHeight
+      barTop = oScroll.scrollTop / scrollHeight * oViewHeight
+      oInnerBar.style.top = barTop  + 'px'
+      addClass(el, 'show')
+    } else {
+      removeClass(el, 'show')
+    }
+  }
+  oInnerBar.onmousedown = function (ev) {
+    ev = ev || window.event
+    y0 = ev.clientY -  barTop
+    isPressing = true
+    clearTimeout(timer)
+    bind(document, id, 'mousemove', function (ev) {
+      ev = ev || window.event
+      barTop =  ev.clientY - y0
+      if(barTop < 0) {
+        barTop = 0
+      } else if(barTop > maxBarTop) {
+        barTop = maxBarTop
+      }
+      oScroll.scrollTop = barTop / oViewHeight * scrollHeight
+    })
+    bind(document, id, 'mouseup', clearEvent)
+  }
+
+  oScroll.onscroll = function () {
+    update()
+  }
+
+  el.onmouseenter = function () {
+    clearTimeout(timer)
+    isIn = true
+    update()
+    if(scrollBarFade) {
+      addClass(el, 'in')
+    }
+  }
+
+  el.onmouseleave = function () {
+    isIn = false
+    if(!isPressing) {
+      hideScrollBar()
+    }
+  }
+
+  if (scrollBarFade) {
+    addClass(el, 'fade')
+  } else {
+    update()
+  }
+
+  function clearEvent () {
+    if(!isIn) {
+      hideScrollBar()
+    }
+    isPressing = false
+    unbind(document, id, 'mouseup')
+    unbind(document, id, 'mousemove')
+  }
+
+  function hideScrollBar(){
+    timer = setTimeout(function () {
+      removeClass(el, 'in')
+    }, 400)
+  }
+}
+
 ns.ready(function () {
-  ns.pcScroll({
+  pcScroll({
     el: document.getElementById('wrapper'),
     oContent: document.getElementById('content'),
-    scrollBarFade: false,
+    scrollBarFade: true,
   })
 })
 </script>

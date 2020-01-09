@@ -1,3 +1,5 @@
+/* stylus -w ./css/bestime.styl -o ./css/bestime.css */
+
 /* 拖拽 start */
 .bt-drag{position:absolute !important;z-index:20;margin:0 !important;padding:0 !important;}
 .bt-drag-body{position:fixed !important;}
@@ -25,101 +27,88 @@
 
 
 
-.dialog-wrapper-19 .dig-bg{
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.4);
-  visibility: hidden;
-  opacity: 0;
-  -webkit-opacity: 0;
-}
+.dialog-wrapper-19
+  .dig-bg
+    position absolute
+    left 0
+    right 0
+    top 0
+    bottom 0
+    background rgba(0,0,0,0.4)
+    visibility hidden
+    opacity 0
+  .dig-content
+    visibility hidden
+    left 50%
+    top 50%
+    background #fff
+    min-width 300px
+    max-width 80%
+    display inline-block
+    border-radius 5px
+    opacity 0
+    transform scale(0.5)
+    box-shadow 0 0 40px rgba(0,0,0,0.4)
 
-.dialog-wrapper-19 .dig-content{
-  visibility: hidden;
-  left: 50%;
-  top: 50%;
-  background: #fff;
-  min-width: 300px;
-  max-width: 80%;
-  display: inline-block;
-  border-radius: 5px;
-  opacity: 0;
-  -webkit-opacity: 0;
-  transform: scale(0.5);
-  -webkit-transform: scale(0.5);
-  box-shadow: 0 0 80px rgba(0,0,0,0.3);
-  -webkit-box-shadow: 0 0 80px rgba(0, 0, 0, 0.3);
-}
-
-.dialog-wrapper-19.show .dig-bg{
-  opacity: 1;
-  -webkit-opacity: 1;
-  transition: 0.3s;
-  -webkit-transition: 0.3s;
-}
-
-.dialog-wrapper-19.show .dig-content{
-  opacity: 1;
-  -webkit-opacity: 1;
-  transition: 0.3s cubic-bezier(0.245, 0.890, 0.175, 1.210);
-  -webkit-transition: 0.3s cubic-bezier(0.245, 0.890, 0.175, 1.210);
-  transform: scale(1);
-  -webkit-transform: scale(1);
-}
-
-.dialog-wrapper-19.start-close .dig-content {
-  transition: 0.3s cubic-bezier(0.850, -1.1, 0.540, 1.650);
-  -webkit-transition: 0.3s cubic-bezier(0.850, -1.1, 0.540, 1.650);
-}
-
-.dialog-wrapper-19.start-close .dig-bg {
-  transition: 0.3s;
-  -webkit-transition: 0.3s;
-}
-
-.dialog-wrapper-19 .dig-top {
-  padding: 12px 15px;
-  font-size:14px;
-  color:#444;
-  border-bottom:#f9f9f9 solid 1px;
-}
-.dialog-wrapper-19 .dig-msg-box {
-  font-size:14px;
-  padding: 15px;
-  color:#999;
-  overflow: auto;
-  font-weight: normal;
-  word-break: break-all;
-}
-.dialog-wrapper-19 .dig-btn-box {
-  text-align:right;
-  padding: 10px 10px 10px 0;
-  border-top:#f9f9f9 solid 1px;
-  font-size: 0;
-}
-
-.dialog-wrapper-19 .dig-btn-box a{
-  display: inline-block;
-  font-size: 12px;
-  padding: 5px 15px;
-  background:#e7e7e7;
-  color:#a7a7a7;
-  font-weight: normal;
-  cursor:pointer;
-  margin-left: 10px;
-}
-.dialog-wrapper-19 .dig-btn-box a.confirm{
-  background:#136b78;
-  color:#fff;
-  
-}
-
-.dig-hide-scroll {
-  overflow: hidden;
-}
+  &.show
+    .dig-bg
+      opacity: 1;
+      transition: 0.3s;
+    .dig-content
+      opacity: 1;
+      transition: 0.3s cubic-bezier(0.245, 0.890, 0.175, 1.210);
+      transform: scale(1);
+  &.start-close
+    .dig-content
+      transition 0.3s cubic-bezier(0.850, -1.1, 0.540, 1.650)
+    .dig-bg 
+      transition 0.3s
+  .dig-top
+    padding: 30px 15px 12px 15px;
+    font-size:16px;
+    color:#333;
+    text-align center
+  .dig-msg-box
+    font-size:14px;
+    padding: 15px;
+    color:#666;
+    overflow: auto;
+    font-weight: normal;
+    word-break: break-all;
+    text-align center
+  .dig-btn-box 
+    text-align right
+    font-size 0
+    text-align center
+    display flex
+    border-radius 0 0 5px 5px
+    overflow hidden
+    border-top #f9f9f9 solid 1px
+    user-select none
+    margin-top 10px
+    a
+      flex 1
+      display inline-block
+      font-size 14px
+      padding 16px 0
+      text-align center
+      font-weight normal
+      cursor pointer
+      color #666
+      transition 0.1s
+      &:hover
+        background #f9f9f9
+      &:active
+        background #eee
+        border-color #eee
+    .close-btn
+      border-right #f9f9f9 solid 1px
+    .confirm
+      color #409eff
+      font-weight bold
+    
+.dig-hide-scroll
+  overflow hidden
 
 .bt-notice-wrapper{
   position:fixed;
@@ -349,14 +338,13 @@
     padding 0
     opacity 0
     transition 0.2s
-    z-index 500
+    z-index 999999999999
   .bg
     left 0
     top 0
     bottom 0
     right 0
     background rgba(0,0,0,0)
-    visibility hidden
   .content
     background rgba(0,0,0,0.7)
     color #fff
@@ -385,7 +373,8 @@
     .ld-wrapper
       margin-bottom 10px
   &.hidden
-    visibility hidden
+    .content, .bg
+      visibility hidden
   &.open
     .content
       visibility visible
@@ -402,150 +391,122 @@
 
 
 
-@-webkit-keyframes jcy-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes jcy-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@-webkit-keyframes jcy-fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-@keyframes jcy-fade-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-@-webkit-keyframes jcy-rotate {
-  from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
-}
-@keyframes jcy-rotate {
-  from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
-}
 
-.jcy-loading {
-  position: relative;
-  color: #fff;
-  font-size: 0;
-  vertical-align: middle;
-  display: inline-block;
-}
-.jcy-loading__spinner {
-  position: relative;
-  display: inline-block;
-  width: 40px;
-  max-width: 100%;
-  height: 40px;
-  max-height: 100%;
-  vertical-align: middle;
-  -webkit-animation: jcy-rotate 0.8s linear infinite;
-          animation: jcy-rotate 0.8s linear infinite;
-}
-.jcy-loading__spinner--spinner {
-  -webkit-animation-timing-function: steps(12);
-          animation-timing-function: steps(12);
-}
-.jcy-loading__spinner--spinner i {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.jcy-loading__spinner--spinner i::before {
-  display: block;
-  width: 2px;
-  height: 25%;
-  margin: 0 auto;
-  background-color: currentColor;
-  border-radius: 40%;
-  content: ' ';
-}
-.jcy-loading__spinner--circular {
-  -webkit-animation-duration: 2s;
-          animation-duration: 2s;
-}
-.jcy-loading__circular {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.jcy-loading__circular circle {
-  -webkit-animation: jcy-circular 1.5s ease-in-out infinite;
-          animation: jcy-circular 1.5s ease-in-out infinite;
-  stroke: currentColor;
-  stroke-width: 3;
-  stroke-linecap: round;
-}
-.jcy-loading--vertical {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-}
-@-webkit-keyframes jcy-circular {
-  0% {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -40;
-  }
-  100% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -120;
-  }
-}
-@keyframes jcy-circular {
-  0% {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -40;
-  }
-  100% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -120;
-  }
-}
+
+
+
+
+
+
+
+
+
+
+
+/** loading-start **/
+@keyframes jcy-rotate
+  from
+    transform rotate(0deg)
+  to
+    transform rotate(360deg)
+
+.jcy-loading 
+  position relative
+  color #fff
+  font-size 0
+  vertical-align middle
+  display inline-block
+
+.jcy-loading__spinner
+  position relative
+  display inline-block
+  width 40px
+  height 40px
+  max-width 100%
+  max-height 100%
+  vertical-align middle
+  animation jcy-rotate 0.8s linear infinite
+
+.jcy-loading__circular
+  display block
+  width 100%
+  height 100%
+
+.jcy-loading__circular circle
+  animation jcy-circular 1.5s ease-in-out infinite
+  stroke currentColor
+  stroke-width 3
+  stroke-linecap round
+.jcy-loading--vertical
+  display flex
+  flex-direction column
+  align-items center
+@keyframes jcy-circular
+  0%
+    stroke-dasharray 1, 200
+    stroke-dashoffset  0
+  50%
+    stroke-dasharray 90, 150
+    stroke-dashoffset -40
+  100%
+    stroke-dasharray 90, 150
+    stroke-dashoffset -120
+/** loading-end **/
+
+
+
+.jcy-pc-scroll, 
+.jcy-pc-scroll-main
+  margin 0
+  border none
+  padding 0
+.jcy-pc-scroll
+  position relative
+  overflow hidden
+  ::-webkit-scrollbar
+    width 17px
+    height 17px
+  ::-webkit-scrollbar-thumb
+    background #000
+  &.fade
+    .jcy-pc-scroll-bar-wrapper
+      opacity 0
+    &.in
+      .jcy-pc-scroll-bar-wrapper
+        opacity 1
+  &.show
+    .jcy-pc-scroll-bar-wrapper
+      visibility visible
+.jcy-pc-scroll-main
+  overflow scroll
+  position absolute
+  margin-right -17px
+  bottom -17px
+  top 0
+  right 0
+  left 0
+.jcy-pc-scroll-bar-wrapper
+  visibility hidden
+  position absolute
+  right 2px
+  top 0
+  bottom 0
+  width 6px
+  user-select none
+  transition 0.2s
+.jcy-pc-scroll-bar-inner
+  position absolute
+  right 0
+  left 0
+  background rgba(0,0,0,0.2)
+  cursor pointer
+  border-radius 8px
+  transition opacity 0.15s,background 0.15s
+  box-shadow 0 0 0 1px rgba(255,255,255,1)
+  &:hover
+    background rgba(0,0,0,0.5)
+  &:active
+    background rgba(0,0,0,1)
+  
+  
+
