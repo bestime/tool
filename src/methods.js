@@ -41,7 +41,7 @@ module.exports = {
   isObject: require('./split/isObject'),
   isPhone: require('./split/isPhone'),
   isString: require('./split/isString'),
-  loading: require('./split/loading'),
+  loading: require('./split/loading'), // 考虑移除
   numberMax: require('./split/numberMax'), // 意义不大，考虑移除
   numberMin: require('./split/numberMin'), // 意义不大，考虑移除
   onDomRoll: require('./split/onDomRoll'),

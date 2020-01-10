@@ -143,7 +143,7 @@ var confirmHtml = '<a class="confirm">'+ (opt.confirmText ? opt.confirmText : 'ç
       }
     }
   }
-
+  oContent.style['position'] = positionCss
   oMsg.style['max-height'] = getSize().height - 200 + 'px'
   setTimeout(function () {
     oContent.style['width'] = oContent.offsetWidth + 'px'
@@ -151,7 +151,7 @@ var confirmHtml = '<a class="confirm">'+ (opt.confirmText ? opt.confirmText : 'ç
     oContent.style['z-index'] = zIndexBase + id + 1
     oContent.style['margin-left'] = -oContent.offsetWidth / 2 + 'px'
     oContent.style['margin-top'] = -oContent.offsetHeight / 2 + 'px'
-    oContent.style['position'] = positionCss
+    
     setTimeout(function () {
       addClass(el, 'show')
       oBg.style['visibility'] = 'visible'

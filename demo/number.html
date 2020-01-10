@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>只能输入数字</title>
+  <style>
+    .demo {
+      width: 400px;
+      height: 250px;
+      border:green solid 1px;
+    }
+  </style>
+</head>
+<body>  
+  <div id="editor" class="demo" contenteditable=true></div>
+  <script>
+    document.getElementById('editor').oninput = function () {
+      this.innerHTML = this.innerHTML.replace(/[\D]/g, '')
+      keepLastIndex(this)
+    }
+    function keepLastIndex(obj) {
+      if (window.getSelection) {
+        obj.focus();
+        var range = window.getSelection();
+        range.selectAllChildren(obj);
+        range.collapseToEnd();
+      }
+      else if (document.selection) {
+        var range = document.selection.createRange();
+        range.moveToElementText(obj);
+        range.collapse(false);
+        range.select();
+      }
+    }
+  </script>
+</body>
+</html>
+

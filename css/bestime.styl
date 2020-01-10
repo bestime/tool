@@ -43,7 +43,6 @@
     visibility hidden
     opacity 0
   .dig-content
-    visibility hidden
     left 50%
     top 50%
     background #fff
@@ -54,6 +53,7 @@
     opacity 0
     transform scale(0.5)
     box-shadow 0 0 40px rgba(0,0,0,0.4)
+    visibility hidden
   &.show
     .dig-bg
       opacity: 1;
@@ -257,6 +257,7 @@
     opacity 0
     transition 0.2s
     z-index 999999999999
+    visibility hidden
   .bg
     left 0
     top 0
@@ -290,9 +291,7 @@
       min-height 120px
     .ld-wrapper
       margin-bottom 10px
-  &.hidden
-    .content, .bg
-      visibility hidden
+      
   &.open
     .content
       visibility visible

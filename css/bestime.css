@@ -83,7 +83,6 @@
   opacity: 0;
 }
 .dialog-wrapper-19 .dig-content {
-  visibility: hidden;
   left: 50%;
   top: 50%;
   background: #fff;
@@ -94,6 +93,7 @@
   opacity: 0;
   transform: scale(0.5);
   box-shadow: 0 0 40px rgba(0,0,0,0.4);
+  visibility: hidden;
 }
 .dialog-wrapper-19.show .dig-bg {
   opacity: 1;
@@ -291,6 +291,7 @@
   opacity: 0;
   transition: 0.2s;
   z-index: 999999999999;
+  visibility: hidden;
 }
 .jcy-toast .bg {
   left: 0;
@@ -328,10 +329,6 @@
 }
 .jcy-toast.loading .ld-wrapper {
   margin-bottom: 10px;
-}
-.jcy-toast.hidden .content,
-.jcy-toast.hidden .bg {
-  visibility: hidden;
 }
 .jcy-toast.open .content {
   visibility: visible;

@@ -7,6 +7,8 @@ var getConfig = require('./getConfig')
 var setConfig = require('./setConfig')
 var _Number = require('./_Number')
 
+var minDuration = 500 // Toast 每一次至少出现500毫秒
+
 
 
 
@@ -22,7 +24,7 @@ function CreateToast (opt) {
   el.setAttribute('data-id', id)
   el.innerHTML = '<div class="bg"></div><div class="content"></div>'
   document.body.appendChild(el)
-  var start_time = +new Date(), diff_time;
+  var start_time=0;
   var duration,
   delay,
     mask;
@@ -62,7 +64,10 @@ function CreateToast (opt) {
 
 
   function readyToShow () {
-    start_time = +new Date()
+    if(!start_time) {
+      start_time = +new Date()
+    }
+    
     timer1 = setTimeout(function () {
       addClass(el, 'open')
       if(duration) {
@@ -80,13 +85,9 @@ function CreateToast (opt) {
     clearTimeout(timer4)
   }
   function close () {
-    diff_time = +new Date() - start_time
-    duration = _Number(duration)
-    if(duration<2000) {
-      duration = 500
-    }
-    if(diff_time < duration) {
-      timer4 = setTimeout(commitClose, duration - diff_time)
+    diff_time = +new Date() - start_time  
+    if(diff_time < minDuration) {
+      timer4 = setTimeout(commitClose, minDuration - diff_time)
     } else {
       commitClose()
     }
@@ -95,6 +96,7 @@ function CreateToast (opt) {
   function commitClose () {
     removeAllTimer()
     timer3 = setTimeout(function () {
+      start_time = 0
       addClass(el, 'hidden')
       removeClass(el, ['mask', 'open'])
       oContent.innerHTML = ''

@@ -9,6 +9,7 @@ const prevent = require('./prevent')
 const getWindowSize = require('./getWindowSize')
 const setConfig  = require('./setConfig')
 const getConfig  = require('./getConfig')
+const isFunction  = require('./isFunction')
 
 /**
  * 拖拽
@@ -16,6 +17,7 @@ const getConfig  = require('./getConfig')
  *    @param {Element} opt.oHandle 拖拽触发对象
  *    @param {Element} opt.oWrapper 拖拽相应容器
  *    @param {Element} opt.oFather 拖拽父级容器，默认body 
+ *    @param {Function} opt.onChange 位置改变回调
  * @return {Object}
  *    @param {Function} updateFahter 更新父容器
  */
@@ -29,14 +31,15 @@ function drag (opt) {
   opt = _Object(opt)
   var oWrapper = opt.oWrapper;
   if(!oWrapper) throw new Error('拖拽对象无效')
-  var startX = 0,
-      startY = 0,
+  var startX = _Number(opt.x),
+      startY = _Number(opt.y),
       downX = 0,
       downY = 0;
   oWrapper.setAttribute('data-id', id)
   addClass(oWrapper, 'bt-drag')
   if(!opt.oFather) addClass(oWrapper, 'bt-drag-body')
   setZindex()
+  setPos(startX, startY)
   opt.oHandle.onmousedown = function (e) {
     var ev = e || window.event
     prevent(e)
@@ -51,7 +54,7 @@ function drag (opt) {
         var winSize = getWindowSize()
         var setX = startX + ev.clientX - downX
         var setY = startY + ev.clientY - downY
-      
+        
         if(setX<=0) {
           setX = 0
         } else {
@@ -68,15 +71,24 @@ function drag (opt) {
           if(setY > maxHeight) setY = maxHeight;
         }
         
-        oWrapper.style.left = setX + 'px'
-        oWrapper.style.top = setY + 'px'
-        oWrapper.style.bottom = 'auto'
-        oWrapper.style.right = 'auto'
+        
+        setPos(setX, setY, 'move')
+        
       } else {
         clearEvent()
       }
     })
     bind(document, id, 'mouseup', clearEvent)
+  }
+
+  function setPos (x, y, type) {
+    oWrapper.style.left = x + 'px'
+    oWrapper.style.top = y + 'px'
+    oWrapper.style.bottom = 'auto'
+    oWrapper.style.right = 'auto'
+    if(isFunction(opt.onChange)) {
+      opt.onChange(x, y, type)
+    }
   }
 
   opt.oHandle.onmouseup = clearEvent
@@ -96,6 +108,7 @@ function drag (opt) {
   }
 
   return {
+    setPos: setPos,
     updateFahter: function (newFather) {
       opt.oFather = newFather
       if(newFather) {
