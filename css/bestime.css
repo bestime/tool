@@ -1,4 +1,7 @@
-/* stylus -w ./css/bestime.styl -o ./css/bestime.css */
+/**
+ * 修改 bestime.styl 然后编译成 bestime.css
+ * stylus -w ./css/bestime.styl -o ./css/bestime.css
+ */
 /* 拖拽 start */
 .bt-drag {
   position: absolute !important;
@@ -156,7 +159,7 @@
 }
 .dialog-wrapper-19 .dig-btn-box .confirm {
   color: #409eff;
-  font-weight: bold;
+  font-weight: normal;
 }
 .dig-hide-scroll {
   overflow: hidden;
@@ -276,77 +279,6 @@
   padding: 0;
   border-radius: 0;
 }
-/** pc 滚动插件 start **/
-.vbt-pc-scroll-wrapper,
-.vbt-pc-scroll-content,
-.vbt-pc-vh-warpper {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border: none;
-}
-.vbt-pc-scroll-wrapper {
-  overflow: hidden;
-  position: relative;
-}
-.vbt-pc-scrollbar-outer,
-.vbt-pc-scrollbar-inner {
-  border-radius: 10px;
-}
-.vbt-pc-scrollbar-outer {
-  position: absolute;
-  top: 0;
-  right: 0px;
-  bottom: 0;
-  background: rgba(0,0,0,0);
-  user-select: none;
-  z-index: 2;
-  width: 10px;
-  transition: opacity 0.15s ease-out;
-  opacity: 0;
-  right: -100%;
-}
-.vbt-pc-scroll-wrapper.enter .vbt-pc-scrollbar-outer {
-  opacity: 1;
-  right: 0px;
-}
-.vbt-pc-scroll-wrapper.disabled .vbt-pc-scrollbar-outer {
-  opacity: 0;
-  right: -100%;
-}
-.vbt-pc-vh-warpper {
-  width: 100%;
-}
-.vbt-pc-scrollbar-inner {
-  position: absolute;
-  left: 1px;
-  right: 1px;
-  top: 0;
-  background: rgba(0,0,0,0.01);
-  border: rgba(0,0,0,0.2) solid 1px;
-  cursor: pointer;
-  transition: background 0.15s, top 0.5s ease-out;
-}
-.vbt-pc-scrollbar-inner:hover {
-  background: rgba(0,0,0,0.05);
-}
-.vbt-pc-scrollbar-inner:active {
-  background: rgba(0,0,0,0.1);
-}
-.vbt-pc-scroll-wrapper.mouse-move .vbt-pc-scroll-content {
-  transition: 0s ease-out;
-}
-.vbt-pc-scroll-wrapper.mouse-move .vbt-pc-scrollbar-inner {
-  transition: background 0.15s, top 0s ease-out;
-}
-.vbt-pc-scroll-content {
-  position: relative;
-  left: 0;
-  top: 0;
-  right: 0;
-  transition: top 0.5s ease-out;
-}
-/** pc 滚动插件 end **/
 .jcy-toast {
   height: 0;
   width: 0;
@@ -474,12 +406,10 @@
 }
 .jcy-pc-scroll-main {
   overflow: scroll;
-  position: absolute;
+  overflow-x: hidden;
+  position: relative;
   margin-right: -17px;
-  bottom: -17px;
-  top: 0;
-  right: 0;
-  left: 0;
+  height: 100%;
 }
 .jcy-pc-scroll-bar-wrapper {
   visibility: hidden;
@@ -495,17 +425,17 @@
   position: absolute;
   right: 0;
   left: 0;
-  background: rgba(0,0,0,0.2);
   cursor: pointer;
   border-radius: 8px;
   transition: opacity 0.15s, background 0.15s;
-  box-shadow: 0 0 0 1px #fff;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.5);
+  background: rgba(0,0,0,0.2);
 }
 .jcy-pc-scroll-bar-inner:hover {
   background: rgba(0,0,0,0.5);
 }
 .jcy-pc-scroll-bar-inner:active {
-  background: #000;
+  background: rgba(0,0,0,0.8);
 }
 @-moz-keyframes jcy-rotate {
   from {

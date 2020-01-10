@@ -1,137 +1,107 @@
 var _Object = require('./_Object')
 var addClass = require('./addClass')
+var removeClass = require('./removeClass')
+var bind = require('./bind')
+var unbind = require('./unbind')
 var getConfig = require('./getConfig')
 var setConfig = require('./setConfig')
 var _Number = require('./_Number')
-var bind = require('./bind')
-var unbind = require('./unbind')
-var mouseWheel = require('./mouseWheel')
-var removeClass = require('./removeClass')
+
+var NAME = 'jcy-pc-scroll'
 
 function pcScroll (opt) {
   var id = _Number(getConfig(NAME)) + 1
   setConfig(NAME, id)
-  NAME += id
+  id = NAME + id
   opt = _Object(opt)
-  var NAME = 'pc-scroll'
-  var timer, tot, y0;
-  var canScroll = true; // 当内容超过容器后可以滚动
-  var scrollBarFade = opt.scrollBarFade === true ? true : false
   var el = opt.el
-  var oContent = opt.oContent
-  var elClass = ['vbt-pc-scroll-wrapper', 'disabled']
-  addClass(el, elClass)
-  addClass(oContent, 'vbt-pc-scroll-content')
-  var oScrollBarWrapper = document.createElement('div')
-  oScrollBarWrapper.className = 'vbt-pc-scrollbar-outer'
-  oScrollBarWrapper.innerHTML = '<div class="vbt-pc-scrollbar-inner"></div>'
-  el.appendChild(oScrollBarWrapper)
+  var scrollBarFade = opt.scrollBarFade === false ? false : true
   
-  var isPress, oScrollInner;
-  var diff = 0, percent = 0;
-  var oldBarHeight = 0, newBarHeight = 0;
-  // 滚动条最大移动距离
-  var maxBarDis;
-  // 移动容器
-  var maxContentDis;
-  if(scrollBarFade) {
-    el.onmouseenter = function () {
-      addClass(el, 'enter')
+  var timer, y0=0, maxBarTop=0, barHeight, barTop=0, oViewHeight=0, scrollHeight=0, isPressing, isIn;
+  addClass(el, NAME)
+  var oScroll = document.createElement('div')
+  var oScrollBar = document.createElement('div')
+
+  oScroll.className = NAME + '-main'
+  oScrollBar.className = NAME + '-bar-wrapper'
+  oScrollBar.innerHTML = '<b class="'+ NAME +'-bar-inner"></b>'
+
+  oScroll.appendChild(opt.oContent)
+  el.appendChild(oScroll)
+  el.appendChild(oScrollBar)
+  var oInnerBar = oScrollBar.getElementsByTagName('b')[0]
+  
+  function update () {
+    oViewHeight = oScroll.offsetHeight
+    scrollHeight = oScroll.scrollHeight
+    if(oViewHeight<scrollHeight) {
+      barHeight = oViewHeight / scrollHeight * oViewHeight
+      oInnerBar.style.height = barHeight + 'px'
+      maxBarTop = oViewHeight - barHeight
+      barTop = oScroll.scrollTop / scrollHeight * oViewHeight
+      oInnerBar.style.top = barTop  + 'px'
+      addClass(el, 'show')
+    } else {
+      removeClass(el, 'show')
     }
-    el.onmouseleave = function () {
-      if(!isPress) {
-        removeClass(el, 'enter')
-      }
-    }
-  } else {
-    addClass(el, 'enter')
   }
-  
-  tot = setTimeout(function () {
-    oScrollInner = oScrollBarWrapper.getElementsByTagName('div')[0]
-    oScrollInner.onmousedown = function (ev) {
-      y0 = ev.clientY - diff
-      isPress = true
-      bind(document, NAME, 'mousemove', function (ev) {
-        if(ev.buttons==1) {
-          addClass(el, 'mouse-move')
-          diff = ev.clientY - y0
-          toMove()
-        } else {
-          clearEvent()
-        }
-      })
-      bind(document, NAME, 'mouseup', clearEvent)
+  oInnerBar.onmousedown = function (ev) {
+    ev = ev || window.event
+    y0 = ev.clientY -  barTop
+    isPressing = true
+    clearTimeout(timer)
+    bind(document, id, 'mousemove', function (ev) {
+      ev = ev || window.event
+      barTop =  ev.clientY - y0
+      if(barTop < 0) {
+        barTop = 0
+      } else if(barTop > maxBarTop) {
+        barTop = maxBarTop
+      }
+      oScroll.scrollTop = barTop / oViewHeight * scrollHeight
+    })
+    bind(document, id, 'mouseup', clearEvent)
+  }
+
+  oScroll.onscroll = function () {
+    update()
+  }
+
+  el.onmouseenter = function () {
+    clearTimeout(timer)
+    isIn = true
+    update()
+    if(scrollBarFade) {
+      addClass(el, 'in')
     }
-  }, 30)
-  
-  mouseWheel(el, function (dir) {
-    if(!canScroll || oContent.offsetHeight < el.offsetHeight) return;
-    maxBarDis = oScrollBarWrapper.offsetHeight - oScrollInner.offsetHeight
-    var goBarDis =  120 / (oContent.offsetHeight - el.offsetHeight) * maxBarDis
-    diff = diff - dir * goBarDis
-    if(diff < 0) {
-      diff = 0
-    } else if(diff > maxBarDis) {
-      diff = maxBarDis
+  }
+
+  el.onmouseleave = function () {
+    isIn = false
+    if(!isPressing) {
+      hideScrollBar()
     }
-    toMove()
-  })
+  }
+
+  if (scrollBarFade) {
+    addClass(el, 'fade')
+  } else {
+    update()
+  }
 
   function clearEvent () {
-    isPress = false
-    removeClass(el, 'mouse-move')
-    if(scrollBarFade) {
-      removeClass(el, 'enter')
+    if(!isIn) {
+      hideScrollBar()
     }
-    unbind(document, NAME, 'mouseup')
-    unbind(document, NAME, 'mousemove')
+    isPressing = false
+    unbind(document, id, 'mouseup')
+    unbind(document, id, 'mousemove')
   }
 
-  timer = setInterval(function () {
-    if(oContent.offsetHeight<=el.offsetHeight) {
-      // 隐藏滚动条
-      barHeight = 0
-      canScroll = false
-      addClass(el, 'disabled')
-      oContent.style.top = '0px'
-    } else {
-      canScroll = true
-      removeClass(el, 'disabled')
-      // 显示滚动条
-      newBarHeight = Math.ceil(el.offsetHeight / oContent.offsetHeight * 100)
-      if(oldBarHeight!==newBarHeight) {
-        oldBarHeight = newBarHeight
-        oScrollInner.style.height = newBarHeight + '%'
-      }
-    }
-  }, 200)
-
-  // 移动滚动条
-  function toMove () {
-    maxBarDis = oScrollBarWrapper.offsetHeight - oScrollInner.offsetHeight
-    if(diff<0) {
-      diff = 0
-    } else if(diff > maxBarDis) {
-      diff = maxBarDis
-    }
-    percent = diff / maxBarDis
-    oScrollInner.style.top = diff + 'px'
-    moveContent()
-  }
-  
-  function moveContent () {
-    maxContentDis = oContent.offsetHeight - el.offsetHeight
-    oContent.style.top = -maxContentDis * percent + 'px'
-  }
-
-  function destroy () {
-    clearInterval(timer)
-    clearTimeout(tot)
-  }
-
-  return {
-    destroy: destroy
+  function hideScrollBar(){
+    timer = setTimeout(function () {
+      removeClass(el, 'in')
+    }, 400)
   }
 }
 

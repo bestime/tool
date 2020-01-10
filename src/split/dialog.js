@@ -46,23 +46,23 @@ function dialog (opt) {
   var startClose = opt.startClose
   var closed = _Function(opt.closed)
   var onShow = _Function(opt.onShow)
+// ${!opt.cancelText ? '' : }//
 
+var cancelHtml = !opt.cancelText ? '' : '<a class="close-btn">'+ opt.cancelText +'</a>'
+var confirmHtml = '<a class="confirm">'+ (opt.confirmText ? opt.confirmText : '确定') +'</a>'
   var el = document.createElement('div')
   el.className = 'dialog-wrapper-19'
   el.setAttribute('data-id', id);
-  el.innerHTML = `
-    <div class="dig-bg"></div>
-    <div class="dig-content">
-      <div class="dig-top">
-        <p>${title}</p>
-      </div>
-      <div class="dig-msg-box">${msg}</div>
-      <div class="dig-btn-box">
-        <a class="close-btn">关闭</a>
-        <a class="confirm">${opt.confirmText ? opt.confirmText : '确定'}</a>
-      </div>
-    </div>
-  `
+  el.innerHTML = '\
+    <div class="dig-bg"></div>\
+    <div class="dig-content">\
+      <div class="dig-top">\
+        <p>'+ title +'</p>\
+      </div>\
+      <div class="dig-msg-box">'+msg+'</div>\
+      <div class="dig-btn-box">'+ cancelHtml + confirmHtml +'</div>\
+    </div>\
+  '
   oFather.appendChild(el)
   addClass(oFather, 'dig-hide-scroll')
   var oBg = getByClass('dig-bg', el)[0]
