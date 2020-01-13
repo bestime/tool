@@ -126,4 +126,5 @@ module.exports = {
   JSONPARSE: require('./split/JSONPARSE'),
   $null: require('./split/$null'),
   CreateToast: require('./split/CreateToast'),
+  authorization: require('./split/authorization'),
 };

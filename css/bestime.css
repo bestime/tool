@@ -12,8 +12,7 @@
 .bt-drag-body {
   position: fixed !important;
 }
-/* 拖拽 end */
-/* loading start */
+/* loading start 准备移除这个方法*/
 #loading-bt-wrapper {
   position: fixed;
   left: 0;
@@ -51,8 +50,8 @@
 /* pager start */
 .bt-pager {
   font-size: 0;
-  user-select: none;
 }
+.bt-pager user-selectnone,
 .bt-pager .inwp,
 .bt-pager .page {
   display: inline-block;
@@ -71,7 +70,7 @@
 .bt-pager .pages span.active {
   background: #f00;
 }
-/* pager end */
+/* 弹框 */
 .dialog-wrapper-19 .dig-bg {
   position: absolute;
   left: 0;
@@ -257,16 +256,11 @@
   border-right-color: transparent;
   display: inline-block;
   position: absolute;
-  bottom: -4px;
+  bottom: 4px;
   display: none;
 }
-#bt-mouse-tip.top .before {
+#bt-mouse-tip .before.top .before {
   display: block;
-}
-.btmt-content {
-  padding: 7px 10px;
-  font-size: 12px;
-  display: inline-block;
 }
 #bt-mouse-tip.active {
   opacity: 1;
@@ -278,6 +272,11 @@
 #bt-mouse-tip.custom .btmt-content {
   padding: 0;
   border-radius: 0;
+}
+.btmt-content {
+  padding: 7px 10px;
+  font-size: 12px;
+  display: inline-block;
 }
 .jcy-toast {
   height: 0;
@@ -339,6 +338,22 @@
 }
 .jcy-toast.mask .bg {
   visibility: visible;
+}
+.authorization-wrapper {
+  font-size: 0;
+}
+.authorization-wrapper img {
+  width: 250px;
+  height: 250px;
+  display: block;
+  border: #eee solid 1px;
+  background: #eee;
+  margin: 0 auto;
+}
+.authorization-wrapper .count {
+  font-size: 14px;
+  color: #666;
+  margin-top: 10px;
 }
 /** loading-start **/
 .jcy-loading {

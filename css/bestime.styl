@@ -6,13 +6,17 @@
 
 
 /* 拖拽 start */
-.bt-drag{position:absolute !important;z-index:20;margin:0 !important;padding:0 !important;}
-.bt-drag-body{position:fixed !important;}
-/* 拖拽 end */
+.bt-drag
+  position absolute !important
+  z-index 20
+  margin 0 !important
+  padding 0 !important
+.bt-drag-body
+  position:fixed !important;
 
 
 
-/* loading start */
+/* loading start 准备移除这个方法*/
 #loading-bt-wrapper{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:80001;display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0;transition:0.3s;}
 .loading-bt-text{font-size:14px;color:#fff;}
 #loading-bt-wrapper.active{opacity:1;}
@@ -23,15 +27,27 @@
 
 
 /* pager start */
-.bt-pager{font-size:0;user-select: none;}
-.bt-pager .inwp, .bt-pager .page{display:inline-block;font-size:12px;background:#000;color:#fff;line-height:24px;text-align:center;cursor:pointer;padding:0 10px;margin:1px;}
-.bt-pager .pages{display:inline-block;}
-.bt-pager .pages span.active{background:red;}
-/* pager end */
+.bt-pager
+  font-size 0
+  user-selectnone
+  .inwp, .page
+    display inline-block
+    font-size 12px
+    background #000
+    color #fff
+    line-height 24px;
+    text-align center
+    cursor pointer
+    padding 0 10px
+    margin 1px
+  .pages
+    display inline-block
+    span.active
+      background red
 
 
 
-
+/* 弹框 */
 .dialog-wrapper-19
   .dig-bg
     position absolute
@@ -167,84 +183,72 @@
 
 
 
-#bt-mouse-tip {
-  position:fixed;
-  left: 0;
-  top: 0;
-  right: auto;
-  bottom: auto;
-  height: auto;
-  background:#000;
-  border-radius: 4px;
-  color:#fff;
-  font-size: 0;
-  opacity: 0;
-  z-index: -1;
-  text-align:justify;
-  transition: opacity 0.2s;
-  box-shadow: 0 0 5px rgba(0,0,0,0.5);
-}
-#bt-mouse-tip .after {
-  margin: 0;
-  padding: 0;
-  font-size: 0;
-  line-height: 0;
-  border-width: 6px;
-  border-color: #000;
-  border-style: dashed;
-  border-top-width: 0;
-  border-bottom-style: solid;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  display: inline-block;
-  position:absolute;
-  top: -4px;
-  display: none;  
-}
+#bt-mouse-tip
+  position fixed
+  left 0
+  top 0
+  right auto
+  bottom auto
+  height auto
+  background #000
+  border-radius 4px
+  color #fff
+  font-size 0
+  opacity 0
+  z-index -1
+  text-align justify
+  transition opacity 0.2s
+  box-shadow 0 0 5px rgba(0,0,0,0.5)
+  .after
+    margin 0
+    padding 0
+    font-size 0
+    line-height 0
+    border-width 6px
+    border-color #000
+    border-style dashed
+    border-top-width 0
+    border-bottom-style solid
+    border-left-color transparent
+    border-right-color transparent
+    display inline-block
+    position absolute
+    top -4px
+    display none
+  &.bottom .after
+    display block
 
+  .before
+    margin 0
+    padding 0
+    font-size 0
+    line-height 0
+    border-width 6px
+    border-color #000
+    border-style dashed
+    border-bottom-width 0
+    border-top-style solid
+    border-left-color transparent
+    border-right-color transparent
+    display inline-block
+    position absolute
+    bottom 4px
+    display none
+    &.top .before
+      display block
+  &.active
+    opacity 1
+    z-index 9999
+  &.custom
+    border-radius 0
+  &.custom .btmt-content
+    padding 0
+    border-radius 0
 
-#bt-mouse-tip.bottom .after{
-  display: block;
-}
-
-#bt-mouse-tip .before {
-  margin: 0;
-  padding: 0;
-  font-size: 0;
-  line-height: 0;
-  border-width: 6px;
-  border-color: #000;
-  border-style: dashed;
-  border-bottom-width: 0;
-  border-top-style: solid;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  display: inline-block;
-  position:absolute;
-  bottom: -4px;
-  display: none;
-}
-
-#bt-mouse-tip.top .before{
-  display: block;
-}
-.btmt-content {
-  padding: 7px 10px;
-  font-size: 12px;
-  display: inline-block;
-}
-#bt-mouse-tip.active {
-  opacity: 1;
-  z-index: 9999;
-  
-}
-#bt-mouse-tip.custom {
-  border-radius: 0;
-}
-#bt-mouse-tip.custom .btmt-content {
-  padding: 0;
-  border-radius: 0;
-}
+.btmt-content
+  padding 7px 10px
+  font-size 12px
+  display inline-block
 
 
 .jcy-toast
@@ -302,6 +306,23 @@
     .bg
       visibility visible
 
+
+
+
+
+.authorization-wrapper
+  font-size 0
+  img
+    width 250px
+    height 250px
+    display block
+    border #eee solid 1px
+    background #eee
+    margin 0 auto
+  .count
+    font-size 14px
+    color #666
+    margin-top 10px
 
 
 
@@ -400,8 +421,6 @@
   position relative
   margin-right -17px
   height 100%
-  // background red
-  // padding-bottom 17px
 .jcy-pc-scroll-bar-wrapper
   visibility hidden
   position absolute
@@ -424,6 +443,3 @@
     background rgba(0,0,0,0.5)
   &:active
     background rgba(0,0,0,0.8)
-  
-  
-

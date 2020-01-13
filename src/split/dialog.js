@@ -159,6 +159,10 @@ var confirmHtml = '<a class="confirm">'+ (opt.confirmText ? opt.confirmText : 'ç
       onShow()
     }, 30)
   }, 30)
+  return {
+    el: el,
+    close: doClose
+  }
 }
 
 

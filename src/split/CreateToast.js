@@ -106,6 +106,14 @@ function CreateToast (opt) {
   return {
     show: show,
     close: close,
+    info: function (msg, delay) {
+      delay = _Number(delay)
+      show({
+        mask: false,
+        msg: msg,
+        duration: 2000
+      })
+    },
     loading: function (msg, delay) {
       delay = _Number(delay)
       show({
