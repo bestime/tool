@@ -1,6 +1,9 @@
 const forEach = require('./forEach')
 const getType = require('./getType')
 
+
+
+
 /**
  * 数组去重，返回新数组
  * @param {Array} arr 需要去重的数组
@@ -14,6 +17,7 @@ function unique (arr, vague, handle) {
     checkKey = getType(handle) === 'Function' ? handle(item) : item
     checkKey = getType(checkKey) === 'Number' || vague ? checkKey : `"${checkKey}"`
     if(!exist[checkKey]) {
+      
       exist[checkKey] = true;
       res.push(item);
     }
@@ -21,5 +25,6 @@ function unique (arr, vague, handle) {
 
   return res;
 }
+
 
 module.exports = unique

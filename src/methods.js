@@ -127,4 +127,7 @@ module.exports = {
   $null: require('./split/$null'),
   CreateToast: require('./split/CreateToast'),
   authorization: require('./split/authorization'),
+  fullScreen: require('./split/fullScreen'),
+  isFullScreen: require('./split/isFullScreen'),
+  Time: require('./split/Time'),
 };

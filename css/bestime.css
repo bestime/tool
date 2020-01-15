@@ -2,6 +2,19 @@
  * 修改 bestime.styl 然后编译成 bestime.css
  * stylus -w ./css/bestime.styl -o ./css/bestime.css
  */
+@font-face {
+  font-family: 'vbt-icon'; /* project id 425602 */
+  src: url("//at.alicdn.com/t/font_425602_crss63mume9.eot");
+  src: url("//at.alicdn.com/t/font_425602_crss63mume9.eot?#iefix") format('embedded-opentype'), url("//at.alicdn.com/t/font_425602_crss63mume9.woff2") format('woff2'), url("//at.alicdn.com/t/font_425602_crss63mume9.woff") format('woff'), url("//at.alicdn.com/t/font_425602_crss63mume9.ttf") format('truetype'), url("//at.alicdn.com/t/font_425602_crss63mume9.svg#vbt-icon") format('svg');
+}
+.vbt-icon {
+  font-family: "vbt-icon" !important;
+  font-size: 16px;
+  font-style: normal;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 /* 拖拽 start */
 .bt-drag {
   position: absolute !important;
@@ -321,6 +334,20 @@
 .jcy-toast .ld-wrapper {
   text-align: center;
   padding: 5px 0;
+}
+.jcy-toast .vbt-icon {
+  line-height: normal;
+}
+.jcy-toast .error {
+  font-size: 36px;
+  color: #ffa006;
+  display: inline-block;
+}
+.jcy-toast .error-msg {
+  display: inline-block;
+  max-width: 100px;
+  color: #ffa006;
+  margin-top: 4px;
 }
 .jcy-toast.loading .content {
   min-width: 120px;

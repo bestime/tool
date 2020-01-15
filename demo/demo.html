@@ -227,29 +227,8 @@
 
 
 
-ns.authorization({
-  // [非必填] 标题
-  title: '扫码授权', 
 
-  // 二维码地址
-  src: '../images/test-qr.png', 
 
-  // [非必填] 二维码有效期，默认 20000
-  duration: 1000 * 60, 
-
-  // [非必填] 轮询频率，默认 5000
-  sleep: 2000,
-  
-  // 每一次轮询的回调，在这里处理成功或者失败结果
-  onOnce: function (next, stop, times) {
-    console.log('执行次数：', times)
-    if(times == 10) {
-      stop() // 授权成功，停止轮询
-    } else {
-      next() // 未授权，继续轮询
-    }
-  }
-})
 
 </script>
 

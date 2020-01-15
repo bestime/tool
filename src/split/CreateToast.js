@@ -106,8 +106,7 @@ function CreateToast (opt) {
   return {
     show: show,
     close: close,
-    info: function (msg, delay) {
-      delay = _Number(delay)
+    info: function (msg) {
       show({
         mask: false,
         msg: msg,
@@ -121,6 +120,14 @@ function CreateToast (opt) {
         msg: msg,
         type: 'loading',
         delay: delay || 300
+      })
+    },
+    error: function (msg, duration) {
+      duration = _Number(duration) || 2000
+      show({
+        mask: true,
+        msg: '<i class="vbt-icon error">&#xe743;</i><span class="error-msg">'+ msg +'</span>',
+        duration: duration
       })
     }
   }

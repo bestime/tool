@@ -1,11 +1,10 @@
 const FN_FORMAT_STRING_VALUE = require('./FN_FORMAT_STRING_VALUE')
 
 /**
- * getQuery 获取url查询参数
- * @param {String} str # [可选], 被查询的字符串，不填则为当前url
+ * 获取url查询参数
+ * @param {?String} str 可选, 被查询的字符串，不填则为当前url
  * @return {Object} json对象
  */
-
 function getQuery (str) {
   var res = {}, href = '';
   try { href = window.location.href } catch (e) {};
@@ -21,5 +20,4 @@ function getQuery (str) {
 // getQuery(undefined); // => {}
 // getQuery(''); // => {}
 // getQuery('abc'); // => {}
-
 module.exports = getQuery
