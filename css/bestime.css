@@ -252,7 +252,8 @@
   top: -4px;
   display: none;
 }
-#bt-mouse-tip.bottom .after {
+#bt-mouse-tip.bottom .after,
+#bt-mouse-tip.top .before {
   display: block;
 }
 #bt-mouse-tip .before {
@@ -269,7 +270,7 @@
   border-right-color: transparent;
   display: inline-block;
   position: absolute;
-  bottom: 4px;
+  bottom: -4px;
   display: none;
 }
 #bt-mouse-tip .before.top .before {
@@ -355,6 +356,9 @@
 }
 .jcy-toast.loading .ld-wrapper {
   margin-bottom: 10px;
+}
+.jcy-toast.loading .bg {
+  background: none;
 }
 .jcy-toast.open .content {
   visibility: visible;

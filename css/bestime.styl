@@ -239,8 +239,9 @@
     position absolute
     top -4px
     display none
-  &.bottom .after
+  &.bottom .after, &.top .before
     display block
+  
 
   .before
     margin 0
@@ -256,7 +257,7 @@
     border-right-color transparent
     display inline-block
     position absolute
-    bottom 4px
+    bottom -4px
     display none
     &.top .before
       display block
@@ -330,6 +331,8 @@
       min-height 120px
     .ld-wrapper
       margin-bottom 10px
+    .bg
+      background none
       
   &.open
     .content

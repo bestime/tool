@@ -129,5 +129,5 @@ module.exports = {
   authorization: require('./split/authorization'),
   fullScreen: require('./split/fullScreen'),
   isFullScreen: require('./split/isFullScreen'),
-  Time: require('./split/Time'),
+  formatTime: require('./split/formatTime'),
 };

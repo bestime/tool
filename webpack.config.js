@@ -1,6 +1,7 @@
 const path = require('path')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
+const webpack = require("webpack")
 function zero (num) {
 	num = Number(num) || 0
 	return num < 10 ? `0${num}` : num
@@ -44,16 +45,11 @@ module.exports = {
 					compress: true,
 					output: {
 						beautify: false,
-						comments: true
+						comments: false
 					}
-				},
-				extractComments: {
-					banner: `Bestime Tool (2) ${TransNowTime()}`,
-					// filename: function () {
-					// 	return false
-					// }
 				}
-      })
+			}),
+			// new webpack.BannerPlugin('Bestime'), // 添加注释会被变成LF文件格式
 		]
 	},
 	module: {

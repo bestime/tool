@@ -1,21 +1,17 @@
 
 
 const _String = require('./_String')
-const _Number = require('./_Number')
 
 function zero (num, seat) {
-  num = _Number(num)
-  seat = _String(seat) || '00'
-  switch(seat.length) {
-    case 3:
-      if(num < 10) {
-        num = `00${num}`
-      } else if(num < 100) {
-        num = `0${num}`
-      }
-      break;
-    default:
-      num = num < 10 ? `0${num}` : num
+  num = _String(num)
+  seat = _String(seat)
+  var diff = seat.length - num.length
+  if(diff) {
+    for(var a=0; a<diff; a++) {
+      num = '0' + num
+    }
+  } else {
+    num = _String(Number(num))
   }
   return num
 }

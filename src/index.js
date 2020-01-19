@@ -23,7 +23,7 @@ function CreateMain () {
 
   main.fn = main.prototype = assign({
     constructor: main,
-    info: 'bestime-tool 2019',
+    info: 'bestime 2017-2020',
     init: function (d) {
       this.selector = d    
     }

@@ -8,9 +8,8 @@ const _String = require('./_String')
  */
 function _Url (url, prefix) {
   url = _String(url)
-  prefix = _String(prefix)
   if(!/https?:\/\//.test(url)) {
-    url = prefix +'/' +url
+    url = _String(prefix) +'/' + url
   }
   var isFull = false
   url = url.replace(/(.*\w+\.\w+?(?=\/))(.*)/g, function (g, $1, $2) {

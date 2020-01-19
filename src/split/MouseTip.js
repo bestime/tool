@@ -6,6 +6,8 @@ var trim = require('./trim')
 var getByClass = require('./getByClass')
 var getWindowSize = require('./getWindowSize')
 var isFunction = require('./isFunction')
+var updateClass = require('./updateClass')
+var uparr = ['top', 'bottom']
 
 var MouseTip = (function () {
   document.write('<div id="bt-mouse-tip"><i class="before"></i><i class="after"></i><div class="btmt-content"></div></div>')
@@ -28,6 +30,8 @@ var MouseTip = (function () {
   return function (opt) {
     var el = opt.el, render = isFunction(opt.render) ? opt.render : false
     oWrapper = oWrapper || getById('bt-mouse-tip')
+    addClass(oWrapper, [opt.className])
+    
     oText = getByClass('btmt-content', oWrapper)[0]
     oAfter = getByClass('after', oWrapper)[0]
     oBefore = getByClass('before', oWrapper)[0]
@@ -35,15 +39,20 @@ var MouseTip = (function () {
     el.onmouseenter = function () {
       clearTimeout(timer_01)
       winSize = getWindowSize()
-      oWrapper.className = render ? 'custom' : ''
-
+      if(render){
+        addClass(oWrapper, 'custom')
+      } else {
+        removeClass(oWrapper, 'custom')
+      }
+      oWrapper.style.cssText = ''
+      oText.innerHTML = render ? render() : trim(el.innerHTML)
+      oWrapper.style.width = 'auto'
+      oWrapper.style.visibility = 'hidden'
       timer_01 = setTimeout(function () {
-        oWrapper.style.cssText = ''
-        oText.innerHTML = render ? render() : trim(el.innerHTML)
         clearTimeout(timer_02)
         timer_02 = setTimeout(function () {
           clearTimeout(show_timer)
-          width = oWrapper.offsetWidth
+          width = oText.offsetWidth
           if(width > winSize.width - 20) {
             width = winSize.width- 20
           }
@@ -81,7 +90,8 @@ var MouseTip = (function () {
                 } else {
                   oAfter.style.left = pos.x - x + el.offsetWidth / 2 - agSize +'px'
                 }
-                addClass(oWrapper, ['active', yFlag])
+                oWrapper.style.visibility = 'visible'
+                updateClass(oWrapper, uparr,['active', yFlag])
               }, 30)
             }, 30)
           }, 30)
