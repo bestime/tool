@@ -237,6 +237,89 @@
 ns.formatTime('YY-M-D h:m:s:SSS')
 
 
+
+/**
+ * 组合区间
+ * @param {Array:[]} list 区间片段列表
+ */
+function section(list) {
+  var res = [], find, item;
+  ;(function once () {
+    if(list.length) {
+      find = false
+      item = list.splice(0, 1)[0]
+      // console.log(item, list)
+      list.forEach(function (current) {
+        // console.log(item[0], current[1])
+        var gp = toGroup(item, current)
+        if(gp) {
+          find = true
+          current[0] = gp[0]
+          current[1] = gp[1]
+        }
+      })
+      if(!find) {
+        res.push(item)
+      }
+      once()
+    }
+  })();
+  return res;
+}
+
+
+/**
+ *  两个区间是否重复
+ */
+function toGroup (a, b) {
+  a.sort(_sort)
+  b.sort(_sort)
+  var x1 = a[0]
+  var y1 = a[1]
+  var x2 = b[0]
+  var y2 = b[1] 
+  var diff1 = y1 - x1
+  var diff2 = y2 - x2
+  var min = Math.min(x1, x2)
+  var max = Math.max(y1, y2)
+  if(Math.abs(max-min) <= Math.abs(diff1+diff2+1)) {
+    return [min, max]
+  } else {
+    return false
+  }
+}
+
+
+// 排序
+function _sort (a, b) {
+  return a > b ? 1 : -1
+}
+
+
+
+
+
+function demo (list) {
+  list.sort(function (a, b) {
+    return a[0] > b[0] ? 1 : -1
+  })  
+  for(var a1, a2, index=0; index < list.length; index++) {
+    a1 = list[index]
+    a2 = list[index+1]
+    if(!a2) break; 
+    if(a1[1] >= a2[0] - 1) {
+      a2[0] = Math.min(a2[0], a1[0])
+      a2[1] = Math.max(a2[1], a1[1])
+      if(list.length>1) {
+        list.splice(index, 1)
+        index--
+      }
+    }  
+  }
+  return list
+}
+
+
 </script>
 
 
