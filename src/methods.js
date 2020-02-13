@@ -54,8 +54,8 @@ module.exports = {
   split: require('./split/split'),
   unbind: require('./split/unbind'),
   unique: require('./split/unique'),
-  throttle: require('./split/throttle'),
-  debounce: require('./split/debounce'),
+  throttle: require('./split/throttle'), // 有改进版，准备移除
+  debounce: require('./split/debounce'), // 有改进版，准备移除
   FunctionOnce: require('./split/FunctionOnce'), // 意义不大，考虑移除
   FunctionConfirm: require('./split/FunctionConfirm'), // 意义不大，考虑移除
   FunctionLoop: require('./split/FunctionLoop'),
@@ -130,4 +130,7 @@ module.exports = {
   fullScreen: require('./split/fullScreen'),
   isFullScreen: require('./split/isFullScreen'),
   formatTime: require('./split/formatTime'),
+  FN_debounce: require('./split/FN_debounce'),
+  FN_throttle: require('./split/FN_throttle'),
+  FN_confirm: require('./split/FN_confirm'),
 };

@@ -16,7 +16,9 @@
   </head>
 
   <body>
-
+    <button onclick="debounceDemo()">防抖升级版</button>
+    <button onclick="throttleDemo()">节流升级版</button>
+    <button onclick="confirmDemo()">确认函数</button>
     <div style="margin:20px;">
       <div>可输入小数，正负数</div>
       <input style="border:red solid 1px;line-height:24px;width:100%;" placeholder="只能输入数字" id="axmk165a" />
@@ -74,6 +76,8 @@
         color: #fff;
       }
     </style>
+
+
 
     <a href="http://www.baidu.com" onClick="test02()">点击弹框，右键跳转</a>
     <div id="sbgs12" class="active map array some">鼠标移入<br>切换跟随</div>
@@ -318,6 +322,48 @@ function demo (list) {
   }
   return list
 }
+
+
+
+
+
+
+
+var testDC = ns.FN_debounce(1000, true)
+var testThis = {
+  time: 0
+}
+function debounceDemo () {  
+  testDC.call(testThis, function () {
+    console.log('防抖升级版', this.time++)
+  })
+}
+
+
+
+var testTH = ns.FN_throttle(1000, true, false)
+var jkdw = {
+  time: 0
+}
+function throttleDemo () {
+  testTH.call(jkdw, function () {
+    console.log('节流升级版', this.time++)
+  })
+}
+
+
+
+
+
+const confirmFN = ns.FN_confirm()
+
+function confirmDemo () {
+  confirmFN(function (next) {
+    next()
+    console.log(11111)
+  })
+}
+
 
 
 </script>
