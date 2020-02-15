@@ -58,7 +58,7 @@ module.exports = {
   debounce: require('./split/debounce'), // 有改进版，准备移除
   FunctionOnce: require('./split/FunctionOnce'), // 意义不大，考虑移除
   FunctionConfirm: require('./split/FunctionConfirm'), // 意义不大，考虑移除
-  FunctionLoop: require('./split/FunctionLoop'),
+  FunctionLoop: require('./split/FunctionLoop'), // 有改进版，准备移除
   getNowTime: require('./split/getNowTime'),
   zero: require('./split/zero'),
   dialog: require('./split/dialog'),
@@ -110,7 +110,7 @@ module.exports = {
   assembly: require('./split/assembly'),
   isEqualArray: require('./split/isEqualArray'),
   equal: require('./split/equal'),
-  reduceTime: require('./split/reduceTime'),
+  TimeLast: require('./split/TimeLast'),
   shuffle: require('./split/shuffle'),
   ArrayExchangeIndex: require('./split/ArrayExchangeIndex'),
   MouseTip: require('./split/MouseTip'),
@@ -133,4 +133,5 @@ module.exports = {
   FN_debounce: require('./split/FN_debounce'),
   FN_throttle: require('./split/FN_throttle'),
   FN_confirm: require('./split/FN_confirm'),
+  FN_loop: require('./split/FN_loop'),
 };
