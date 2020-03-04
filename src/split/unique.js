@@ -16,8 +16,7 @@ function unique (arr, vague, handle) {
   forEach(arr, function (item) {
     checkKey = getType(handle) === 'Function' ? handle(item) : item
     checkKey = getType(checkKey) === 'Number' || vague ? checkKey : `"${checkKey}"`
-    if(!exist[checkKey]) {
-      
+    if(!exist[checkKey]) {      
       exist[checkKey] = true;
       res.push(item);
     }

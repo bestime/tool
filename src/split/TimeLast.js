@@ -3,6 +3,8 @@ var FORMAT_TIME_BY_MAP = require('./FORMAT_TIME_BY_MAP')
 var UNF = undefined
 /**
  * 格式化时间差
+ * @param {String} fmt 格式化
+ * @param {Number} msec 毫秒
  */
 
 function TimeLast (fmt, msec) {
@@ -26,5 +28,27 @@ function TimeLast (fmt, msec) {
   
   return FORMAT_TIME_BY_MAP(fmt, UNF, UNF, day, hour, minute, second, msec, UNF, true)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = TimeLast

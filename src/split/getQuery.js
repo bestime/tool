@@ -21,7 +21,3 @@ function getQuery (str) {
 // getQuery(''); // => {}
 // getQuery('abc'); // => {}
 module.exports = getQuery
-
-
-
-
