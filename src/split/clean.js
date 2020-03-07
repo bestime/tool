@@ -1,52 +1,55 @@
-const getType = require('./getType')
-const filter = require('./filter')
-const defaultType = require('./defaultType')
+const isArray = require('./isArray')
+const isObject = require('./isObject')
 
 /**
  * 清空无效数据
  * @param {*} data
- * @param {Boolean} removeEmptyStr 是否过滤空字符串，默认false
+ * @param {?removeEmptyStr} 是否需移除留空字符串，默认false
  * @return {*} data 与清理过的和传入数据相同格式的数据
  */
 function clean (data, removeEmptyStr) {
-  return defaultType(getType(data), doOnce(data, removeEmptyStr))
-}
-
-function doOnce (data, removeEmptyStr) {
   var res;
-  switch (getType(data)) {
-    case 'Object':
-      res = {}
-      var key, item, index = -1;
-      for(key in data) {
-        item = data[key];
-        typeof item === 'object' && (item = doOnce(item));
-        if(canAdd(item)) {
-          index++;
-          res[key] = item;
-        }
+  if(isObject(data)) {
+    res = {}
+    var mpItem, key, temp;
+    for(key in data) {
+      mpItem = data[key]
+      if(isArray(mpItem) || isObject(mpItem)) {
+        temp = clean(mpItem, removeEmptyStr)
+      } else {
+        temp = mpItem
       }
-      index < 0 && (res = undefined);
-      break;
-    case 'Array':
-      res = filter(data, function (item) {
-        typeof item === 'object' && (item = doOnce(item));
-        return canAdd(item)
-      })
-      !res.length && (res = undefined);
-      break;
-    default: res = data;
-  }
-  
-  function canAdd (data) {
-    var bol = typeof data !== 'undefined' && data != null
-    if (removeEmptyStr && getType(data) === 'String') {
-      bol = data !== ''
+      _filterData(temp, removeEmptyStr, function (useValue) {
+        res[key] = useValue;
+      });
     }
-    return bol
+  } else if(isArray(data)) {
+    res = []
+    for(var index = 0, len = data.length; index < len; index++) {
+      _filterData(clean(data[index], removeEmptyStr), removeEmptyStr, function (useValue) {
+        res.push(useValue);
+      });
+    }
+  } else {
+    res = data
   }
-  
   return res
 }
+
+/**
+ * @param {*} data
+ * @param {Boolean} removeEmptyStr  
+ * @param {Function} callback  
+ */
+function _filterData (data, removeEmptyStr, callback) {
+  if(removeEmptyStr) {
+    if(data!='' && data !=null) {
+      callback(data)
+    }
+  } else if(data !=null){
+    callback(data)
+  }
+}
+
 
 module.exports = clean

@@ -9,7 +9,7 @@
  * 
  */
 function FN_throttle (sleepTime, isFirstWork, isLastWork) {
-  var self, start=0, timer, handle;
+  var self, start = 0, timer, handle;
 
   function doOnce () {
     start = +new Date

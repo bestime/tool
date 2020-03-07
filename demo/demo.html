@@ -405,6 +405,25 @@ function ABCDE () {
   }
   return num
 }
+
+
+
+
+var a = ns.clean({
+  'list': [null, null, {'hello': '123', 'a': null}],
+  'name': '张三',
+  'age': null,
+  'job': 1,
+  'mio': '',
+  'group': {
+    'a': 1,
+    'b': 2,
+    'c': null,
+    'd': 4
+  }
+}, false)
+
+console.log('a', a);
 </script>
 
 
