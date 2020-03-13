@@ -1,7 +1,6 @@
 
 const isNumber = require('./isNumber')
 const isArray = require('./isArray')
-const assign = require('./assign')
 
 
 /**

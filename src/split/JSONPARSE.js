@@ -15,10 +15,14 @@ var isObject = require('./isObject')
 function JSONPARSE (data, dataType) {
   var res = data;
   try { res = JSON.parse(data) } catch (e) {}
-  if(dataType==='Array') {
-    !isArray(res) && (res = []);
+  if(dataType === 'Array') {
+    if(!isArray(res)) {
+      res = []
+    }
   } else if(dataType==='Object') {
-    !isObject(res) && (res = {});
+    if(!isObject(res)) {
+      res = {}
+    }
   }
   return res
 }

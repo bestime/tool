@@ -1,6 +1,8 @@
 const path = require('path')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
+var formatTime = require('./src/split/formatTime')  
+
 const webpack = require("webpack")
 function zero (num) {
 	num = Number(num) || 0
@@ -49,7 +51,7 @@ module.exports = {
 					}
 				}
 			}),
-			// new webpack.BannerPlugin('Bestime'), // 添加注释会被变成LF文件格式
+			new webpack.BannerPlugin(`Bestime Tool ${formatTime()}`), // 添加注释会被变成LF文件格式
 		]
 	},
 	module: {

@@ -8,7 +8,6 @@ function FN_confirm () {
         lock = false
       })
     }
-    
   }
 }
 

@@ -368,62 +368,17 @@ function confirmDemo () {
 
 
 
-
-
-
-
-// 最小的答案是：1449
-function demo () {
-  let num = 0, res;
-  while (!res) {
-    if(
-      num % 1 === 0 // 一个一个拿，正好拿完
-      && num % 2 === 1 // 2个2个拿，还剩1个
-      && num % 3 === 0 // 3个3个拿，正好拿完
-      && num % 4 === 1 // 4个4个拿，还剩一个
-      && (num + 1) % 5 === 0 // 5个5个拿，还差一个
-      && num % 6 === 3 // 6个6个拿，还剩3个
-      && num % 7 === 0 // 7个7个拿，正好拿完
-      && num % 8 === 1 // 8个8个拿，还剩一个
-      && num % 9 === 0 // 9个9个拿，正好拿完
-    ) {
-      res = num
-    } else {
-      num++
-    }
-  }
-
-  return res
+function obt () {
+  var b;
+  var pm = new Promise(resolve => {
+    b = 465
+  })
+  pm.test = b
+  return  pm
 }
 
+var nn = obt();
 
-// 答案：21978
-function ABCDE () {
-  var num = 10000;
-  while (num !== Number(String(num*4).split('').reverse().join(''))) {
-    num++
-  }
-  return num
-}
-
-
-
-
-var a = ns.clean({
-  'list': [null, null, {'hello': '123', 'a': null}],
-  'name': '张三',
-  'age': null,
-  'job': 1,
-  'mio': '',
-  'group': {
-    'a': 1,
-    'b': 2,
-    'c': null,
-    'd': 4
-  }
-}, false)
-
-console.log('a', a);
 </script>
 
 
