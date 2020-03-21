@@ -3,7 +3,8 @@
 var getType = require('./getType')
 var trim = require('./trim')
 var FORMAT_TIME_BY_MAP = require('./FORMAT_TIME_BY_MAP')
-var str03 = '000'
+var _Number = require('./_Number')
+
 
 
 
@@ -21,9 +22,9 @@ function formatTime (fmt, date) {
       date = trim(date)
       if(/^\d+$/.test(date)) {
         if(date.length == 10) {
-          date = Number(date + str03)
+          date = _Number(date + '000')
         } else if(date.length == 13) {
-          date = Number(date)
+          date = _Number(date)
         }
       }
       date = new Date(date)

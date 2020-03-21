@@ -368,18 +368,20 @@ function confirmDemo () {
 
 
 
-function obt () {
-  var b;
-  var pm = new Promise(resolve => {
-    b = 465
-  })
-  pm.test = b
-  return  pm
-}
 
-var nn = obt();
 
+
+
+ns.urlToGet('1111111111', {})
+ns.urlToGet('2222222222?&', 'a=0&b=2')
+ns.urlToGet('333333333?c=5&', 'a=0&b=2')
+ns.urlToGet('333333333?c=5&', {
+  name: '张三',
+  age: [1, 2, 3]
+})
 </script>
+
+
 
 
 

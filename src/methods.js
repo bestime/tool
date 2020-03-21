@@ -134,4 +134,6 @@ module.exports = {
   FN_throttle: require('./split/FN_throttle'),
   FN_confirm: require('./split/FN_confirm'),
   FN_loop: require('./split/FN_loop'),
+  urlToGet: require('./split/urlToGet'),
+  param: require('./split/param'),
 };
