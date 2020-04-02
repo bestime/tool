@@ -1,8 +1,7 @@
 module.exports = function (data) {
-  if ( data==='0' ) {
-    data = false
+  if(data === true || data === 'true' || data === '1' || data === 1) {
+    return true
   } else {
-    data = !!data
+    return false
   }
-  return data
 }

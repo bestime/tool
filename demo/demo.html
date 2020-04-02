@@ -379,6 +379,18 @@ ns.urlToGet('333333333?c=5&', {
   name: '张三',
   age: [1, 2, 3]
 })
+
+
+function _downLoad (src, filename) {
+  filename = filename || '图片01';
+  var link = document.createElement('a');
+  link.download = filename;
+  link.style.display = 'none';
+  link.href = src;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 </script>
 
 

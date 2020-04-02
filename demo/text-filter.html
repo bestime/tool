@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文本筛选</title>
+  <script src="./js/filter-text.js"></script>
+  <style>
+    .find{
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <input oninput="onInput(this)"/>
+<script>
+  var oUl = document.createElement('ul')
+  var _ulHtml = ''
+  document.body.appendChild(oUl)
+  var demoData = [
+    {
+      label: '今天天气不错',
+      spell: [
+        { key: 'jin', value: '今'},
+        { key: 'tian', value: '天'},
+        { key: 'tian', value: '天'},
+        { key: 'qi', value: '气'},
+        { key: 'bu', value: '不'},
+        { key: 'cuo', value: '错'},
+      ]
+    },
+    
+  ]
+
+  function updateDom (list) {
+    _ulHtml = '';
+    var item, percent = '', label = '';
+    for(var a = 0; a < list.length; a++) {
+      item = list[a]
+      if(item.search) {
+        percent = '('+ Math.round((item.search.length / item.label.length) * 100) +'%)';
+      }
+      
+      if(item.searchMap) {        
+        label = item.label.replace(/./g, function (g) {          
+          if(item.searchMap[g]) {
+            return '<span  class="find">'+ g +'</span>'
+          } else {
+            return g
+          }
+        })
+      } else {
+        label = item.label
+      }
+      _ulHtml += '<li>'+ label + percent +'</li>';
+    }
+    oUl.innerHTML = _ulHtml;
+  }
+
+  updateDom(demoData)
+
+  function onInput (self) {
+    var res = filterText(demoData, self.value)
+    updateDom(res)
+  }
+
+
+
+  
+</script>
+
+</body>
+</html>
