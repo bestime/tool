@@ -6,7 +6,7 @@
  * @param {String} [type] 数据类型，可循环json
  * @param {Boolean} [reverse=false] 反转循环
  */
-function forEach (data, handle, type, reverse) {
+export default function forEach (data, handle, type, reverse) {
   var index = 0;
   switch (type) {
     case 'json': 
@@ -32,5 +32,3 @@ function forEach (data, handle, type, reverse) {
       }
   }
 }
-
-module.exports = forEach

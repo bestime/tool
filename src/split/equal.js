@@ -1,12 +1,14 @@
-const getType = require('./getType')
-const isEqualArray = require('./isEqualArray')
-const isFunction = require('./isFunction')
+
+import isFunction from './isFunction'
+import isEqualArray from './isEqualArray'
+import getType from './getType'
+import { TYPE_ARRAY } from './const'
 
 /**
  * 最后一个参数如果是Function，则表示一个差异对比函数 Boolean: HANDLE(a, b)
  * @return {Boolean}
  */
-function equal () {
+export default function equal () {
   if(arguments.length < 1) return false;
   var ARG = arguments;
   var res = false
@@ -23,7 +25,7 @@ function equal () {
 
   
   switch(TYPE) {
-    case 'Array':
+    case TYPE_ARRAY:
       for(var a = 1; a < ARG.length; a++) {
         isEqualArray(FIRST, ARG[a], HANDLE) && count++
       }
@@ -42,5 +44,3 @@ function equal () {
 
   return res
 }
-
-module.exports = equal

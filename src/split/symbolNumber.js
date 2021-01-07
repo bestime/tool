@@ -1,6 +1,6 @@
-const _Number = require('./_Number')
-const trim = require('./trim')
-const isEmpty = require('./isEmpty')
+import _Number from './_Number'
+import trim from './trim'
+import isEmpty from './isEmpty'
 
 /**
  * @description 多用于表单数字输入处理可为 【空字符，正，负】情况下
@@ -8,7 +8,7 @@ const isEmpty = require('./isEmpty')
  * @param {Boolean} isDecimals 默认ture, 是否小数，如果不是，将自动移除小数点
  * @return {Number|String}
  */
-function symbolNumber (data, isDecimals) {
+export default function symbolNumber (data, isDecimals) {
   var res = data
   if(isEmpty(data)) {
     res = data
@@ -36,8 +36,6 @@ function symbolNumber (data, isDecimals) {
   
   return res
 }
-
-module.exports = symbolNumber
 
 /*
 

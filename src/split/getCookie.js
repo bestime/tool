@@ -1,6 +1,7 @@
-const FN_FORMAT_STRING_VALUE = require('./FN_FORMAT_STRING_VALUE')
-const _Object = require('./_Object')
-const isObject = require('./isObject')
+
+import _Object from './_Object'
+import isObject from './isObject'
+import FN_FORMAT_STRING_VALUE from './FN_FORMAT_STRING_VALUE'
 
 /**
  * 获取浏览器cookie
@@ -9,7 +10,7 @@ const isObject = require('./isObject')
  * 
  * @return {*} 如果mark为字符串，则返回key为mark的值。如果mark为{}，则返回所有cookie的json合集
  */
-function getCookie (mark, target) {
+export default function getCookie (mark, target) {
   target = target || document.cookie
   var res;
   if(isObject(mark) || mark == null) {
@@ -25,7 +26,6 @@ function getCookie (mark, target) {
   return res
 }
 
-module.exports = getCookie
 
 
 

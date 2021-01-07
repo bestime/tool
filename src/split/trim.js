@@ -1,5 +1,5 @@
-const getType = require('./getType')
-const FLAG_STRING = 'String'
+import getType from './getType'
+import { TYPE_STRING } from './const'
 
 /**
  * 移除字符串空格
@@ -10,15 +10,15 @@ const FLAG_STRING = 'String'
  * @return {String} 如果str不是数字或者字符串，则返回空字符串
  */
 
-function trim (str, pos) {
+export default function trim (str, pos) {
   var TYPE = getType(str)
   
   if(TYPE === 'Number') {
     str = String(str)
-    TYPE = FLAG_STRING
+    TYPE = TYPE_STRING
   }
 
-  if(TYPE === FLAG_STRING) {
+  if(TYPE === TYPE_STRING) {
     switch (pos) {
       case 1: return str.replace(/^[\s\uFEFF\xA0]+/, ''); // 左侧
       case -1: return str.replace(/[\s\uFEFF\xA0]+$/, ''); // 右侧
@@ -30,5 +30,3 @@ function trim (str, pos) {
     return ''
   }
 }
-
-module.exports = trim

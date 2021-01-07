@@ -2,7 +2,7 @@
 /**
  * 组合所有可能性 
  */
-function assembly (arr, num, handleGroup) {
+export default function assembly (arr, num, handleGroup) {
   // var count = 0, begin = +new Date();
   var result = (function toFind(arr, length, start, coll){
     var res = []
@@ -19,8 +19,6 @@ function assembly (arr, num, handleGroup) {
   // console.log('次数：', count, '用时：', +new Date() - begin)
   return result;
 }
-
-module.exports = assembly
 
 
 

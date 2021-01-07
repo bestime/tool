@@ -1,7 +1,11 @@
-var _String = require('./_String')
-var param = require('./param')
-var isArray = require('./isArray')
-var isObject = require('./isObject')
+import _String from './_String'
+import isArray from './isArray'
+import isObject from './isObject'
+import param from './param'
+
+
+
+
 
 
 /**
@@ -14,7 +18,7 @@ var isObject = require('./isObject')
  * @param {String|Object|Array} searchString 查询条件 例：a=2&b=3&c=4
  * @return {String} 处理后的结果，一个完整url链接
  */
-function urlToGet (url, searchString) {
+export default function urlToGet (url, searchString) {
   url = _String(url).replace(/&*$/g, '').replace(/\?*$/, '');
   if(isObject(searchString) || isArray(searchString)) {
     searchString = param(searchString)  
@@ -25,8 +29,6 @@ function urlToGet (url, searchString) {
   searchString && (url += (/\?/.test(url) ? '&' : '?') + searchString);
   return url;
 }
-
-module.exports = urlToGet
 
 
 /*

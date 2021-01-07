@@ -1,4 +1,4 @@
-module.exports = function (data) {
+export default function (data) {
   if(data === true || data === 'true' || data === '1' || data === 1) {
     return true
   } else {

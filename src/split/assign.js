@@ -1,8 +1,7 @@
+import getType from './getType'
+import isObject from './isObject'
+import forEach from './forEach'
 
-
-const isObject = require('./isObject')
-const getType = require('./getType')
-const forEach = require('./forEach')
 
 /**
  * assign(target, ...sources)
@@ -12,7 +11,7 @@ const forEach = require('./forEach')
  * @param {Object|Array|String} [arguments] 需要合并的数据
  * @return {Object|Array|String} 返回对象，第一个对象被改变
  */
-function assign (target) {
+export default function assign (target) {
   let index = 1,
       type = getType(target),
       argLen = arguments.length;
@@ -41,5 +40,3 @@ function assign (target) {
   
   return target
 }
-
-module.exports = assign

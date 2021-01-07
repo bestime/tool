@@ -1,5 +1,6 @@
-const split = require('./split');
-const _Number = require('./_Number');
+import split from './split'
+import _Number from './_Number'
+
 
 const RMB_DECIMAL = ['角', '分', '毫', '厘'];
 const RMB_UNIT_BASIC = ['','十', '百', '千'];
@@ -18,7 +19,7 @@ const MAX_DIGIT = 999999999999999.9999; //最大处理的数字
  * @param {Number} digit 需要转换的数字
  * @return {String} 转换结果
  */
-function RMB (digit) {
+export default function RMB (digit) {
   var prefix = digit < 0 ? '负' : '';
   digit = Math.abs(digit);
   if(digit >= MAX_DIGIT) {
@@ -72,5 +73,3 @@ function RMB (digit) {
 function getChinese (num) {
   return RMB_LIST[_Number(num)];
 }
-
-module.exports = RMB

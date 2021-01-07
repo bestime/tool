@@ -1,9 +1,9 @@
-const padStart = require('./padStart')
+import padStart from './padStart'
 
-const pad_2_0 = function (num) {
+function pad_2_0 (num) {
 	return padStart(num, 2, '0')
 }
-function convertTime (date) { 
+export default function convertTime (date) { 
 	return {
 		year: pad_2_0(date.getFullYear()),
 		month: pad_2_0(date.getMonth() + 1),
@@ -14,5 +14,3 @@ function convertTime (date) {
 		milliSecond: pad_2_0(date.getMilliseconds(), '000')
 	}
 }
-
-module.exports = convertTime

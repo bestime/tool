@@ -1,12 +1,14 @@
-const removeElement = require('./removeElement')
-const getRelativePos = require('./getRelativePos')
-const _Function = require('./_Function')
-const _Object = require('./_Object')
+
+
+import _Object from './_Object'
+import _Function from './_Function'
+import getRelativePos from './getRelativePos'
+import removeElement from './removeElement'
 
 /**
  * 抛物线
  */
-function Parabola (opt) {
+export default function Parabola (opt) {
   opt = _Object(opt)
   const oFrom = opt.from
   const oTo = opt.to
@@ -44,6 +46,3 @@ function Parabola (opt) {
     }, 30)
   }
 }
-
-
-module.exports = Parabola

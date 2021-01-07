@@ -1,9 +1,9 @@
-const isFunction = require('./_Function')
-const updateQuery = require('./updateQuery')
-const isEmpty = require('./isEmpty')
-const isObject = require('./isObject')
-const history = window.history
 
+import isObject from './isObject'
+import isEmpty from './isEmpty'
+import updateQuery from './updateQuery'
+import _Function from './_Function'
+import { HISTORY } from './const'
 /**
  * 改变url但不刷新页面
  * 如果改变前的url和改变后的url相同，则不做任何处理
@@ -11,8 +11,8 @@ const history = window.history
  * 
  * @param {Object} [query] 键值对，对应url上面的 键=值。如果不传则去掉所有参数
  */
-function notRefreshToChangeUrl (query) {  
-  if(isFunction(history.replaceState)) {
+export default function notRefreshToChangeUrl (query) {  
+  if(isFunction(HISTORY.replaceState)) {
     var url = window.location.href;
     var newUrl = url;
     if(isObject(query) && !isEmpty(query)) {
@@ -28,7 +28,7 @@ function notRefreshToChangeUrl (query) {
 
     if(url !== newUrl) {
       var title = document.title
-      history.replaceState({
+      HISTORY.replaceState({
         url: newUrl,
         title: title
       }, title, newUrl)
@@ -36,7 +36,6 @@ function notRefreshToChangeUrl (query) {
   }
 }
 
-module.exports = notRefreshToChangeUrl
 
 /*
 

@@ -1,3 +1,4 @@
+import { TYPE_UNDEFINED_SMALL } from './const'
 
 /**
  * @param {*} data 需要转换的数据
@@ -5,15 +6,13 @@
  * @return {Number|String}
  */
 
-function _Number (data, canEmpty) {
+export default function _Number (data, canEmpty) {
   var res = Number(data), errorValue = 0;
   if (canEmpty) {
-    if (data === '' || typeof data === 'undefined') {
+    if (data === '' || typeof data === TYPE_UNDEFINED_SMALL) {
       res = ''
       errorValue = ''
     }
   }
   return res === Math.abs(Infinity) || /e/g.test(res) || isNaN(res) ? errorValue : res
 }
-
-module.exports = _Number

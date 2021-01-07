@@ -7,7 +7,7 @@
  * @return {String}
  */
 
-function updateQuery (updateKey, updateValue, str) {
+export default function updateQuery (updateKey, updateValue, str) {
   updateValue = updateValue == null ? '' : encodeURI(updateValue)
   
   var href = '', isfind, oldUrl;
@@ -38,6 +38,3 @@ function updateQuery (updateKey, updateValue, str) {
   
   return res
 }
-
-
-module.exports = updateQuery

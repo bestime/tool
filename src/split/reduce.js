@@ -4,7 +4,7 @@
  * @param {Function} handle 回调函数
  * @param {*} [initVal=list[0]] 初始值
  */
-function reduce (list, handle, initVal) {
+export default function reduce (list, handle, initVal) {
   var total = initVal,
       index = 0,
       len = list.length;
@@ -20,5 +20,3 @@ function reduce (list, handle, initVal) {
 
   return total
 }
-
-module.exports = reduce

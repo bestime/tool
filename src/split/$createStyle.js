@@ -1,6 +1,8 @@
-const fillHtml = require('./fillHtml')
-const _String = require('./_String')
-const trim = require('./trim')
+
+
+import trim from './trim'
+import fillHtml from './fillHtml'
+import _String from './_String'
 let id = 0
 
 /**
@@ -8,7 +10,7 @@ let id = 0
  * @param {String} className [可选]为创建的标签添加一个类名
  * @return {Function(:String)} 相同类名 => 修改 , 不同类名 => 追加
  */
-function $createStyle(className) {
+export default function $createStyle(className) {
   id++
   className = trim(className)
   if(!className || /^[0-9]/.test(className)) {
@@ -38,5 +40,3 @@ function $createStyle(className) {
     }
   }
 }
-
-module.exports = $createStyle

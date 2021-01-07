@@ -1,5 +1,5 @@
-const updateQuery = require('./updateQuery')
-const getQuery = require('./getQuery')
+import parseQuery from './parseQuery'
+import updateQuery from './updateQuery'
 
 /**
  * 网页自动刷新 url，用于版本缓存导致新代码不生效
@@ -8,9 +8,9 @@ const getQuery = require('./getQuery')
  * @param {?:String} checkValue 判断依据，可以传入时间
  * 
  */
-function updateWebVersion (key, checkValue) {
+export default function updateWebVersion (key, checkValue) {
   if(key && checkValue) {
-    var old = getQuery()[key]
+    var old = parseQuery()[key]
     if(!old || old !== checkValue) {
       var newUrl = updateQuery(key, checkValue)
       if(window.location.href !== newUrl) {
@@ -19,5 +19,3 @@ function updateWebVersion (key, checkValue) {
     }
   }
 }
-
-module.exports = updateWebVersion

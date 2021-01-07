@@ -1,4 +1,4 @@
-const FN_FORMAT_STRING_VALUE = require('./FN_FORMAT_STRING_VALUE')
+import FN_FORMAT_STRING_VALUE from './FN_FORMAT_STRING_VALUE'
 
 /**
  * 获取本地存储
@@ -7,8 +7,6 @@ const FN_FORMAT_STRING_VALUE = require('./FN_FORMAT_STRING_VALUE')
  * @return {Object|Array|String}
  */
 
-function getStorage (key) {
+export default function getStorage (key) {
   return FN_FORMAT_STRING_VALUE(localStorage.getItem(key))
 }
-
-module.exports = getStorage

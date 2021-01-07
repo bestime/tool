@@ -1,4 +1,4 @@
-const getRandom = require('./getRandom')
+import getRandom from './getRandom'
 
 /**
  * 从数组中取随机值
@@ -6,7 +6,7 @@ const getRandom = require('./getRandom')
  * @param  {Number} num 取的个数
  * @return {Array}
  */
-function getRandomArray (arr, num) {
+export default function getRandomArray (arr, num) {
   var usedIndex = {}, res = [], rdIdx;
   function add () {
     if(res.length < num && res.length < arr.length) {
@@ -30,5 +30,3 @@ function getRandomArray (arr, num) {
   
   return res
 }
-
-module.exports = getRandomArray

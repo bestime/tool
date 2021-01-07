@@ -6,7 +6,7 @@ const OnreadyStateChange = 'onreadystatechange'
  * 文档加载完成【仅指文档就绪，图片等资源可能没有加载完成】
  * @param {Function} callback 加载完成的回调
  */
-function ready (callback) {
+export default function ready (callback) {
   var arg = arguments;
   if (document.addEventListener) {
     document.addEventListener(DomContentLoaded, function () {
@@ -26,5 +26,3 @@ function ready (callback) {
     callback();
   }
 }
-
-module.exports = ready

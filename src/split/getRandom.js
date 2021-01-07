@@ -5,15 +5,11 @@
  * @return {Boolean} [isInt = true] 默认true，是否返回整数
  */
 
-function getRandom (min, max, isInt) {
+export default function getRandom (min, max, isInt) {
   isInt = isInt === false ? 0 : 1
   min = Math.random() * ( max - min + isInt) + min; // 节省一个变量
   return isInt ? Math.floor(min) : min
 }
-
-module.exports = getRandom
-
-
 
 /*
 getRandom(0.1, 9.9, false)

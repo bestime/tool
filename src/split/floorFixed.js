@@ -1,8 +1,9 @@
-const _Number = require('./_Number')
-const padEnd = require('./padEnd')
-const split = require('./split')
-const trim = require('./trim')
-const ZERO_STRING = '0'
+import _Number from './_Number'
+import padEnd from './padEnd'
+import split from './split'
+import trim from './trim'
+import { ZERO_STRING } from './const'
+
 
 
 /**
@@ -14,7 +15,7 @@ const ZERO_STRING = '0'
  * 
  * @return {String}
  */
-function floorFixed (variate, digit) {
+export default function floorFixed (variate, digit) {
   variate = trim(_Number(variate))
   digit = _Number(digit)
 
@@ -25,6 +26,3 @@ function floorFixed (variate, digit) {
   }
   return digit < 1 ? arr[0] : arr[0] + '.' + decp.substr(0,digit)
 }
-
-
-module.exports = floorFixed

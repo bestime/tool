@@ -7,7 +7,7 @@
  * 
  * @return {Boolean}
  */
-function some (list, handle) {
+export default function some (list, handle) {
   var res = false, len = list.length;
   for(var a = 0; a < len; a++) {
     if(handle(list[a], a, list) === true) {
@@ -18,5 +18,3 @@ function some (list, handle) {
   
   return res
 }
-
-module.exports = some

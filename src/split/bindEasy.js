@@ -1,4 +1,4 @@
-const createUUID = require('./createUUID')
+
 
 /**
  * 用于绑定后不用取消
@@ -6,11 +6,10 @@ const createUUID = require('./createUUID')
  * @param {Boolean} isRemoveBefore 是否移除上一个同名函数，默认 false 可重复绑定
  */
 
-var bind = require('./bind')
+import bind from './bind'
+import createUUID from './createUUID'
 
-function bindEasy (oDom, type, handler, isRemoveBefore) {
+export default function bindEasy (oDom, type, handler, isRemoveBefore) {
     isRemoveBefore = isRemoveBefore || false
     bind(oDom, createUUID(5), type, handler, isRemoveBefore);
 }
-
-module.exports = bindEasy

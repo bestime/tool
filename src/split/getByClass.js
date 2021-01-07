@@ -1,6 +1,7 @@
-const getById = require('./getById')
-const forEach = require('./forEach')
-const hasClass = require('./hasClass')
+
+import hasClass from './hasClass'
+import forEach from './forEach'
+import { GET_BY_ID } from './const'
 
 /**
  * 通过className获取元素
@@ -10,10 +11,10 @@ const hasClass = require('./hasClass')
  * @param {Object|String} father   父级对象或者父级ID，如果不传入父级，则父级为body
  * @return {Array}                 返回查找到的所有元素的集合
  */
-function getByClass (str, oFather){
+export default function getByClass (str, oFather){
   var res;
   if(typeof oFather === 'string') {
-    oFather = getById(oFather)
+    oFather = GET_BY_ID(oFather)
   }
 
   if (!oFather) {
@@ -37,7 +38,7 @@ function getByClass (str, oFather){
     //     var type = getType(father);
     //     if(type == 'String') {
     //         if(father.length) {
-    //             father = getById(father);
+    //             father = GET_BY_ID(father);
     //         }else {
     //             return FatherErr;
     //         }
@@ -65,6 +66,5 @@ function getByClass (str, oFather){
     //     return tagAll;
     // }
 }
-module.exports = getByClass
 
 

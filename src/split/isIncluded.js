@@ -10,7 +10,7 @@
  * 
  * @return {Boolean} isIn 是否包含在数组里面
  */
-function isIncluded (value, list, isVague, startIndex, endIndex) {
+export default function isIncluded (value, list, isVague, startIndex, endIndex) {
   startIndex = startIndex || 0;
   endIndex = endIndex || list.length - 1;
   var res = false;
@@ -22,5 +22,3 @@ function isIncluded (value, list, isVague, startIndex, endIndex) {
   }
   return res;
 }
-
-module.exports = isIncluded

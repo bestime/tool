@@ -1,4 +1,4 @@
-var Tween = {
+const Tween = {
   Linear: function(t, b, c, d) { 
     return c * t / d + b; 
   },
@@ -313,4 +313,4 @@ function getNowTimeStamp () {
   return +new Date();
 }
 
-module.exports = Tween
+export default Tween

@@ -1,6 +1,7 @@
-const getRandom = require('./getRandom')
-const floorFixed = require('./floorFixed')
-const roundFixed = require('./roundFixed')
+
+import getRandom from './getRandom'
+import floorFixed from './floorFixed'
+import roundFixed from './roundFixed'
 
 /**
  * 随机将数字分配为几等份
@@ -12,7 +13,7 @@ const roundFixed = require('./roundFixed')
  * @return {Array<String>} list 字符串数组
  * 
  */
-function allocateNumber (total, copies, decimals, rate) {
+export default function allocateNumber (total, copies, decimals, rate) {
   decimals = decimals || 0
   rate = rate || 0
 
@@ -62,5 +63,3 @@ function allocateNumber (total, copies, decimals, rate) {
   // console.log('综合', amount, '=>', total, list)
   return list;
 }
-
-module.exports = allocateNumber

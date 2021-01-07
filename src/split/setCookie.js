@@ -1,4 +1,4 @@
-const SET_STRING_VALUE = require('./SET_STRING_VALUE')
+import SET_STRING_VALUE from './SET_STRING_VALUE'
 
 /**
  * 设置cookie。默认path="/"
@@ -6,7 +6,7 @@ const SET_STRING_VALUE = require('./SET_STRING_VALUE')
  * @parrm {*} value 设置的值
  * @param {Number} t 单位（毫秒）
  */
-function setCookie (key, value, t){
+export default function setCookie (key, value, t){
   value = SET_STRING_VALUE(value)
   var oDate = new Date();
   oDate.setTime(oDate.getTime() + t);
@@ -14,5 +14,3 @@ function setCookie (key, value, t){
   // oDate = oDate.toGMTString(); 
   document.cookie = key + '=' + encodeURI(value) + ';path=\/;expires=' + oDate.toGMTString();
 }
-
-module.exports = setCookie

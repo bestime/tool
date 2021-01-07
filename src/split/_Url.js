@@ -1,4 +1,4 @@
-const _String = require('./_String')
+import _String from './_String'
 
 /*
 
@@ -19,7 +19,7 @@ _Url('http://www.baidu.com/a.jpg', 'http://192.168.0.232:8099')
  * @param {String} originPrefix 如果url不完整，则使用此前缀
  * @return {String} 处理后的url
  */
-function _Url (originUrl, originPrefix) {
+export default function _Url (originUrl, originPrefix) {
   var url = _String(originUrl)
   var prefix = _String(originPrefix)
   if(!/https?:\/\//.test(url)) {
@@ -37,4 +37,3 @@ function _Url (originUrl, originPrefix) {
   // console.log(`【${originPrefix}】【${originUrl}】 =>`, url)
   return url
 }
-module.exports = _Url

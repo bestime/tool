@@ -5,7 +5,7 @@
  * @param {String} title 打开的空页面的过渡标题
  * @param {Function:(jump(url), close)} callback 回调函数，jump(url)执行最终页面，close关闭过渡页面
  */
-function openWindow (title, callback) {
+export default function openWindow (title, callback) {
   var newWindow = window.open('about:blank')
   title = title || '加载中，请稍候...'
   newWindow.document.write('\
@@ -25,8 +25,6 @@ function openWindow (title, callback) {
     }
   )
 }
-
-module.exports = openWindow
 
 
 

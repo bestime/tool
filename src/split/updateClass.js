@@ -1,7 +1,8 @@
-const isArray = require('./isArray')
-const forEach = require('./forEach')
-const trim = require('./trim')
-const hasClass = require('./hasClass')
+
+import isArray from './isArray'
+import forEach from './forEach'
+import trim from './trim'
+import hasClass from './hasClass'
 
 /**
  * 修改元素 className, 没有就添加
@@ -10,7 +11,7 @@ const hasClass = require('./hasClass')
  * @param {String || Array} newVal 修改对应索引的值，为空则替换
  */
 
-function updateClass (el, oldVal, newVal) {
+export default function updateClass (el, oldVal, newVal) {
   var className = el.className, exitMap = {};
   oldVal = isArray(oldVal) ? oldVal : [oldVal]
   newVal = isArray(newVal) ? newVal : [newVal]
@@ -42,5 +43,3 @@ function updateClass (el, oldVal, newVal) {
     return true
   }
 }
-
-module.exports = updateClass

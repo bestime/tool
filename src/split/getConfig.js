@@ -1,7 +1,7 @@
-const _Object  = require('./_Object')
-function getConfig (key) {
-  var res = _Object(window['jcy'])
+import _Object from './_Object'
+import { CONFIG_KEY } from './const'
+
+export default function getConfig (key) {
+  var res = _Object(window[CONFIG_KEY])
   return key ? res[key] : res
 }
-
-module.exports = getConfig

@@ -1,7 +1,7 @@
-const getScrollPosition = require('./getScrollPosition')
+import getScrollPosition from './getScrollPosition'
 
 //获取元素相对窗口的距离
-function getRelativePos(el) {
+export default function getRelativePos(el) {
 	// var scrollPos = getScrollPosition();
 	const bound = el.getBoundingClientRect()
 	return {
@@ -13,5 +13,3 @@ function getRelativePos(el) {
 		clientHeight: el.clientHeight
 	};
 }
-
-module.exports = getRelativePos

@@ -1,5 +1,5 @@
-const getType = require('./getType')
-const forEach = require('./forEach')
+import getType from './getType'
+import forEach from './forEach'
 
 /**
  * 过滤数据，支持数组、json
@@ -8,7 +8,7 @@ const forEach = require('./forEach')
  * 
  * @return {Array|Object} 过滤后的函数
  */
-function filter (data, handle) {
+export default function filter (data, handle) {
   var res;
   switch (getType(data)) {
     case 'Array':
@@ -29,5 +29,3 @@ function filter (data, handle) {
   
   return res
 }
-
-module.exports = filter

@@ -38,7 +38,7 @@ function getLastCode (s) {
 }
 
 // 生成随机条码
-function create () {
+export function createBarcode () {
   let str = '69';
   for(let i=0; i<10; i++){
     str += Math.floor(Math.random()*10);
@@ -49,7 +49,7 @@ function create () {
 }
 
 // 验证整个条码是否合法
-function check (str) {
+export function checkBarcode (str) {
   str = String(str)
   const left = str.substr(0,str.length-1)
   const right = str.substr(str.length-1, 1)
@@ -83,9 +83,4 @@ function check (str) {
   // console.log('10-各位 得出校验码：', ck)
 
   return right == ck
-}
-
-module.exports = {
-  create,
-  check
 }

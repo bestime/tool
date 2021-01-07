@@ -1,6 +1,7 @@
-var _Number = require('./_Number')
-var _String = require('./_String')
-var isObject = require('./isObject')
+
+import isObject from './isObject'
+import _String from './_String'
+import _Number from './_Number'
 
 /*
 replaceCustom({
@@ -22,7 +23,7 @@ replaceCustom({
 
 */
 
-function replaceCustom (opt) {
+export default function replaceCustom (opt) {
   var res = '';
   if(isObject(opt)) {
     res = _String(opt.value)
@@ -49,5 +50,3 @@ function replaceCustom (opt) {
   }
   return res;
 }
-
-module.exports = replaceCustom

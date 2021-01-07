@@ -1,16 +1,13 @@
+import _Function from './_Function'
+import bindEasy from './bindEasy'
+
 /**
  * 获取鼠标滚动方向。简洁优化版
  * @param {Obj}        el          需要滚动的对象。鼠标在对象上才执行
  * @param {Function}   callback    回调函数。滚轮滚动一次反回一个参数，-1：向下。1：向上
  * @param {Boolean}    isPrevent   是否阻止原生滚动，仅用来获取滚动方向
  */
-
-
-
-const bindEasy = require('./bindEasy.js')
-const _Function = require('./_Function')
-
-function mouseWheel (el, callback, isPrevent) {
+export default function mouseWheel (el, callback, isPrevent) {
 	if(!el) return;	
 	/**
 	 * ie/chrome : onmousewheel
@@ -51,5 +48,3 @@ function mouseWheel (el, callback, isPrevent) {
 		}
 	}
 }
-
-module.exports = mouseWheel

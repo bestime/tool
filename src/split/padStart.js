@@ -1,4 +1,4 @@
-const PAD_STRING = require('./PAD_STRING')
+import PAD_STRING from './PAD_STRING'
 
 /**
  * 字符串自定义向前补齐长度
@@ -8,8 +8,6 @@ const PAD_STRING = require('./PAD_STRING')
  * 
  * @return {String}
  */
-function padStart (padTarget, targetLength, padString) {
+export default function padStart (padTarget, targetLength, padString) {
   return PAD_STRING(padTarget, targetLength, padString, -1)
 }
-
-module.exports = padStart

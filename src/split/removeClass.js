@@ -1,6 +1,7 @@
-const trim = require('./trim')
-const forEach = require('./forEach')
-const getType = require('./getType')
+
+import getType from './getType'
+import forEach from './forEach'
+import trim from './trim'
 
 /**
  * 移除class
@@ -8,7 +9,7 @@ const getType = require('./getType')
  * @param {String || Array} cl # 需要移除的className。可接受单个字符串或数组 
  */
 
-function removeClass (el, deleteNames) {
+export default function removeClass (el, deleteNames) {
   var res = el.className
   deleteNames = getType(deleteNames) === 'String' ? [deleteNames] : deleteNames
   forEach(deleteNames, function (oneName) {
@@ -18,5 +19,3 @@ function removeClass (el, deleteNames) {
     el.className = trim(res)
   }
 }
-
-module.exports = removeClass

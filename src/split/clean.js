@@ -1,8 +1,8 @@
-const isArray = require('./isArray')
-const isObject = require('./isObject')
-const isEmpty = require('./isEmpty')
-const isString = require('./isString')
-const trim = require('./trim')
+import trim from './trim'
+import isString from './isString'
+import isEmpty from './isEmpty'
+import isObject from './isObject'
+import isArray from './isArray'
 
 /**
  * 清空无效数据
@@ -11,7 +11,7 @@ const trim = require('./trim')
  * @param {Boolean} [removeEmptyObject=true] 是否需移除[空json，空数组]，默认true
  * @return {*} data 与清理过的和传入数据相同格式的数据
  */
-function clean (data, removeEmptyStr, removeEmptyObject) {
+export default function clean (data, removeEmptyStr, removeEmptyObject) {
   var res;
   removeEmptyObject = removeEmptyObject === false ? false : true;
   if(isObject(data)) {
@@ -65,6 +65,3 @@ function _filterData (data, removeEmptyStr, removeEmptyObject, callback) {
     }
   }
 }
-
-
-module.exports = clean

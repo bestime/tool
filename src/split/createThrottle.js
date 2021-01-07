@@ -8,7 +8,7 @@
  * 
  * @return {Function} 改变this指向自行bind、call、apply。
  */
-function createThrottle (handler, wait, options) {
+export default function createThrottle (handler, wait, options) {
   wait = wait || 100
   var startTime = 0, nowTime, self, timer01, arg, timer02, count = 0;
   options = options || {}
@@ -56,8 +56,6 @@ function createThrottle (handler, wait, options) {
     timer01 = setTimeout(checkLast, wait)
   }
 }
-
-module.exports = createThrottle
 
 
 

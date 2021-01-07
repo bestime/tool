@@ -3,8 +3,6 @@
  * @param {Element} DOM 填充的对象
  * @param {String} htmlStr 填充的html字符串
 */
-function fillHtml (DOM, htmlStr) {
+export default function fillHtml (DOM, htmlStr) {
   DOM.styleSheet ? DOM.styleSheet.cssText = htmlStr : DOM.innerHTML = htmlStr;
 }
-
-module.exports = fillHtml

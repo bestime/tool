@@ -4,7 +4,7 @@
  * @return {String} 目录路径
  */
 
-function getJsPath (tir) {
+export default function getJsPath (tir) {
   tir = tir || 0 
   var reg = '\/[^/]*', arr = document.scripts;
   for (var a = 0; a < tir; a++) {
@@ -12,5 +12,3 @@ function getJsPath (tir) {
   }
 	return arr[arr.length-1].src.replace(new RegExp(reg + '$'), '/');
 }
-
-module.exports = getJsPath

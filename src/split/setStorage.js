@@ -1,4 +1,5 @@
-const SET_STRING_VALUE = require('./SET_STRING_VALUE')
+import SET_STRING_VALUE from './SET_STRING_VALUE'
+import { LOCAL_STROAGE } from './const'
 
 /**
  * 设置本地存储
@@ -7,8 +8,6 @@ const SET_STRING_VALUE = require('./SET_STRING_VALUE')
  * @param {*} val 
  */
 
-function setStorage (key, val) {
-  localStorage.setItem(key, SET_STRING_VALUE(val))
+export default function setStorage (key, val) {
+  LOCAL_STROAGE.setItem(key, SET_STRING_VALUE(val))
 }
-
-module.exports = setStorage

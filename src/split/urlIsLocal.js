@@ -1,6 +1,6 @@
 
-const isArray = require('./isArray')
-const isIncluded = require('./isIncluded')
+import isArray from './isArray'
+import isIncluded from './isIncluded'
 
 /**
  * 判断浏览器地址是本地环境和开发环境
@@ -9,7 +9,7 @@ const isIncluded = require('./isIncluded')
  * @return {Boolean}
  */
 
-function urlIsLocal (host, localList) {
+export default function urlIsLocal (host, localList) {
   host = host || window.location.host
   var res = false;
   if(isArray(localList) && localList.length > 0) {
@@ -19,5 +19,3 @@ function urlIsLocal (host, localList) {
   }
   return res;
 }
-
-module.exports = urlIsLocal;

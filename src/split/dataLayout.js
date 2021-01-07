@@ -1,7 +1,8 @@
-var getType = require('./getType')
-var defaultType = require('./defaultType')
-var isObject = require('./isObject')
-var FN_FORMAT_STRING_VALUE = require('./FN_FORMAT_STRING_VALUE')
+
+import FN_FORMAT_STRING_VALUE from './FN_FORMAT_STRING_VALUE'
+import isObject from './isObject'
+import defaultType from './defaultType'
+import getType from './getType'
 
 /**
  * 递归数据格式化，多用于多层级json数据
@@ -12,7 +13,7 @@ var FN_FORMAT_STRING_VALUE = require('./FN_FORMAT_STRING_VALUE')
  * @return {any} 返回的数据
  */
 
-function dataLayout (layout, data) {
+export default function dataLayout (layout, data) {
   data = defaultType(getType(layout), FN_FORMAT_STRING_VALUE(data))
 
   ;(function deep (item, fmt) {
@@ -28,5 +29,3 @@ function dataLayout (layout, data) {
 
   return data
 }
-
-module.exports = dataLayout

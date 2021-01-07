@@ -7,7 +7,7 @@
  * @example sectionMerger([[1,5],[2,8],[9,10],[20,30]], true) => [[1,10], [20,30]]
  * 
  */
-function sectionMerger (list, sort) {
+export default function sectionMerger (list, sort) {
   // 如果确定是排过序的，就不必排序了
   sort && list.sort(function (a, b) {
     return a[0] > b[0] ? 1 : -1
@@ -26,5 +26,3 @@ function sectionMerger (list, sort) {
   }
   return list
 }
-
-module.exports = sectionMerger

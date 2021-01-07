@@ -1,10 +1,12 @@
+import { _UNDEFINED } from './const'
+
 /**
  * 轮询函数
  * @param {Object} options
  * @return {Object<{run,stop}>}
  */
 
-function createLoop (options) {
+export default function createLoop (options) {
   var wait = options.wait || 1000
   var outtime = options.outtime || 0
   var timekeeper = options.timekeeper
@@ -24,7 +26,7 @@ function createLoop (options) {
   function stop () {
     clearTimeout(timer)
     clearInterval(timerout)
-    inlay = arg = aidx = self = undefined;
+    inlay = arg = aidx = self = _UNDEFINED;
     count = 0
   }
 
@@ -69,10 +71,6 @@ function createLoop (options) {
   }
 }
 
-
-
-
-module.exports = createLoop
 
 
 

@@ -1,4 +1,4 @@
-const _String  = require('./_String')
+import _String from './_String'
 
 /**
  * 正则千分位转换，支持小数（任意字符串按位数相隔）
@@ -7,7 +7,7 @@ const _String  = require('./_String')
  * @param {Sting} [symbol=','] 千分位替换符号，默认逗号
  * @param {Number} [len=3] 按多少位分隔一次，默认3
  */
-function thousands (str, symbol, len) {
+export default function thousands (str, symbol, len) {
   len = len || 3
   symbol = symbol || ','
   return _String(str).replace(/([^.]*)?(\.)?(.*)?/, function(item, pre, dot, next) {
@@ -15,8 +15,6 @@ function thousands (str, symbol, len) {
   }) 
   // return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, symbol || ',');
 }
-
-module.exports = thousands
 
 
 

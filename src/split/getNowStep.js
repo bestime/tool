@@ -1,12 +1,13 @@
-const _Number = require('./_Number')
-const forEach = require('./forEach')
-const isFunction = require('./isFunction')
+
+import _Number from './_Number'
+import isFunction from './isFunction'
+import forEach from './forEach'
 
 /**
  * 获取当前达到的位置
  * 参考对象：[1, 5, 9] 如果现在是6 => 上一个是5下一个是9 
  */
-function getNowStep (arr, now, handle) {
+export default function getNowStep (arr, now, handle) {
   var one, findIndex = -1;
   now = _Number(now)
   forEach(arr, function (item, index) {
@@ -25,5 +26,3 @@ function getNowStep (arr, now, handle) {
     next: arr[findIndex + 1]
   }
 }
-
-module.exports = getNowStep

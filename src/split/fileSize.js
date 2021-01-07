@@ -1,10 +1,7 @@
-const floorFixed = require("./floorFixed")
 
-const Bytes = 8;
-const KB = Bytes * 1024
-const MB = KB * 1024
-const GB = MB * 1024
-const TB = GB * 1024
+import floorFixed from './floorFixed'
+
+import { Bytes, KB, GB, MB, TB } from './const'
 
 
 /**
@@ -13,7 +10,7 @@ const TB = GB * 1024
  * @param {Number} [unit="Bytes"] 传入大小的单位。可选：["KB", "Bytes"]
  * @return {Object} 计算后的详细信息
  */
-function fileSize (value, unit) {
+export default function fileSize (value, unit) {
   var bit = value;
   switch(unit) {
     case 'KB':
@@ -52,8 +49,6 @@ function fileSize (value, unit) {
     format: format
   }
 }
-
-module.exports = fileSize
 
 
 /*

@@ -1,10 +1,7 @@
-var _String = require('./_String')
-const _Number = require('./_Number')
-const trim = require('./trim')
-const padStart = require('./padStart')
-const pad_2_0 = function (num) {
-	return padStart(num, 2, '0')
-}
+import padStart from './padStart'
+import trim from './trim'
+import _Number from './_Number'
+import _String from './_String'
 
 
 /**
@@ -23,7 +20,7 @@ const pad_2_0 = function (num) {
  * 
  * @return {String}
  */
-function FORMAT_TIME_BY_MAP (fmt, Y, M, D, hour, m, s, S, T, clean) {
+export default function FORMAT_TIME_BY_MAP (fmt, Y, M, D, hour, m, s, S, T, clean) {
   fmt = fmt ? _String(fmt) : 'YYYY-MM-DD HH:mm:ss'
   var regStr = '', item, hasval;
   var _Map = {
@@ -58,9 +55,7 @@ function FORMAT_TIME_BY_MAP (fmt, Y, M, D, hour, m, s, S, T, clean) {
 
 function substr (value, mark) {
   if(!/t/.test(mark)) {
-    value = pad_2_0(value, mark)
+    value = padStart(value, 2, '0')
   }
   return /Y/.test(mark) ? value.substr(-mark.length) : value
 }
-
-module.exports = FORMAT_TIME_BY_MAP

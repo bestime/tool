@@ -6,12 +6,10 @@
  * 
  * @return {String} 处理后的字符串
  */
-function $HTTP (url, mode) {
+export default function $HTTP (url, mode) {
   let find, res = String(url).replace(/.*?(?=:\/\/)/, function (pre) {
     find = true
     return /http/.test(pre) ? mode : pre
   });
   return find ? res : mode + '://' + url
 }
-
-module.exports = $HTTP

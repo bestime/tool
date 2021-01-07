@@ -8,7 +8,7 @@
  * 				handler 同类型，同名函数的上一个缓存函数(手动传入)
  */
 
-function unbind (oDom, name, type, handler){
+export default function unbind (oDom, name, type, handler){
   try {
     var computedFun = handler || oDom.bindInfo[type][name].handler
     if (oDom.removeEventListener) {        
@@ -20,5 +20,3 @@ function unbind (oDom, name, type, handler){
     return false;
   }
 }
-
-module.exports = unbind

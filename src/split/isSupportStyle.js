@@ -1,4 +1,4 @@
-function isSupportStyle (name) {
+export default function isSupportStyle (name) {
   var el = document.createElement('div'),  
     vendors = ['Webkit', 'Moz', 'O', 'ms'],
     len = vendors.length;  
@@ -14,5 +14,3 @@ function isSupportStyle (name) {
   }  
   return false;  
 }
-
-module.exports = isSupportStyle

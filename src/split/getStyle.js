@@ -4,7 +4,7 @@
  * @param {String} styleName 样式名
  * @param {Boolean} inlineStyle 是否获取元素行内样式，文本的方式，不是实际的
  */
-function getStyle (el, styleName, inlineStyle) {
+export default function getStyle (el, styleName, inlineStyle) {
   if(el.style[styleName] && inlineStyle){
     return el.style[styleName];
   }else if(el.currentStyle){
@@ -17,5 +17,3 @@ function getStyle (el, styleName, inlineStyle) {
     return null
   }
 }
-
-module.exports = getStyle

@@ -1,4 +1,4 @@
-const _String = require('./_String')
+import _String from './_String'
 /**
  * 字符串按次数复制
  * @param {String} target 需要复制的字符串，或像字符串数字
@@ -7,7 +7,7 @@ const _String = require('./_String')
  * @return {String}
  * 
  */
-function repeatString (target, count) {
+export default function repeatString (target, count) {
   var res = '';
   target = _String(target)
   if (target.length * count < 1 << 28) {
@@ -24,5 +24,3 @@ function repeatString (target, count) {
   }
   return res;
 }
-
-module.exports = repeatString

@@ -4,7 +4,7 @@
  * 
  * @return {Boolean}
  */
-function isFullScreen() {
+export default function isFullScreen() {
   return !!(
     document.fullscreen ||
     document.mozFullScreen ||
@@ -13,5 +13,3 @@ function isFullScreen() {
     document.msFullScreen
   );
 }
-
-module.exports = isFullScreen

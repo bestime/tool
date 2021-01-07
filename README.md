@@ -1,22 +1,14 @@
-## (一) 工具库相关
+## (一) 工具库相关（2021-01-07：以前webpack版的文件移到@webpack分支不再维护了）
 
 ### ① 测试地址
-[https://bestime.github.io/tool/](https://bestime.github.io/tool/)
+  - 已删除
 
 
 ### ② 在线 javascript 地址
-```html
-<!-- 最新版本 -->
-<script src="https://bestime.github.io/tool/js/bestime/bestime@beta.min.js"></script>
-
-<!-- 指定版本 -->
-<script src="https://bestime.github.io/tool/js/bestime/bestime@[version].min.js"></script>
-```
+  - 已删除
 
 ### ③ 在线 css 地址
-```javascript
-<link href="https://bestime.github.io/tool/css/bestime.css" rel="stylesheet" type="text/css">
-```
+  - 已删除
 
 ### ④stylus 预编译
 ```
@@ -66,25 +58,41 @@ $.ajax({
 
 ```
 
-## (四)、谨慎使用，以后考虑移除
-- barCode
-- loading
-- numberMax
-- numberMin
-- FunctionOnce
-- numberLimit
-- ContainerFollowMouse
-- DomMouse
+## (四)、library已移除以下方法 (部分源文件还可直接引用)
+  `throttle`
+  `debounce`
+  `FN_debounce`
+  `FunctionOnce`
+  `FunctionConfirm`
+  `FunctionLoop`
+  `numberLimit`
+  `ContainerFollowMouse`
+  `DomMouse`
+  `loading`
+  `CreateToast`
+  `numberMax`
+  `numberMin`
+  `barCode`
+  `mapJson`
+  `array`
+  `zero`
+  `createUUID`
+  `isPhone`
+  `write`
+  `average`
+  `openWindow`
+  `drag`
+  `fixed`
+  `Pager`
+  `FN_confirm`
+  `$null`
+  `authorization`
+  `getNowTime`
+  `getMinAndMax`
+  `RMB`
 
-## (五)、方法升级，用法不同，之前的即将移除
-- throttle => FN_throttle
-- debounce => FN_debounce
-- FunctionConfirm => FN_confirm
-- FunctionLoop => FN_loop
-
-
-
-
+## (五)、邮箱账号
+ - 火狐：jiangyang0909@foxmail.com
 
 ## (六)、git 常用操作
 ```
@@ -127,5 +135,4 @@ git checkout -b <branch>
  - 圆角环形渐变进度条：[在线demo](./demo/canvas/circle-progress.html)
 
 
-## (十三)、邮箱账号
- - 火狐：jiangyang0909@foxmail.com
+

@@ -1,10 +1,9 @@
 
-
-const isEmpty = require('./isEmpty')
-const _Object = require('./_Object')
+import isEmpty from './isEmpty'
+import _Object from './_Object'
 
 //删除cookie
-function removeCookie (key, opt) {
+export default function removeCookie (key, opt) {
   opt = _Object(opt)
   opt.path = '/'
 
@@ -28,5 +27,3 @@ function removeCookie (key, opt) {
     document.cookie = str        
   }
 }
-
-module.exports = removeCookie

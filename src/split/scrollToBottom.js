@@ -1,14 +1,12 @@
-const _Function = require('./_Function')
-const Tween = require('./Tween')
-const _Number = require('./_Number')
-
-
+import _Number from './_Number'
+import Tween from './Tween'
+import _Function from './_Function'
 /**
  * 
  * @param {Dom} el 需要滚动到底部的目标节点
  * @param {Function} callback 滚动完成的回调
  */
-function scrollToBottom (el, callback, fx, dutation) {
+export default function scrollToBottom (el, callback, fx, dutation) {
   dutation = _Number(dutation) || 700
   fx = fx || Tween.Quart.easeInOut
   callback = _Function(callback)
@@ -33,5 +31,3 @@ function scrollToBottom (el, callback, fx, dutation) {
     }
   })
 }
-
-module.exports = scrollToBottom

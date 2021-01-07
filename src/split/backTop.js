@@ -1,6 +1,7 @@
-const Tween = require('./Tween')
-const isFunction = require('./isFunction')
-const _Number = require('./_Number')
+
+import Tween from './Tween'
+import isFunction from './isFunction'
+import _Number from './_Number'
 
 /**
  * 
@@ -9,7 +10,7 @@ const _Number = require('./_Number')
  * @param {Function} [fx=Tween.Quart.easeInOut] 缓动函数
  * @param {Number} [duration=700] 持续时间
  */
-function backTop (el, callback, fx, duration) {
+export default function backTop (el, callback, fx, duration) {
 	fx = fx || Tween.Quart.easeInOut
   duration = _Number(duration) || 700
 	var now = 0
@@ -33,5 +34,3 @@ function backTop (el, callback, fx, duration) {
 		}
   })
 }
-
-module.exports = backTop

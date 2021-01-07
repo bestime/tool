@@ -1,5 +1,5 @@
-const _String = require('./_String')
-const split = require('./split')
+import split from './split'
+import _String from './_String'
 
 /**
  * 模糊搜索，例如 a4 可匹配 a3645
@@ -8,7 +8,7 @@ const split = require('./split')
  * @param {String} [regFlags=''] 与 RegExp 第二个参数相同，指定是否全局、区分大小写等
  * @return {Boolean}
  */
-function isFuzzyMatch (searchString, targetString, regFlags) {
+export default function isFuzzyMatch (searchString, targetString, regFlags) {
   targetString = _String(targetString)
   searchString = _String(searchString)
   let res = true;
@@ -19,5 +19,3 @@ function isFuzzyMatch (searchString, targetString, regFlags) {
   }
   return res;
 }
-
-module.exports = isFuzzyMatch

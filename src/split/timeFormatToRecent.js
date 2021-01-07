@@ -1,6 +1,9 @@
-const _Number = require('./_Number')
-const convertTime = require('./convertTime')
-const _Object = require('./_Object')
+
+import _Number from './_Number'
+import _Object from './_Object'
+import convertTime from './convertTime'
+import { ONE_SECOND_TIME_STAMP, ONE_DAY_TIME_STAMP, ONE_HOUR_TIME_STAMP, ONE_MINUTE_TIME_STAMP } from './const'
+
 /**
  * 格式化时间为最近时间
  * @param {Number} millisecond 毫秒 
@@ -10,27 +13,22 @@ const _Object = require('./_Object')
  *    @option {Number} nowStamp 当前时间戳 毫秒
  * @return {String}
  */
-function timeFormatToRecent (millisecond, opt) {
+export default function timeFormatToRecent (millisecond, opt) {
   opt = _Object(opt)
-  var oneDay = 1000 * 60 * 60 * 24
-  var oneHour = 1000 * 60 * 60
-  var oneMinute = 1000 * 60
-  var oneSecond = 1000
   millisecond = _Number(millisecond)
-
   var nowStamp = _Number(opt.nowStamp) || +new Date
   var oldTime = convertTime(new Date(millisecond))
   var nowTime = convertTime(new Date(nowStamp))
   // 今日过了多少秒
-  var nowDayPass = nowTime.hour * oneHour + nowTime.minute * oneMinute + nowTime.second * oneSecond + _Number(nowTime.milliSecond);
+  var nowDayPass = nowTime.hour * ONE_HOUR_TIME_STAMP + nowTime.minute * ONE_MINUTE_TIME_STAMP + nowTime.second * ONE_SECOND_TIME_STAMP + _Number(nowTime.milliSecond);
   var last = nowStamp - millisecond
   var chaDay = last - nowDayPass
 
   var res = ''
-  var day = Math.floor(last/oneDay); last = last % oneDay;
-  var hour = Math.floor(last/oneHour); last = last % oneHour;
-  var minute = Math.floor(last/oneMinute); last = last % oneMinute;
-  var second = Math.floor(last/oneSecond); last = last % oneSecond;
+  var day = Math.floor(last/ONE_DAY_TIME_STAMP); last = last % ONE_DAY_TIME_STAMP;
+  var hour = Math.floor(last/ONE_HOUR_TIME_STAMP); last = last % ONE_HOUR_TIME_STAMP;
+  var minute = Math.floor(last/ONE_MINUTE_TIME_STAMP); last = last % ONE_MINUTE_TIME_STAMP;
+  var second = Math.floor(last/ONE_SECOND_TIME_STAMP); last = last % ONE_SECOND_TIME_STAMP;
 
   if(second<1) res = '刚刚'
   if(second) res = second + '秒前'
@@ -38,9 +36,9 @@ function timeFormatToRecent (millisecond, opt) {
   if(hour) res = hour + '小时前'
   
   if(chaDay>0) {
-    if(chaDay <= oneDay) {
+    if(chaDay <= ONE_DAY_TIME_STAMP) {
       res = '昨天 ' + substrTime()
-    } else if(chaDay <= oneDay * 2) {
+    } else if(chaDay <= ONE_DAY_TIME_STAMP * 2) {
       res = '前天 ' + substrTime()
     } else {
       res = `${oldTime.year===nowTime.year ? '' : oldTime.year + '-'}` + `${oldTime.month}-${oldTime.day} ${substrTime()}`
@@ -56,8 +54,6 @@ function timeFormatToRecent (millisecond, opt) {
 
   return res
 }
-
-module.exports = timeFormatToRecent
 
 
 

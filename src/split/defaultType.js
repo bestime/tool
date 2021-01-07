@@ -1,10 +1,10 @@
-const _Array = require('./_Array')
-const _Object = require('./_Object')
-const _Function = require('./_Function')
-const _String = require('./_String')
-const _Number = require('./_Number')
-const _Boolean = require('./_Boolean')
-
+import _Boolean from './_Boolean'
+import _Number from './_Number'
+import _String from './_String'
+import _Function from './_Function'
+import _Object from './_Object'
+import _Array from './_Array'
+import { TYPE_FUNCTION, TYPE_OBJECT, TYPE_ARRAY, TYPE_STRING, TYPE_NUMBER, TYPE_BOOLEAN } from './const'
 
 
 /**
@@ -14,18 +14,16 @@ const _Boolean = require('./_Boolean')
  * 
  * @return {*} 理想数据类型的数据
  */
-function defaultType (type, data) {
+export default function defaultType (type, data) {
   let res = data
   switch (type) {
-    case 'Function': res = _Function(data); break;
-    case 'Object': res = _Object(data); break;
-    case 'Array': res = _Array(data); break;   
-    case 'String': res = _String(data); break;   
-    case 'Number': res = _Number(data); break;   
-    case 'Boolean': res = _Boolean(data); break;
+    case TYPE_FUNCTION: res = _Function(data); break;
+    case TYPE_OBJECT: res = _Object(data); break;
+    case TYPE_ARRAY: res = _Array(data); break;   
+    case TYPE_STRING: res = _String(data); break;   
+    case TYPE_NUMBER: res = _Number(data); break;   
+    case TYPE_BOOLEAN: res = _Boolean(data); break;
   }
   
   return res
 }
-
-module.exports = defaultType

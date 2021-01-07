@@ -1,5 +1,5 @@
-const _String = require('./_String')
-const isString = require('./isString')
+import _String from './_String'
+import isString from './isString'
 
 /**
  * 字符串转数组，空字符串转为空数组（原生方法会将空字符串转成长度为1的数组，不好用）
@@ -9,8 +9,6 @@ const isString = require('./isString')
  * @return {Array}
  */
 
-function split (str, flag) {
+export default function split (str, flag) {
 	return isString(str) && str !== '' ? str.split(_String(flag)) : []
 }
-
-module.exports = split

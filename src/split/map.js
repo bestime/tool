@@ -1,6 +1,7 @@
-const clone = require('./clone')
-const isArray = require('./isArray')
-const isObject = require('./isObject')
+
+import isObject from './isObject'
+import isArray from './isArray'
+import clone from './clone'
 
 /**
  * 带filter功能的 map
@@ -11,7 +12,7 @@ const isObject = require('./isObject')
  * 
  * @retur {Array}
  */
-function map (data, handle, removeEmpty, toStringMark) {
+export default function map (data, handle, removeEmpty, toStringMark) {
   var val, res = toStringMark == null ? [] : '';
 
   function commitValue (val) {
@@ -37,5 +38,3 @@ function map (data, handle, removeEmpty, toStringMark) {
   }
   return res
 }
-
-module.exports = map

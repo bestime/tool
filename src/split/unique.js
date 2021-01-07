@@ -1,6 +1,6 @@
-const forEach = require('./forEach')
-const getType = require('./getType')
-const isFunction  = require('./isFunction')
+import forEach from './forEach'
+import getType from './getType'
+import isFunction from './isFunction'
 
 
 /**
@@ -10,7 +10,7 @@ const isFunction  = require('./isFunction')
  * @param {Function} [handle(String key)]循环处理函数，返回比较的key
  */
 
-function unique (arr, isVague, handle) {
+export default function unique (arr, isVague, handle) {
   var res = [], exist = {}, checkKey;
   forEach(arr, function (item) {
     checkKey = isFunction(handle) ? handle(item) : item
@@ -23,6 +23,3 @@ function unique (arr, isVague, handle) {
 
   return res;
 }
-
-
-module.exports = unique

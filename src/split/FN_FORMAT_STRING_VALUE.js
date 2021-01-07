@@ -1,4 +1,6 @@
 
+import { TYPE_UNDEFINED_SMALL, TYPE_NULL_SMALL, STRING_FALSE, STRING_TRUE } from './const'
+
 /**
  * 解析字符串
  * 1、布尔值转换
@@ -9,16 +11,16 @@
  * 
  * @return {*}
  */
-function FN_FORMAT_STRING_VALUE (data) {
+export default function FN_FORMAT_STRING_VALUE (data) {
   switch (typeof data) {
-    case 'undefined':
-    case 'null': break;
+    case TYPE_UNDEFINED_SMALL:
+    case TYPE_NULL_SMALL: break;
     default:
       if (/^\d+$/.test(data)) {
         data = String(data);
-      } else if(data == 'false') {
+      } else if(data == STRING_FALSE) {
         data = false
-      }else if(data == 'true') {
+      }else if(data == STRING_TRUE) {
         data = true
       } else {
         try { data = JSON.parse(data) } catch (e) {}
@@ -26,5 +28,3 @@ function FN_FORMAT_STRING_VALUE (data) {
   }
   return data
 }
-
-module.exports = FN_FORMAT_STRING_VALUE

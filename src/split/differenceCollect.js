@@ -1,4 +1,4 @@
-const clone = require('./clone')
+import clone from './clone'
 
 /**
  * 获取两个数组中的差异项
@@ -12,7 +12,7 @@ const clone = require('./clone')
  * 
  */
 
-function differenceCollect(a, b, comparison) {
+export default function differenceCollect(a, b, comparison) {
   var index1, item1, differ1 = clone(a);
   var index2, item2, differ2 = clone(b);
   
@@ -30,5 +30,3 @@ function differenceCollect(a, b, comparison) {
 
   return [differ1, differ2]
 }
-
-module.exports = differenceCollect

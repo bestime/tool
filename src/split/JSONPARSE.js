@@ -1,5 +1,6 @@
-var isArray = require('./isArray')
-var isObject = require('./isObject')
+import isArray from './isArray'
+import isObject from './isObject'
+
 
 /**
  * JSON.parse 封装
@@ -9,7 +10,7 @@ var isObject = require('./isObject')
  * @param {String} dataType 指定解析成哪种数据类型
  * @return {*}
  */
-function JSONPARSE (data, dataType) {
+export default function JSONPARSE (data, dataType) {
   var res = data;
   try { res = JSON.parse(data) } catch (e) {}
   if(dataType === 'Array') {
@@ -23,5 +24,3 @@ function JSONPARSE (data, dataType) {
   }
   return res
 }
-
-module.exports = JSONPARSE

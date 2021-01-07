@@ -1,7 +1,5 @@
-const getType = require('./getType')
+import getType from './getType'
 
-function isArray (data) {
+export default function isArray (data) {
   return getType(data) === 'Array'
 }
-
-module.exports = isArray

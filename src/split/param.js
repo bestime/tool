@@ -1,16 +1,17 @@
-var getType = require('./getType')
+import getType from './getType'
+import { TYPE_UNDEFINED_SMALL } from './const'
 
 
 
 /**
  * 原生js实现对象序列化为字符串, 用于URL查询字符串或AJAX请求
  */
-function param (data) {
+export default function param (data) {
   var res = [];
   // 当value不为数组或者JSON时，就可创建一条数据
   function addOne (key, value) {
     value = typeof value === 'function' ? value() : value;
-    value = value === undefined || value === null || typeof value === 'undefined' ? '' : value
+    value = value === undefined || value === null || typeof value === TYPE_UNDEFINED_SMALL ? '' : value
     res[res.length] = encodeURIComponent(key) + '=' + encodeURIComponent(value)
   }
   
@@ -50,11 +51,5 @@ function param (data) {
       }
     }
   }
-
-  // console.log(res)
-  
   return res.join('&')
 };
-
-
-module.exports = param

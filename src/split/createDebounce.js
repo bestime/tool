@@ -11,7 +11,7 @@ function defaultValue (data, value) {
  * 
  * @return {Function} 改变this指向自行bind、call、apply。
  */
-function createDebounce (hander, wait, options) {
+export default function createDebounce (hander, wait, options) {
   var timer_leading,
       self,
       arg,
@@ -54,7 +54,5 @@ function createDebounce (hander, wait, options) {
     }
   }
 }
-
-module.exports = createDebounce
 
 

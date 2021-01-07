@@ -1,7 +1,7 @@
-const Tween = require('./Tween')
-const isFunction = require('./isFunction')
-const _Number = require('./_Number')
-const getRelativePos = require('./getRelativePos')
+import Tween from './Tween'
+import isFunction from './isFunction'
+import _Number from './_Number'
+import getRelativePos from './getRelativePos'
 
 /**
  * @param {Element} dom [必填]
@@ -13,7 +13,7 @@ const getRelativePos = require('./getRelativePos')
  * 
  * @return {Object} iScroll 实例化对象：iScroll.stop()可以停止滚动
  */
-function scrollToElement (dom, oFather, callback, fx, duration, fix) {
+export default function scrollToElement (dom, oFather, callback, fx, duration, fix) {
   fx = fx || Tween.Quart.easeInOut
   duration = _Number(duration) || 700
   oFather = oFather || dom.parentNode
@@ -38,5 +38,3 @@ function scrollToElement (dom, oFather, callback, fx, duration, fix) {
     }
   })
 }
-
-module.exports = scrollToElement

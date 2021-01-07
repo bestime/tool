@@ -1,5 +1,5 @@
-const _Number = require('./_Number')
-const trim = require('./trim')
+import trim from './trim'
+import _Number from './_Number'
 
 /**
  * 是否是数字，可以判断小数，正负数，整数。
@@ -10,7 +10,7 @@ const trim = require('./trim')
  * @param {String} integer 是否为整数 ['*', 'int']
  */
 
-function isNumber (str, sign, integer) {
+export default function isNumber (str, sign, integer) {
   str = trim(str) || '0'
   if(/[^+-.\d]/.test(str)) return false
   var zhengfu = '(-|\\+)?' // 正负
@@ -32,5 +32,3 @@ function isNumber (str, sign, integer) {
   }
   return res
 }
-
-module.exports = isNumber

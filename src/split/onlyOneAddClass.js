@@ -1,7 +1,6 @@
-
-const addClass = require('./addClass.js')
-const removeClass = require('./removeClass.js')
-const forEach = require('./forEach.js')
+import forEach from './forEach'
+import removeClass from './removeClass'
+import addClass from './addClass'
 
 /**
  * 仅给数组中当前索引的对象添加class  其余对象移除class
@@ -11,7 +10,7 @@ const forEach = require('./forEach.js')
  * @param {String} className 需要切换的class  
  */
 
-function onlyOneAddClass (arr, index, className) {
+export default function onlyOneAddClass (arr, index, className) {
 	forEach(arr, function (item, a) {
 		if(a === index) {
 			addClass(item, className);
@@ -20,5 +19,3 @@ function onlyOneAddClass (arr, index, className) {
 		}
 	})
 }
-
-module.exports = onlyOneAddClass

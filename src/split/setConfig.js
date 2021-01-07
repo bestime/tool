@@ -1,8 +1,8 @@
-const _Object  = require('./_Object')
+import _Object from './_Object'
+import { CONFIG_KEY } from './const'
 
-function setConfig (key, val) {
-  window['jcy'] = _Object(window['jcy'])
-  window['jcy'][key] = val
+
+export default function setConfig (key, val) {
+  window[CONFIG_KEY] = _Object(window[CONFIG_KEY])
+  window[CONFIG_KEY][key] = val
 }
-
-module.exports = setConfig

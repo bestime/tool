@@ -1,4 +1,4 @@
-var _Function = require('./_Function')
+import _Function from './_Function'
 
 /**
  * 浏览器全屏控制
@@ -6,7 +6,7 @@ var _Function = require('./_Function')
  * @param {?Boolean} bol 操做方式：true => 全屏；false => 退出全屏；不填 => 切换
  * @param {?Funciton} callback 返回执行后的状态
  */
-function fullScreen(el, bol, callback) {
+export default function fullScreen(el, bol, callback) {
   callback = _Function(callback)
   if (bol) {
     open()
@@ -64,5 +64,3 @@ function open(element) {
   }
 }
 
-
-module.exports = fullScreen

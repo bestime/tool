@@ -3,7 +3,7 @@
  * @param {Array} list
  * @return {Array}
  */
-function shuffle (list) {
+export default function shuffle (list) {
   for (var idx, temp, len = list.length; len; len--) {
     idx = Math.floor(Math.random() * len)
     temp = list[len - 1]
@@ -12,6 +12,3 @@ function shuffle (list) {
   }
   return list;
 }
-
-
-module.exports = shuffle

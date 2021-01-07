@@ -1,4 +1,5 @@
-const getType = require('./getType')
+import getType from './getType'
+import { TYPE_ARRAY, TYPE_OBJECT, TYPE_FUNCTION } from './const'
 
 /**
  * 简单的深拷贝函数，仅支持数组、对象、函数
@@ -6,22 +7,22 @@ const getType = require('./getType')
  * 
  * @return {*} newData 拷贝的数据
  */
-function clone(data) {
+export default function clone(data) {
   var result;
   switch (getType(data)) {
-    case 'Array':
+    case TYPE_ARRAY:
       result = [];
       for(var a = 0, len = data.length; a < len; a++) {
         result.push(clone(data[a]));
       }
       break;
-    case 'Object':
+    case TYPE_OBJECT:
       result = {};
       for (var key in data) {
         result[key] = clone(data[key]);
       }
       break;
-    case 'Function':
+    case TYPE_FUNCTION:
       function newFun() {
         data.apply(this, arguments);
       }
@@ -34,8 +35,6 @@ function clone(data) {
   }
   return result
 }
-
-module.exports = clone
 
 
 // var tool = (function () {

@@ -1,5 +1,5 @@
-const padStart = require('./padStart')
-const _String = require('./_String')
+import _String from './_String'
+import padStart from './padStart'
 
 const pad_2_0 = function (num) {
 	return padStart(num, 2, '0')
@@ -10,7 +10,7 @@ const pad_2_0 = function (num) {
  * @param {String} id 身份证号
  * @return {Object}
  */
-function getUserFromIdCard(id) {
+export default function getUserFromIdCard(id) {
 	id = _String(id)
 	var year = id.substr(6, 4)
 	var month = id.substr(10, 2)
@@ -22,5 +22,3 @@ function getUserFromIdCard(id) {
 		sex: id[16] % 2 // 1表示男，0表示女
 	} : null
 }
-
-module.exports = getUserFromIdCard;

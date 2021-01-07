@@ -1,11 +1,8 @@
-
-
-const _Number = require('./_Number')
-const padEnd = require('./padEnd')
-const split = require('./split')
-const _String = require('./_String')
-
-const ZERO_STRING = '0'
+import _Number from './_Number'
+import padEnd from './padEnd'
+import split from './split'
+import _String from './_String'
+import { ZERO_STRING } from './const'
 
 /**
  * 
@@ -18,7 +15,7 @@ const ZERO_STRING = '0'
  * 
  * @return {String}
  */
-function roundFixed (variate, digit) {
+export default function roundFixed (variate, digit) {
   digit = _Number(digit)
   variate = _Number(variate)
   
@@ -40,6 +37,3 @@ function roundFixed (variate, digit) {
 
   return res;
 }
-
-
-module.exports = roundFixed

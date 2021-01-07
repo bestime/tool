@@ -1,4 +1,4 @@
-const unbind = require('./unbind')
+import unbind from './unbind'
 
 /**
  * 绑定事件处理函数，同时可以舍去winFun了
@@ -10,7 +10,7 @@ const unbind = require('./unbind')
  * @param {Boolean} isRemoveBefore 是否移除上一个同名函数，默认 false 可重复绑定。【注：如果为false，解绑的时候只能解绑最后一个】
  */
 
-function bind (oDom, name, type, handler, isRemoveBefore){
+export default function bind (oDom, name, type, handler, isRemoveBefore){
   oDom.bindInfo = oDom.bindInfo || {};
   oDom.bindInfo[type] = oDom.bindInfo[type] || {};				
   oDom.bindInfo[type][name] = oDom.bindInfo[type][name] || {};
@@ -41,7 +41,3 @@ function bind (oDom, name, type, handler, isRemoveBefore){
   oDom.bindInfo[type][name].preHandler = computedFun;
   oDom.bindInfo[type][name].preName = name;
 }
-
-
-
-module.exports = bind

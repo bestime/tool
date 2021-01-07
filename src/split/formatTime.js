@@ -1,9 +1,11 @@
 
+import getType from './getType'
+import _Number from './_Number'
+import FORMAT_TIME_BY_MAP from './FORMAT_TIME_BY_MAP'
+import trim from './trim'
+import isString from './isString'
 
-var getType = require('./getType')
-var trim = require('./trim')
-var FORMAT_TIME_BY_MAP = require('./FORMAT_TIME_BY_MAP')
-var _Number = require('./_Number')
+import { TYPE_DATE } from './const'
 
 
 
@@ -14,16 +16,16 @@ var _Number = require('./_Number')
  * @param {Date|Number|String} date 格式化的日期。 【标准日期、时间戳（秒/毫秒）、格式化后的字符串】
  * @return {String} 格式化后的时间
  */
-function formatTime (fmt, date) {
+export default function formatTime (fmt, date) {
   if(!/\d/.test(date)) return;
   var hour, date;
   var  Y, M, D, m, s, S, t;
 
   // ios 不支持 2020-08-12 这种格式的日期
-  if(getType(date)==='String') {
+  if(isString(date)) {
     date = date.replace(/-/g, '/')
   }
-  if(getType(date) !== 'Date') {
+  if(getType(date) !== TYPE_DATE) {
     date = trim(date)
     if(/^\d+$/.test(date)) {
       if(date.length == 10) {
@@ -75,8 +77,3 @@ function getTT (hour) {
   }
   return prefix
 }
-
-
-
-
-module.exports = formatTime

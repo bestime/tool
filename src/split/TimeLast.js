@@ -1,12 +1,7 @@
 
-const FORMAT_TIME_BY_MAP = require('./FORMAT_TIME_BY_MAP')
-const UNF = undefined
+import FORMAT_TIME_BY_MAP from './FORMAT_TIME_BY_MAP'
+import { _UNDEFINED, ONE_DAY_TIME_STAMP, ONE_HOUR_TIME_STAMP, ONE_MINUTE_TIME_STAMP, ONE_SECOND_TIME_STAMP } from './const'
 
-
-const oneDay = 1000 * 60 * 60 * 24
-const oneHour = 1000 * 60 * 60
-const oneMinute = 1000 * 60
-const oneSecond = 1000
 
 /**
  * 格式化时间差
@@ -16,15 +11,15 @@ const oneSecond = 1000
  * @return {String}
  */
 
-function TimeLast (fmt, msec) {  
+export default function TimeLast (fmt, msec) {  
   msec = Math.max(msec, 0)
   
-  var day = Math.floor(msec/oneDay); msec = msec % oneDay;
-  var hour = Math.floor(msec/oneHour); msec = msec % oneHour;
-  var minute = Math.floor(msec/oneMinute); msec = msec % oneMinute;
-  var second = Math.floor(msec/oneSecond); msec = msec % oneSecond;
+  var day = Math.floor(msec/ONE_DAY_TIME_STAMP); msec = msec % ONE_DAY_TIME_STAMP;
+  var hour = Math.floor(msec/ONE_HOUR_TIME_STAMP); msec = msec % ONE_HOUR_TIME_STAMP;
+  var minute = Math.floor(msec/ONE_MINUTE_TIME_STAMP); msec = msec % ONE_MINUTE_TIME_STAMP;
+  var second = Math.floor(msec/ONE_SECOND_TIME_STAMP); msec = msec % ONE_SECOND_TIME_STAMP;
   
-  return FORMAT_TIME_BY_MAP(fmt, UNF, UNF, day, hour, minute, second, msec, UNF, true)
+  return FORMAT_TIME_BY_MAP(fmt, _UNDEFINED, _UNDEFINED, day, hour, minute, second, msec, _UNDEFINED, true)
 }
 
 
@@ -44,9 +39,3 @@ function TimeLast (fmt, msec) {
 
 
 
-
-
-
-
-
-module.exports = TimeLast

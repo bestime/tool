@@ -1,5 +1,6 @@
-const _String = require('./_String')
-const repeatString = require('./repeatString')
+import _String from './_String'
+import repeatString from './repeatString'
+
 /**
  * 字符串自定义向(后/前)补齐长度
  * @param {String} padTarget 需要补齐的字符串
@@ -9,7 +10,7 @@ const repeatString = require('./repeatString')
  * 
  * @return {String}
  */
-function PAD_STRING (padTarget, targetLength, padString, direction) {
+export default function PAD_STRING (padTarget, targetLength, padString, direction) {
   padTarget = _String(padTarget)
   targetLength = targetLength >> 0;
   if(padTarget.length > targetLength) {
@@ -26,5 +27,3 @@ function PAD_STRING (padTarget, targetLength, padString, direction) {
     }
   }
 }
-
-module.exports = PAD_STRING

@@ -1,11 +1,15 @@
-const convertTime =  require('./convertTime.js')
-const _Number =  require('./_Number.js')
-const padStart = require('./padStart')
+
+
+import padStart from './padStart'
+import _Number from './_Number'
+import convertTime from './convertTime'
+
+
 const pad_2_0 = function (num) {
 	return padStart(num, 2, '0')
 }
 
-function getMonthInfo (timestamp) {
+export default function getMonthInfo (timestamp) {
 	timestamp = _Number(timestamp) || +new Date()
 	var t = convertTime(new Date(timestamp));
 	var status = [-1, 0, 1];// -1 上月， 0 当月， 1 下月
@@ -109,5 +113,3 @@ function getMonthInfo (timestamp) {
 	}
 	return res
 }
-
-module.exports = getMonthInfo

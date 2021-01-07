@@ -1,5 +1,5 @@
 
-const differenceCollect = require('./differenceCollect')
+import differenceCollect from './differenceCollect'
 
 /**
  * 判断两个数组是否相等
@@ -9,9 +9,7 @@ const differenceCollect = require('./differenceCollect')
  * 
  * @return {Boolean}
  */
-function isEqualArray (one, two, handle) {
+export default function isEqualArray (one, two, handle) {
   var res = differenceCollect(one, two, handle)
   return res[0].length || res[1].length ? false : true
 }
-
-module.exports = isEqualArray

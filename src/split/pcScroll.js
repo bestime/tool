@@ -1,15 +1,15 @@
-var _Object = require('./_Object')
-var addClass = require('./addClass')
-var removeClass = require('./removeClass')
-var bind = require('./bind')
-var unbind = require('./unbind')
-var getConfig = require('./getConfig')
-var setConfig = require('./setConfig')
-var _Number = require('./_Number')
+import _Number from './_Number'
+import setConfig from './setConfig'
+import getConfig from './getConfig'
+import unbind from './unbind'
+import bind from './bind'
+import removeClass from './removeClass'
+import addClass from './addClass'
+import _Object from './_Object'
 
 var NAME = 'jcy-pc-scroll'
 
-function pcScroll (opt) {
+export default function pcScroll (opt) {
   var id = _Number(getConfig(NAME)) + 1
   setConfig(NAME, id)
   id = NAME + id
@@ -104,5 +104,3 @@ function pcScroll (opt) {
     }, 400)
   }
 }
-
-module.exports = pcScroll

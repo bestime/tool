@@ -1,5 +1,5 @@
-const isFunction = require('./isFunction')
-const _Object = require('./_Object')
+import _Object from './_Object'
+import isFunction from './isFunction'
 
 /**
  * 监听DOM滚动事件
@@ -8,7 +8,7 @@ const _Object = require('./_Object')
  * @param {Element} el dom元素
  * @param {Object} opt 配置
  */
-function onDomRoll (el, opt) {
+export default function onDomRoll (el, opt) {
   opt = _Object(opt)
   var doing = false
   el.onscroll = function () {
@@ -29,5 +29,3 @@ function onDomRoll (el, opt) {
     }
   }
 }
-
-module.exports = onDomRoll
