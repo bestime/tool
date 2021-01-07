@@ -1,5 +1,5 @@
 
-import { LETTER_LIST } from './const'
+import { LETTER_LIST } from './basic/constant'
 
 
 import _Number from './_Number'

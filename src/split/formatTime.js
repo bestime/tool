@@ -5,7 +5,7 @@ import FORMAT_TIME_BY_MAP from './FORMAT_TIME_BY_MAP'
 import trim from './trim'
 import isString from './isString'
 
-import { TYPE_DATE } from './const'
+import { TYPE_DATE } from './basic/constant'
 
 
 

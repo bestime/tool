@@ -1,13 +1,12 @@
 /** 空函数 */
 export function EMPTY_FUNCTION () {}
 
+/** 数据类型常量（小写）：undefined */
+export const TYPE_UNDEFINED_SMALL = 'undefined'
+
 /** toString简写 */
 export const _TOSTRING = Object.prototype.toString
-export const WINDOW = window
-
 export const _UNDEFINED = undefined
-
-
 
 
 
@@ -43,8 +42,7 @@ export const TYPE_ARRAY = 'Array'
 /** 数据类型常量：String */
 export const TYPE_STRING = 'String'
 
-/** 数据类型常量（小写）：undefined */
-export const TYPE_UNDEFINED_SMALL = 'undefined'
+
 
 /** 数据类型常量（小写）：null */
 export const TYPE_NULL_SMALL = 'null'
@@ -79,11 +77,9 @@ export const MATH_MIN = Math.min
 
 export const LETTER_LIST = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
-export const GET_BY_ID = document.getElementById
 
-export const HISTORY = WINDOW.history
 
-export const LOCAL_STROAGE = WINDOW.localStorage
+
 
 export const CODEMAP = {
 	"&lt;" : "<", 

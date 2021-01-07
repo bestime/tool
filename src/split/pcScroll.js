@@ -6,6 +6,7 @@ import bind from './bind'
 import removeClass from './removeClass'
 import addClass from './addClass'
 import _Object from './_Object'
+import { WINDOW, DOCUMENT_CREATE_DIV } from './basic/browser'
 
 var NAME = 'jcy-pc-scroll'
 
@@ -19,8 +20,8 @@ export default function pcScroll (opt) {
   
   var timer, y0=0, maxBarTop=0, barHeight, barTop=0, oViewHeight=0, scrollHeight=0, isPressing, isIn;
   addClass(el, NAME)
-  var oScroll = document.createElement('div')
-  var oScrollBar = document.createElement('div')
+  var oScroll = DOCUMENT_CREATE_DIV()
+  var oScrollBar = DOCUMENT_CREATE_DIV()
 
   oScroll.className = NAME + '-main'
   oScrollBar.className = NAME + '-bar-wrapper'
@@ -46,12 +47,12 @@ export default function pcScroll (opt) {
     }
   }
   oInnerBar.onmousedown = function (ev) {
-    ev = ev || window.event
+    ev = ev || WINDOW.event
     y0 = ev.clientY -  barTop
     isPressing = true
     clearTimeout(timer)
     bind(document, id, 'mousemove', function (ev) {
-      ev = ev || window.event
+      ev = ev || WINDOW.event
       barTop =  ev.clientY - y0
       if(barTop < 0) {
         barTop = 0

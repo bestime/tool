@@ -1,4 +1,4 @@
-import { TYPE_UNDEFINED_SMALL } from './const'
+import { TYPE_UNDEFINED_SMALL } from './basic/constant'
 
 /**
  * @param {*} data 需要转换的数据

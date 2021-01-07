@@ -1,3 +1,5 @@
+import { WINDOW } from './basic/browser'
+import isString from './isString'
 /**
  * 更新序列化字符串参数，如果字段不存在，则新增字段
  * @param {String} updateKey 更新字段
@@ -11,8 +13,8 @@ export default function updateQuery (updateKey, updateValue, str) {
   updateValue = updateValue == null ? '' : encodeURI(updateValue)
   
   var href = '', isfind, oldUrl;
-  try { href = window.location.href } catch (e) {};
-  oldUrl = typeof str === 'string' ? str : href 
+  try { href = WINDOW.location.href } catch (e) {};
+  oldUrl = isString(str) ? str : href 
   // 尝试修改旧参数
   var res = oldUrl.replace(new RegExp('([?&]'+ updateKey +'=)([^=&?/#]*)', 'g'), function (_, $1) {
     isfind = true

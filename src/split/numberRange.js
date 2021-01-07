@@ -1,4 +1,4 @@
-import { MATH_MAX, MATH_MIN } from './const'
+import { MATH_MAX, MATH_MIN } from './basic/constant'
 
 /**
  * 将数字转换至指定范围，如果超出指定范围，则取两端极值

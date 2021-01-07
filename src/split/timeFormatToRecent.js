@@ -2,7 +2,7 @@
 import _Number from './_Number'
 import _Object from './_Object'
 import convertTime from './convertTime'
-import { ONE_SECOND_TIME_STAMP, ONE_DAY_TIME_STAMP, ONE_HOUR_TIME_STAMP, ONE_MINUTE_TIME_STAMP } from './const'
+import { ONE_SECOND_TIME_STAMP, ONE_DAY_TIME_STAMP, ONE_HOUR_TIME_STAMP, ONE_MINUTE_TIME_STAMP } from './basic/constant'
 
 /**
  * 格式化时间为最近时间

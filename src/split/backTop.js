@@ -2,6 +2,7 @@
 import Tween from './Tween'
 import isFunction from './isFunction'
 import _Number from './_Number'
+import { WINDOW } from './basic/browser'
 
 /**
  * 
@@ -23,7 +24,7 @@ export default function backTop (el, callback, fx, duration) {
 
 	return Tween.getAnimate(now, -now, fx, duration, function (val, isStop) {
     if(el === document.body) {
-      window.scrollTo(0, val);
+      WINDOW.scrollTo(0, val);
     } else {
       el.scrollTop = val
 		}

@@ -1,5 +1,5 @@
 import SET_STRING_VALUE from './SET_STRING_VALUE'
-import { LOCAL_STROAGE } from './const'
+import { LOCAL_STROAGE } from './basic/browser'
 
 /**
  * 设置本地存储

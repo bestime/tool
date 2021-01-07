@@ -1,6 +1,7 @@
 
 import isArray from './isArray'
 import isIncluded from './isIncluded'
+import { WINDOW } from './basic/browser'
 
 /**
  * 判断浏览器地址是本地环境和开发环境
@@ -10,7 +11,7 @@ import isIncluded from './isIncluded'
  */
 
 export default function urlIsLocal (host, localList) {
-  host = host || window.location.host
+  host = host || WINDOW.location.host
   var res = false;
   if(isArray(localList) && localList.length > 0) {
     res = isIncluded(host, localList);

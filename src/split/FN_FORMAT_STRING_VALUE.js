@@ -1,5 +1,5 @@
 
-import { TYPE_UNDEFINED_SMALL, TYPE_NULL_SMALL, STRING_FALSE, STRING_TRUE } from './const'
+import { TYPE_UNDEFINED_SMALL, TYPE_NULL_SMALL, STRING_FALSE, STRING_TRUE } from './basic/constant'
 
 /**
  * 解析字符串

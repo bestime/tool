@@ -1,7 +1,7 @@
 
 import floorFixed from './floorFixed'
 
-import { Bytes, KB, GB, MB, TB } from './const'
+import { Bytes, KB, GB, MB, TB } from './basic/constant'
 
 
 /**

@@ -3,7 +3,7 @@ import isObject from './isObject'
 import isEmpty from './isEmpty'
 import updateQuery from './updateQuery'
 import _Function from './_Function'
-import { HISTORY } from './const'
+import { HISTORY, WINDOW } from './basic/browser'
 /**
  * 改变url但不刷新页面
  * 如果改变前的url和改变后的url相同，则不做任何处理
@@ -13,7 +13,7 @@ import { HISTORY } from './const'
  */
 export default function notRefreshToChangeUrl (query) {  
   if(isFunction(HISTORY.replaceState)) {
-    var url = window.location.href;
+    var url = WINDOW.location.href;
     var newUrl = url;
     if(isObject(query) && !isEmpty(query)) {
       for(var key in query) {

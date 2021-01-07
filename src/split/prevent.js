@@ -1,8 +1,10 @@
+import { WINDOW } from './basic/browser'
+
 //阻止冒泡及默认行为
 export default function prevent (ev, bubble, stop) {
-    ev = ev || window.event
+    ev = ev || WINDOW.event
     bubble = bubble === false ? false : true
     stop = stop === false ? false : true
-    bubble && window.event ? window.event.cancelBubble = true : ev.stopPropagation()
-    stop && window.event ? window.event.returnValue = false : ev.preventDefault()
+    bubble && WINDOW.event ? WINDOW.event.cancelBubble = true : ev.stopPropagation()
+    stop && WINDOW.event ? WINDOW.event.returnValue = false : ev.preventDefault()
 }

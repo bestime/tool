@@ -4,6 +4,7 @@ import trim from './trim'
 import fillHtml from './fillHtml'
 import _String from './_String'
 let id = 0
+import { DOCUMENT_CREAGEELEMENT, DOCUMENT_GETELEMENTBYTAGNAME } from './basic/browser'
 
 /**
  * 创建 <style/> 标签
@@ -17,9 +18,9 @@ export default function $createStyle(className) {
     className = 'bt-style-' + id
   }
   
-  var temp, computedCssStr = '', CSS_BOX = document.createElement('style');
+  var temp, computedCssStr = '', CSS_BOX = DOCUMENT_CREAGEELEMENT('style');
   CSS_BOX.className = className;
-  document.getElementsByTagName("head")[0].appendChild(CSS_BOX);
+  DOCUMENT_GETELEMENTBYTAGNAME("head")[0].appendChild(CSS_BOX);
 
 
   return function (str) {

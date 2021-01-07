@@ -4,6 +4,10 @@ import methods from './methods'
 import assign from './split/assign'
 
 
+
+import { TYPE_STRING, TYPE_NUMBER, TYPE_OBJECT } from './split/basic/constant'
+import { WINDOW } from './split/basic/browser'
+
 function CreateMain () {  
   var main = function(v) {
     return new main.fn.init(v);
@@ -22,13 +26,13 @@ function CreateMain () {
   main.extend = main.fn.extend = function() {
     var args = arguments
     switch (getType(args[0])) {
-      case 'Object':
+      case TYPE_OBJECT:
         for (let key in args[0]) {
           this[key] = args[0][key]
         }
         break;
-      case 'String':
-      case 'Number':
+      case TYPE_STRING:
+      case TYPE_NUMBER:
         this[args[0]] = args[1]
         break;
     }
@@ -40,7 +44,4 @@ function CreateMain () {
 }
 
 
-window['abc'] = CreateMain()
-window['test'] = function (a, b) {
-  return `${a}=>${b}`
-}
+WINDOW['ns'] = CreateMain()

@@ -2,6 +2,7 @@
 import getType from './getType'
 import forEach from './forEach'
 import trim from './trim'
+import isString from './isString'
 
 /**
  * 移除class
@@ -11,7 +12,7 @@ import trim from './trim'
 
 export default function removeClass (el, deleteNames) {
   var res = el.className
-  deleteNames = getType(deleteNames) === 'String' ? [deleteNames] : deleteNames
+  deleteNames = isString(deleteNames) ? [deleteNames] : deleteNames
   forEach(deleteNames, function (oneName) {
     res = res.replace(new RegExp('(\\s|^)' + oneName + '(\\s|$)', 'g'), ' ')
   })

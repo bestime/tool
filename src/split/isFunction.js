@@ -1,4 +1,4 @@
-import { _FUNCTION_NAME } from './const'
+import { _FUNCTION_NAME } from './basic/constant'
 
 /**
  * 判断参数是否是方法

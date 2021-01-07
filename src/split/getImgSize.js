@@ -1,3 +1,5 @@
+import { DOCUMENT_CREATE_IMAGE } from './basic/browser'
+
 /**
  * 获取图片原始尺寸
  * @param {String} src 图片链接
@@ -5,7 +7,7 @@
  */
 
 export default function getImgSize (src, callback) {
-	var oImg = document.createElement('img');
+	var oImg = DOCUMENT_CREATE_IMAGE();
 	// onload 写在在 img.src 赋值前，保证兼容性
 	oImg.onload = function () {
 		callback({

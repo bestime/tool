@@ -2,6 +2,8 @@ import _Number from './_Number'
 import trim from './trim'
 import isEmpty from './isEmpty'
 
+import { TYPE_NUMBER } from './basic/constant'
+
 /**
  * @description 多用于表单数字输入处理可为 【空字符，正，负】情况下
  * @param {*} data 需要转换的数据
@@ -12,7 +14,7 @@ export default function symbolNumber (data, isDecimals) {
   var res = data
   if(isEmpty(data)) {
     res = data
-  } else if(typeof data === 'number') {
+  } else if(typeof data === TYPE_NUMBER) {
     res = _Number(data, true)
   } else {
     var str = trim(data)

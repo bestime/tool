@@ -8,7 +8,9 @@ const OnreadyStateChange = 'onreadystatechange'
  */
 export default function ready (callback) {
   var arg = arguments;
-  if (document.addEventListener) {
+  if(document.lastElementChild && document.lastElementChild === document.firstElementChild) {
+    callback();
+  } else if (document.addEventListener) {
     document.addEventListener(DomContentLoaded, function () {
       document.removeEventListener(DomContentLoaded, arg.callee, false);
       callback();
@@ -20,9 +22,5 @@ export default function ready (callback) {
         callback();
       }
     })
-  } else if (document.lastChild == document.body) {
-    callback();
-  } else if(document.lastElementChild && document.lastElementChild === document.firstElementChild) {
-    callback();
   }
 }

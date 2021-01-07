@@ -2,7 +2,7 @@
 import isObject from './isObject'
 import _Array from './_Array'
 import getType from './getType'
-import { TYPE_OBJECT, TYPE_ARRAY } from './const'
+import { TYPE_OBJECT, TYPE_ARRAY } from './basic/constant'
 
 
 

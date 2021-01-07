@@ -1,15 +1,18 @@
+const isDebug = true; // 调试模式不改变版本号
+
 import { uglify } from 'rollup-plugin-uglify'
 import banner from 'rollup-plugin-banner'
 import babel from '@rollup/plugin-babel';
+const pkg = require('./package.json')
 
-const isDebug = true; // 调试模式不改变版本号
-var nextVersion = isDebug ? 'beta' : '3.0.1';
+var nextVersion = isDebug ? 'beta' : pkg.version;
 const TOOL_NAME = `bestime@${nextVersion}.min.js`;
+import formatTime from './src/split/formatTime'
 
 export default {
   input: './src/library.js',
   output: {
-    file: 'dist/' + TOOL_NAME,
+    file: 'js/@version/' + TOOL_NAME,
     format: 'iife',    
     strict: false,
     indent: false,
@@ -27,11 +30,12 @@ export default {
       }
     }),
     banner([
-      `javascript 常用工具库（rollup版）`,
+      `javascript 常用工具库 ${TOOL_NAME}`,
       '',
       '@QQ 1174295440',
       '@author Jiang Yang (Bestime)',
-      `@update ${new Date()}`,
+      '@see https://github.com/bestime/tool',
+      `@update ${formatTime(null, new Date())}`,
     ].join('\n'))
   ]
 };

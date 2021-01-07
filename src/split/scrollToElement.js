@@ -2,6 +2,7 @@ import Tween from './Tween'
 import isFunction from './isFunction'
 import _Number from './_Number'
 import getRelativePos from './getRelativePos'
+import { WINDOW } from './basic/browser'
 
 /**
  * @param {Element} dom [必填]
@@ -28,7 +29,7 @@ export default function scrollToElement (dom, oFather, callback, fx, duration, f
   
   return Tween.getAnimate(now, to - now, fx, duration, function (val, isStop) {
     if(oFather === document.body) {
-      window.scrollTo(0, val);
+      WINDOW.scrollTo(0, val);
     } else {
       oFather.scrollTop = val
     }

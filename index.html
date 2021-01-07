@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  </style>
+
+  <script src="./js/@version/bestime@beta.min.js"></script>
+</head>
+<body>
+<script>
+// => ["a", "b", "c", "[1,2,3]", "d", "{a:1,b:2}"]
+demo('a,b,c,[1,2,3],d,{a:1,b:2}')
+
+function demo (str) {
+  const arr = [];
+  str.replace(/((\[.+\])|{.+}|(.+?))(,?)/g, function (_, item) {
+    arr.push(item)
+  })
+  return arr;
+}
+</script>
+</body>
+</html>

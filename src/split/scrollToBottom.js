@@ -1,6 +1,7 @@
 import _Number from './_Number'
 import Tween from './Tween'
 import _Function from './_Function'
+import { WINDOW } from './basic/browser'
 /**
  * 
  * @param {Dom} el 需要滚动到底部的目标节点
@@ -22,7 +23,7 @@ export default function scrollToBottom (el, callback, fx, dutation) {
   
   return Tween.getAnimate(now, to - now, fx, dutation, function (val, isStop) {
     if(el===document.body) {
-      window.scrollTo(0, val);
+      WINDOW.scrollTo(0, val);
     } else {
       el.scrollTop = val
     }

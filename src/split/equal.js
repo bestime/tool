@@ -2,7 +2,7 @@
 import isFunction from './isFunction'
 import isEqualArray from './isEqualArray'
 import getType from './getType'
-import { TYPE_ARRAY } from './const'
+import { TYPE_ARRAY } from './basic/constant'
 
 /**
  * 最后一个参数如果是Function，则表示一个差异对比函数 Boolean: HANDLE(a, b)

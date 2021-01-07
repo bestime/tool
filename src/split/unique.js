@@ -1,7 +1,7 @@
 import forEach from './forEach'
 import getType from './getType'
 import isFunction from './isFunction'
-
+import { TYPE_NUMBER } from './basic/constant'
 
 /**
  * 一维数组去重，返回新数组
@@ -14,7 +14,7 @@ export default function unique (arr, isVague, handle) {
   var res = [], exist = {}, checkKey;
   forEach(arr, function (item) {
     checkKey = isFunction(handle) ? handle(item) : item
-    checkKey = getType(checkKey) === 'Number' || isVague ? checkKey : `k→${checkKey}`
+    checkKey = getType(checkKey) === TYPE_NUMBER || isVague ? checkKey : `k→${checkKey}`
     if(!exist[checkKey]) {      
       exist[checkKey] = true;
       res.push(item);

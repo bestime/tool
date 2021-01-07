@@ -1,4 +1,4 @@
-
+import { DOCUMENT_CREATE_IMAGE } from './basic/browser'
 
 import _Object from './_Object'
 import _Function from './_Function'
@@ -20,12 +20,12 @@ export default function Parabola (opt) {
   
   
   if(!src) {
-    var oMove = document.createElement('div')
+    var oMove = DOCUMENT_CREATE_DIV()
     oMove.style.cssText = `width:20px;height:20px;background:red;border-radius:50%;`
     document.body.appendChild(oMove)
     ready()
   } else {
-    var oMove = document.createElement('img')    
+    var oMove = DOCUMENT_CREATE_IMAGE()
     oMove.style.cssText = `width:20px;height:20px;background:red;border-radius:50%;`  
     oMove.src = src    
     oMove.onload = ready

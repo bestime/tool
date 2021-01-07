@@ -9,7 +9,8 @@ import _Array from './_Array'
 import _Object from './_Object'
 import _Number from './_Number'
 import FN_FORMAT_STRING_VALUE from './FN_FORMAT_STRING_VALUE'
-
+import { WINDOW } from './basic/browser'
+import isString from './isString'
 
 
 
@@ -23,8 +24,8 @@ import FN_FORMAT_STRING_VALUE from './FN_FORMAT_STRING_VALUE'
 
 export default function parseQuery (str) {
   var res = {}, href, hasChlid, queryKey;
-	try { href = window.location.href } catch (e) {href = ''};
-  str = typeof str === 'string' ? str : href
+	try { href = WINDOW.location.href } catch (e) {href = ''};
+  str = isString(str) ? str : href
   // str = decodeURIComponent(str)
 	
   str.replace(/([^=&?/#]*?)=([^=&?/#]*)/g, function (_, key, val) {

@@ -1,7 +1,7 @@
 import getType from './getType'
 import isObject from './isObject'
 import forEach from './forEach'
-
+import { TYPE_OBJECT, TYPE_NUMBER, TYPE_STRING } from './basic/constant'
 
 /**
  * assign(target, ...sources)
@@ -16,7 +16,7 @@ export default function assign (target) {
       type = getType(target),
       argLen = arguments.length;
   
-  if(type === 'Object') { // json对象
+  if(type === TYPE_OBJECT) { // json对象
     let key, item;
     for(index; index < argLen; index++) {
       item = arguments[index]
@@ -26,10 +26,10 @@ export default function assign (target) {
         }
       }
     }
-  } else if(getType(target.length) === 'Number') { // 合并数组或者字符串
+  } else if(getType(target.length) === TYPE_NUMBER) { // 合并数组或者字符串
     for (index; index < argLen; index++) {
       forEach(arguments[index], function (item) {
-        if(type === 'String') {
+        if(type === TYPE_STRING) {
           target += item
         } else {
           target.push(item)

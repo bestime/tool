@@ -1,8 +1,9 @@
 import _Object from './_Object'
-import { CONFIG_KEY } from './const'
+import { CONFIG_KEY } from './basic/constant'
+import { WINDOW } from './basic/browser'
 
 
 export default function setConfig (key, val) {
-  window[CONFIG_KEY] = _Object(window[CONFIG_KEY])
-  window[CONFIG_KEY][key] = val
+  WINDOW[CONFIG_KEY] = _Object(WINDOW[CONFIG_KEY])
+  WINDOW[CONFIG_KEY][key] = val
 }

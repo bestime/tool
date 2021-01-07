@@ -1,5 +1,6 @@
 import _Function from './_Function'
 import bindEasy from './bindEasy'
+import { WINDOW } from './basic/browser'
 
 /**
  * 获取鼠标滚动方向。简洁优化版
@@ -29,7 +30,7 @@ export default function mouseWheel (el, callback, isPrevent) {
 	bindEasy(el, 'DOMMouseScroll', wheel)
 
 	function wheel (ev) {
-		var ev = ev || window.event
+		var ev = ev || WINDOW.event
 		var mouseDirection = 0
 
 		if (ev.wheelDelta) {

@@ -1,7 +1,8 @@
 
 import hasClass from './hasClass'
 import forEach from './forEach'
-import { GET_BY_ID } from './const'
+import { DOCUMENT_GETBYID } from './basic/browser'
+import isString from './isString'
 
 /**
  * 通过className获取元素
@@ -13,8 +14,8 @@ import { GET_BY_ID } from './const'
  */
 export default function getByClass (str, oFather){
   var res;
-  if(typeof oFather === 'string') {
-    oFather = GET_BY_ID(oFather)
+  if(isString(oFather)) {
+    oFather = DOCUMENT_GETBYID(oFather)
   }
 
   if (!oFather) {
@@ -38,7 +39,7 @@ export default function getByClass (str, oFather){
     //     var type = getType(father);
     //     if(type == 'String') {
     //         if(father.length) {
-    //             father = GET_BY_ID(father);
+    //             father = DOCUMENT_GETBYID(father);
     //         }else {
     //             return FatherErr;
     //         }

@@ -1,5 +1,5 @@
 import getType from './getType'
-import { TYPE_STRING } from './const'
+import { TYPE_STRING, TYPE_NUMBER } from './basic/constant'
 
 /**
  * 移除字符串空格
@@ -13,7 +13,7 @@ import { TYPE_STRING } from './const'
 export default function trim (str, pos) {
   var TYPE = getType(str)
   
-  if(TYPE === 'Number') {
+  if(TYPE === TYPE_NUMBER) {
     str = String(str)
     TYPE = TYPE_STRING
   }

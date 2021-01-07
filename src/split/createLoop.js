@@ -1,4 +1,4 @@
-import { _UNDEFINED } from './const'
+import { _UNDEFINED } from './basic/constant'
 
 /**
  * 轮询函数

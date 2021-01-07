@@ -2,7 +2,7 @@ import _Number from './_Number'
 import padEnd from './padEnd'
 import split from './split'
 import trim from './trim'
-import { ZERO_STRING } from './const'
+import { ZERO_STRING } from './basic/constant'
 
 
 

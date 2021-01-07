@@ -1,5 +1,7 @@
+import { DOCUMENT_CREATE_DIV } from './basic/browser'
+
 export default function isSupportStyle (name) {
-  var el = document.createElement('div'),  
+  var el = DOCUMENT_CREATE_DIV(),
     vendors = ['Webkit', 'Moz', 'O', 'ms'],
     len = vendors.length;  
   var dstyle = el.style;  

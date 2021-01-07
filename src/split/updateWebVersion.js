@@ -1,5 +1,6 @@
 import parseQuery from './parseQuery'
 import updateQuery from './updateQuery'
+import { WINDOW } from './basic/browser'
 
 /**
  * 网页自动刷新 url，用于版本缓存导致新代码不生效
@@ -13,8 +14,8 @@ export default function updateWebVersion (key, checkValue) {
     var old = parseQuery()[key]
     if(!old || old !== checkValue) {
       var newUrl = updateQuery(key, checkValue)
-      if(window.location.href !== newUrl) {
-        window.location.href = newUrl
+      if(WINDOW.location.href !== newUrl) {
+        WINDOW.location.href = newUrl
       }
     }
   }

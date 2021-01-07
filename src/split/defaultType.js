@@ -4,7 +4,7 @@ import _String from './_String'
 import _Function from './_Function'
 import _Object from './_Object'
 import _Array from './_Array'
-import { TYPE_FUNCTION, TYPE_OBJECT, TYPE_ARRAY, TYPE_STRING, TYPE_NUMBER, TYPE_BOOLEAN } from './const'
+import { TYPE_FUNCTION, TYPE_OBJECT, TYPE_ARRAY, TYPE_STRING, TYPE_NUMBER, TYPE_BOOLEAN } from './basic/constant'
 
 
 /**

@@ -1,4 +1,4 @@
-import { CODEMAP } from './const'
+import { CODEMAP } from './basic/constant'
 import _String from './_String'
 
 export default function encodeHTML () {

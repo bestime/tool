@@ -1,6 +1,6 @@
 import getType from './getType'
 import forEach from './forEach'
-
+import { TYPE_ARRAY, TYPE_OBJECT } from './basic/constant'
 /**
  * 过滤数据，支持数组、json
  * @param {Array|Object} data 处理数据
@@ -11,13 +11,13 @@ import forEach from './forEach'
 export default function filter (data, handle) {
   var res;
   switch (getType(data)) {
-    case 'Array':
+    case TYPE_ARRAY:
       res = []
       forEach(data, function (item, index) {
         handle(item, index) && res.push(item)
       })
       break;
-    case 'Object':
+    case TYPE_OBJECT:
       res = {}
       for(var key in data) {
         if(handle(data[key], key)) {

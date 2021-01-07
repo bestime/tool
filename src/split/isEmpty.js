@@ -1,5 +1,5 @@
 import getType from './getType'
-import { TYPE_FUNCTION, TYPE_DATE, TYPE_BOOLEAN, TYPE_NUMBER, TYPE_OBJECT, TYPE_ARRAY, TYPE_STRING } from './const'
+import { TYPE_FUNCTION, TYPE_DATE, TYPE_BOOLEAN, TYPE_NUMBER, TYPE_OBJECT, TYPE_ARRAY, TYPE_STRING } from './basic/constant'
 
 /**
  * 判断一个数据是否为空

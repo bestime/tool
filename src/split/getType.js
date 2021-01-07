@@ -1,5 +1,5 @@
 import _UpperCase from './_UpperCase'
-import { _TOSTRING} from './const'
+import { _TOSTRING} from './basic/constant'
 
 /**
  * 获取数据类型

@@ -1,5 +1,5 @@
 import getType from './getType'
-import { TYPE_ARRAY, TYPE_OBJECT, TYPE_FUNCTION } from './const'
+import { TYPE_ARRAY, TYPE_OBJECT, TYPE_FUNCTION } from './basic/constant'
 
 /**
  * 简单的深拷贝函数，仅支持数组、对象、函数

@@ -1,7 +1,6 @@
 import isArray from './isArray'
 import isObject from './isObject'
-
-
+import { TYPE_ARRAY, TYPE_OBJECT } from './basic/constant'
 /**
  * JSON.parse 封装
  * 不要引用 defaultType 方法，底层函数互相调用，可能会出现问题
@@ -13,11 +12,11 @@ import isObject from './isObject'
 export default function JSONPARSE (data, dataType) {
   var res = data;
   try { res = JSON.parse(data) } catch (e) {}
-  if(dataType === 'Array') {
+  if(dataType === TYPE_ARRAY) {
     if(!isArray(res)) {
       res = []
     }
-  } else if(dataType === 'Object') {
+  } else if(dataType === TYPE_OBJECT) {
     if(!isObject(res)) {
       res = {}
     }

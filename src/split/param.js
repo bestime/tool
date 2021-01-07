@@ -1,5 +1,6 @@
 import getType from './getType'
-import { TYPE_UNDEFINED_SMALL } from './const'
+import { TYPE_UNDEFINED_SMALL, TYPE_ARRAY, TYPE_OBJECT, TYPE_STRING } from './basic/constant'
+import isFunction from './isFunction'
 
 
 
@@ -10,7 +11,7 @@ export default function param (data) {
   var res = [];
   // 当value不为数组或者JSON时，就可创建一条数据
   function addOne (key, value) {
-    value = typeof value === 'function' ? value() : value;
+    value = isFunction(value) ? value() : value;
     value = value === undefined || value === null || typeof value === TYPE_UNDEFINED_SMALL ? '' : value
     res[res.length] = encodeURIComponent(key) + '=' + encodeURIComponent(value)
   }
@@ -20,13 +21,13 @@ export default function param (data) {
     var index, objKey;
     if(prefix) {
       switch (getType(item)) {
-        case 'Array':
+        case TYPE_ARRAY:
           for(index=0; index<item.length; index++) {
             // 如果数组项为object，需要创建一个索引
             buildOnce(prefix + '['+ (typeof item[index] === 'object' && item[index] ? index : '') +']', item[index])
           }
           break;
-        case 'Object':
+        case TYPE_OBJECT:
           for(objKey in item) {
             // 组装JSON的key为prefix
             buildOnce(prefix + '[' + objKey + ']', item[objKey])
@@ -37,13 +38,13 @@ export default function param (data) {
       }
     } else {
       switch (getType(item)) {
-        case 'String':
-        case 'Object':
+        case TYPE_STRING:
+        case TYPE_OBJECT:
           for(objKey in item) {
             buildOnce(objKey, item[objKey])
           }
           break;
-        case 'Array':
+        case TYPE_ARRAY:
           for(index=0; index<item.length; index++) {
             addOne(item[index].name, item[index].value)
           }
