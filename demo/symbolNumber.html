@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../js/bestime.min.js"></script>
+</head>
+<body>
+  <input placeholder="请输入数字" id="demo"/>
+  <script>
+    document.getElementById('demo').oninput = function () {
+      var toVal = String(ns.symbolNumber(this.value));
+      toVal = toVal.replace(/^0+$/, '0');
+      toVal = toVal.replace(/^(0+)\./, '0.');
+      toVal = toVal.replace(/-/g, '');
+      this.value = toVal;
+    };
+  </script>
+    
+</body>
+</html>

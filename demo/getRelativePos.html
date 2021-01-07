@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>getRelativePos</title>
+  <script src="../js/bestime.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    #bt-mouse-tip{
+      display: none;
+    }
+    .containerdemo {
+      display: inline-block;
+      background: blue;
+      font-size:14px;
+      color:#fff;
+      font-size: 0;
+    }
+    .color1{
+      background: red;
+    }
+
+    .containerdemo span {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      background: #000;
+      color:#fff;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .xwex4te{
+      display: inline;
+      background: #dd4215;
+      color:#fff;
+      padding: 5px 7px;
+      margin: 2px;
+      border-radius: 7px;
+    }
+    li {
+      border-top:#eee solid 1px;
+      padding: 20px 0;
+    }
+
+    .position{
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box1" style="margin: 14px;" class="containerdemo position"><span>1</span>
+    <div id="box2" style="margin: 13px;" class="containerdemo color1"><span>2</span>
+      <div id="box3" style="margin: 12px;" class="containerdemo "><span>3</span>
+        <div id="box4" style="margin: 11px;" class="containerdemo color1 position"><span>4</span>
+          <div id="box5" style="margin: 10px;width: 100px;height: 100px;" class="containerdemo"><span>5</span>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ul>
+    <li>
+      <span class="se455w">从1到body</span>
+      <span class="xwex4te">期望值:14,14</span>
+      <span class="mkweq2" id="vv-1">-</span>
+    </li>
+    <li>
+      <span class="se455w">从2到body</span>
+      <span class="xwex4te">期望值:47,27</span>
+      <span class="mkweq2" id="vv-2">-</span>
+    </li>
+    <li>
+      <span class="se455w">从3到body</span>
+      <span class="xwex4te">期望值:79,39</span>
+      <span class="mkweq2" id="vv-3">-</span>
+    </li>
+    <li>
+      <span class="se455w">从4到body</span>
+      <span class="xwex4te">期望值:110,50</span>
+      <span class="mkweq2" id="vv-4">-</span>
+    </li>
+    <li>
+      <span class="se455w">从5到body</span>
+      <span class="xwex4te">期望值:140,60</span>
+      <span class="mkweq2" id="vv-5">-</span>
+    </li>
+
+    <li>
+      <span class="se455w">从5到4</span>
+      <span class="xwex4te">期望值:30,10</span>
+      <span class="mkweq2" id="vv-5-4">-</span>
+    </li>
+
+    <li>
+      <span class="se455w">从5到3</span>
+      <span class="xwex4te">期望值:61,21</span>
+      <span class="mkweq2" id="vv-5-3">-</span>
+    </li>
+
+    <li>
+      <span class="se455w">从5到2</span>
+      <span class="xwex4te">期望值:93,33</span>
+      <span class="mkweq2" id="vv-5-2">-</span>
+    </li>
+
+    <li>
+      <span class="se455w">从5到1</span>
+      <span class="xwex4te">期望值:126,46</span>
+      <span class="mkweq2" id="vv-5-1">-</span>
+    </li>
+
+  </ul>
+
+  <script>
+    function getPosition (el, oFather) {
+      oFather = oFather || document.body
+      var x = 0, y = 0, currentDom = el;
+   
+      var oCurrentOffsetParent = el.offsetParent; // 当前相对父容器
+      var offsetX = 0, offsetY = 0;
+      var stop = false;
+      var passCount = 0; // 超过父级几次
+      
+      var OPF = {
+        x: 0,
+        y: 0
+      };
+
+      
+      if(oFather === oCurrentOffsetParent) {
+        // 如果目标父级为直接相对父级，直接去相对值，不必走下面的递归
+        x = el.offsetLeft
+        y = el.offsetTop
+      } else {
+        // 如果还没走到父级，就递归
+        findOne()
+
+        console.log('oCurrentOffsetParent',oCurrentOffsetParent)
+        if(stop && oCurrentOffsetParent!==oFather) {
+          if(oCurrentOffsetParent) {
+            OPF = getPosition(oFather, document.body)
+          }
+          
+        } else if(oFather !== document.body) {
+            if(oCurrentOffsetParent) {
+              // 如果目标父级不为body。就找到目标父级距离body的距离，并减去这个距离
+              OPF = getPosition(oCurrentOffsetParent, document.body)
+              console.log('父级:', passCount,oCurrentOffsetParent, oFather)
+              // console.log('OPF',  getPosition(oCurrentOffsetParent, document.body), oCurrentOffsetParent)
+            }
+            
+          }
+      }
+
+      
+      
+      
+
+      function findOne () {
+        if(stop) return;
+     
+        if(oCurrentOffsetParent === oFather || currentDom ===oFather) {
+          stop = true
+        }
+
+        if(passCount) {
+          passCount++
+        } else if(currentDom === oFather) {
+          passCount = 1
+        }
+        
+
+        
+        if(!currentDom) return;
+        offsetX = offsetX || currentDom.offsetLeft
+        offsetY = offsetY || currentDom.offsetTop
+        
+        if(currentDom === oCurrentOffsetParent || currentDom === oFather) {
+          x += offsetX
+          y += offsetY
+          if(stop) {
+            oCurrentOffsetParent = oFather.offsetParent
+          } else if(oCurrentOffsetParent) {
+            offsetX = oCurrentOffsetParent.offsetLeft
+            offsetY = oCurrentOffsetParent.offsetTop
+            oCurrentOffsetParent = oCurrentOffsetParent.offsetParent
+          }
+        }
+
+        
+        if(currentDom !== oFather) {
+          currentDom = currentDom.parentNode
+          findOne()
+        }
+      }
+      
+      console.log('OPF', oCurrentOffsetParent,OPF)
+      var res = {
+        x: x - OPF.x,
+        y: y - OPF.y
+      }
+
+      return res
+    }
+    
+
+
+    var oBox1 = document.getElementById('box1')
+    var oBox2 = document.getElementById('box2')
+    var oBox3 = document.getElementById('box3')
+    var oBox4 = document.getElementById('box4')
+    var oBox5 = document.getElementById('box5')
+
+    // updateValue('vv-1', oBox1)
+    // updateValue('vv-2', oBox2)
+    // updateValue('vv-3', oBox3)
+    // updateValue('vv-4', oBox4)
+    // updateValue('vv-5', oBox5)
+    // updateValue('vv-5-4', oBox5, oBox4)
+    updateValue('vv-5-3', oBox5, oBox3)
+    // updateValue('vv-5-2', oBox5, oBox2)
+    // updateValue('vv-5-1', oBox5, oBox1)
+
+    function updateValue (content_id, el, oFather) {
+      var oContent = document.getElementById(content_id)
+      var res = getPosition(el, oFather)
+      oContent.innerHTML = '计算值:'+ res.x +','+ res.y;
+    }
+
+
+
+  </script>
+
+ 
+</body>
+</html>

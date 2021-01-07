@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>backTop,scrollToElement,scrollToBottom</title>
+  <script src="../js/bestime.min.js"></script>
+  <script>
+    ns.write('style', '../css/bestime.css', true)
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    #wrapper{
+      width: 500px;
+      height: 400px;
+      border:green solid 1px;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 60px;
+      background: #eee;
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<style>
+
+
+
+</style>
+<body style="background: red;">
+  <button onclick="add()">添加一条</button>
+  <div id="wrapper">
+    <div id="content" style="background: #bdabff;overflow:hidden;">
+      <ul id="ul">
+        
+      </ul>
+    </div>
+  </div>
+
+<script>
+var num = 0;
+for(var a=0; a<20; a++) {
+  add()
+}
+function add () {
+  document.getElementById('ul').innerHTML += '<li>'+ ++num +'</li>'
+}
+</script>
+
+
+<script>
+
+
+
+ns.ready(function () {
+  ns.pcScroll({
+    el: document.getElementById('wrapper'),
+    oContent: document.getElementById('content'),
+    scrollBarFade: true,
+  })
+})
+</script>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+  <title>Bestime</title>
+  <script src="../js/bestime/bestime@2.1.2.min.js"></script>
+  <script src="./js/_2020.js"></script>
+  <script src="./js/_2021.js"></script>
+  <script>
+  </script>
+  <script src="./js/everyday.js?t=2"></script>
+
+<style>
+
+* {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border:none;
+  font-family: 'monospace','Microsoft YaHei';
+}
+.every-day {
+  font-size:0;
+  margin: 10px auto;
+  box-shadow: 0 0 10px 2px rgba(100,167,245,0.4);
+  position:relative;
+}
+
+.every-day::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  border: rgba(100,167,245,1) solid 1px;
+}
+
+
+
+.every-day li {
+  display: inline-block;
+  font-size: 14px;
+  text-align:center;
+  user-select: none;
+  cursor:pointer;
+  position:relative;
+  transition: 0.15s;
+  vertical-align: middle;
+  color:#333;
+}
+
+.every-day li span {
+  display: inline-block;
+  border-radius: 50%;
+  vertical-align: middle;
+  
+
+}
+
+.every-day ul {
+  background: #fff;
+}
+
+
+
+.every-day li.status-1 span{
+  background: #57d417;
+  color:#fff;
+}
+.every-day li.status-2 span{
+  background: #000000;
+  color:#fff;
+}
+.every-day li.status-3 span{
+  background: #da8ff3;
+  color:#fff;
+}
+.every-day li.status-4 span{
+  background: #d40606;
+  color:#fff;
+}
+
+.every-day li.dds-header {
+  font-weight: bold;
+  background: #64a7f5;
+  color: #fff;
+}
+
+.every-day li.pre, .every-day li.next {
+  color: #e6e6e6;
+}
+
+.every-day li.pre.status, .every-day li.next.status {
+  opacity: 0.1;
+}
+
+.every-day .title {
+  font-size: 12px;
+  text-align: center;
+  line-height: 34px;
+  text-align:left;
+  font-size: 20px;
+  color:#fff;
+  float:left;
+  
+}
+
+.every-day .header-box {
+  overflow: hidden;
+  
+  padding: 5px 10px 0 10px;
+  background: #64a7f5;
+  vertical-align: middle;
+}
+
+.every-day .btns {
+  float:right;
+  position: relative;
+  top: 5px;
+  user-select: none;
+}
+
+.every-day .btns span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.every-day .btns span:hover{
+  background: rgba(255,255,255,0.2);
+}
+
+.every-day .btns img {
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.every-day .txi {
+  float: left;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+</style>
+</head>
+<body>
+  <div id="every-day" class="every-day">
+    <div class="header-box">
+      <img class="txi" src="../images/tx.jpg"/>
+      <div class="title"></div>
+      <div class="btns">
+        <span class="awl"><img src="../images/arrow-left.png"/></span>
+        <span class="today"><img src="../images/today.png"/></span>
+        <span class="awr"><img src="../images/arrow-right.png"/></span>
+      </div>
+    </div>
+    <ul></ul>
+  </div>
+</body>
+</html>

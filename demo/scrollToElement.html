@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>scrollToElement</title>
+  <script src="../js/bestime/bestime@beta.min.js"></script>
+</head>
+<body>
+  <style>
+    * {
+      list-style: none;
+    }
+    ul {
+      width: 500px;
+      border:#dd4215 solid 1px;
+      height: 300px;
+      overflow: auto;
+      position: relative;
+    }
+    li {
+      background: #f5f5f5;
+      color:#666;
+      font-size: 20px;
+      line-height: 50px;
+      margin: 10px 0;
+    }
+  </style>
+  <ul id="demo-ul"></ul>
+</body>
+
+<script>
+  var oUl = document.getElementById('demo-ul')
+  var _html = ''
+  for(var a=0; a<50; a++) {
+    _html += '<li>我是第个'+ a +'元素<button>滚动到这里</button></li>'
+  }
+  oUl.innerHTML = _html
+  ns.forEach(oUl.getElementsByTagName('li'), function (oLi, index) {
+    oLi.getElementsByTagName('button')[0].onclick = function () {
+      ns.scrollToElement(oLi, oUl)
+    }
+  })
+
+</script>
+</html>

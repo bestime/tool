@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/bestime/bestime@beta.min.js"></script>
+  <title>ripple-button</title>
+  <style>
+    .ripple-button {
+      background: #dd4215;
+      margin: 0;
+      padding: 0;
+      border:none;
+      outline: none;
+      position: relative;
+      width: 100px;
+      height: 40px;
+      cursor: pointer;
+      color:#fff;
+      border-radius: 20px;
+      overflow:hidden;
+    }
+    .ripple-button canvas {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <button id="test01" class="ripple-button">
+    哈哈哈
+    <canvas></canvas>
+  </button>
+
+<script>
+var RippleButton = (function () {
+  return function (el) {
+    var width=0, height=0;
+    var oCanvas = el.getElementsByTagName('canvas')[0]
+    var ctx = oCanvas.getContext("2d")
+    var maxRadius;
+    var oTween;
+    var doing, click;
+
+    el.onmousedown = function (ev) {
+      width = el.offsetWidth
+      height = el.offsetWidth
+      click = false;
+      maxRadius = Math.max(
+        Math.pow(ev.offsetX, 2) + Math.pow(ev.offsetY, 2), // 左上
+        Math.pow(width-ev.offsetX, 2) + Math.pow(ev.offsetY, 2), // 右上
+        Math.pow(ev.offsetX, 2) + Math.pow(height - ev.offsetY, 2), // 左下
+        Math.pow(width - ev.offsetX, 2) + Math.pow(height - ev.offsetY, 2), // 右下
+      );
+      oCanvas.width = width;
+      oCanvas.height = height;
+      oTween && oTween.stop();
+      doing = true;
+      var ddddd = false;
+      oTween = ns.Tween.getAnimate(0, Math.sqrt(maxRadius), ns.Tween.Cubic.easeOut,700,function (radius, isStop) {
+        ctx.clearRect(0, 0, width, height);
+        
+        if(isStop) {
+          doing = false;
+          if(click) {
+            ddddd =  true;
+            ctx.clearRect(0, 0, width, height);
+          }
+        }
+
+        if(!ddddd) {
+          ctx.fillStyle = 'rgba(0,0,0,0.2)'
+          ctx.beginPath();
+          ctx.arc(ev.offsetX,ev.offsetY,radius,0,2*Math.PI);
+          ctx.fill();
+        }
+        
+      });
+    }
+    el.onclick = function () {
+      click = true;
+      if(!doing) {
+        ctx.clearRect(0, 0, width, height);
+      }
+    }
+  }
+})();
+
+RippleButton(document.getElementById('test01'));
+</script>
+
+</body>
+</html>
