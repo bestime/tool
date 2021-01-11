@@ -4,22 +4,90 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    #demo{
+      width: 20px;
+      height: 20px;
+      background: red;
+    }
   </style>
+
+  <script>
+    window.requestAnimationFrame = null;
+    window.webkitRequestAnimationFrame = null;
+    window.cancelAnimationFrame = null
+    window.webkitCancelAnimationFrame = null
+  </script>
 
   <script src="./js/@version/bestime@beta.min.js"></script>
 </head>
 <body>
+<div id="demo"></div>
+<button id="stop">点击开始</button>
 <script>
-// => ["a", "b", "c", "[1,2,3]", "d", "{a:1,b:2}"]
-demo('a,b,c,[1,2,3],d,{a:1,b:2}')
 
-function demo (str) {
-  const arr = [];
-  str.replace(/((\[.+\])|{.+}|(.+?))(,?)/g, function (_, item) {
-    arr.push(item)
+
+
+
+
+
+;(function(){
+  var oTest = document.getElementById('demo')
+  var oStop = document.getElementById('stop')
+  var width = 20, dir=1, animateID;
+  function run () {
+    if(width>100) {
+      dir = -1
+    }else if(width<20) {
+      dir = 1
+    }
+    width += dir
+    oTest.style.width = width + 'px'
+    animateID = ns.polyfillRequestAnimationFrame(run)
+  }
+
+  var doing;
+
+  oStop.onclick = function () {
+    if(doing) {
+      doing = false
+      console.log('停止', animateID)
+      ns.polyfillCancelAnimationFrame(animateID)
+      this.innerHTML = '点击开始'
+    } else {
+      doing = true
+      this.innerHTML = '点击停止'
+      run()
+    }
+  }  
+})();
+
+
+function sectionMerger (list, adjust, sort) {
+  
+  // 如果确定是排过序的，就不必排序了
+  sort && list.sort(function (a, b) {
+    return a[0] > b[0] ? 1 : -1
   })
-  return arr;
+
+  for(var a1, a2, index = 0, len = list.length; index < len; index++) {
+    a1 = list[index]
+    a2 = list[index + 1]
+    if(typeof a2 == 'undefined') break;
+    // console.log(a1[1]>=a2[0]-1)
+    if(a1[1] >= a2[0] - 1) {
+      // console.log('嘎嘎嘎')
+      a2[0] = Math.min(a2[0], a1[0])
+      a2[1] = Math.max(a2[1], a1[1])
+      list.splice(index, 1)
+      index--
+    }  
+  }
+  console.log('list', JSON.stringify(list))
+  return list
 }
+
+sectionMerger([[1,4], [5,6]])
 </script>
 </body>
 </html>

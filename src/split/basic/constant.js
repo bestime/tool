@@ -77,6 +77,9 @@ export const MATH_MIN = Math.min
 
 export const LETTER_LIST = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
+/** window.requestAnimationFrame兼容前缀 */
+export const REQUEST_ANIMATION_VENDORS = ['webkit', 'moz']
+
 
 
 

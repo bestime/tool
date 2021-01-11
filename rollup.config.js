@@ -15,6 +15,7 @@ export default {
     file: 'js/@version/' + TOOL_NAME,
     format: 'iife',    
     strict: false,
+    name: 'ns',
     indent: false,
     interop: false
   },

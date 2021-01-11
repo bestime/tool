@@ -28,3 +28,7 @@ export function DOCUMENT_CREATE_IMAGE () {
   return DOCUMENT_CREAGEELEMENT('img')
 }
 
+
+
+
+

@@ -106,8 +106,12 @@ import setStorage from './split/setStorage'
 import symbolNumber from './split/symbolNumber'
 import encodeHTML from './split/encodeHTML'
 import decodeHTML from './split/decodeHTML'
+import polyfillCancelAnimationFrame from './split/polyfillCancelAnimationFrame'
+import polyfillRequestAnimationFrame from './split/polyfillRequestAnimationFrame'
 
 export default {
+  polyfillCancelAnimationFrame,
+  polyfillRequestAnimationFrame,
   decodeHTML,
   encodeHTML,
   symbolNumber,

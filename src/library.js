@@ -42,6 +42,4 @@ function CreateMain () {
 
   return main
 }
-
-
-WINDOW['ns'] = CreateMain()
+export default CreateMain()
