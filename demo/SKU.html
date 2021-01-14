@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>SKU规格筛选测试</title>
+  <script src="../js/@version/bestime@beta.min.js"></script>
+  <script src="../js/SKU.js"></script>
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    body {
+      background-color: #f2f2f2;;
+    }
+
+    ul {
+      background:#fff;
+      width: 500px;
+      margin: 20px;
+      padding: 20px;
+
+    }
+
+    span {
+      display: inline-block;
+      padding: 10px 17px;
+      background:#eee;
+      color:#666;
+      margin: 2px;
+      cursor: pointer;
+    }
+
+    span.lock {
+      opacity: 0.4;
+    }
+
+    span.active {
+      background:green;
+      color:#fff;
+    }
+
+    li {
+      margin-bottom:20px;
+    }
+    
+    .kx-list {
+      margin-left: 10px;
+      color:red;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>可选组合</h1>
+  <script>
+    var test_list = [
+      {
+        name: '张三',
+        children: [
+          { id: 'A' },
+          { id: 'B' },
+          { id: 'C' },
+          { id: 'D' },
+        ]
+      },
+      {
+        name: '李四',
+        children: [
+          { id: 'E' },
+          { id: 'F' },
+          { id: 'G' },
+        ]
+      },
+      {
+        name: '王五',
+        children: [
+          { id: 'H' },
+          { id: 'I' },
+          { id: 'J' },
+          { id: 'K' },
+          { id: 'L' },
+        ]
+      },
+      {
+        name: '赵六',
+        children: [
+          { id: 'M' },
+          { id: 'N' },
+        ]
+      },
+    ]
+
+    const test_limit = [
+      ['A', 'E', 'H', 'M'],
+      ['A', 'E', 'H', 'N'],
+      ['A', 'F', 'H', 'M'],
+      ['B', 'F', 'H', 'M'],
+      ['B', 'G', 'I', 'N'],
+      ['B', 'F', 'L', 'M'],
+    ]
+
+
+
+    ;(function () {
+      var oUl = document.createElement('ul')
+      var oDiv = document.createElement('div')
+      oDiv.className = 'kx-list'
+      oDiv.innerHTML = test_limit.map(od => {
+        return `<div>${od}</div>`
+      }).join('')
+      var _item_html = ''
+      oUl.innerHTML = test_list.map((item, oidx) => {
+        _item_html = item.children.map((c, cidx) => {
+          return `<span data-oidx="${oidx}" data-cidx="${cidx}">${c.id}</span>`
+        }).join('')
+        return `
+          <li>
+            <div>${item.name}</div>
+            <div>${_item_html}</div>
+          </li>
+        `
+      }).join('')  
+
+      document.body.appendChild(oDiv)
+      document.body.appendChild(oUl)
+
+      var oSpans = document.getElementsByTagName('span')
+
+      var selected = []
+      for(var a=0;a<oSpans.length; a++) {
+        ;(function (index) {
+          oSpans[index].onclick = function () {
+            if(ns.hasClass(this, 'lock')) return;
+            var oidx = Number(this.getAttribute('data-oidx'))
+            var cidx = this.getAttribute('data-cidx')
+            ns.forEach(oSpans, function(item){
+              if(item.getAttribute('data-oidx')==oidx) {
+                if(cidx==item.getAttribute('data-cidx')) {
+                  ns.toggleClass(item, 'active')
+                } else {
+                  ns.removeClass(item, 'active')
+                }             
+              }
+            })        
+            selected[oidx] = !ns.hasClass(this, 'active') ? '' : String(this.innerHTML)
+            var finalList = SKU(test_list, test_limit, selected)
+            updateDome(finalList)
+          }
+        })(a);
+      }
+    })();
+
+    updateDome(SKU(test_list, test_limit, []))
+
+    function updateDome (list) {
+      var oSpan = document.getElementsByTagName('span')
+      for(var a=0;a<oSpan.length; a++) {
+        (function(index){
+          var oidx = oSpan[index].getAttribute('data-oidx')
+          var cidx = oSpan[index].getAttribute('data-cidx')
+          if(list[oidx].children[cidx].lock) {
+            ns.addClass(oSpan[index], 'lock')
+          } else {
+            ns.removeClass(oSpan[index], 'lock')
+          }
+        })(a);
+      }  
+    }
+
+  </script>
+</body>
+</html>
+

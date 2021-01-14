@@ -9,7 +9,6 @@ import _String from './_String'
  * @return {Boolean}
  */
 export default function isFuzzyMatch (searchString, targetString, regFlags) {
-  targetString = _String(targetString)
   searchString = _String(searchString)
   let res = true;
   if(searchString) {
