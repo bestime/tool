@@ -12,7 +12,7 @@ import formatTime from './src/split/formatTime'
 export default {
   input: './src/library.js',
   output: {
-    file: 'js/@version/' + TOOL_NAME,
+    file: 'dist/' + TOOL_NAME,
     format: 'iife',    
     strict: false,
     name: 'ns',

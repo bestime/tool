@@ -1,8 +1,8 @@
 {
-  "name": "tool",
+  "name": "bestime-js-tool",
   "version": "3.0.1",
   "description": " javascript tool",
-  "main": "index.js",
+  "main": "src/index.js",
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -17,5 +17,16 @@
     "build": "rollup -c"
   },
   "author": "bestime1020@gmail.com",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bestime/tool.git"
+  },
+  "keywords": [
+    "javascript"
+  ],
+  "bugs": {
+    "url": "https://github.com/bestime/tool/issues"
+  },
+  "homepage": "https://github.com/bestime/tool#readme"
 }
