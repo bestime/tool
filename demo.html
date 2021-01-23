@@ -25,6 +25,7 @@
 <div id="demo"></div>
 <button id="stop">点击开始</button>
 <script>
+  
 ;(function(){
   var oTest = document.getElementById('demo')
   var oStop = document.getElementById('stop')
@@ -61,10 +62,104 @@
 
 
 
+// timingPlan('seconds', true, function (time) {
+//   console.log('整秒计划执行了', time)
+// })
+
+timingPlan('minute', true, function (time) {
+  console.log('%c整分计划执行了', 'background:blue;color:#fff;', time)
+})
+
+timingPlan('hour', true, function (time) {
+  console.log('%c整点计划执行了', 'background:green;color:#fff;', time)
+})
+
+// timingPlan(['12:00:00', '12:10:00'], true, function (time) {
+//   console.log('%c定时计划执行了', 'background:green;color:#fff;', time)
+// })
 
 
 
 
+/**
+ * 定时计划
+ * @param {String} target 计划方式。支持：seconds，minute，hour
+ * @param {Boolean} [immediate=false] 是否立即执行一次
+ * @param {Function} callback 计划触发回调
+*/
+function timingPlan (target, immediate, callback) {
+  var date, hour, minute, seconds, milliSecond;
+  immediate = immediate === true
+  var duration;
+  var timer;
+  var adj = 18
+  var appointedList;
+  
+  var oneSecond = 1000
+  var oneMinute = oneSecond * 60
+  var oneHour = oneMinute * 60
+  var oneDay = onHour * 24
+
+  function getType (data) {
+    return Object.prototype.toString.call(data).slice(8, -1)
+  }
+
+  
+
+  function doOnce () {
+    immediate = false;
+    readyNextWork()
+    callback(hour + '时' + minute + '分' + seconds + '秒' + milliSecond + '毫秒')
+  }
+
+
+
+
+  readyNextWork()
+  function readyNextWork () {
+    date = new Date()
+    hour = date.getHours()
+    minute = date.getMinutes()
+    seconds = date.getSeconds()
+    milliSecond = date.getMilliseconds()
+    clearTimeout(timer)
+    if(immediate) {
+      doOnce()
+    } else {
+      switch (target) {
+        case 'seconds':
+          duration = Math.max(1000 - milliSecond, adj)
+          break;
+        case 'minute':
+          duration = 1000*(60 - seconds) - milliSecond
+          break;
+        case 'hour':
+          duration = 60000*(60-minute) - 1000 * seconds - milliSecond
+          break;
+        // default:
+        //   appointedList = appointedList || []
+        //   if(getType(target) === 'Array') {
+        //     for(var a = 0; a< target.length; a++) {
+        //       target = target.split(':')
+        //       target[0] = target[0] * oneHour
+        //       target[1] = target[1] * oneMinute
+        //       target[2] = target[2] * oneSecond
+        //       var a = hour*oneHour + minute*oneMinute + seconds * oneSecond - target[0] - target[1]-target[2]
+        //       a = a > 0 ? a : a+oneDay
+        //       appointedList.push(a)
+        //     }
+        //   }
+      }
+      timer = setTimeout(doOnce, duration);
+    }
+  }
+}
+
+/*
+
+
+
+*/ 
 </script>
 </body>
 </html>

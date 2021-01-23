@@ -40,10 +40,10 @@ export default function createLoop (options) {
 
   function updateInfoOnce () {
     diff = Math.max(outtime - (+new Date() - start), 0)
+    timekeeper && timekeeper.call(self, diff)
     if(diff<=0) {
       stop()
     }
-    timekeeper && timekeeper.call(self, diff)
   }
 
   function callMain () {
@@ -112,4 +112,9 @@ demo.stop.call('context') // 停止
 
 
 
+
+
+
+
 */
+
