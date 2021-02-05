@@ -9,7 +9,7 @@ export default function reduce (list, handle, initVal) {
       index = 0,
       len = list.length;
 
-  if(typeof initVal === 'undefined') {
+  if(initVal == null) {
     total = list[0]
     index = 1
   }

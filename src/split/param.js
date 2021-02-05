@@ -1,6 +1,7 @@
 import getType from './getType'
-import { TYPE_UNDEFINED_SMALL, TYPE_ARRAY, TYPE_OBJECT, TYPE_STRING } from './basic/constant'
+import { TYPE_ARRAY, TYPE_OBJECT, TYPE_STRING } from './basic/constant'
 import isFunction from './isFunction'
+import isObject from './isObject'
 
 
 
@@ -12,7 +13,7 @@ export default function param (data) {
   // 当value不为数组或者JSON时，就可创建一条数据
   function addOne (key, value) {
     value = isFunction(value) ? value() : value;
-    value = value === undefined || value === null || typeof value === TYPE_UNDEFINED_SMALL ? '' : value
+    value = value === undefined || value === null ? '' : value
     res[res.length] = encodeURIComponent(key) + '=' + encodeURIComponent(value)
   }
   
@@ -24,7 +25,7 @@ export default function param (data) {
         case TYPE_ARRAY:
           for(index=0; index<item.length; index++) {
             // 如果数组项为object，需要创建一个索引
-            buildOnce(prefix + '['+ (typeof item[index] === 'object' && item[index] ? index : '') +']', item[index])
+            buildOnce(prefix + '['+ (isObject(item[index]) && item[index] ? index : '') +']', item[index])
           }
           break;
         case TYPE_OBJECT:

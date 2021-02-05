@@ -1,6 +1,10 @@
-export const WINDOW = window
-export const HISTORY = WINDOW.history
-export const LOCAL_STROAGE = WINDOW.localStorage
+
+
+import { EMPTY_FUNCTION } from './constant'
+
+export const WINDOW = window || {}
+export const HISTORY = WINDOW.history || EMPTY_FUNCTION
+export const LOCAL_STROAGE = WINDOW.localStorage || EMPTY_FUNCTION
 
 
 /** 简写：document.getElementById */

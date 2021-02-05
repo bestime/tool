@@ -6,8 +6,9 @@ export const TYPE_UNDEFINED_SMALL = 'undefined'
 
 /** toString简写 */
 export const _TOSTRING = Object.prototype.toString
-export const _UNDEFINED = undefined
 
+/** 常量：undefined */
+export const _UNDEFINED = undefined
 
 
 export const Bytes = 8;
@@ -39,10 +40,11 @@ export const TYPE_OBJECT = 'Object'
 /** 数据类型常量：Array */
 export const TYPE_ARRAY = 'Array'
 
-/** 数据类型常量：String */
+/** 数据类型常量(大写)：String */
 export const TYPE_STRING = 'String'
 
-
+/** 数据类型常量(小写)：string */
+export const TYPE_STRING_LOWER = 'string'
 
 /** 数据类型常量（小写）：null */
 export const TYPE_NULL_SMALL = 'null'
@@ -74,16 +76,12 @@ export const MATH_MAX = Math.max
 /** Math.min简写 */
 export const MATH_MIN = Math.min
 
-
 export const LETTER_LIST = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
 /** window.requestAnimationFrame兼容前缀 */
 export const REQUEST_ANIMATION_VENDORS = ['webkit', 'moz']
 
-
-
-
-
+/** html 编码集映射 */
 export const CODEMAP = {
 	"&lt;" : "<", 
 	"&gt;" : ">", 

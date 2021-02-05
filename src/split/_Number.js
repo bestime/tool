@@ -1,5 +1,3 @@
-import { TYPE_UNDEFINED_SMALL } from './basic/constant'
-
 /**
  * @param {*} data 需要转换的数据
  * @param {Boolean} canEmpty 是否允许空，处理input输入内容转数字时候可以用到
@@ -9,7 +7,7 @@ import { TYPE_UNDEFINED_SMALL } from './basic/constant'
 export default function _Number (data, canEmpty) {
   var res = Number(data), errorValue = 0;
   if (canEmpty) {
-    if (data === '' || typeof data === TYPE_UNDEFINED_SMALL) {
+    if (data === '' || data == null) {
       res = ''
       errorValue = ''
     }

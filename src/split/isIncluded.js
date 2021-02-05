@@ -8,7 +8,7 @@
  * @param {Number} [startIndex=0] 起始索引
  * @param {Number} [endIndex=list.length-1] 结束索引
  * 
- * @return {Boolean} isIn 是否包含在数组里面
+ * @return {Boolean} 是否包含在数组里面
  */
 export default function isIncluded (value, list, isVague, startIndex, endIndex) {
   startIndex = startIndex || 0;

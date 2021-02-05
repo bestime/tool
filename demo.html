@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <iframe id="frame1" src="./abc.html"></iframe>
   <title>Document</title>
   <style>
     #demo{
@@ -13,6 +14,7 @@
   </style>
 
   <script>
+    // alert((!(~+[])+{})[--[~+""][+[]]*[~+[]] + ~~!+[]]+({}+[])[[~!+[]]*~+[]])
     window.requestAnimationFrame = null;
     window.webkitRequestAnimationFrame = null;
     window.cancelAnimationFrame = null
@@ -22,6 +24,7 @@
   <script src="./dist/bestime@beta.min.js"></script>
 </head>
 <body>
+  <a href="http%3A%2F%2Flijian.mynatapp.cc%2Frelease3%2F%23%2Finvite-code%2F777094%3Fmch_id%3D1%26chain_id%3D1">你好</a>
 <div id="demo"></div>
 <button id="stop">点击开始</button>
 <script>
@@ -66,13 +69,13 @@
 //   console.log('整秒计划执行了', time)
 // })
 
-timingPlan('minute', true, function (time) {
-  console.log('%c整分计划执行了', 'background:blue;color:#fff;', time)
-})
+// timingPlan('minute', true, function (time) {
+//   console.log('%c整分计划执行了', 'background:blue;color:#fff;', time)
+// })
 
-timingPlan('hour', true, function (time) {
-  console.log('%c整点计划执行了', 'background:green;color:#fff;', time)
-})
+// timingPlan('hour', true, function (time) {
+//   console.log('%c整点计划执行了', 'background:green;color:#fff;', time)
+// })
 
 // timingPlan(['12:00:00', '12:10:00'], true, function (time) {
 //   console.log('%c定时计划执行了', 'background:green;color:#fff;', time)
@@ -155,11 +158,103 @@ function timingPlan (target, immediate, callback) {
   }
 }
 
-/*
 
 
 
-*/ 
+
+
+(function () {
+  const data = [{
+        name: '水果大全',
+        id: '111',
+        isOpen: true,
+        children: [{
+          name: '浆果类',
+          id: '112',
+          isOpen: true,
+          children: [{
+            name: '草莓',
+            id: '113',
+            isOpen: true
+          }, {
+            name: '桑椹',
+            id: '114',
+            isOpen: true
+          }, {
+            name: '黑莓',
+            id: '115',
+            isOpen: false
+          }]
+        }, {
+          name: '柑橘类',
+          id: '116',
+          isOpen: true,
+          children: [{
+            name: '橘子',
+            id: '117',
+            isOpen: true
+          }, {
+            name: '橙子',
+            id: '118',
+            isOpen: false
+          }]
+        }]
+      }, {
+        name: '奥特曼大全',
+        id: '119',
+        isOpen: true,
+        children: [{
+          name: '昭和类',
+          id: '120',
+          isOpen: true,
+          children: [{
+            name: '杰克',
+            id: '121',
+            isOpen: true
+          }, {
+            name: '泰罗',
+            id: '122',
+            isOpen: false
+          }, {
+            name: '艾斯',
+            id: '123',
+            isOpen: true
+          }]
+        }, {
+          name: '平成类',
+          id: '124',
+          isOpen: false,
+          children: [{
+            name: '迪迦',
+            id: '125',
+            isOpen: false
+          }, {
+            name: '盖亚',
+            id: '126',
+            isOpen: false
+          }]
+        }]
+      }]
+// => ["111", "112", "113", "114", "116", "117", "119", "120", "121", "123"]
+console.log(deepFindOpenId(data))
+
+function deepFindOpenId (list, result) {
+  result = result || [], Array.isArray(list) && list.forEach(item => {
+    item.isOpen && result.push(item.id)
+    deepFindOpenId(item.children, result)
+  })
+  return result;
+}
+})();
+
+
+var oIframe = document.getElementById('frame1').contentWindow
+oIframe.onload = function () {
+  console.log('测试iframe', oIframe.document.getElementsByTagName('h1')[0])
+}
+  
+
+
 </script>
 </body>
 </html>

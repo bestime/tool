@@ -12,15 +12,15 @@ function defaultValue (data, value) {
  * @return {Function} 改变this指向自行bind、call、apply。
  */
 export default function createDebounce (hander, wait, options) {
+  wait = wait || 100
+  options = options || {}
   var timer_leading,
       self,
       arg,
       lock,
-      timer_trailing;
-  wait = wait || 100
-  options = options || {}
-  var leading = defaultValue(options.leading, false) // wait 前调用
-  var trailing = defaultValue(options.trailing, true) // wait 后调用
+      timer_trailing,
+      leading = defaultValue(options.leading, false), // wait 前调用
+      trailing = defaultValue(options.trailing, true); // wait 后调用
 
   function waitLock () {
     clearTimeout(timer_leading)
@@ -54,5 +54,3 @@ export default function createDebounce (hander, wait, options) {
     }
   }
 }
-
-

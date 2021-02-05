@@ -17,7 +17,7 @@ export default function sectionMerger (list, adjust, sort) {
   for(var a1, a2, index = 0, len = list.length; index < len; index++) {
     a1 = list[index]
     a2 = list[index + 1]
-    if(typeof a2 == 'undefined') break;
+    if(a2 == null) break;
     if(a1[1] >= a2[0] - adjust) {
       a2[0] = Math.min(a2[0], a1[0])
       a2[1] = Math.max(a2[1], a1[1])

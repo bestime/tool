@@ -1,6 +1,6 @@
 {
   "name": "bestime-js-tool",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": " javascript tool",
   "main": "src/index.js",
   "dependencies": {},
