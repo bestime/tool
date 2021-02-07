@@ -1,4 +1,3 @@
-import _UpperCase from './_UpperCase'
 import { _TOSTRING} from './basic/constant'
 
 /**

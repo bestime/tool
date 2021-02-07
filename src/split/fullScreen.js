@@ -35,7 +35,7 @@ function close(callback) {
   if (document.exitFullscreen) {
     document.exitFullscreen().then(function () {
       callback(true)
-    }).catch(() => {
+    }).catch(function(){
       callback(false)
     })
   } else if (document.webkitCancelFullScreen) {
