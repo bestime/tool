@@ -1,13 +1,11 @@
 
 
-import padStart from './padStart'
+import { prevZero2 } from './basic/fragment'
 import _Number from './_Number'
 import convertTime from './convertTime'
 
 
-const pad_2_0 = function (num) {
-	return padStart(num, 2, '0')
-}
+
 
 export default function getMonthInfo (timestamp) {
 	timestamp = _Number(timestamp) || +new Date()
@@ -40,8 +38,8 @@ export default function getMonthInfo (timestamp) {
 		}
 		
 		return {
-			year: pad_2_0(a_year), 
-			month: pad_2_0(a_month), 
+			year: prevZero2(a_year), 
+			month: prevZero2(a_month), 
 			total: new Date(a_year, a_month, 0).getDate()
 		}
 	}
@@ -84,9 +82,9 @@ export default function getMonthInfo (timestamp) {
 				currentMonthArr.push(oneData)
 			}
 			if(oneData) {
-				oneData.year = pad_2_0(oneData.year)
-				oneData.month = pad_2_0(oneData.month)
-				oneData.day = pad_2_0(oneData.day)
+				oneData.year = prevZero2(oneData.year)
+				oneData.month = prevZero2(oneData.month)
+				oneData.day = prevZero2(oneData.day)
 				arr.push(oneData)
 			}
 		}

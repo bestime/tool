@@ -4,9 +4,8 @@ import _Number from './_Number'
 import FORMAT_TIME_BY_MAP from './FORMAT_TIME_BY_MAP'
 import trim from './trim'
 import isString from './isString'
-
 import { TYPE_DATE } from './basic/constant'
-
+import PAD_STRING from './PAD_STRING'
 
 
 
@@ -28,16 +27,13 @@ export default function formatTime (fmt, date) {
   if(getType(date) !== TYPE_DATE) {
     date = trim(date)
     if(/^\d+$/.test(date)) {
-      if(date.length == 10) {
-        date = _Number(date + '000')
-      } else if(date.length == 13) {
-        date = _Number(date)
+      if(date.length) {
+        date = PAD_STRING(date, 13, '0')
       } else {
         return ''
       }
-
       if(date) {
-        date = new Date(date)
+        date = new Date(_Number(date))
       } else {
         return ''
       }

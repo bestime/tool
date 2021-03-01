@@ -15,7 +15,7 @@ export default function isIncluded (value, list, isVague, startIndex, endIndex) 
   endIndex = endIndex || list.length - 1;
   var res = false;
   for(startIndex; startIndex <= endIndex; startIndex++) {
-    res = isVague === true ? String(list[startIndex]) == String(value) : list[startIndex] === value;
+    res = isVague === true ? String(list[startIndex]) === String(value) : list[startIndex] === value;
     if(res) {
       break;
     }

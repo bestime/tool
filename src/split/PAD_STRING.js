@@ -6,7 +6,7 @@ import repeatString from './repeatString'
  * @param {String} padTarget 需要补齐的字符串
  * @param {Number} targetLength <正整数> 预期字符串长度
  * @param {String} padString 用于填补的字符串
- * @param {Number} [direction=1] 方向
+ * @param {Number} [direction=1] 方向。1向后，-1向前
  * 
  * @return {String}
  */

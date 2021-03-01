@@ -1,16 +1,14 @@
-import padStart from './padStart'
+import { prevZero3, prevZero2 } from './basic/fragment'
 
-function pad_2_0 (num) {
-	return padStart(num, 2, '0')
-}
+
 export default function convertTime (date) { 
 	return {
-		year: pad_2_0(date.getFullYear()),
-		month: pad_2_0(date.getMonth() + 1),
-		day: pad_2_0(date.getDate()),
-		hour: pad_2_0(date.getHours()),
-		minute: pad_2_0(date.getMinutes()),
-		second: pad_2_0(date.getSeconds()),
-		milliSecond: pad_2_0(date.getMilliseconds(), '000')
+		year: prevZero2(date.getFullYear()),
+		month: prevZero2(date.getMonth() + 1),
+		day: prevZero2(date.getDate()),
+		hour: prevZero2(date.getHours()),
+		minute: prevZero2(date.getMinutes()),
+		second: prevZero2(date.getSeconds()),
+		milliSecond: prevZero3(date.getMilliseconds())
 	}
 }

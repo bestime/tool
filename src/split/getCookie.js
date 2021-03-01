@@ -2,6 +2,7 @@
 import _Object from './_Object'
 import isObject from './isObject'
 import FN_FORMAT_STRING_VALUE from './FN_FORMAT_STRING_VALUE'
+import { DECODE_URI_COMPONENT } from './basic/browser'
 
 /**
  * 获取浏览器cookie
@@ -16,11 +17,11 @@ export default function getCookie (mark, target) {
   if(isObject(mark) || mark == null) {
     res = _Object(mark)
     target.replace(/(.*?)=(.*?)(; |$)/g, function (g, key, value) {
-      res[decodeURIComponent(key)] = FN_FORMAT_STRING_VALUE(decodeURIComponent(value))
+      res[DECODE_URI_COMPONENT(key)] = FN_FORMAT_STRING_VALUE(DECODE_URI_COMPONENT(value))
     })
   } else {
     target.replace(new RegExp('(^|;\\s)' + mark + '=(.*?)($|(;\\s))'), function (g,prefix, value) {
-      res = FN_FORMAT_STRING_VALUE(decodeURIComponent(value))
+      res = FN_FORMAT_STRING_VALUE(DECODE_URI_COMPONENT(value))
     })
   }
   return res

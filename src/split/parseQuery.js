@@ -1,55 +1,13 @@
-// 这个解析有误，待处理
-// http://127.0.0.1:49144/connect?pid=f7dbc77233c56de466d29482642bc5&name=UoUr5RoE&url=http%3A%2F%2F192.168.0.224%3A1181%2F%23%2Fclient-menu%3Ftk%3DeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC96cWlqdW4udHVuLmd1YW5saXl1YW5nb25nLmNvbVwvYXBpXC92MVwvbG9naW5cL3N0YXRlIiwiaWF0IjoxNjA4MjgzOTczLCJuYmYiOjE2MDgyODM5NzMsImp0aSI6IjM5QnNITTNyOTJlb3NsN2MiLCJzdWIiOjI2LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.P8i9iuaunxJOWd6t6AwV786V9pwAuk-0xCxvwaZmxUY%26uid%3D26
-
-
-
-
-
 import _Array from './_Array'
-import _Object from './_Object'
 import _Number from './_Number'
-import FN_FORMAT_STRING_VALUE from './FN_FORMAT_STRING_VALUE'
-import { WINDOW } from './basic/browser'
+import _Object from './_Object'
 import isString from './isString'
+import { _NULL } from './basic/constant'
+import { WINDOW } from './basic/browser'
+import FN_FORMAT_STRING_VALUE from './FN_FORMAT_STRING_VALUE'
+import { DECODE_URI_COMPONENT } from './basic/browser'
 
-
-
-
-
-/**
- * 解析url复杂参数
- * @param {String} [str = window.location.href] 序列化后的字符串
- * @return {Object}
- */
-
-export default function parseQuery (str) {
-  var res = {}, href, hasChlid, queryKey;
-	try { href = WINDOW.location.href } catch (e) {href = ''};
-  str = isString(str) ? str : href
-  // str = decodeURIComponent(str)
-	
-  str.replace(/([^=&?/#]*?)=([^=&?/#]*)/g, function (_, key, val) {
-		val = FN_FORMAT_STRING_VALUE(decodeURIComponent(val))
-		queryKey = decodeURIComponent(key)
-		hasChlid = false
-		queryKey.replace(/(.*?)(\[.*)/, function (_, k, m) {
-			var sb = splitSymbol(m)
-			hasChlid = true
-			if(isPreLikeArray(sb[0])) {
-				res[k] = _Array(res[k])
-			} else {
-				res[k] = _Object(res[k])
-			}
-			handleDeepKey(res[k], m, val);
-		});
-
-		if(!hasChlid) {
-			res[queryKey] = val
-		}
-  });
-
-  return res
-}
+const defaultSplitArr = [_NULL, _NULL]
 
 /**
  * 处理可能是深层级的数据
@@ -64,7 +22,7 @@ function handleDeepKey (res, more, originValue) {
 
 	if(isPreLikeArray(nowKey)) {
 		nowKey = _Number(nowKey)
-		if(sb[1] == null) {
+		if(sb[1] == _NULL) {
 			res.push(originValue)
 		} else {
 			if(/^\[[\D]+\]/.test(sb[1])) {
@@ -75,7 +33,7 @@ function handleDeepKey (res, more, originValue) {
 			handleDeepKey(res[nowKey], sb[1], originValue)
 		}
 	} else {
-		if(sb[1] == null) {
+		if(sb[1] == _NULL) {
 			res[nowKey] = originValue
 		} else {
 			if(/^\[[\D]+\]/.test(sb[1])) {
@@ -94,8 +52,8 @@ function handleDeepKey (res, more, originValue) {
  * @return {Array}
  */
 function splitSymbol (str) {
-	if(str==null) {
-		return [null, null]
+	if(str == _NULL) {
+		return defaultSplitArr
 	}
 
 	var pre = str, next;
@@ -115,4 +73,47 @@ function splitSymbol (str) {
  */
 function isPreLikeArray (data) {
 	return data === '' || /^\d+$/.test(data)
+}
+
+
+
+
+
+
+
+
+
+
+/**
+ * 解析url复杂参数
+ * @param {String} [str = window.location.href] 序列化后的字符串
+ * @return {Object}
+ */
+
+export default function parseQuery (str) {
+  var res = {}, href, hasChlid, queryKey;
+	try { href = WINDOW.location.href } catch (e) {href = ''};
+  str = isString(str) ? str : href
+	
+  str.replace(/([^=&?/#]*?)=([^=&?/#]*)/g, function (_, key, val) {
+		val = FN_FORMAT_STRING_VALUE(DECODE_URI_COMPONENT(val))
+		queryKey = DECODE_URI_COMPONENT(key)
+		hasChlid = false
+		queryKey.replace(/(.*?)(\[.*)/, function (_, k, m) {
+			var sb = splitSymbol(m)
+			hasChlid = true
+			if(isPreLikeArray(sb[0])) {
+				res[k] = _Array(res[k])
+			} else {
+				res[k] = _Object(res[k])
+			}
+			handleDeepKey(res[k], m, val);
+		});
+
+		if(!hasChlid) {
+			res[queryKey] = val
+		}
+  });
+
+  return res
 }

@@ -1,5 +1,6 @@
 import { _FUNCTION_NAME, EMPTY_FUNCTION } from './basic/constant'
+import isFunction from './isFunction'
 
 export default function _Function (data) {
-  return typeof data === _FUNCTION_NAME ? data : EMPTY_FUNCTION
+  return isFunction(data) ? data : EMPTY_FUNCTION
 }

@@ -32,6 +32,12 @@ export function DOCUMENT_CREATE_IMAGE () {
   return DOCUMENT_CREAGEELEMENT('img')
 }
 
+/** 编码 encodeURIComponent */
+export const ENCODE_URI_COMPONENT = encodeURIComponent
+
+/** 解码 decodeURIComponent */
+export const DECODE_URI_COMPONENT = decodeURIComponent
+
 
 
 

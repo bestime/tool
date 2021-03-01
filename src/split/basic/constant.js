@@ -1,3 +1,4 @@
+
 /** 空函数 */
 export function EMPTY_FUNCTION () {}
 
@@ -9,6 +10,9 @@ export const _TOSTRING = Object.prototype.toString
 
 /** 常量：undefined */
 export const _UNDEFINED = undefined
+
+/** 常量：null */
+export const _NULL = null
 
 
 export const Bytes = 8;

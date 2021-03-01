@@ -17,7 +17,7 @@ export default function map (data, handle, removeEmpty, toStringMark) {
 
   function commitValue (val) {
     if (toStringMark == null) {
-      res.push(val)
+      res.push(clone(val))
     } else {
       res = res + (res ? toStringMark : '') + val
     }
@@ -25,13 +25,13 @@ export default function map (data, handle, removeEmpty, toStringMark) {
 
   if (isArray(data)) {
     for(var a=0, len = data.length; a < len; a++) {
-      val = handle(clone(data[a]), a, data)
+      val = handle(data[a], a, data)
       if(removeEmpty && val == null) continue;
       commitValue(val);
     }
   } else if(isObject(data)) {
     for(var key in data) {
-      val = handle(clone(data[key]), key, data)
+      val = handle(data[key], key, data)
       if(removeEmpty && val == null) continue;
       commitValue(val)
     }

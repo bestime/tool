@@ -10,7 +10,7 @@ import _String from './_String'
 export default function thousands (str, symbol, len) {
   len = len || 3
   symbol = symbol || ','
-  return _String(str).replace(/([^.]*)?(\.)?(.*)?/, function(item, pre, dot, next) {
+  return _String(str).replace(/([^.]*)?(\.)?(.*)?/, function(_, pre, dot, next) {
     return _String(pre).replace(new RegExp('(.(?=(.{'+ len +'})+$))', 'g'), '$1' + symbol) + _String(dot) + _String(next)
   }) 
   // return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, symbol || ',');

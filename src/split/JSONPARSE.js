@@ -5,13 +5,12 @@ import { TYPE_ARRAY, TYPE_OBJECT } from './basic/constant'
  * JSON.parse 封装
  * 不要引用 defaultType 方法，底层函数互相调用，可能会出现问题
  * 
- * @param {*} data
+ * @param {*} res
  * @param {String} dataType 指定解析成哪种数据类型
  * @return {*}
  */
-export default function JSONPARSE (data, dataType) {
-  var res = data;
-  try { res = JSON.parse(data) } catch (e) {}
+export default function JSONPARSE (res, dataType) {
+  try { res = JSON.parse(res) } catch (e) {}
   if(dataType === TYPE_ARRAY) {
     if(!isArray(res)) {
       res = []

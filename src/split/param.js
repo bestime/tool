@@ -1,5 +1,6 @@
 import getType from './getType'
 import { TYPE_ARRAY, TYPE_OBJECT, TYPE_STRING } from './basic/constant'
+import { ENCODE_URI_COMPONENT } from './basic/browser'
 import isFunction from './isFunction'
 import isObject from './isObject'
 
@@ -14,7 +15,7 @@ export default function param (data) {
   function addOne (key, value) {
     value = isFunction(value) ? value() : value;
     value = value === undefined || value === null ? '' : value
-    res[res.length] = encodeURIComponent(key) + '=' + encodeURIComponent(value)
+    res[res.length] = ENCODE_URI_COMPONENT(key) + '=' + ENCODE_URI_COMPONENT(value)
   }
   
   buildOnce('', data)

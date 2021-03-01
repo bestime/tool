@@ -62,7 +62,6 @@ import arrayExchangeIndex from './split/arrayExchangeIndex'
 import removeElement from './split/removeElement'
 import numberRange from './split/numberRange'
 import onDomRoll from './split/onDomRoll'
-import openWindow from './split/openWindow'
 import backTop from './split/backTop'
 import bindEasy from './split/bindEasy'
 import createDebounce from './split/createDebounce'
@@ -156,7 +155,6 @@ export default {
   createDebounce,
   bindEasy,
   backTop,
-  openWindow,
   onDomRoll,
   numberRange,
   removeElement,
