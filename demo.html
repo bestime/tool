@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <iframe id="frame1" src="./abc.html"></iframe>
+  <!-- <iframe id="frame1" src="./abc.html"></iframe> -->
   
   <title>Document</title>
   <style>
@@ -21,6 +21,42 @@
       height: 600px;
       border:none;
     }
+
+    .demo, .demo li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .demo li {
+      width: 500px;
+      height: 100px;
+      background: #eee;
+      border-top:#ddd solid 1px;
+      position:relative;
+    }
+
+    .demo li:before{
+      content: '';
+      position:absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0;
+      bottom: 0;
+      width: 80%;
+      background: #ddd;
+      border-radius: 50px;
+      transition: 0.1s ease-out;
+      opacity: 0;
+    }
+
+    .demo li:active:before {
+      width: 100%;
+      border-radius: 0;
+      opacity: 1;
+    }
+
+
   </style>
 
   <script>
@@ -34,6 +70,17 @@
   <script src="./dist/bestime@beta.min.js"></script>
 </head>
 <body>
+
+
+  <ul class="demo">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+  </ul>
+
+
+
   <input id="test" placeholder="只能输入正整数" oninput="onInput(this)"/>
   <a href="javascript:;" id="asd" style="pointer-events: none;">霓虹</a>
 <div id="demo"></div>
@@ -166,11 +213,7 @@ function timingPlan (target, immediate, callback) {
 }
 
 
-var list = [1, 100, 20, 200, 40, 50, 120, 10]
-list.sort(function (a, b) {
-  return a - b
-})
-console.log('list', list)
+
 </script>
 </body>
 </html>
