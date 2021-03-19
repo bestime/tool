@@ -4,121 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- <iframe id="frame1" src="./abc.html"></iframe> -->
-  
-  <title>Document</title>
-  <style>
-    #demo{
-      width: 20px;
-      height: 20px;
-      background: red;
-    }
-
-    #frame1 {
-      position:fixed;
-      left: 50px;
-      top: 100px;
-      width: 500px;
-      height: 600px;
-      border:none;
-    }
-
-    .demo, .demo li {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .demo li {
-      width: 500px;
-      height: 100px;
-      background: #eee;
-      border-top:#ddd solid 1px;
-      position:relative;
-    }
-
-    .demo li:before{
-      content: '';
-      position:absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 0;
-      bottom: 0;
-      width: 80%;
-      background: #ddd;
-      border-radius: 50px;
-      transition: 0.1s ease-out;
-      opacity: 0;
-    }
-
-    .demo li:active:before {
-      width: 100%;
-      border-radius: 0;
-      opacity: 1;
-    }
-
-
-  </style>
-
-  <script>
-    // alert((!(~+[])+{})[--[~+""][+[]]*[~+[]] + ~~!+[]]+({}+[])[[~!+[]]*~+[]])
-    window.requestAnimationFrame = null;
-    window.webkitRequestAnimationFrame = null;
-    window.cancelAnimationFrame = null
-    window.webkitCancelAnimationFrame = null
-  </script>
-
+  <title>测试页面</title>
   <script src="./dist/bestime@beta.min.js"></script>
 </head>
-<body>
-
-
-  <ul class="demo">
-    <li>1</li>
-    <li>2</li>
-    <li>3</li>
-    <li>4</li>
-  </ul>
-
-
-
-  <input id="test" placeholder="只能输入正整数" oninput="onInput(this)"/>
-  <a href="javascript:;" id="asd" style="pointer-events: none;">霓虹</a>
-<div id="demo"></div>
-<button id="stop">点击开始</button>
+<body style="height: 1000px;">
 
 <script>
-function onInput (oElement) {
-  oElement.value = oElement.value.replace(/^[^1-9]+|[^0-9]/g, '')
-}
-;(function(){
-  var oTest = document.getElementById('demo')
-  var oStop = document.getElementById('stop')
-  var width = 20, dir=1, animateID;
-  function run () {
-    if(width>100) {
-      dir = -1
-    }else if(width<20) {
-      dir = 1
-    }
-    width += dir
-    oTest.style.width = width + 'px'
-    animateID = ns.polyfillRequestAnimationFrame(run)
-  }
-
-  var doing;
-
-  oStop.onclick = function () {
-    if(doing) {
-      doing = false
-      ns.polyfillCancelAnimationFrame(animateID)
-      this.innerHTML = '点击开始'
-    } else {
-      doing = true
-      this.innerHTML = '点击停止'
-      run()
-    }
-  }  
-})();
 
 
 
@@ -142,7 +33,7 @@ function onInput (oElement) {
 
 
 /**
- * 定时计划
+ * 定时计划 
  * @param {String} target 计划方式。支持：seconds，minute，hour
  * @param {Boolean} [immediate=false] 是否立即执行一次
  * @param {Function} callback 计划触发回调
@@ -211,6 +102,8 @@ function timingPlan (target, immediate, callback) {
     }
   }
 }
+
+
 
 
 
