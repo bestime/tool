@@ -2,8 +2,7 @@ import getType from './getType'
 import { TYPE_ARRAY, TYPE_OBJECT, TYPE_STRING } from './basic/constant'
 import { ENCODE_URI_COMPONENT } from './basic/browser'
 import isFunction from './isFunction'
-import isObject from './isObject'
-
+// import isObject from './isObject'
 
 
 /**
@@ -14,7 +13,7 @@ export default function param (data) {
   // 当value不为数组或者JSON时，就可创建一条数据
   function addOne (key, value) {
     value = isFunction(value) ? value() : value;
-    value = value === undefined || value === null ? '' : value
+    value = value == null ? '' : value
     res[res.length] = ENCODE_URI_COMPONENT(key) + '=' + ENCODE_URI_COMPONENT(value)
   }
   
@@ -25,8 +24,8 @@ export default function param (data) {
       switch (getType(item)) {
         case TYPE_ARRAY:
           for(index=0; index<item.length; index++) {
-            // 如果数组项为object，需要创建一个索引
-            buildOnce(prefix + '['+ (isObject(item[index]) && item[index] ? index : '') +']', item[index])
+            // 如果数组项为object包括数组，需要创建一个索引
+            buildOnce(prefix + '['+ (typeof item[index] === 'object' && item[index] ? index : '') +']', item[index])
           }
           break;
         case TYPE_OBJECT:
@@ -54,5 +53,8 @@ export default function param (data) {
       }
     }
   }
+
+  // console.log(res)
+  
   return res.join('&')
 };

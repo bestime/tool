@@ -1,4 +1,4 @@
-const isDebug = true; // 调试模式不改变版本号
+const isDebug = false; // 调试模式不改变版本号
 
 import { uglify } from 'rollup-plugin-uglify'
 import banner from 'rollup-plugin-banner'

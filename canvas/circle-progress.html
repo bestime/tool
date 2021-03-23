@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  .demo-wrapper {
+    width: 300px;
+    height: 300px;
+    position:relative;
+    margin: 20px;
+  }
+
+  .demo-wrapper div {
+    position:absolute;
+    left: 0;
+    top:0;
+    right:0;
+    bottom: 0;
+    text-align:center;
+    line-height: 300px;
+    font-size: 33px;
+    color:#ff2e03;
+  }
+</style>
+<div class="demo-wrapper" id="demo">
+  <canvas id="canvas"></canvas>
+  <div id="text">0%</div>
+</div>
+
+
+<div class="demo-wrapper" id="demo2">
+  <canvas id="canvas2"></canvas>
+  <div id="text2">0%</div>
+</div>
+
+
+  <script>
+
+
+function getPercent (str) {
+  return Number(str.replace('%', ''))
+}
+
+function circleProgress (opt) {
+  var oCanvas = opt.oCanvas
+  oCanvas.style.width = opt.size + 'px' // 解决移动端模糊问题
+  oCanvas.style.height = opt.size + 'px' // 解决移动端模糊问题
+
+  var width = opt.size * (devicePixelRatio || 1);
+  var height = width
+  oCanvas.width = width
+  oCanvas.height = height
+  
+  var percent = opt.percent
+  var onChange = opt.onChange
+  var background = opt.background || 'green'
+  var color = opt.color || 'red'
+  var adjAngle = opt.adjAngle
+  var speed = opt.speed
+  var innerPenWidth = getPercent(opt.innerPenWidth) * width / 100;
+  var backPenWidth = getPercent(opt.backPenWidth) * width / 100;
+  var adjPercent = opt.adjPercent
+  var innerLinearGradient = opt.innerLinearGradient
+
+  var maxPenWidth = Math.max(backPenWidth, innerPenWidth)
+  var R = (width - maxPenWidth)/2 // 最大圆半径
+  percent = Math.max(percent, 0)
+  percent = Math.min(percent, 100)
+
+  var zhouchang = Math.PI * 2 * R
+  var innerPenPlaceRota = innerPenWidth / zhouchang * 360
+  var ctx = oCanvas.getContext('2d');
+  var adjvalue;
+  
+  var posX = oCanvas.width / 2,
+      posY = oCanvas.height / 2,
+      fps = 16,
+      procent = 0,
+      oneProcent = 360 / 100,
+      
+      result = oneProcent * percent;
+  
+  ctx.lineCap = opt.lineCap || 'round'; // round, line
+  
+  arcMove();
+  
+  function arcMove(){
+    var deegres = 0;
+    var useGres = 0;
+    var acrInterval = setInterval (function() {
+      deegres += speed;
+      useGres = deegres;
+      
+      ctx.clearRect( 0, 0, oCanvas.width, oCanvas.height );
+      procent = deegres / oneProcent;
+      if(deegres >= result||procent>percent) {
+        procent = percent
+      }
+      if(percent<100 && procent > adjPercent && procent<100) {
+        useGres = adjAngle
+      }
+      
+      onChange && onChange(procent)
+
+      // 灰色圆
+      ctx.beginPath();
+      ctx.arc( posX, posY, R, (Math.PI/180) * 270, (Math.PI/180) * (270 + 360) );
+      ctx.strokeStyle = background;
+      ctx.lineWidth = backPenWidth;
+      ctx.stroke();
+
+      // 进度圆
+      ctx.beginPath();
+      var grd = ctx.createLinearGradient(0, 0, 0, height);
+      grd.addColorStop(0, innerLinearGradient.start);
+      grd.addColorStop(1, innerLinearGradient.end);
+      ctx.strokeStyle = grd;
+      ctx.lineWidth = innerPenWidth;
+      ctx.arc( posX, posY, R, (Math.PI/180) * 270, (Math.PI/180) * (270 + useGres) );
+      ctx.stroke();
+      if( deegres >= result ) clearInterval(acrInterval);
+    }, fps);
+  }
+}
+
+window.onload = function() {
+  var oText = document.getElementById('text')
+  circleProgress({
+    lineCap: 'round', // 画笔样式
+    size: document.getElementById('demo').offsetWidth,
+    oCanvas: document.getElementById('canvas'), // 
+    percent: 90, // 目标百分比
+    background: '#eee', // 背景圆环颜色
+    innerPenWidth: '10%', // 进度圆环宽度
+    backPenWidth: '2%', // 背景圆环宽度
+    speed: 4,
+    adjAngle: 345, // 大于96%并且小于100%时，固定一个角度，让它看上去没有100%
+    adjPercent: 96, // 大于96%时，看上去像100%
+    innerLinearGradient: { // 渐变色
+      start: '#ff03ec',
+      end: 'red'
+    },
+    onChange: function (percent) {// 改变的实时回调
+      oText.innerHTML = percent.toFixed(2) + '%'
+    }
+  })
+
+  var oText2 = document.getElementById('text2')
+  circleProgress({
+    lineCap: 'line',
+    size: document.getElementById('demo2').offsetWidth,
+    oCanvas: document.getElementById('canvas2'),
+    percent: 50,
+    background: '#eee',
+    innerPenWidth: '10%',
+    backPenWidth: '14%',
+    speed: 4,
+    adjAngle: 345, // 0-360
+    adjPercent: 96,
+    innerLinearGradient: {
+      start: 'green',
+      end: 'blue'
+    },
+    onChange: function (percent) {
+      oText2.innerHTML = percent.toFixed(2) + '%'
+    }
+  })
+}
+  </script>
+  
+</body>
+</html>
