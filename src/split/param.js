@@ -12,9 +12,11 @@ export default function param (data) {
   var res = [];
   // 当value不为数组或者JSON时，就可创建一条数据
   function addOne (key, value) {
-    value = isFunction(value) ? value() : value;
-    value = value == null ? '' : value
-    res[res.length] = ENCODE_URI_COMPONENT(key) + '=' + ENCODE_URI_COMPONENT(value)
+    if(key!=null && key !=='') {
+      value = isFunction(value) ? value() : value;
+      value = value == null ? '' : value
+      res[res.length] = ENCODE_URI_COMPONENT(key) + '=' + ENCODE_URI_COMPONENT(value)
+    }
   }
   
   buildOnce('', data)

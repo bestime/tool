@@ -99,19 +99,21 @@ export default function parseQuery (str) {
 		val = FN_FORMAT_STRING_VALUE(DECODE_URI_COMPONENT(val))
 		queryKey = DECODE_URI_COMPONENT(key)
 		hasChlid = false
-		queryKey.replace(/(.*?)(\[.*)/, function (_, k, m) {
-			var sb = splitSymbol(m)
-			hasChlid = true
-			if(isPreLikeArray(sb[0])) {
-				res[k] = _Array(res[k])
-			} else {
-				res[k] = _Object(res[k])
+		if(queryKey!=='') {
+			queryKey.replace(/(.*?)(\[.*)/, function (_, k, m) {
+				var sb = splitSymbol(m)
+				hasChlid = true
+				if(isPreLikeArray(sb[0])) {
+					res[k] = _Array(res[k])
+				} else {
+					res[k] = _Object(res[k])
+				}
+				handleDeepKey(res[k], m, val);
+			});
+	
+			if(!hasChlid) {
+				res[queryKey] = val
 			}
-			handleDeepKey(res[k], m, val);
-		});
-
-		if(!hasChlid) {
-			res[queryKey] = val
 		}
   });
 

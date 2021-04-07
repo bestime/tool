@@ -5,7 +5,7 @@ import clone from './clone'
 
 /**
  * 带filter功能的 map
- * @param {Array || Object} data
+ * @param {Array|Object} data
  * @param {Function} handle 如果返回 null 并且 removeEmpty配置为true是，将不会添加到最终结果中
  * @param {Boolean} [removeEmpty=false] 是否需要移除空值
  * @param {String} [toStringMark=nul] 不为空则返回此符号分隔字符串
