@@ -7,7 +7,7 @@ import { TYPE_NUMBER } from './basic/constant'
 /**
  * @description 多用于表单数字输入处理可为 【空字符，正，负】情况下
  * @param {*} data 需要转换的数据
- * @param {Boolean} isDecimals 默认ture, 是否小数，如果不是，将自动移除小数点
+ * @param {Boolean} [isDecimals=true] 默认true, 是否小数，如果不是，将自动移除小数点
  * @return {Number|String}
  */
 export default function symbolNumber (data, isDecimals) {

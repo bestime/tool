@@ -3,50 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <iframe id="frame1" src="./abc.html"></iframe> -->
   <title>测试页面</title>
   <script src="./dist/bestime@beta.min.js"></script>
   <style>
-    .wrapper {
-      display: flex;
-      height: 600px;
-      width: 500px;
-    }
-    .right {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .p1 {
-      background:yellow;
-    }
-    .p2 {
-      line-height: 40px;
-      background:red;
-      color:#fff;
-      text-align:center;
-    }
-    .p3 {
-      flex: 1;
-      background:green;
-      color:#fff;
-      text-align:center;
-    }
+    
   </style>
 </head>
 <body>
-<div class="wrapper" style="height: 2000px;">
-  <div id="abc" style="height: 200px;width: 200px;background:red;overflow: auto;">
-    <h1>阿萨大发射</h1>
-    <div style="height:500px;"></div>
-  </div>
-</div>
+
+
+
+
+
 <script>
-
-ns.mouseWheel(document.getElementById('abc'), function (dir) {
-  console.log('滚动方向', dir)
-}, true)
-
 // timingPlan('seconds', true, function (time) {
 //   console.log('整秒计划执行了', time)
 // })
@@ -138,23 +107,6 @@ function timingPlan (target, immediate, callback) {
     }
   }
 }
-
-
-var str = `
-  你好
-  <span class="editor-var">想要的1</span>
-  <span class="editor-var">想要的6</span>
-  <span class="editor-var2">不要</span>
-  <span class="aaeditor-var">不要</span>
-  你好
-  <span class="editor-var active">想要的2</span>
-  <span class="abc editor-var active">想要的3</span>
-`;
-
-const list = str.match(/<span.*?\sclass=".*\beditor-var\b.*?".*>.*?<\/span>/g)
-console.log('list', list)
-
-
 
 
 </script>
