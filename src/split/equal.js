@@ -1,10 +1,10 @@
-
 import isFunction from './isFunction'
 import isEqualArray from './isEqualArray'
 import getType from './getType'
 import { TYPE_ARRAY } from './basic/constant'
 
 /**
+ * 比较所传入的参数是否相同（用于数组比较）
  * 最后一个参数如果是Function，则表示一个差异对比函数 Boolean: HANDLE(a, b)
  * @return {Boolean}
  */
