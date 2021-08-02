@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+</head>
+<body>
+  <style>
+    .asd1545fw7e {
+      /* perspective:1000px; */
+    }
+
+    #demo{
+      /* transform-style:preserve-3d;
+      transform-origin:center center -100px;
+      transform:rotateX(50deg);
+      backface-visibility:hidden; */
+    }
+  </style>
+  <div class="asd1545fw7e">
+    <div id="demo" style="font-size: 0;"></div>
+  </div>
+  <style>       
+    .cubeBox{perspective:800px;padding:0;overflow:hidden;display:inline-block;font-size: 12px;}
+    .cube{width:200px;height:200px;margin:0px auto;position:relative;transform-style:preserve-3d;transform-origin:center center -100px;transform:rotateX(60deg);backface-visibility:hidden;}
+    .cube div{width:200px;height:200px;position:absolute;text-align:center;line-height:200px;color:#fff;}
+    .cube .cube-front{background:#dd4215;left:0;top:0;transform:translateZ(0px) rotateX(0deg);}
+    .cube .cube-back{background:blue;transform: translateZ(-200px);}
+    .cube .cube-top{background:pink;transform-origin:top;transform:rotateX(-90deg);left:0;top:top;}
+    .cube .cube-bottom{background:green;transform-origin:bottom;transform:rotateX(90deg);left:0;top:bottom;}
+    .cube .cube-left{background:yellow;color:#000;transform-origin:left;transform:rotateY(90deg);left:0;top:0;}
+    .cube .cube-right{background:#000;transform-origin:right;transform:rotateY(-90deg);left:right;top:0;}
+    </style>
+    
+
+
+
+
+
+
+
+<script>
+function Plane3D (oWrapper, list) {
+  let _html = ''
+  list.forEach(function (row, rIdx) {
+    row.data.forEach(function (column, cIdx) {
+      _html += `
+        <div class="cubeBox">
+          <div class="cube">
+            <div class="cube-front">正面</div>
+            <div class="cube-back">背面</div>
+            <div class="cube-top">上</div>
+            <div class="cube-bottom">底</div>
+            <div class="cube-left">左</div>
+            <div class="cube-right">右</div>
+          </div>
+        </div>
+      `
+    })
+  })
+  oWrapper.innerHTML = _html
+}
+
+Plane3D(document.getElementById('demo'), [
+  {
+    name: '张三',
+    data: [1,2,3,4,5]
+  },
+  {
+    name: '李四',
+    data: [1,2,3,4,5]
+  },
+  {
+    name: '王五',
+    data: [1,2,3,4,5]
+  },
+])
+  
+</script>
+</body>
+</html>

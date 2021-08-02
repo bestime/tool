@@ -109,6 +109,206 @@ function timingPlan (target, immediate, callback) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function AutoPager () {
+
+}
+
+AutoPager.prototype.dispose = function () {
+  clearTimeout(this.timer)
+  this.list = null
+  this.useList = null
+  this.pageStep = null
+  this.callback = null
+  this.pageSize = null
+  this.interval = null
+  this.currentIndex = null
+}
+
+
+AutoPager.prototype.next = function () {
+  let res = [];
+  let startIndex = this.currentIndex
+  let endIndex = this.currentIndex + this.pageSize
+  let diff = endIndex - this.list.length
+  const indexList = []
+
+  if(diff > 0) {
+    endIndex = this.list.length
+    indexList.push({
+      start: 0,
+      end: diff
+    })
+  }
+  indexList.unshift({
+    start: startIndex,
+    end: endIndex
+  })
+
+  indexList.forEach(({start, end}) => {
+    res = res.concat(this.list.slice(start, end))
+  })
+
+  if(indexList.length >1 && !this.loop) return console.log('完毕了')
+
+  this.list && this.callback(res, () => {
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      let nextIndex = this.currentIndex + this.pageStep
+      if(nextIndex >= this.list.length) {
+        nextIndex -= this.list.length
+      }
+      this.currentIndex = nextIndex
+      this.next()
+    }, this.interval)
+  }, indexList)
+}
+
+AutoPager.prototype.start = function (loop, pageStep, pageSize, list, interval, callback) {
+  this.list = list
+  this.loop = loop
+  this.interval = interval
+  this.pageStep = pageStep
+  this.pageSize = pageSize
+  this.currentIndex = 0
+  this.callback = callback
+
+  if(this.pageSize < list.length) {
+    this.next()
+  } else {
+    console.warn('pageSize大于或等于list的值，不需要分页')
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+// 0-14
+// 1-15
+
+
+// 初始化自动分页
+const autoPager = new AutoPager()
+const list = [1, 2, 3, 4, 5, 6,7,8,9,10,11,12,13,14,15]
+const list2 = list.map(c => '_' + c)
+// 销毁实例
+autoPager.dispose() 
+// 开始自动分页
+autoPager.start(false, 2, 10, list, 1000, function (list, next, indexList) {
+  console.log('一次分页', list, JSON.stringify(indexList))
+  next()
+})
+
+
+
+const convertTime = ns.convertTime
+const formatTime = ns.formatTime
+
+
+function formatShortTime (time, accuracy) {
+  const currentDate = new Date()
+  const compareTime = new Date(time)
+  let fmt;
+  const now = convertTime(currentDate)
+  const compare = convertTime(compareTime)
+  const timeMillisecond = compareTime.getTime()
+  
+  if(timeMillisecond > currentDate.getTime()){ // 未来时间
+    if(new Date(compare.year) > new Date(now.year)) {
+      fmt = 'YYYY年MM月DD日HH:mm:ss'
+    } else if(new Date(compare.year, compare.month-1) > new Date(now.year, now.month-1)) {
+      fmt = 'MM月DD日HH:mm:ss'
+    } else if(new Date(compare.year, compare.month-1, compare.day) > new Date(now.year, now.month-1, now.day)) {
+      fmt = 'DD日HH:mm:ss'
+    } else {
+      fmt = 'HH:mm:ss'  
+    }
+  } else { //过去时间
+    if(timeMillisecond > +new Date(now.year, now.month-1, now.day, now.hour)) {
+      fmt = 'HH:mm:ss'
+    } else if(timeMillisecond > +new Date(now.year, now.month-1, now.day)) {
+      fmt = 'HH:mm:ss'
+    }else if(timeMillisecond > +new Date(now.year, now.month-1)) {
+      fmt = 'DD日HH:mm:ss'
+    }else if(timeMillisecond > +new Date(now.year,1,1)) {
+      fmt = 'MM月DD日HH:mm:ss'
+    } else {
+      fmt = 'YYYY年MM月DD日HH:mm:ss'
+    }
+  }
+
+
+  // 调整格式化精度
+  if(accuracy==='day') {
+    fmt = fmt.replace(/(HH)(:mm)|(:ss)/g, '')
+  } else if(accuracy==='hour') {
+    fmt = fmt.replace(/(:mm)|(:ss)/g, '')
+    fmt += '时'
+  } else if(accuracy==='minute') {
+    fmt = fmt.replace(/(:ss)/g, '')
+  }
+
+
+
+
+  const res = formatTime(fmt, time)
+  console.log(time, '=>', fmt, '=>', res)
+  return res;
+}
+
+
+
+
+;[
+  '2022-08-20 23:59:59',
+  '2021-08-20 23:59:59',
+  '2021-07-20 23:59:59',
+  '2021-07-19 23:59:59',
+  '2021-07-19 06:00:48',
+  '2021-07-18 06:25:26',
+  '2021-07-17 06:00:00',
+  '2021-06-15 06:00:05',
+  '2020-06-15 06:00:00',
+].forEach(function (item) {
+  formatShortTime(item, 'minute')
+})
 </script>
 </body>
 </html>

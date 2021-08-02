@@ -1,0 +1,123 @@
+
+.cubeMatrix-wrapper, .cubeMatrix-body {
+  width: 432px;
+  height:450px;  
+}
+
+
+.cubeMatrix-wrapper {
+  background: #eee;
+  font-family: sans-serif;
+  position:relative;
+  overflow: hidden;
+  height: 263px;
+  font-size: 0;
+}
+
+
+
+
+.cubeMatrix-body {
+  perspective: 600px;
+  position:absolute;
+  left: 0;
+  top: -296px;
+}
+
+
+.cubeMatrix-loader{
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  top: 250px;
+  left: 50%;
+  transform-style: preserve-3d;
+  transform: translateX(-50%) rotateX(80deg) rotate(-45deg);
+} 
+
+.cubeMatrix-item, 
+.cubeMatrix-item-lighter,
+.cubeMatrix-item-darker {
+  width: 30px;
+  height: 30px;
+  box-shadow: 0 0 0 1px #000 inset;
+  box-sizing: border-box;
+}
+
+.cubeMatrix-item-lighter,
+.cubeMatrix-item-darker {
+  position: absolute;
+  top: 0;  
+}
+
+.cubeMatrix-item-lighter {
+  background: #5cd65c;
+  transform-origin: 50% 0%;
+  transform: translateY(30px) rotateX(-90deg);
+}
+
+.cubeMatrix-item-darker {
+  transform-origin: 0% 0%;
+  transform: rotate(90deg) rotateX(-90deg);
+}
+
+.cubeMatrix-item {
+  float: left;
+  position: relative;
+  background: #33cc33;
+  transform-style: preserve-3d;
+  transform: translateZ(30px);
+  transition: 0.15s;
+}
+
+.cubeMatrix-item:hover {
+  transform: translateZ(40px);
+}
+
+
+
+
+
+.cubeMatrix-axisline {
+  background:transparent;
+  width: 30px;
+  height: 30px;
+  float:left;
+  border: red solid 1px;
+  box-sizing: border-box;
+  border-left:none;
+  border-top: none;
+}
+
+.cubeMatrix-loader-axisline {
+  border: none;
+  box-shadow: 0 0 0 1px red inset;
+
+}
+
+
+
+.cubeMatrix-loader-axisline:before {
+  content: '张三asdfasdfasdf212';
+  font-size: 14px;
+  color:#000;
+  position:absolute;
+  left: -14px;
+  text-align: center;
+  top: 50%;
+  transform: rotate(90deg) translateX(-50%);
+  transform-origin: left center;
+}
+
+.cubeMatrix-loader-axisline:after {
+  content: '李四';
+  font-size: 14px;
+  color:#000;
+  position:absolute;
+  bottom: -22px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  word-break: keep-all;
+  white-space: keep-all;
+}

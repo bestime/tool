@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>魔方</title>
+</head>
+
+
+<style>
+  body {
+  background: #262626;
+  font-family: sans-serif;
+  perspective: 600px;
+}
+
+h1, h2 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+h1 {
+  top: 24px;
+  font-size: 12px;
+}
+
+h2 {
+  top: 44px;
+  font-size: 10px;
+  opacity: 0.7;
+}
+h2 a {
+  color: white;
+  text-decoration: none;
+  border-bottom: 1px dotted #a6a6a6;
+}
+
+div.loader {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  top: 150px;
+  left: 50%;
+  padding: 3%;
+  background: #1f1f1f;
+  transform-style: preserve-3d;
+  transform: translateX(-50%) rotateX(85deg) rotate(-45deg);
+}
+div.loader div.item {
+  float: left;
+  position: relative;
+  width: 24px;
+  height: 24px;
+  background: #33cc33;
+  transform-style: preserve-3d;
+}
+div.loader div.item div.lighter,
+div.loader div.item div.darker {
+  position: absolute;
+  top: 0;
+  width: 24px;
+  height: 12px;
+}
+div.loader div.item div.lighter {
+  background: #5cd65c;
+  transform-origin: 50% 0%;
+  transform: translateY(24px) rotateX(-90deg);
+}
+div.loader div.item div.darker {
+  background: #29a329;
+  transform-origin: 0% 0%;
+  transform: rotate(90deg) rotateX(-90deg);
+}
+
+div.item-16 {
+  
+}
+div.item-16 div.lighter,
+div.item-16 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-18 {
+  
+}
+div.item-18 div.lighter,
+div.item-18 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-2 {
+  
+}
+div.item-2 div.lighter,
+div.item-2 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-9 {
+  
+}
+div.item-9 div.lighter,
+div.item-9 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-6 {
+  
+}
+div.item-6 div.lighter,
+div.item-6 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-19 {
+  
+}
+div.item-19 div.lighter,
+div.item-19 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-16 {
+  
+}
+div.item-16 div.lighter,
+div.item-16 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-23 {
+  
+}
+div.item-23 div.lighter,
+div.item-23 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-3 {
+  
+}
+div.item-3 div.lighter,
+div.item-3 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-22 {
+  
+}
+div.item-22 div.lighter,
+div.item-22 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-2 {
+  
+}
+div.item-2 div.lighter,
+div.item-2 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-16 {
+  
+}
+div.item-16 div.lighter,
+div.item-16 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-16 {
+  
+}
+div.item-16 div.lighter,
+div.item-16 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-15 {
+  
+}
+div.item-15 div.lighter,
+div.item-15 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-9 {
+  
+}
+div.item-9 div.lighter,
+div.item-9 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-17 {
+  
+}
+div.item-17 div.lighter,
+div.item-17 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-25 {
+  
+}
+div.item-25 div.lighter,
+div.item-25 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-11 {
+  
+}
+div.item-11 div.lighter,
+div.item-11 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-20 {
+  
+}
+div.item-20 div.lighter,
+div.item-20 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-20 {
+  
+}
+div.item-20 div.lighter,
+div.item-20 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-18 {
+  
+}
+div.item-18 div.lighter,
+div.item-18 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-16 {
+  
+}
+div.item-16 div.lighter,
+div.item-16 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-11 {
+  
+}
+div.item-11 div.lighter,
+div.item-11 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-9 {
+  
+}
+div.item-9 div.lighter,
+div.item-9 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-18 {
+  
+}
+div.item-18 div.lighter,
+div.item-18 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-20 {
+  
+}
+div.item-20 div.lighter,
+div.item-20 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-3 {
+  
+}
+div.item-3 div.lighter,
+div.item-3 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-16 {
+  
+}
+div.item-16 div.lighter,
+div.item-16 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-5 {
+  
+}
+div.item-5 div.lighter,
+div.item-5 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-2 {
+  
+}
+div.item-2 div.lighter,
+div.item-2 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-11 {
+  transform: translateZ(80px);
+}
+div.item-11 div.lighter,
+div.item-11 div.darker {
+  height: 80px;
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-10 {
+  
+}
+div.item-10 div.lighter,
+div.item-10 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-24 {
+  
+}
+div.item-24 div.lighter,
+div.item-24 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-14 {
+  
+}
+div.item-14 div.lighter,
+div.item-14 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-7 {
+  
+}
+div.item-7 div.lighter,
+div.item-7 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-10 {
+  
+}
+div.item-10 div.lighter,
+div.item-10 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-3 {
+  
+}
+div.item-3 div.lighter,
+div.item-3 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-2 {
+  
+}
+div.item-2 div.lighter,
+div.item-2 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-13 {
+  
+}
+div.item-13 div.lighter,
+div.item-13 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-9 {
+  
+}
+div.item-9 div.lighter,
+div.item-9 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-3 {
+  
+}
+div.item-3 div.lighter,
+div.item-3 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-5 {
+  
+}
+div.item-5 div.lighter,
+div.item-5 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-11 {
+  
+}
+div.item-11 div.lighter,
+div.item-11 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-17 {
+  
+}
+div.item-17 div.lighter,
+div.item-17 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-13 {
+  
+}
+div.item-13 div.lighter,
+div.item-13 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-8 {
+  
+}
+div.item-8 div.lighter,
+div.item-8 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-19 {
+  
+}
+div.item-19 div.lighter,
+div.item-19 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-6 {
+  
+}
+div.item-6 div.lighter,
+div.item-6 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-22 {
+  
+}
+div.item-22 div.lighter,
+div.item-22 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+div.item-2 {
+  
+}
+div.item-2 div.lighter,
+div.item-2 div.darker {
+  
+}
+
+@keyframes anim-move {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  40%, 60% {
+    transform: translateZ(80px);
+  }
+}
+@keyframes anim-height {
+  0%, 100% {
+    height: 12px;
+  }
+  40%, 60% {
+    height: 80px;
+  }
+}
+</style>
+<body>
+  
+<h1>Pure css loader #4</h1>
+<h2>Inspired by Mike Mirandi (via<a href="https://dribbble.com/shots/2120614-Load-Screen-Bars" target="blank">dribble</a>)</h2>
+<div class="loader">
+  <div class="item item-1">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-2">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-3">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-4">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-5">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-6">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-7">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-8">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-9">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-10">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-11">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-12">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-13">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-14">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-15">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-16">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-17">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-18">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-19">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-20">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-21">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-22">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-23">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-24">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+  <div class="item item-25">
+    <div class="lighter"></div>
+    <div class="darker"></div>
+  </div>
+</div>
+</body>
+</html>
