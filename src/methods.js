@@ -105,6 +105,7 @@ import setStorage from './split/setStorage'
 import symbolNumber from './split/symbolNumber'
 import encodeHTML from './split/encodeHTML'
 import decodeHTML from './split/decodeHTML'
+import getRGBfromGradient from './split/getRGBfromGradient'
 import polyfillCancelAnimationFrame from './split/polyfillCancelAnimationFrame'
 import polyfillRequestAnimationFrame from './split/polyfillRequestAnimationFrame'
 
@@ -219,5 +220,6 @@ export default {
   parseQuery,
   updateQuery,
   isIncluded,
-  _Number
+  _Number,
+  getRGBfromGradient
 };

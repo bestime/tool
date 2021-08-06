@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./color-legend-view.js"></script>
+</head>
+<body>
+  <canvas id="demo" style="width: 50px;height: 300px;"/>
+  <script>
+    const gradientColorConfig = [
+      [
+        [255,0,0],
+        [255,255,0]
+      ],
+      [
+        [255,255,0],
+        [0,255,0]
+      ],
+      [
+        [0,255,0],
+        [0,0,255]
+      ],
+    ]
+    colorLegendView(document.getElementById('demo'), gradientColorConfig, 15, 364)
+  </script>
+</body>
+</html>

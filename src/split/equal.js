@@ -44,3 +44,6 @@ export default function equal () {
 
   return res
 }
+
+
+

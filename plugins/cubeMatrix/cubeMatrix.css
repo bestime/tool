@@ -1,45 +1,100 @@
+.cubeMatrix-outter, .cubeMatrix-wrapper{
+  height: 284px;
+  position:relative;
+
+}
+
+.cubeMatrix-outter {
+  display: flex;
+  align-items: center;
+}
+
+.cubeMatrix-outter canvas{
+  height: 304px;
+}
 
 .cubeMatrix-wrapper, .cubeMatrix-body {
-  width: 432px;
-  height:450px;  
+  width: 500px;
+  height:420px; 
 }
 
 
 .cubeMatrix-wrapper {
   background: #eee;
   font-family: sans-serif;
-  position:relative;
   overflow: hidden;
-  height: 263px;
+  height: 100%;
   font-size: 0;
+  flex-shrink: 0;
 }
 
 
 
 
-.cubeMatrix-body {
+
+
+.cubeMatrix-loader{
+  width: 320px;
+  height: 320px;
+  position: absolute;
+} 
+
+.cubeMatrix-outter.is3D .cubeMatrix-loader{
+  
+  top: 224px;
+  left: 50%;
+  transform-style: preserve-3d;
+  transform: translateX(-50%) rotateX(80deg) rotate(-45deg);
+}
+
+.cubeMatrix-outter.is3D .cubeMatrix-body {
   perspective: 600px;
   position:absolute;
-  left: 0;
+  left: 12px;
   top: -296px;
 }
 
 
-.cubeMatrix-loader{
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  top: 250px;
-  left: 50%;
+
+
+.cubeMatrix-outter.is3D .cubeMatrix-item {
   transform-style: preserve-3d;
-  transform: translateX(-50%) rotateX(80deg) rotate(-45deg);
-} 
+  transform: translateZ(10px);
+  transition: 0.15s;
+}
+
+
+.cubeMatrix-outter.is2D .cubeMatrix-body {
+  padding: 5px 5px 40px 60px; 
+  width: 380px;
+  height: 400px;
+}
+
+.cubeMatrix-outter.is2D .cubeMatrix-loader-axisline:before {
+  left: -48px;
+}
+
+.cubeMatrix-outter.is2D,
+.cubeMatrix-outter.is2D .cubeMatrix-wrapper {
+  width: 386px;
+  height: 370px;
+}
+
+.cubeMatrix-outter.is2D .cubeMatrix-xAxis_label {
+  left: 0px;
+  top: 12px;
+}
+
+.cubeMatrix-outter.is2D canvas{
+  height: 388px;
+}
+
 
 .cubeMatrix-item, 
 .cubeMatrix-item-lighter,
 .cubeMatrix-item-darker {
-  width: 30px;
-  height: 30px;
+  width:10px;
+  height: 10px;
   box-shadow: 0 0 0 1px #000 inset;
   box-sizing: border-box;
 }
@@ -53,7 +108,7 @@
 .cubeMatrix-item-lighter {
   background: #5cd65c;
   transform-origin: 50% 0%;
-  transform: translateY(30px) rotateX(-90deg);
+  transform: translateY(10px) rotateX(-90deg);
 }
 
 .cubeMatrix-item-darker {
@@ -61,17 +116,26 @@
   transform: rotate(90deg) rotateX(-90deg);
 }
 
+
 .cubeMatrix-item {
   float: left;
   position: relative;
   background: #33cc33;
-  transform-style: preserve-3d;
-  transform: translateZ(30px);
-  transition: 0.15s;
+  
+}
+
+.cubeMatrix-item.hide {
+  background-color: transparent !important;
+  box-shadow: unset;
+}
+
+.cubeMatrix-item.hide .cubeMatrix-item-lighter,
+.cubeMatrix-item.hide .cubeMatrix-item-darker {
+  visibility: hidden;
 }
 
 .cubeMatrix-item:hover {
-  transform: translateZ(40px);
+  transform: translateZ(15px);
 }
 
 
@@ -80,10 +144,10 @@
 
 .cubeMatrix-axisline {
   background:transparent;
-  width: 30px;
-  height: 30px;
+  width: 10px;
+  height: 10px;
   float:left;
-  border: red solid 1px;
+  border: rgba(0,0,0,0.1) solid 1px;
   box-sizing: border-box;
   border-left:none;
   border-top: none;
@@ -91,18 +155,18 @@
 
 .cubeMatrix-loader-axisline {
   border: none;
-  box-shadow: 0 0 0 1px red inset;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.1) inset;
 
 }
 
 
 
 .cubeMatrix-loader-axisline:before {
-  content: '张三asdfasdfasdf212';
+  content: '降水粒子速度(m/s)';
   font-size: 14px;
   color:#000;
   position:absolute;
-  left: -14px;
+  left: -36px;
   text-align: center;
   top: 50%;
   transform: rotate(90deg) translateX(-50%);
@@ -110,14 +174,31 @@
 }
 
 .cubeMatrix-loader-axisline:after {
-  content: '李四';
-  font-size: 14px;
+  content: '降水粒子直径(mm)';
+  font-size: 12px;
   color:#000;
   position:absolute;
-  bottom: -22px;
+  bottom: -40px;
   left: 0;
   right: 0;
   text-align: center;
   word-break: keep-all;
   white-space: keep-all;
+}
+
+.cubeMatrix-xAxis_label {
+  position:absolute;
+  left: -10px;
+  top: 20px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.5);
+}
+
+.cubeMatrix-yAxis_label {
+  position:absolute;
+  right: 23px;
+  top: 5px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.5);
+  text-align:right;
 }
