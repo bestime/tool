@@ -33,6 +33,7 @@ var ColorLegendView = (function () {
    * @return {Array} rgb数组
    */
   function getRGBfromGradient (startRGB, endRGB, ratio) {
+    
     var rStep = (endRGB[0] - startRGB[0]) * ratio;
     var gStep = (endRGB[1] - startRGB[1]) * ratio;
     var bStep = (endRGB[2] - startRGB[2]) * ratio;
@@ -52,17 +53,20 @@ var ColorLegendView = (function () {
     this.fontSize = options.axis.fontSize
     this.fontColor = options.axis.fontColor
     this.tickColor = options.axis.tickColor
-    this.colorWidth = options.colorWidth || 40
+    this.colorWidth = options.colorWidth || 20
     this.ctx = oCanvas.getContext('2d'); 
+    
     this.gradientMode = options.gradientMode === true ? true : false // 是否渐变模式
-    this.height = oCanvas.offsetHeight
+    this.height = options.height || oCanvas.offsetHeight
 
     // this.ASC= false
 
     var width = this.colorWidth + keduWidth + textSpace
     oCanvas.height = this.height
     var conlorsGroup = this.formatColorList(JSON.parse(JSON.stringify(options.colors)))
+
     this.colors = conlorsGroup.list
+    console.log('更改', this.colors)
     this.min = conlorsGroup.min
     this.max = conlorsGroup.max
     var avgYaxisConfig;
@@ -79,6 +83,7 @@ var ColorLegendView = (function () {
     oCanvas.width = this.width
     oCanvas.style.width = this.width + 'px'
     oCanvas.style.height = this.height + 'px'
+    this.ctx.clearRect(0, 0, this.width, this.height)
 
     this.renderColorBar()
     if(this.isAverageyAxis) {
@@ -250,7 +255,7 @@ var ColorLegendView = (function () {
   
           var ratio = Math.abs(endValue - startValue) / valueLength
           startY = endY == null ? 0 : endY
-          colorPieceHeight = Math.floor(this.height * ratio)
+          colorPieceHeight = 
           endY = Math.floor(colorPieceHeight + startY)
           endY = Math.min(endY, this.height-1)
   
@@ -329,23 +334,36 @@ var ColorLegendView = (function () {
 
   Main.prototype.getColor = function (value) {
     var min, max, color, minKey, maxKey;
+    
+    
     if(this.ASC) {
       minKey = 'end'
       maxKey = 'start'
+    
     } else {
       minKey = 'start'
       maxKey = 'end'
     }
-    for(var item, a = 0; a < this.colors.length; a++) {
-      item = this.colors[a]
-      min = item[minKey].value
-      max = item[maxKey].value
-      if(min <= value && value < max) {
-        color = getRGBfromGradient(item[minKey].color, item[maxKey].color, (value - min) / (max-min))
-        break;
+
+    if(value >= this.max) {
+      color = this.ASC ? this.colors[0][maxKey].color : this.colors[this.colors.length-1][maxKey].color 
+    } else if(value <= this.min){
+      color = this.ASC ? this.colors[this.colors.length-1][minKey].color : this.colors[0][minKey].color 
+    }else{
+      for(var item, a = 0; a < this.colors.length; a++) {
+        item = this.colors[a]
+        min = item[minKey].value
+        max = item[maxKey].value
+        if(min <= value && value < max) {
+          color = getRGBfromGradient(item[minKey].color, item[maxKey].color, (value - min) / (max-min))
+          break;
+        }
       }
     }
-    return color ? 'rgb('+ color.join(',') +')' : undefined
+    
+    color = color ? 'rgb('+ color.join(',') +')' : undefined 
+    // console.log('color', value, color)
+    return color
   }
 
   return Main;

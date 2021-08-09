@@ -71,53 +71,32 @@
 
   <script>
 
-    var gradientColorConfig = {
-      min: 20,
-      max: 60,
-      colors: [
-        [255,0,255],
-        [255,255,0],
-        [255,255,255],
-        [0,255,255]
-      ]
-    }
-
-    var iColor = new ColorLegendView(document.getElementById('demo'), {
-      ASC: true,
-      gradientMode: true,
-      isAverageyAxis: true,
-      colors: gradientColorConfig, 
-      axis: {
-        fontSize: 20, // 坐标轴字号
-        fontColor: 'yellow', // 坐标轴文字颜色
-        tickColor: 'white', // 坐标轴刻度的颜色
+    var gradientColorConfig ={
+        min: 0,
+        max: 57,
+        colors: [
+          [0,0,255],
+          [0,255,0],
+          [255,255,0],
+          [255,0,0]
+        ]
       }
-    })
-    testParseColor(iColor, document.getElementById('demo-view'), 20, 60, 1)
+
+    // var iColor = new ColorLegendView(document.getElementById('demo'), {
+    //   ASC: true,
+    //   gradientMode: true,
+    //   isAverageyAxis: true,
+    //   colors: gradientColorConfig, 
+    //   axis: {
+    //     fontSize: 20, // 坐标轴字号
+    //     fontColor: 'yellow', // 坐标轴文字颜色
+    //     tickColor: 'white', // 坐标轴刻度的颜色
+    //   }
+    // })
+    // testParseColor(iColor, document.getElementById('demo-view'), gradientColorConfig.min, gradientColorConfig.max, 1)
 
 
-    var color2 = [
-      {
-        startValue: 11.3,
-        endValue: 20,
-        color: [255,0,0]
-      },
-      {
-        startValue: 20,
-        endValue: 30,
-        color: [0,255,0]
-      },
-      {
-        startValue: 30,
-        endValue: 60,
-        color: [0,0,255]
-      },
-      {
-        startValue:60,
-        endValue: 150.7,
-        color: [255,0,255]
-      },
-    ]
+    var color2 = [{"startValue":50,"endValue":99999,"color":[128,0,164]},{"startValue":40,"endValue":50,"color":[250,0,250]},{"startValue":15,"endValue":40,"color":[0,0,255]},{"startValue":7,"endValue":15,"color":[97,184,255]},{"startValue":1.6,"endValue":7,"color":[61,186,61]},{"startValue":1,"endValue":1.6,"color":[166,242,143]},{"startValue":0.01,"endValue":1,"color":[204,242,143]},{"startValue":0,"endValue":0.01,"color":[255,255,255]}]
     var color02 = new ColorLegendView(document.getElementById('demo2'), {
       ASC: true,
       colors: color2,
@@ -132,32 +111,32 @@
     testParseColor(color02, document.getElementById('demo-view-2'), 11.3, 150.7,5)
 
 
-    var color05 = new ColorLegendView(document.getElementById('demo5'), {
-      ASC: true,
-      colors: color2,
-      gradientMode: true,
-      isAverageyAxis: true,
-      axis: {
-        fontSize: 12, // 坐标轴字号
-        fontColor: 'white', // 坐标轴文字颜色
-        tickColor: 'white', // 坐标轴刻度的颜色
-      }
-    })
-    testParseColor(color05, document.getElementById('demo-view-5'), 11.3, 150.7,5)
+    // var color05 = new ColorLegendView(document.getElementById('demo5'), {
+    //   ASC: true,
+    //   colors: color2,
+    //   gradientMode: true,
+    //   isAverageyAxis: true,
+    //   axis: {
+    //     fontSize: 12, // 坐标轴字号
+    //     fontColor: 'white', // 坐标轴文字颜色
+    //     tickColor: 'white', // 坐标轴刻度的颜色
+    //   }
+    // })
+    // testParseColor(color05, document.getElementById('demo-view-5'), 11.3, 150.7,5)
 
 
-    var color03 = new ColorLegendView(document.getElementById('demo3'), {
-      ASC: true,
-      colors: color2,
-      gradientMode: false,
-      axis: {
-        fontSize: 12, // 坐标轴字号
-        fontColor: '#fff', // 坐标轴文字颜色
-        tickColor: 'white', // 坐标轴刻度的颜色
-      }
-    })
+    // var color03 = new ColorLegendView(document.getElementById('demo3'), {
+    //   ASC: true,
+    //   colors: color2,
+    //   gradientMode: false,
+    //   axis: {
+    //     fontSize: 12, // 坐标轴字号
+    //     fontColor: '#fff', // 坐标轴文字颜色
+    //     tickColor: 'white', // 坐标轴刻度的颜色
+    //   }
+    // })
 
-    testParseColor(color03, document.getElementById('demo-view-3'), 11.3, 150.7,5)
+    // testParseColor(color03, document.getElementById('demo-view-3'), 11.3, 150.7,5)
   </script>
 </body>
 </html>
