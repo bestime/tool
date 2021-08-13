@@ -5,6 +5,7 @@ var ColorLegendView = (function () {
   var keduWidth = 5 // 刻度宽度
   var textSpace = 3 // 文字到刻度的间距
   const _INT = parseInt
+  const WU_QIONT_TEXT = '↑'
 
   function getType (data) {
     return Object.prototype.toString.call(data).slice(8, -1)
@@ -47,14 +48,18 @@ var ColorLegendView = (function () {
   
   function Main (oCanvas, options) {
     
-    this.radixPoint = options.radixPoint || 2 // 小数点
+    this.infinity = options.infinity === true // 是否最后一项无穷大
+    
+    this.radixPoint = options.radixPoint // 小数点
     this.isAverageyAxis = options.isAverageyAxis === true // 生成y轴平均轴，默认原始刻度
     this.ASC = options.ASC === true ? true : false // 升序排列，从下到上
     this.fontSize = options.axis.fontSize
     this.fontColor = options.axis.fontColor
     this.tickColor = options.axis.tickColor
     this.colorWidth = options.colorWidth || 20
+    this.tickShowLabel = options.tickShowLabel === true // 刻度显示label值，默认数字
     this.ctx = oCanvas.getContext('2d'); 
+    this.infinityHeight = this.infinity ? this.fontSize*2 : 0
     
     this.gradientMode = options.gradientMode === true ? true : false // 是否渐变模式
     this.height = options.height || oCanvas.offsetHeight
@@ -66,7 +71,6 @@ var ColorLegendView = (function () {
     var conlorsGroup = this.formatColorList(JSON.parse(JSON.stringify(options.colors)))
 
     this.colors = conlorsGroup.list
-    console.log('更改', this.colors)
     this.min = conlorsGroup.min
     this.max = conlorsGroup.max
     var avgYaxisConfig;
@@ -77,7 +81,6 @@ var ColorLegendView = (function () {
     } else {
       width += conlorsGroup.maxLabelWidth
     }
-
     
     this.width = width
     oCanvas.width = this.width
@@ -92,7 +95,26 @@ var ColorLegendView = (function () {
       this.renderYaxis()
     }
 
+    this.drawInfinityColor()
     this.drawBorder()
+    
+  }
+
+  Main.prototype.drawInfinityColor = function () {
+    if(!this.infinity) return;
+    var grad = this.ctx.createLinearGradient(0, 0, 0, this.infinityHeight);
+    var startColor = this.colors[0].start.color
+    grad.addColorStop(0, `rgb(${this.infinityItem.color})`);
+    grad.addColorStop(1, `rgb(${startColor})`);
+    this.ctx.fillStyle = grad
+    this.ctx.fillRect(0, 0, this.colorWidth, this.infinityHeight)
+    this.ctx.fillStyle = grad
+
+    this.ctx.fillStyle = this.tickColor
+    this.ctx.fillRect(this.colorWidth, 0, keduWidth, 1)
+    this.ctx.fillStyle = this.fontColor
+    this.ctx.textBaseline = 'top';
+    this.ctx.fillText(WU_QIONT_TEXT, textSpace+this.colorWidth+keduWidth, 0);
   }
 
   Main.prototype.drawBorder = function () {
@@ -123,13 +145,19 @@ var ColorLegendView = (function () {
   }
 
   Main.prototype.renderAverageYaxis = function (list) {
+    
     this.ctx.textAlign = "left";
     this.ctx.font = this.fontSize + 'px "Microsoft YaHei"'
     list.forEach((item, index) => {
       if(index===0) {
         this.ctx.textBaseline = this.ASC ? 'alphabetic' : 'top';
       } else if(index===list.length-1) {
-        this.ctx.textBaseline = this.ASC ? 'top':'alphabetic';
+        if(this.infinity) {
+          this.ctx.textBaseline = this.ASC ? 'middle':'alphabetic';
+        } else {
+          this.ctx.textBaseline = this.ASC ? 'top':'alphabetic';
+        }
+        
       } else {
         this.ctx.textBaseline = 'middle';
       }
@@ -143,8 +171,10 @@ var ColorLegendView = (function () {
   Main.prototype.createAverageYaxisConfig = function () {
     this.ctx.textAlign = "left";
     this.ctx.font = this.fontSize + 'px "Microsoft YaHei"'
-    var yCount = Math.floor(this.height / this.fontSize/2)
-    var perHeight = this.height / yCount
+    const _height = this.height - this.infinityHeight
+
+    var yCount = Math.floor(_height / this.fontSize/2)
+    var perHeight = _height / yCount
     var per = (this.max - this.min) / yCount
     var list = [], label,labelWidth, labelY;
     var maxLabelWidth = 0;
@@ -154,20 +184,30 @@ var ColorLegendView = (function () {
       label = this.min + per*a
       labelY = perHeight * a
       if(this.ASC) {
-        labelY = this.height - labelY
+        labelY = _height - labelY+this.infinityHeight
         if(a===0) {
           label = this.min
           labelY -=1
         }
-      } else {
         if(a===yCount) {
           label = this.max
-          labelY = this.height-1
+        }
+      } else {
+        
+        if(a===yCount) {
+          label = this.max
+          labelY = _height-1+this.infinityHeight
         }
       }
-      label = label.toFixed(this.radixPoint)
+      label = this.radixPoint ? label.toFixed(this.radixPoint) : parseInt(label)
+      // if(a===yCount && this.infinity) {
+      //   label = '+∞'
+      // }
       labelWidth = Math.ceil(this.ctx.measureText(label).width);
       maxLabelWidth = Math.max(maxLabelWidth, labelWidth)
+      if(this.infinity) {
+        maxLabelWidth = Math.max(maxLabelWidth, this.ctx.measureText(WU_QIONT_TEXT).width)
+      }
       list.push({
         label: label,
         width: labelWidth,
@@ -184,6 +224,7 @@ var ColorLegendView = (function () {
   Main.prototype.renderYaxis = function () {    
     this.ctx.textAlign = "left";
     this.ctx.font = this.fontSize + 'px "Microsoft YaHei"'
+
     for(var item, a = 0; a<this.colors.length; a++) {      
       item = this.colors[a]      
       this.ctx.fillStyle = this.fontColor
@@ -191,8 +232,14 @@ var ColorLegendView = (function () {
         this.ctx.fillStyle = this.tickColor
         this.ctx.fillRect(this.colorWidth, 0, keduWidth, 1)
         this.ctx.textBaseline = 'top';
-        this.ctx.fillStyle = this.fontColor
-        this.ctx.fillText(item.start.value, textSpace+this.colorWidth+keduWidth, item.start.y);  
+        this.ctx.fillStyle = this.fontColor        
+        if(this.tickShowLabel) {
+          this.ctx.textBaseline = 'middle';
+          this.ctx.fillText(item.start.label, textSpace+this.colorWidth+keduWidth, item.start.y-item.height/2);  
+        } else {
+          this.ctx.fillText(item.start.value, textSpace+this.colorWidth+keduWidth, item.start.y);  
+        }
+        
       }
       
       this.ctx.fillStyle = this.tickColor
@@ -202,8 +249,16 @@ var ColorLegendView = (function () {
         this.ctx.textBaseline = 'middle';
       } else {
         this.ctx.textBaseline = 'alphabetic';
-      }      
-      this.ctx.fillText(item.end.value, textSpace+this.colorWidth+keduWidth, item.end.y);
+      } 
+      
+      
+      if(this.tickShowLabel) {
+        this.ctx.textBaseline = 'middle';
+        this.ctx.fillText(item.end.label, textSpace+this.colorWidth+keduWidth, item.end.y-item.height/2);
+      } else {
+        this.ctx.fillText(item.end.value, textSpace+this.colorWidth+keduWidth, item.end.y);
+      }
+      
     }
   }
 
@@ -212,11 +267,17 @@ var ColorLegendView = (function () {
     if(getType(list) === 'Object') {
       list = createAutoList(list)
     }
-    
+
     if(this.ASC) {
       list.sort(function (a, b) {
         return b.startValue - a.startValue
       })
+
+      if(this.infinity) {
+        this.infinityItem = list.shift()
+      }
+      
+      
       
       var tmp;
       list.forEach(function (item) {
@@ -239,8 +300,14 @@ var ColorLegendView = (function () {
     var useList = []
     var startY, endY;
     var maxLabelWidth=0;
+    
     this.ctx.textAlign = "left";
+    var maxCustomTickWidth = 0
+    var customLabel = ''
+    var customeLabelWidth = 0
     this.ctx.font = this.fontSize + 'px "Microsoft YaHei"'
+    const avgDrawHeight = this.infinity ? this.height - this.infinityHeight : this.height
+    
     if(this.gradientMode) {
       list.forEach((item, index)=> {
         var nextItem = list[index+1]
@@ -255,30 +322,39 @@ var ColorLegendView = (function () {
   
           var ratio = Math.abs(endValue - startValue) / valueLength
           startY = endY == null ? 0 : endY
-          colorPieceHeight = 
+          colorPieceHeight = Math.floor(avgDrawHeight * ratio)
           endY = Math.floor(colorPieceHeight + startY)
-          endY = Math.min(endY, this.height-1)
+          endY = Math.min(endY, avgDrawHeight-1)
   
           var startLabelWidth = Math.ceil(this.ctx.measureText(startValue).width);
           var endLabelWidth = Math.ceil(this.ctx.measureText(endValue).width);
-          if(index===0) {
-            maxLabelWidth = Math.max(maxLabelWidth, startLabelWidth)
+          if(this.tickShowLabel) {
+            customLabel = item.label
+            customeLabelWidth = this.ctx.measureText(customLabel).width
+            maxCustomTickWidth = Math.max(maxCustomTickWidth, customeLabelWidth)
+          } else {
+            if(index===0) {
+              maxLabelWidth = Math.max(maxLabelWidth, startLabelWidth)
+            }
+            maxLabelWidth = Math.max(maxLabelWidth, endLabelWidth)
           }
-          maxLabelWidth = Math.max(maxLabelWidth, endLabelWidth)
+          
           useList.push({
             ratio: ratio,
             height: colorPieceHeight,
             start: {
-              y: startY,
+              y: startY+this.infinityHeight,
               value: startValue,
               color: item.color,
-              width: startLabelWidth,
+              width: this.tickShowLabel ? customeLabelWidth: startLabelWidth,
+              label: customLabel,
             },
             end: {
-              y: endY,
+              y: endY+this.infinityHeight,
               value: endValue,
               color: nextItem.color,
-              width: endLabelWidth
+              width: this.tickShowLabel? customeLabelWidth: endLabelWidth,
+              label: customLabel
             }
           }) 
           preEnd = endValue    
@@ -290,8 +366,9 @@ var ColorLegendView = (function () {
         var endValue = item.endValue
 
         var ratio = Math.abs(endValue - startValue) / valueLength
-        startValue = startValue.toFixed(this.radixPoint)
-        endValue = endValue.toFixed(this.radixPoint)
+        
+        startValue = this.radixPoint ? startValue.toFixed(this.radixPoint) : parseInt(startValue)
+        endValue = this.radixPoint ? endValue.toFixed(this.radixPoint) : parseInt(endValue)
         startY = endY == null ? 0 : endY
         colorPieceHeight = Math.floor(this.height * ratio)
         endY = colorPieceHeight + startY
@@ -301,10 +378,18 @@ var ColorLegendView = (function () {
 
         var startLabelWidth = Math.ceil(this.ctx.measureText(startValue).width);
         var endLabelWidth = Math.ceil(this.ctx.measureText(endValue).width);
-        if(index===0) {
-          maxLabelWidth = Math.max(maxLabelWidth, startLabelWidth)
+
+        if(this.tickShowLabel) {
+          customLabel = item.label
+          customeLabelWidth = this.ctx.measureText(customLabel).width
+          maxCustomTickWidth = Math.max(maxCustomTickWidth, customeLabelWidth)
+        } else {
+          if(index===0) {
+            maxLabelWidth = Math.max(maxLabelWidth, startLabelWidth)
+          }
+          maxLabelWidth = Math.max(maxLabelWidth, endLabelWidth)
         }
-        maxLabelWidth = Math.max(maxLabelWidth, endLabelWidth)
+        
         useList.push({
           ratio: ratio,
           height: colorPieceHeight,
@@ -312,23 +397,29 @@ var ColorLegendView = (function () {
             y: startY,
             value: startValue,
             color: item.color,
-            width: startLabelWidth,
+            label: customLabel,
+            width: this.tickShowLabel ? customeLabelWidth : startLabelWidth,
           },
           end: {
             y: endY,
             value: endValue,
             color: item.color,
-            width: endLabelWidth
+            label: customLabel,
+            width: this.tickShowLabel ? customeLabelWidth : endLabelWidth
           }
         }) 
         preEnd = endValue    
       })
     }
+    if(this.infinity) {
+      maxLabelWidth = Math.max(maxLabelWidth, this.ctx.measureText(WU_QIONT_TEXT).width)
+    }
+    
     return {
       min: minValue,
       max: maxValue,
       list: useList,
-      maxLabelWidth: maxLabelWidth
+      maxLabelWidth: this.tickShowLabel ? maxCustomTickWidth : maxLabelWidth
     }
   }
 
@@ -347,9 +438,10 @@ var ColorLegendView = (function () {
 
     if(value >= this.max) {
       color = this.ASC ? this.colors[0][maxKey].color : this.colors[this.colors.length-1][maxKey].color 
-    } else if(value <= this.min){
-      color = this.ASC ? this.colors[this.colors.length-1][minKey].color : this.colors[0][minKey].color 
-    }else{
+      if(this.infinity) {
+        color= this.infinityItem.color
+      }
+    } else{
       for(var item, a = 0; a < this.colors.length; a++) {
         item = this.colors[a]
         min = item[minKey].value
@@ -360,9 +452,7 @@ var ColorLegendView = (function () {
         }
       }
     }
-    
     color = color ? 'rgb('+ color.join(',') +')' : undefined 
-    // console.log('color', value, color)
     return color
   }
 
