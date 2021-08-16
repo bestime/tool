@@ -12,10 +12,11 @@ import { ZERO_STRING } from './basic/constant'
  * 
  * @param {Number|String} variate 数字或长得像数字的字符串
  * @param {Number} [digit=0] <正整数> 采用几位小数
+ * @param {Boolean} [rejection=false] 是否社区末尾的所有0
  * 
  * @return {String}
  */
-export default function roundFixed (variate, digit) {
+export default function roundFixed (variate, digit, rejection) {
   digit = _Number(digit)
   variate = _Number(variate)
   
@@ -28,10 +29,18 @@ export default function roundFixed (variate, digit) {
   if (digit > 0) {
     const chai = split(res, '.')
     const intp = chai[0]; // 整数部分
-    const decp = chai[1] || ''; // 小数部分
+    var decp = chai[1] || ''; // 小数部分
     
     if (decp.length < digit) {
-      res = intp + '.' + padEnd(decp, digit, ZERO_STRING);
+      decp = padEnd(decp, digit, ZERO_STRING)
+      if(rejection) {
+        decp = decp.replace(/0+$/, '')
+      }
+      if(decp) {
+        res = intp + '.' + decp;
+      } else {
+        res = intp
+      }
     }
   }
 

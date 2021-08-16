@@ -73,6 +73,14 @@ var ColorLegendView = (function () {
     this.colors = conlorsGroup.list
     this.min = conlorsGroup.min
     this.max = conlorsGroup.max
+
+    if(this.min === this.max) {
+      oCanvas.style.width = 0 + 'px'
+      oCanvas.style.height = 0 + 'px'
+      return;
+    }
+
+
     var avgYaxisConfig;
 
     if(this.isAverageyAxis) {
@@ -157,7 +165,6 @@ var ColorLegendView = (function () {
         } else {
           this.ctx.textBaseline = this.ASC ? 'top':'alphabetic';
         }
-        
       } else {
         this.ctx.textBaseline = 'middle';
       }
@@ -199,7 +206,7 @@ var ColorLegendView = (function () {
           labelY = _height-1+this.infinityHeight
         }
       }
-      label = this.radixPoint ? label.toFixed(this.radixPoint) : parseInt(label)
+      label = this.radixPoint ? ns.floorFixed(label, this.radixPoint, true) : parseInt(label)
       // if(a===yCount && this.infinity) {
       //   label = '+∞'
       // }
@@ -367,8 +374,8 @@ var ColorLegendView = (function () {
 
         var ratio = Math.abs(endValue - startValue) / valueLength
         
-        startValue = this.radixPoint ? startValue.toFixed(this.radixPoint) : parseInt(startValue)
-        endValue = this.radixPoint ? endValue.toFixed(this.radixPoint) : parseInt(endValue)
+        startValue = this.radixPoint ? ns.floorFixed(startValue, this.radixPoint, true) : parseInt(startValue)
+        endValue = this.radixPoint ? ns.floorFixed(endValue, this.radixPoint, true) : parseInt(endValue)
         startY = endY == null ? 0 : endY
         colorPieceHeight = Math.floor(this.height * ratio)
         endY = colorPieceHeight + startY
@@ -426,7 +433,6 @@ var ColorLegendView = (function () {
   Main.prototype.getColor = function (value) {
     var min, max, color, minKey, maxKey;
     
-    
     if(this.ASC) {
       minKey = 'end'
       maxKey = 'start'
@@ -446,7 +452,9 @@ var ColorLegendView = (function () {
         item = this.colors[a]
         min = item[minKey].value
         max = item[maxKey].value
+        
         if(min <= value && value < max) {
+          // console.log('哈哈哈', value, item, (value - min) / (max-min))
           color = getRGBfromGradient(item[minKey].color, item[maxKey].color, (value - min) / (max-min))
           break;
         }

@@ -12,10 +12,11 @@ import { ZERO_STRING } from './basic/constant'
  * 
  * @param {Number|String} variate 数字或长得像数字的字符串
  * @param {Number} [digit=0] <正整数> 采用几位小数
+ * @param {Boolean} [rejection=false] 是否社区末尾的所有0
  * 
  * @return {String}
  */
-export default function floorFixed (variate, digit) {
+export default function floorFixed (variate, digit, rejection) {
   variate = trim(_Number(variate))
   digit = _Number(digit)
 
@@ -23,6 +24,16 @@ export default function floorFixed (variate, digit) {
   var decp = arr[1] || ''
   if (decp.length < digit) {
     decp = padEnd(decp, digit, ZERO_STRING);
+    if(rejection) {
+      decp = decp.replace(/0+$/, '')
+    }
   }
-  return digit < 1 ? arr[0] : arr[0] + '.' + decp.substr(0,digit)
+
+  if(digit < 1 || !decp) {
+    digit = arr[0]
+  } else {
+    digit = arr[0] + '.' + decp.substr(0,digit)
+  }
+  
+  return digit
 }
