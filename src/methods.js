@@ -106,6 +106,7 @@ import symbolNumber from './split/symbolNumber'
 import encodeHTML from './split/encodeHTML'
 import decodeHTML from './split/decodeHTML'
 import getRGBfromGradient from './split/getRGBfromGradient'
+import deepFindItem from './split/deepFindItem'
 import polyfillCancelAnimationFrame from './split/polyfillCancelAnimationFrame'
 import polyfillRequestAnimationFrame from './split/polyfillRequestAnimationFrame'
 
@@ -221,5 +222,6 @@ export default {
   updateQuery,
   isIncluded,
   _Number,
-  getRGBfromGradient
+  getRGBfromGradient,
+  deepFindItem
 };

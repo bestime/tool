@@ -297,7 +297,40 @@ function formatShortTime (time, accuracy) {
 //   formatShortTime(item, 'minute')
 // })
 
+const arr = [
+  {
+    id: 'a',
+    children: [
+      {
+        id: 'b',
+        children:[
+          {
+            name: 'bestime'
+          },
+          {
+            id: 'ef'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'c',
+    children: [
+      {
+        id: 'f'
+      }
+    ]
+  }
+]
 
+
+
+
+var dd = ns.deepFindItem(arr, function (c){
+  return c.id == null
+})
+console.log('dd', dd)
 
 
 </script>
