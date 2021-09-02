@@ -333,6 +333,168 @@ var dd = ns.deepFindItem(arr, function (c){
 console.log('dd', dd)
 
 
+const timeList = [
+  '2019-08-20 13:20:00', // 2019-08-20 13:20
+  '2019-08-20 13:20:10', // 
+  '2019-08-20 13:20:20',
+  '2019-08-25 14:36:20',
+  '2019-09-25 14:36:20',
+  '2021-08-27 00:20:00',
+  '2021-08-27 00:30:00',
+  '2021-08-27 00:40:00',
+]
+
+
+
+
+var unique = ns.unique
+function parseTimeList (list) {
+  var timeTree = {}
+  var _yearKey, _monthKey;
+  var _dayKey
+  var _hourKey
+  var _minuteKey
+  var _secondKey
+  var _milliSecondKey
+  var _timestamp;
+  
+  list.forEach(function (time) {
+    var item = convertTime(new Date(time))
+    _timestamp = new Date(time).getTime()
+    // console.log('_timestamp', _timestamp)
+    _yearKey = item.year+ '年'
+    _monthKey = item.month+ '月'
+    _dayKey = item.day+ '日'
+    _hourKey = item.hour+ '时'
+    _minuteKey = item.minute+ '分'
+    _secondKey = item.second + '秒'
+    _milliSecondKey = item.milliSecond + '毫秒'
+
+    // console.log(_yearKey, _monthKey, _dayKey, _hourKey, _minuteKey,_secondKey,_milliSecondKey)
+    
+    timeTree[_yearKey] = timeTree[_yearKey] || {
+      // prefix: '',
+      value: _yearKey,
+      label: time,
+      timestamp: _timestamp,
+      sub: {}
+      
+    }
+
+    timeTree[_yearKey].sub[_monthKey] = timeTree[_yearKey].sub[_monthKey] || {
+      // prefix: _yearKey,
+      value: _monthKey,
+      label: time,
+      timestamp: _timestamp,
+      sub: {}
+    }
+
+    timeTree[_yearKey].sub[_monthKey].sub[_dayKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey] || {
+      // prefix: _yearKey+_monthKey,
+      value: _dayKey,
+      label: time,
+      timestamp: _timestamp,
+      sub: {}
+    }
+
+    timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey] || {
+      // prefix: _yearKey+_monthKey+_dayKey,
+      value: _hourKey,
+      label: time,
+      timestamp: _timestamp,
+      sub: {}
+    }
+
+    timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey] || {
+      // prefix: _yearKey+_monthKey+_dayKey+_hourKey,
+      value: _minuteKey,
+      label: time,
+      timestamp: _timestamp,
+      sub: {}
+    }
+
+    timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey].sub[_secondKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey].sub[_secondKey] || {
+      // prefix: _yearKey+_monthKey+_dayKey+_hourKey+_minuteKey,
+      value: _secondKey,
+      label: time,
+      timestamp: _timestamp,
+      sub: {}
+    }
+
+    timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey].sub[_secondKey].sub[_milliSecondKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey].sub[_secondKey].sub[_milliSecondKey] || {
+      // prefix: _yearKey+_monthKey+_dayKey+_hourKey+_minuteKey+_secondKey,
+      value: _milliSecondKey,
+      label: time,
+      timestamp: _timestamp,
+      sub: undefined
+    }
+
+    // console.log('item', item)
+  })
+  let res = []
+  // treeToArray(timeTree, res)
+  // parseTree(timeTree, res)
+  // res.sort(function (a, b) {
+  //   return b.timestamp - a.timestamp
+  // })
+  // res = unique(res, false, c=>c.timestamp)
+
+  res.sort(function (a, b) {
+    return a.timestamp - b.timestamp
+  })
+  
+  console.log(timeTree, res)
+}
+
+
+
+
+function treeToArray (tree, total) {
+  for(var key in tree) {
+    total.push(tree[key])
+    if(tree[key].sub) {
+      treeToArray(tree[key].sub, total)
+    }
+  }
+}
+
+
+function parseTree (tree, total) {
+  var item;
+  for(var key in tree) {
+    item = tree[key]
+    // total.push(tree[key])
+    if(tree[key].sub) {
+      var children = toChildren(tree[key].sub)
+      if(children.length) {
+        tree[key].root = children.splice(0, 1)[0]
+        if(children.length) {
+          tree[key].children = children
+        }
+      }
+      
+
+      parseTree(tree[key].sub, total)
+      delete tree[key].sub
+    }
+  }
+}
+
+
+function toChildren (sub) {
+  var res = []
+  for(let key in sub) {
+    res.push(sub[key])
+  }
+  res.sort(function (a,b) {
+    return a.timestamp - b.timestamp
+  })
+  return res;
+}
+
+
+parseTimeList(timeList)
+
 </script>
 </body>
 </html>

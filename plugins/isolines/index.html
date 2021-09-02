@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
+  <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <link href="./IsonlinesChart.css" rel="stylesheet"/>
+  <style>
+    #demo {
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+
+<body>
+  <button id="draw">绘制</button>
+  <button id="diaohui">销毁</button>
+  <div style="width: 1000px;height: 400px;" id="demo"></div>
+
+  
+  <script>
+    var time = +new Date()
+    function parseColorFromLegendColorByValue (value, colorList, defaultColor) {
+      let color;
+      for(let item, index = 0; index < colorList.length; index++ ) {
+        item = colorList[index]
+        if(value >= item.legendStartValue && value < item.legendEndValue) {
+          color = item.legend16Color
+          break;
+        }
+      }
+      return color || defaultColor
+    }
+    function getJsonFile (url) {
+      return new Promise(resolve => {
+        if(!url) {
+          resolve('没有url地址')
+        }
+        $.getJSON(url, function (res) {
+          resolve(res)
+        })
+      })
+    }
+    function getRandom (min, max, isInt) {
+      isInt = isInt === false ? 0 : 1
+      min = Math.random() * ( max - min + isInt) + min; // 节省一个变量
+      return isInt ? Math.floor(min) : min
+    }
+
+    
+  </script>
+  
+  <script type="module">
+    import IsonlinesChart  from './IsonlinesChart.js?t=7';
+
+    
+    async function apiGridList () {
+      let list = (await getJsonFile(`./data${count}.json`)).data
+      list.reverse()
+      
+      let pointGrid = []
+      list.forEach(function (row, y) {
+        row.forEach(function (item, x) {
+          pointGrid.push({
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [x, y]
+            },
+            properties: {
+              temperature: item
+            }
+          })
+        })
+      })
+      console.log('list', list)
+      return {
+        type: 'FeatureCollection',
+        features: pointGrid,
+        gridCountX: list[0] ? list[0].length : 0,
+        gridHeight: list.length
+      }
+    }
+    
+
+
+    
+
+    function parseLlist(list, colorList) {
+      return list.features.map(item => {
+        return {
+          points: item.geometry.coordinates,
+          value: item.properties.temperature,
+          color: parseColorFromLegendColorByValue(item.properties.temperature, colorList)
+        }
+      })
+    }
+
+
+    let myChart, count = 0;
+    document.getElementById('draw').onclick = async function () {
+      const pointGrid = await apiGridList(count++)
+      const colorList = (await getJsonFile('./colorList.json')).data
+      var breaks = colorList.map(c => c.legendStartValue)
+      var lines = turf.isolines(pointGrid, breaks, {zProperty: 'temperature'});
+      const useList = parseLlist(lines, colorList)
+      myChart = myChart || new IsonlinesChart(document.getElementById('demo'), {
+        padding: {
+          right: 40,
+          top: 40,
+          left: 40,
+          bottom: 40
+        },
+        title: {
+          text: '单位 (Km)',
+          fontSize: 16,
+          color: 'rgba(255,255,255,0.5)'
+        }
+      })
+      myChart.setOption(useList, pointGrid.gridCountX, pointGrid.gridHeight, 68.27, pointGrid.gridHeight)
+      console.log('myChart', myChart)
+    }
+    
+
+    document.getElementById('diaohui').onclick = function () {
+      count = 0
+      myChart && myChart.dispose()
+    }
+    
+  </script>
+</body>
+</html>

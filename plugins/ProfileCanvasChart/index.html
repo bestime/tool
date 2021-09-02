@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  
+  
+  <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <style>
+    #demo{
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <canvas id="demo" style="width: 1000px;height: 400px;"></canvas>
+  </div>
+
+  <script type="module">
+    import  ProfileCanvasChart  from './ProfileCanvasChart.js?t=38';
+    function getJsonFile (url) {
+      return new Promise(resolve => {
+        if(!url) {
+          resolve('没有url地址')
+        }
+        $.getJSON(url, function (res) {
+          resolve(res)
+        })
+      })
+    }
+
+    function parseColorFromLegendColorByValue (value, colorList, defaultColor) {
+      let color;
+      for(let item, index = 0; index < colorList.length; index++ ) {
+        item = colorList[index]
+        if(value >= item.legendStartValue && value < item.legendEndValue) {
+          color = item.legend16Color
+          break;
+        }
+      }
+      return color || defaultColor
+    }
+
+    function getRandom (min, max, isInt) {
+      isInt = isInt === false ? 0 : 1
+      min = Math.random() * ( max - min + isInt) + min; // 节省一个变量
+      return isInt ? Math.floor(min) : min
+    }
+
+
+    function getRandomColor () {
+      let r = getRandom(10,240)
+      let g = getRandom(50,230)
+      let b = getRandom(30,200)
+      return `rgb(${r},${g},${b})`
+    }
+
+
+    async function apiGridList () {
+      let res = await getJsonFile('./data3.json')
+      let colorList = (await getJsonFile('./colorList.json')).data
+      let itemHeight;
+      let minHeight
+      
+      res = res.data.map(function (item, rowIndex) {
+        return item.radarValue.map(function (value, valueIndex) {
+          itemHeight = item.radarHeight[valueIndex]
+          minHeight = minHeight == null ? itemHeight : Math.min(minHeight, itemHeight)
+          return {
+            height: itemHeight,
+            value: value,
+            color: parseColorFromLegendColorByValue(value, colorList)
+          }
+        })
+        
+      })
+
+
+      // 保证最小高度为1像素
+      if(minHeight<1) {
+        var scale = 1 / minHeight
+        res.forEach(item => {
+          item.forEach(c => {
+            c.height = c.height *scale
+          })
+        })
+      }
+      
+
+      console.log('原始数据', res, minHeight)
+      return res;
+    }
+    
+
+
+
+    window.onload = async function () {
+
+
+
+      
+      var gridList = await apiGridList()
+      var oProfileChart = new ProfileCanvasChart(document.getElementById('demo'), {
+        yAxis: {
+          name: {
+            text: '高度(KM)',
+            fontSize: 20,
+            fontColor: 'pink'
+          },
+        },
+        xAxis: {
+          tickColor: 'green',
+          fontColor: 'green',
+          name: {
+            text: '距离(KM)',
+            fontSize: 20,
+            fontColor: 'blue'
+          },
+        },
+        pointWidth: 1, // 格点宽度
+        pixelated: true, // 放大后像素化
+        padding: {
+          right: 20,
+        }
+      })
+
+      const newLlist = ProfileCanvasChart.exchangeRowToColumn(gridList)
+      oProfileChart.setGridList(newLlist)
+      
+      console.log('gridList', oProfileChart, newLlist)
+    }
+
+
+
+
+  </script>
+</body>
+</html>
