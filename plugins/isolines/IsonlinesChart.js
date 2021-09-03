@@ -283,20 +283,42 @@ export default class IsonlinesChart {
     this._drawXaxis(gridCountX)
     this._createCrossTool()
 
+    let maxX = 0
+    let maxY = 0
+
+    // this.scaleY = 1
+    // multiPolygonList = [
+    //   {
+    //     points: [
+    //       [
+    //         [0,0],
+    //         [83,2.5],
+    //         [70,5],
+    //         [20,3],
+    //       ]
+    //     ],
+    //     color: 'red'
+    //   }
+    // ]
+    console.log('multiPolygonList', multiPolygonList)
     await asyncForEach(multiPolygonList, async polygon => {
       await asyncForEach(polygon.points, async item => {
         this._ctx.beginPath()
         await asyncForEach(item, async (point, index) => {
+          maxX = Math.max(maxX, point[0])
+          maxY = Math.max(maxY, point[1])
           if(index==0) {
             this._ctx.moveTo(this._yAxisWidth+point[0]*this.scaleX, (point[1])*this.scaleY+this._topHeight)
           } else {
             this._ctx.lineTo(this._yAxisWidth+point[0]*this.scaleX, point[1]*this.scaleY+this._topHeight)
+            // this._ctx.strokeStyle = 'rgba(255,255,255,0.1)'
+            // this._ctx.stroke()
           }
         })
         this._ctx.fillStyle = polygon.color
         this._ctx.fill()
         this._ctx.closePath()
-        await sleep(30)
+        await sleep(17)
       })
     })
   }
@@ -433,6 +455,7 @@ export default class IsonlinesChart {
    */
   _getYaxisList () {
     const count = Math.floor(this._gridDrawingHeight / this.gridSize)
+    console.log('count', this.xKm,this.yKm)
     const perPxiel = this.gridCountY / count
     const perHeight = this._gridDrawingHeight / count
     const unitPercent = this.yKm/this.gridCountY

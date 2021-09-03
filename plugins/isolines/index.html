@@ -18,7 +18,7 @@
 <body>
   <button id="draw">绘制</button>
   <button id="diaohui">销毁</button>
-  <div style="width: 1000px;height: 400px;" id="demo"></div>
+  <div style="width: 1000px;height: 500px;" id="demo"></div>
 
   
   <script>
@@ -59,11 +59,13 @@
     
     async function apiGridList () {
       let list = (await getJsonFile(`./data${count}.json`)).data
+      // list = list.slice(0,7)
       list.reverse()
       
       let pointGrid = []
       list.forEach(function (row, y) {
         row.forEach(function (item, x) {
+          // console.log([x, y])
           pointGrid.push({
             type: 'Feature',
             geometry: {
@@ -120,10 +122,12 @@
           color: 'rgba(255,255,255,0.5)'
         }
       })
-      myChart.setOption(useList, pointGrid.gridCountX, pointGrid.gridHeight, 68.27, pointGrid.gridHeight)
+      myChart.setOption(useList, pointGrid.gridCountX, pointGrid.gridHeight, 68.27, pointGrid.gridHeight-1)
       console.log('myChart', myChart)
     }
     
+
+    document.getElementById('draw').onclick()
 
     document.getElementById('diaohui').onclick = function () {
       count = 0
