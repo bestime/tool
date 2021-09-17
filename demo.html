@@ -13,6 +13,8 @@
 
 
 
+  <div id="time-demo"></div>
+
 
 
 <script>
@@ -333,15 +335,18 @@ var dd = ns.deepFindItem(arr, function (c){
 console.log('dd', dd)
 
 
+
+
 const timeList = [
-  '2019-08-20 13:20:00', // 2019-08-20 13:20
-  '2019-08-20 13:20:10', // 
+  '2019-08-20 13:20:00',
+  '2019-08-20 13:20:10',
   '2019-08-20 13:20:20',
   '2019-08-25 14:36:20',
   '2019-09-25 14:36:20',
-  '2021-08-27 00:20:00',
-  '2021-08-27 00:30:00',
-  '2021-08-27 00:40:00',
+
+  '2021-10-27 00:20:00',
+  '2021-10-27 00:30:00',
+  '2021-10-27 00:40:00',
 ]
 
 
@@ -431,31 +436,50 @@ function parseTimeList (list) {
 
     // console.log('item', item)
   })
-  let res = []
-  // treeToArray(timeTree, res)
-  // parseTree(timeTree, res)
-  // res.sort(function (a, b) {
-  //   return b.timestamp - a.timestamp
-  // })
-  // res = unique(res, false, c=>c.timestamp)
 
-  res.sort(function (a, b) {
-    return a.timestamp - b.timestamp
-  })
+  // 将json转为数组的方式
+  let res = treeToArray(timeTree)
+
+  // 移除重复节点，第一个节点上提
+  arrayUpSingleChildren(res)
   
+  
+
+  // res.sort(function (a, b) {
+  //   return a.timestamp - b.timestamp
+  // })
+
   console.log(timeTree, res)
+
+  return res
 }
 
 
 
 
-function treeToArray (tree, total) {
-  for(var key in tree) {
-    total.push(tree[key])
-    if(tree[key].sub) {
-      treeToArray(tree[key].sub, total)
+function treeToArray (tree) {
+  
+  
+
+  function deep (tree) {
+    for(var key in tree) {
+      let item = tree[key]
+      if(item.sub) {
+        var children = toChildren(tree[key].sub)
+        item.children = children
+        deep(item.sub)
+        delete item.sub
+      }
     }
   }
+
+  let res = [];
+  deep(tree)
+  for(let key in tree) {
+    res.push(tree[key])
+  }
+  
+  return res;
 }
 
 
@@ -463,7 +487,7 @@ function parseTree (tree, total) {
   var item;
   for(var key in tree) {
     item = tree[key]
-    // total.push(tree[key])
+    total.push(tree[key])
     if(tree[key].sub) {
       var children = toChildren(tree[key].sub)
       if(children.length) {
@@ -472,8 +496,6 @@ function parseTree (tree, total) {
           tree[key].children = children
         }
       }
-      
-
       parseTree(tree[key].sub, total)
       delete tree[key].sub
     }
@@ -486,14 +508,53 @@ function toChildren (sub) {
   for(let key in sub) {
     res.push(sub[key])
   }
-  res.sort(function (a,b) {
-    return a.timestamp - b.timestamp
-  })
+  // res.sort(function (a,b) {
+  //   return a.timestamp - b.timestamp
+  // })
   return res;
 }
 
 
-parseTimeList(timeList)
+
+
+// 将单节点提升一个层级
+function arrayUpSingleChildren (list) {
+  for(let a = 0; a < list.length; a++) {
+    while (list[a].children && list[a].children.length === 1) {
+      list[a] = list[a].children[0]
+    }
+    if(list[a].children && list[a].children.length > 1) {
+      arrayUpSingleChildren(list[a].children)
+    }
+  }
+}
+
+
+
+
+const result = parseTimeList(timeList)
+renderListToHtml(document.getElementById('time-demo'), result)
+console.log('result', result)
+
+
+
+
+
+function renderListToHtml (oWrapper, data) {
+  const oUl = document.createElement('ul')
+  data.forEach(item => {
+    
+    var oLi = document.createElement('li')
+    oLi.innerHTML = `<div>${item.value}</div>`
+    if(item.children) {
+      renderListToHtml(oLi, item.children)
+    }
+    
+    oUl.appendChild(oLi)
+  })
+  
+  oWrapper.appendChild(oUl)
+}
 
 </script>
 </body>

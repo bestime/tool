@@ -13,6 +13,9 @@ import { Bytes, KB, GB, MB, TB } from './basic/constant'
 export default function fileSize (value, unit) {
   var bit = value;
   switch(unit) {
+    case 'MB':
+      bit = value * MB
+      break;
     case 'KB':
       bit = value * KB 
       break;
@@ -30,13 +33,13 @@ export default function fileSize (value, unit) {
   var format = '';
 
   if(_tb>=1) {
-    format = _tb + 'TB'
+    format = _tb + ' TB'
   } else if(_gb>=1) {
-    format = _gb + 'GB'
+    format = _gb + ' GB'
   } else if(_mb>=1) {
-    format = _mb + 'MB'
+    format = _mb + ' MB'
   } else {
-    format = _kb + 'KB'
+    format = _kb + ' KB'
   }
 
   return {
