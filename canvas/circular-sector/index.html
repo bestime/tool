@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    @keyframes centerpage001buttondscaleshow {
+      0% {
+        transform: rotate(0deg) ;
+      }
+      
+      /* 50% {
+        transform: rotate(200deg);
+      } */
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    canvas {
+      
+      animation: centerpage001buttondscaleshow 5s linear infinite;
+    }
+
+    .f1we748 {
+      transform: rotateX(80deg);
+      position:relative;
+      width: 500px;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+    }
+  </style>
+  
+</head>
+<body>
+  <div class="f1we748" style="z-index:2;">
+    <canvas id="demo" style="width: 500px;height: 500px;"></canvas>
+  </div>
+  <div class="f1we748" style="margin-top: -410px;">
+    <canvas id="demo2" style="width: 400px;height: 400px;"></canvas>
+  </div>
+  <script type="module">
+    import  CircularSector  from './index.js?t=38';
+
+    var oCircle = new CircularSector(document.getElementById('demo'), {
+      count: 10,
+      spaceAngle: 2,
+      thick: 100,
+      color: 'rgba(54,207,237,0.1)'
+    })
+
+    var oCircle = new CircularSector(document.getElementById('demo2'), {
+      count: 20,
+      spaceAngle: 2,
+      thick: 100,
+      color: 'blue'
+    })
+    console.log(CircularSector)
+
+  </script>
+</body>
+</html>

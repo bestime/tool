@@ -442,6 +442,9 @@ function parseTimeList (list) {
 
   // 移除重复节点，第一个节点上提
   arrayUpSingleChildren(res)
+
+  // 将第一个子集合并上来
+  mergeFirstChild(res)
   
   
 
@@ -512,6 +515,21 @@ function toChildren (sub) {
   //   return a.timestamp - b.timestamp
   // })
   return res;
+}
+
+
+
+
+function mergeFirstChild (list) {
+  for(let a = 0; a < list.length; a++) {
+    if(list[a].children) {
+      // const first = list[a].children.splice(0, 1)
+      // list[a].label = first.label
+      // list[a].timestamp = first.timestamp
+      // list[a].value = first.value
+      // first.children && mergeFirstChild(first.children)
+    }
+  }
 }
 
 
