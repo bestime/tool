@@ -6,6 +6,33 @@
   <title>测试页面3333</title>
   <script src="./dist/bestime@beta.min.js"></script>
   <style>
+    * {
+      /* margin: 0;
+      padding: 0;
+      list-style: none; */
+    }
+
+    .asdf1we87 {
+      height: 20px;
+      padding-left: 20px;
+      position: relative;
+      border-left: red solid 1px;
+    }
+
+    #time-demo {
+      margin: 50px;
+    }
+
+    .asdf1we87:before {
+      content: '';
+      position:absolute;
+      height: 1px;
+      width: 5px;
+      left: 0;
+      top: 50%;
+      display: block;
+      background: red;
+    }
     
   </style>
 </head>
@@ -18,331 +45,32 @@
 
 
 <script>
-// timingPlan('seconds', true, function (time) {
-//   console.log('整秒计划执行了', time)
-// })
-
-// timingPlan('minute', true, function (time) {
-//   console.log('%c整分计划执行了', 'background:blue;color:#fff;', time)
-// })
-
-// timingPlan('hour', true, function (time) {
-//   console.log('%c整点计划执行了', 'background:green;color:#fff;', time)
-// })
-
-// timingPlan(['12:00:00', '12:10:00'], true, function (time) {
-//   console.log('%c定时计划执行了', 'background:green;color:#fff;', time)
-// })
-
-/*
-
-*/
-
-
-/**
- * 定时计划 
- * @param {String} target 计划方式。支持：seconds，minute，hour
- * @param {Boolean} [immediate=false] 是否立即执行一次
- * @param {Function} callback 计划触发回调
-*/
-function timingPlan (target, immediate, callback) {
-  var date, hour, minute, seconds, milliSecond;
-  immediate = immediate === true
-  var duration;
-  var timer;
-  var adj = 18
-  var appointedList;
-  
-  var oneSecond = 1000
-  var oneMinute = oneSecond * 60
-  var oneHour = oneMinute * 60
-  var oneDay = onHour * 24
-
-  function getType (data) {
-    return Object.prototype.toString.call(data).slice(8, -1)
-  }
-  
-
-  function doOnce () {
-    immediate = false;
-    readyNextWork()
-    callback(hour + '时' + minute + '分' + seconds + '秒' + milliSecond + '毫秒')
-  }
-
-
-  readyNextWork()
-  function readyNextWork () {
-    date = new Date()
-    hour = date.getHours()
-    minute = date.getMinutes()
-    seconds = date.getSeconds()
-    milliSecond = date.getMilliseconds()
-    clearTimeout(timer)
-    if(immediate) {
-      doOnce()
-    } else {
-      switch (target) {
-        case 'seconds':
-          duration = Math.max(1000 - milliSecond, adj)
-          break;
-        case 'minute':
-          duration = 1000*(60 - seconds) - milliSecond
-          break;
-        case 'hour':
-          duration = 60000*(60-minute) - 1000 * seconds - milliSecond
-          break;
-        // default:
-        //   appointedList = appointedList || []
-        //   if(getType(target) === 'Array') {
-        //     for(var a = 0; a< target.length; a++) {
-        //       target = target.split(':')
-        //       target[0] = target[0] * oneHour
-        //       target[1] = target[1] * oneMinute
-        //       target[2] = target[2] * oneSecond
-        //       var a = hour*oneHour + minute*oneMinute + seconds * oneSecond - target[0] - target[1]-target[2]
-        //       a = a > 0 ? a : a+oneDay
-        //       appointedList.push(a)
-        //     }
-        //   }
-      }
-      timer = setTimeout(doOnce, duration);
-    }
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function AutoPager () {
-
-}
-
-AutoPager.prototype.dispose = function () {
-  clearTimeout(this.timer)
-  this.list = null
-  this.useList = null
-  this.pageStep = null
-  this.callback = null
-  this.pageSize = null
-  this.interval = null
-  this.currentIndex = null
-}
-
-
-AutoPager.prototype.next = function () {
-  let res = [];
-  let startIndex = this.currentIndex
-  let endIndex = this.currentIndex + this.pageSize
-  let diff = endIndex - this.list.length
-  const indexList = []
-
-  if(diff > 0) {
-    endIndex = this.list.length
-    indexList.push({
-      start: 0,
-      end: diff
-    })
-  }
-  indexList.unshift({
-    start: startIndex,
-    end: endIndex
-  })
-
-  indexList.forEach(({start, end}) => {
-    res = res.concat(this.list.slice(start, end))
-  })
-
-  if(indexList.length >1 && !this.loop) return console.log('完毕了')
-
-  this.list && this.callback(res, () => {
-    clearTimeout(this.timer)
-    this.timer = setTimeout(() => {
-      let nextIndex = this.currentIndex + this.pageStep
-      if(nextIndex >= this.list.length) {
-        nextIndex -= this.list.length
-      }
-      this.currentIndex = nextIndex
-      this.next()
-    }, this.interval)
-  }, indexList)
-}
-
-AutoPager.prototype.start = function (loop, pageStep, pageSize, list, interval, callback) {
-  this.list = list
-  this.loop = loop
-  this.interval = interval
-  this.pageStep = pageStep
-  this.pageSize = pageSize
-  this.currentIndex = 0
-  this.callback = callback
-
-  if(this.pageSize < list.length) {
-    this.next()
-  } else {
-    console.warn('pageSize大于或等于list的值，不需要分页')
-  }
-}
-
-
-
-// 0-14
-// 1-15
-
-
-// 初始化自动分页
-const autoPager = new AutoPager()
-const list = [1, 2, 3, 4, 5, 6,7,8,9,10,11,12,13,14,15]
-const list2 = list.map(c => '_' + c)
-// 销毁实例
-autoPager.dispose() 
-// 开始自动分页
-// autoPager.start(false, 2, 10, list, 1000, function (list, next, indexList) {
-//   console.log('一次分页', list, JSON.stringify(indexList))
-//   next()
-// })
-
-
 const convertTime = ns.convertTime
 const formatTime = ns.formatTime
 
-function formatShortTime (time, accuracy) {
-  const currentDate = new Date()
-  const compareTime = new Date(time)
-  let fmt;
-  const now = convertTime(currentDate)
-  const compare = convertTime(compareTime)
-  const timeMillisecond = compareTime.getTime()
-  
-  if(timeMillisecond > currentDate.getTime()){ // 未来时间
-    if(new Date(compare.year) > new Date(now.year)) {
-      fmt = 'YYYY年MM月DD日HH:mm:ss'
-    } else if(new Date(compare.year, compare.month-1) > new Date(now.year, now.month-1)) {
-      fmt = 'MM月DD日HH:mm:ss'
-    } else if(new Date(compare.year, compare.month-1, compare.day) > new Date(now.year, now.month-1, now.day)) {
-      fmt = 'DD日HH:mm:ss'
-    } else {
-      fmt = 'HH:mm:ss'  
-    }
-  } else { //过去时间
-    if(timeMillisecond > +new Date(now.year, now.month-1, now.day, now.hour)) {
-      fmt = 'HH:mm:ss'
-    } else if(timeMillisecond > +new Date(now.year, now.month-1, now.day)) {
-      fmt = 'HH:mm:ss'
-    }else if(timeMillisecond > +new Date(now.year, now.month-1)) {
-      fmt = 'DD日HH:mm:ss'
-    }else if(timeMillisecond > +new Date(now.year,1,1)) {
-      fmt = 'MM月DD日HH:mm:ss'
-    } else {
-      fmt = 'YYYY年MM月DD日HH:mm:ss'
-    }
-  }
 
 
-  // 调整格式化精度
-  if(accuracy==='day') {
-    fmt = fmt.replace(/(HH)(:mm)|(:ss)/g, '')
-  } else if(accuracy==='hour') {
-    fmt = fmt.replace(/(:mm)|(:ss)/g, '')
-    fmt += '时'
-  } else if(accuracy==='minute') {
-    fmt = fmt.replace(/(:ss)/g, '')
-  }
-
-  const res = formatTime(fmt, time)
-  console.log(time, '=>', fmt, '=>', res)
-  return res;
-}
-
-
-
-
-// ;[
-//   '2022-08-20 23:59:59',
-//   '2021-08-20 23:59:59',
-//   '2021-07-20 23:59:59',
-//   '2021-07-19 23:59:59',
-//   '2021-07-19 06:00:48',
-//   '2021-07-18 06:25:26',
-//   '2021-07-17 06:00:00',
-//   '2021-06-15 06:00:05',
-//   '2020-06-15 06:00:00',
-// ].forEach(function (item) {
-//   formatShortTime(item, 'minute')
-// })
-
-const arr = [
-  {
-    id: 'a',
-    children: [
-      {
-        id: 'b',
-        children:[
-          {
-            name: 'bestime'
-          },
-          {
-            id: 'ef'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    id: 'c',
-    children: [
-      {
-        id: 'f'
-      }
-    ]
-  }
-]
-
-
-
-
-var dd = ns.deepFindItem(arr, function (c){
-  return c.id == null
-})
-console.log('dd', dd)
-
-
+const formatterList = ['YYYY', 'MM', 'DD', 'HH', 'mm', 'ss', 'SSS']
+const formatterRootLabel = ['年', '月', '日', '时', '分', '秒', '毫秒']
 
 
 const timeList = [
-  '2019-08-20 13:20:00',
-  '2019-08-20 13:20:10',
+  '2019-08-20 13:20:00.465',
+  '2019-08-20 13:20:10.689',
   '2019-08-20 13:20:20',
   '2019-08-25 14:36:20',
   '2019-09-25 14:36:20',
+  '2019-09-25 15:00:00',
+  '2019-09-25 15:00:00',
+  '2019-09-25 17:00:00',
+  '2019-09-25 17:01:00',
+  '2019-09-25 17:02:00',
+  '2019-09-25 17:03:00',
+  '2019-09-25 17:03:01',
+  '2019-09-25 17:03:02',
+  '2019-09-25 17:03:03',
+  '2019-09-25 17:03:04',
+  '2019-09-25 17:03:04',
 
   '2021-10-27 00:20:00',
   '2021-10-27 00:30:00',
@@ -367,11 +95,11 @@ function parseTimeList (list) {
     var item = convertTime(new Date(time))
     _timestamp = new Date(time).getTime()
     // console.log('_timestamp', _timestamp)
-    _yearKey = item.year+ '年'
-    _monthKey = item.month+ '月'
-    _dayKey = item.day+ '日'
-    _hourKey = item.hour+ '时'
-    _minuteKey = item.minute+ '分'
+    _yearKey = item.year + '年'
+    _monthKey = item.month + '月'
+    _dayKey = item.day + '日'
+    _hourKey = item.hour + '时'
+    _minuteKey = item.minute + '分'
     _secondKey = item.second + '秒'
     _milliSecondKey = item.milliSecond + '毫秒'
 
@@ -382,8 +110,8 @@ function parseTimeList (list) {
       value: _yearKey,
       label: time,
       timestamp: _timestamp,
-      sub: {}
-      
+      sub: {},
+      root: '年',
     }
 
     timeTree[_yearKey].sub[_monthKey] = timeTree[_yearKey].sub[_monthKey] || {
@@ -391,7 +119,8 @@ function parseTimeList (list) {
       value: _monthKey,
       label: time,
       timestamp: _timestamp,
-      sub: {}
+      sub: {},
+      root: '月',
     }
 
     timeTree[_yearKey].sub[_monthKey].sub[_dayKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey] || {
@@ -399,7 +128,8 @@ function parseTimeList (list) {
       value: _dayKey,
       label: time,
       timestamp: _timestamp,
-      sub: {}
+      sub: {},
+      root: '日',
     }
 
     timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey] || {
@@ -407,7 +137,8 @@ function parseTimeList (list) {
       value: _hourKey,
       label: time,
       timestamp: _timestamp,
-      sub: {}
+      sub: {},
+      root: '时',
     }
 
     timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey] || {
@@ -415,7 +146,8 @@ function parseTimeList (list) {
       value: _minuteKey,
       label: time,
       timestamp: _timestamp,
-      sub: {}
+      sub: {},
+      root: '分',
     }
 
     timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey].sub[_secondKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey].sub[_secondKey] || {
@@ -423,7 +155,8 @@ function parseTimeList (list) {
       value: _secondKey,
       label: time,
       timestamp: _timestamp,
-      sub: {}
+      sub: {},
+      root: '秒',
     }
 
     timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey].sub[_secondKey].sub[_milliSecondKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey].sub[_secondKey].sub[_milliSecondKey] || {
@@ -431,7 +164,8 @@ function parseTimeList (list) {
       value: _milliSecondKey,
       label: time,
       timestamp: _timestamp,
-      sub: undefined
+      sub: undefined,
+      root: '毫秒',
     }
 
     // console.log('item', item)
@@ -441,18 +175,19 @@ function parseTimeList (list) {
   let res = treeToArray(timeTree)
 
   // 移除重复节点，第一个节点上提
-  arrayUpSingleChildren(res)
+  // arrayUpSingleChildren(res)
+
+  // 处理格式化前缀
+  deppPrefixFormatter(res)
 
   // 将第一个子集合并上来
-  mergeFirstChild(res)
-  
-  
+  // mergeFirstChild(res)
 
-  // res.sort(function (a, b) {
-  //   return a.timestamp - b.timestamp
-  // })
+  // 解析格式化
+  parFormatter(res)
 
-  console.log(timeTree, res)
+
+  
 
   return res
 }
@@ -486,24 +221,33 @@ function treeToArray (tree) {
 }
 
 
-function parseTree (tree, total) {
-  var item;
-  for(var key in tree) {
-    item = tree[key]
-    total.push(tree[key])
-    if(tree[key].sub) {
-      var children = toChildren(tree[key].sub)
-      if(children.length) {
-        tree[key].root = children.splice(0, 1)[0]
-        if(children.length) {
-          tree[key].children = children
-        }
-      }
-      parseTree(tree[key].sub, total)
-      delete tree[key].sub
-    }
-  }
+
+
+function parFormatter (list) {
+  if(!list) return;
+  list.forEach(function (item) {
+    const formatter = []
+    item.root.split(',').forEach(function (rootName) {
+      const rootIndex = formatterRootLabel.indexOf(rootName)
+      formatter[rootIndex] = formatterList[rootIndex]
+    })
+    parFormatter(item.children)
+    item.formatter = getFromatter(formatter.splice(0,3)).join('-')
+    item.formatter += ' ' + getFromatter(formatter.splice(0,3)).join(':')
+    item.formatter += '.' + formatter.join('.')
+  })
 }
+
+
+function getFromatter (list) {
+  return list.reduce(function (total, item) {
+    if(item) {
+      total.push(item)
+    }
+    return total
+  }, [])
+}
+
 
 
 function toChildren (sub) {
@@ -521,13 +265,17 @@ function toChildren (sub) {
 
 
 function mergeFirstChild (list) {
+  // return;
   for(let a = 0; a < list.length; a++) {
-    if(list[a].children) {
-      // const first = list[a].children.splice(0, 1)
-      // list[a].label = first.label
-      // list[a].timestamp = first.timestamp
-      // list[a].value = first.value
-      // first.children && mergeFirstChild(first.children)
+    if(list[a].children && list[a].children[0].timestamp === list[a].timestamp) {
+      const first = list[a].children.splice(0, 1)[0]
+      list[a].label = first.label
+      list[a].root += ',' + first.root
+      list[a].timestamp = first.timestamp
+      list[a].value = first.value
+      list[a].children = [].concat(first.children||[]).concat(list[a].children)
+      mergeFirstChild(list[a].children)
+      mergeFirstChild(list)
     }
   }
 }
@@ -539,7 +287,9 @@ function mergeFirstChild (list) {
 function arrayUpSingleChildren (list) {
   for(let a = 0; a < list.length; a++) {
     while (list[a].children && list[a].children.length === 1) {
-      list[a] = list[a].children[0]
+      const first = list[a].children[0]
+      first.root = list[a].root
+      list[a] = first
     }
     if(list[a].children && list[a].children.length > 1) {
       arrayUpSingleChildren(list[a].children)
@@ -563,7 +313,8 @@ function renderListToHtml (oWrapper, data) {
   data.forEach(item => {
     
     var oLi = document.createElement('li')
-    oLi.innerHTML = `<div>${item.value}</div>`
+    
+    oLi.innerHTML = `<div class="asdf1we87">${getLabel(item)}</div>`
     if(item.children) {
       renderListToHtml(oLi, item.children)
     }
@@ -572,6 +323,46 @@ function renderListToHtml (oWrapper, data) {
   })
   
   oWrapper.appendChild(oUl)
+}
+
+
+function pursueToot (item) {
+  let startIndex = formatterRootLabel.indexOf(item.root)+1
+  const nextIndex = item.children ? formatterRootLabel.indexOf(item.children[0].root) : formatterRootLabel.length
+  for(startIndex; startIndex < nextIndex; startIndex++) {
+    item.root += ','+formatterRootLabel[startIndex]
+  }
+  return item.root
+}
+
+
+function getFormatter (list, startIndex, endIndex) {
+  list = list || []
+  for(startIndex; startIndex <= endIndex; startIndex++) {
+    list.push(formatterList[startIndex])
+  }
+  return list
+}
+
+function deppPrefixFormatter (list) {
+  list.forEach(function (item) {
+    item.root = pursueToot(item)
+    if(item.children) {
+      deppPrefixFormatter(item.children)
+    }
+  })
+}
+
+
+
+function getLabel (item) {
+  const t = ns.convertTime(new Date(item.timestamp))
+  item.formatter = item.formatter || []
+  let res = formatTime(item.formatter, item.timestamp)
+  
+  res = `【${item.root}】`
+  res += item.label
+  return res
 }
 
 </script>

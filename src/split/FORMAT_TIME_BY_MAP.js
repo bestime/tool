@@ -41,6 +41,7 @@ export default function FORMAT_TIME_BY_MAP (fmt, Y, M, D, hour, m, s, S, T, clea
 
   var res = fmt.replace(new RegExp(regStr, 'g'), function (mark) {
     item = !_Map ? 'NaN' : substr(_Map[mark[0]], mark)
+    
     if(clean) {
       if(_Number(item)) {
         hasval = true
@@ -55,7 +56,7 @@ export default function FORMAT_TIME_BY_MAP (fmt, Y, M, D, hour, m, s, S, T, clea
 
 function substr (value, mark) {
   if(!/t/.test(mark)) {
-    value = padStart(value, 2, '0')
+    value = padStart(value, mark.length, '0')
   }
   return /Y/.test(mark) ? value.substr(-mark.length) : value
 }
