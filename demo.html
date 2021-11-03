@@ -21,18 +21,11 @@
 
     #time-demo {
       margin: 50px;
-    }
-
-    .asdf1we87:before {
-      content: '';
-      position:absolute;
-      height: 1px;
-      width: 5px;
-      left: 0;
-      top: 50%;
-      display: block;
+      height: 200px;
       background: red;
     }
+
+ 
     
   </style>
 </head>
@@ -45,324 +38,50 @@
 
 
 <script>
-const convertTime = ns.convertTime
-const formatTime = ns.formatTime
+var count = 0
+var asdf = observeElementResize(document.getElementById('time-demo'), function (width, height) {
+  count++
+  if(count>50) {
+    asdf.dispose()
+  }
+  console.log('变化',width, height)
+}, 200)
 
+function observeElementResize (el, callback, speed) {
+  speed = speed || 200
+  var timerName = '_ober_timer'
+  var currentWidth = el.offsetWidth
+  var currentHeight = el.offsetHeight
+  var oldWidth = currentWidth
+  var oldHeight = currentHeight
 
+  var isWidthChange = false
+  var isHeightChange = false
 
-const formatterList = ['YYYY', 'MM', 'DD', 'HH', 'mm', 'ss', 'SSS']
-const formatterRootLabel = ['年', '月', '日', '时', '分', '秒', '毫秒']
+  el[timerName] = setInterval(function () {
+    currentWidth = el.offsetWidth
+    currentHeight = el.offsetHeight
 
+    isWidthChange = currentWidth !== oldWidth
+    isHeightChange = currentHeight !== oldHeight
 
-const timeList = [
-  '2019-08-20 13:20:00.465',
-  '2019-08-20 13:20:10.689',
-  '2019-08-20 13:20:20',
-  '2019-08-25 14:36:20',
-  '2019-09-25 14:36:20',
-  '2019-09-25 15:00:00',
-  '2019-09-25 15:00:00',
-  '2019-09-25 17:00:00',
-  '2019-09-25 17:01:00',
-  '2019-09-25 17:02:00',
-  '2019-09-25 17:03:00',
-  '2019-09-25 17:03:01',
-  '2019-09-25 17:03:02',
-  '2019-09-25 17:03:03',
-  '2019-09-25 17:03:04',
-  '2019-09-25 17:03:04',
-
-  '2021-10-27 00:20:00',
-  '2021-10-27 00:30:00',
-  '2021-10-27 00:40:00',
-]
-
-
-
-
-var unique = ns.unique
-function parseTimeList (list) {
-  var timeTree = {}
-  var _yearKey, _monthKey;
-  var _dayKey
-  var _hourKey
-  var _minuteKey
-  var _secondKey
-  var _milliSecondKey
-  var _timestamp;
-  
-  list.forEach(function (time) {
-    var item = convertTime(new Date(time))
-    _timestamp = new Date(time).getTime()
-    // console.log('_timestamp', _timestamp)
-    _yearKey = item.year + '年'
-    _monthKey = item.month + '月'
-    _dayKey = item.day + '日'
-    _hourKey = item.hour + '时'
-    _minuteKey = item.minute + '分'
-    _secondKey = item.second + '秒'
-    _milliSecondKey = item.milliSecond + '毫秒'
-
-    // console.log(_yearKey, _monthKey, _dayKey, _hourKey, _minuteKey,_secondKey,_milliSecondKey)
-    
-    timeTree[_yearKey] = timeTree[_yearKey] || {
-      // prefix: '',
-      value: _yearKey,
-      label: time,
-      timestamp: _timestamp,
-      sub: {},
-      root: '年',
+    if(isWidthChange) {
+      oldWidth = currentWidth
     }
 
-    timeTree[_yearKey].sub[_monthKey] = timeTree[_yearKey].sub[_monthKey] || {
-      // prefix: _yearKey,
-      value: _monthKey,
-      label: time,
-      timestamp: _timestamp,
-      sub: {},
-      root: '月',
+    if(isHeightChange) {
+      oldHeight = currentHeight
     }
 
-    timeTree[_yearKey].sub[_monthKey].sub[_dayKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey] || {
-      // prefix: _yearKey+_monthKey,
-      value: _dayKey,
-      label: time,
-      timestamp: _timestamp,
-      sub: {},
-      root: '日',
+    if(isWidthChange || isHeightChange) {
+      callback(isWidthChange, isHeightChange)
     }
-
-    timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey] || {
-      // prefix: _yearKey+_monthKey+_dayKey,
-      value: _hourKey,
-      label: time,
-      timestamp: _timestamp,
-      sub: {},
-      root: '时',
-    }
-
-    timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey] || {
-      // prefix: _yearKey+_monthKey+_dayKey+_hourKey,
-      value: _minuteKey,
-      label: time,
-      timestamp: _timestamp,
-      sub: {},
-      root: '分',
-    }
-
-    timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey].sub[_secondKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey].sub[_secondKey] || {
-      // prefix: _yearKey+_monthKey+_dayKey+_hourKey+_minuteKey,
-      value: _secondKey,
-      label: time,
-      timestamp: _timestamp,
-      sub: {},
-      root: '秒',
-    }
-
-    timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey].sub[_secondKey].sub[_milliSecondKey] = timeTree[_yearKey].sub[_monthKey].sub[_dayKey].sub[_hourKey].sub[_minuteKey].sub[_secondKey].sub[_milliSecondKey] || {
-      // prefix: _yearKey+_monthKey+_dayKey+_hourKey+_minuteKey+_secondKey,
-      value: _milliSecondKey,
-      label: time,
-      timestamp: _timestamp,
-      sub: undefined,
-      root: '毫秒',
-    }
-
-    // console.log('item', item)
-  })
-
-  // 将json转为数组的方式
-  let res = treeToArray(timeTree)
-
-  // 移除重复节点，第一个节点上提
-  // arrayUpSingleChildren(res)
-
-  // 处理格式化前缀
-  deppPrefixFormatter(res)
-
-  // 将第一个子集合并上来
-  // mergeFirstChild(res)
-
-  // 解析格式化
-  parFormatter(res)
-
-
-  
-
-  return res
-}
-
-
-
-
-function treeToArray (tree) {
-  
-  
-
-  function deep (tree) {
-    for(var key in tree) {
-      let item = tree[key]
-      if(item.sub) {
-        var children = toChildren(tree[key].sub)
-        item.children = children
-        deep(item.sub)
-        delete item.sub
-      }
+  }, speed)
+  return {
+    dispose: function () {
+      clearInterval(el[timerName])
     }
   }
-
-  let res = [];
-  deep(tree)
-  for(let key in tree) {
-    res.push(tree[key])
-  }
-  
-  return res;
-}
-
-
-
-
-function parFormatter (list) {
-  if(!list) return;
-  list.forEach(function (item) {
-    const formatter = []
-    item.root.split(',').forEach(function (rootName) {
-      const rootIndex = formatterRootLabel.indexOf(rootName)
-      formatter[rootIndex] = formatterList[rootIndex]
-    })
-    parFormatter(item.children)
-    item.formatter = getFromatter(formatter.splice(0,3)).join('-')
-    item.formatter += ' ' + getFromatter(formatter.splice(0,3)).join(':')
-    item.formatter += '.' + formatter.join('.')
-  })
-}
-
-
-function getFromatter (list) {
-  return list.reduce(function (total, item) {
-    if(item) {
-      total.push(item)
-    }
-    return total
-  }, [])
-}
-
-
-
-function toChildren (sub) {
-  var res = []
-  for(let key in sub) {
-    res.push(sub[key])
-  }
-  // res.sort(function (a,b) {
-  //   return a.timestamp - b.timestamp
-  // })
-  return res;
-}
-
-
-
-
-function mergeFirstChild (list) {
-  // return;
-  for(let a = 0; a < list.length; a++) {
-    if(list[a].children && list[a].children[0].timestamp === list[a].timestamp) {
-      const first = list[a].children.splice(0, 1)[0]
-      list[a].label = first.label
-      list[a].root += ',' + first.root
-      list[a].timestamp = first.timestamp
-      list[a].value = first.value
-      list[a].children = [].concat(first.children||[]).concat(list[a].children)
-      mergeFirstChild(list[a].children)
-      mergeFirstChild(list)
-    }
-  }
-}
-
-
-
-
-// 将单节点提升一个层级
-function arrayUpSingleChildren (list) {
-  for(let a = 0; a < list.length; a++) {
-    while (list[a].children && list[a].children.length === 1) {
-      const first = list[a].children[0]
-      first.root = list[a].root
-      list[a] = first
-    }
-    if(list[a].children && list[a].children.length > 1) {
-      arrayUpSingleChildren(list[a].children)
-    }
-  }
-}
-
-
-
-
-const result = parseTimeList(timeList)
-renderListToHtml(document.getElementById('time-demo'), result)
-console.log('result', result)
-
-
-
-
-
-function renderListToHtml (oWrapper, data) {
-  const oUl = document.createElement('ul')
-  data.forEach(item => {
-    
-    var oLi = document.createElement('li')
-    
-    oLi.innerHTML = `<div class="asdf1we87">${getLabel(item)}</div>`
-    if(item.children) {
-      renderListToHtml(oLi, item.children)
-    }
-    
-    oUl.appendChild(oLi)
-  })
-  
-  oWrapper.appendChild(oUl)
-}
-
-
-function pursueToot (item) {
-  let startIndex = formatterRootLabel.indexOf(item.root)+1
-  const nextIndex = item.children ? formatterRootLabel.indexOf(item.children[0].root) : formatterRootLabel.length
-  for(startIndex; startIndex < nextIndex; startIndex++) {
-    item.root += ','+formatterRootLabel[startIndex]
-  }
-  return item.root
-}
-
-
-function getFormatter (list, startIndex, endIndex) {
-  list = list || []
-  for(startIndex; startIndex <= endIndex; startIndex++) {
-    list.push(formatterList[startIndex])
-  }
-  return list
-}
-
-function deppPrefixFormatter (list) {
-  list.forEach(function (item) {
-    item.root = pursueToot(item)
-    if(item.children) {
-      deppPrefixFormatter(item.children)
-    }
-  })
-}
-
-
-
-function getLabel (item) {
-  const t = ns.convertTime(new Date(item.timestamp))
-  item.formatter = item.formatter || []
-  let res = formatTime(item.formatter, item.timestamp)
-  
-  res = `【${item.root}】`
-  res += item.label
-  return res
 }
 
 </script>

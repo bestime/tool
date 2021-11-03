@@ -109,6 +109,7 @@ import getRGBfromGradient from './split/getRGBfromGradient'
 import deepFindItem from './split/deepFindItem'
 import polyfillCancelAnimationFrame from './split/polyfillCancelAnimationFrame'
 import polyfillRequestAnimationFrame from './split/polyfillRequestAnimationFrame'
+import deepArrayHasSameKey from './split/deepArrayHasSameKey'
 
 export default {
   polyfillCancelAnimationFrame,
@@ -223,5 +224,6 @@ export default {
   isIncluded,
   _Number,
   getRGBfromGradient,
-  deepFindItem
+  deepFindItem,
+  deepArrayHasSameKey
 };
