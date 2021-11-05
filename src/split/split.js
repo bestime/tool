@@ -1,5 +1,6 @@
 import _String from './_String'
 import isString from './isString'
+import isNumber from './isNumber'
 
 /**
  * 字符串转数组，空字符串转为空数组（原生方法会将空字符串转成长度为1的数组，不好用）
@@ -10,5 +11,5 @@ import isString from './isString'
  */
 
 export default function split (str, flag) {
-	return isString(str) && str !== '' ? str.split(_String(flag)) : []
+	return isNumber(str) || isString(str) && str !== '' ? _String(str).split(_String(flag)) : []
 }
