@@ -24,10 +24,11 @@ export default function scrollToElement (dom, oFather, callback, fx, duration, f
   if(oFather === document.body) {
     now = document.documentElement.scrollTop || document.body.scrollTop;
   } else {
-    now = getRelativePos(oFather).y
+    // now = getRelativePos(oFather).y
   }
   
   return Tween.getAnimate(now, to - now, fx, duration, function (val, isStop) {
+    // console.log('val', val)
     if(oFather === document.body) {
       WINDOW.scrollTo(0, val);
     } else {

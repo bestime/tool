@@ -18,9 +18,10 @@ export default function symbolNumber (data, isDecimals) {
     res = _Number(data, true)
   } else {
     var str = trim(data)
-    var pre = str.substr(0, 1)
-    pre = /[0-9+-.]/.test(pre) ? pre : ''; // 保留正负符号
+    var pre = str.substr(0, 1).replace(/\./g, '')
+    pre = /[0-9+-]/.test(pre) ? pre : ''; // 保留正负符号
     var hou = str.substring(1)
+    
     // 清空第一个点后面的点和所有的非数字字符
     if(/\./.test(hou)) {
       hou = hou.replace(/[^0-9.]+/, '').replace(/\..*/, function (dot) {
@@ -29,6 +30,7 @@ export default function symbolNumber (data, isDecimals) {
     } else {
       hou = hou.replace(/[^0-9]/g, '')
     }
+    
     res = pre + hou
   }
 

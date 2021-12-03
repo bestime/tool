@@ -6,25 +6,6 @@
   <title>测试页面444</title>
   <script src="./dist/bestime@beta.min.js"></script>
   <style>
-    * {
-      /* margin: 0;
-      padding: 0;
-      list-style: none; */
-    }
-
-    .asdf1we87 {
-      height: 20px;
-      padding-left: 20px;
-      position: relative;
-      border-left: red solid 1px;
-    }
-
-    #time-demo {
-      margin: 50px;
-      height: 200px;
-      background: red;
-    }
-
  
     
   </style>
@@ -33,56 +14,39 @@
 
 
 
-  <div id="time-demo"></div>
-
-
-
 <script>
-var count = 0
-var asdf = observeElementResize(document.getElementById('time-demo'), function (width, height) {
-  count++
-  if(count>50) {
-    asdf.dispose()
+
+
+function getFactorNumber (num, min) {
+  if(num <= min){
+    return num;
   }
-  console.log('变化',width, height)
-}, 200)
-
-function observeElementResize (el, callback, speed) {
-  speed = speed || 200
-  var timerName = '_ober_timer'
-  var currentWidth = el.offsetWidth
-  var currentHeight = el.offsetHeight
-  var oldWidth = currentWidth
-  var oldHeight = currentHeight
-
-  var isWidthChange = false
-  var isHeightChange = false
-
-  el[timerName] = setInterval(function () {
-    currentWidth = el.offsetWidth
-    currentHeight = el.offsetHeight
-
-    isWidthChange = currentWidth !== oldWidth
-    isHeightChange = currentHeight !== oldHeight
-
-    if(isWidthChange) {
-      oldWidth = currentWidth
+  let flag = 2;
+  let res = 0;
+  while(flag <= num / 2 && res <min){
+    if(num % flag === 0){
+      res = flag++
+    } else {
+      flag++;
+      continue;
     }
-
-    if(isHeightChange) {
-      oldHeight = currentHeight
-    }
-
-    if(isWidthChange || isHeightChange) {
-      callback(isWidthChange, isHeightChange)
-    }
-  }, speed)
-  return {
-    dispose: function () {
-      clearInterval(el[timerName])
-    }
-  }
+  };
+  res = res || num
+  return res;
 }
+
+getFactorNumber(10, 5)
+
+// ;(function () {
+//   function emptyFunction () {}
+//   for(let key in 0console) {
+//     var item = console[key]
+//     if(typeof item === 'function') {
+//       console[key] = emptyFunction
+//     }
+//   }
+// })();
+
 
 </script>
 </body>
