@@ -15,37 +15,13 @@
 
 
 <script>
+var list = [
+  { code: 'a', value: '123' },
+  { code: 'b', value: '456' },
+]
 
+console.log(ns.arryoToMap('code', list))
 
-function getFactorNumber (num, min) {
-  if(num <= min){
-    return num;
-  }
-  let flag = 2;
-  let res = 0;
-  while(flag <= num / 2 && res <min){
-    if(num % flag === 0){
-      res = flag++
-    } else {
-      flag++;
-      continue;
-    }
-  };
-  res = res || num
-  return res;
-}
-
-getFactorNumber(10, 5)
-
-// ;(function () {
-//   function emptyFunction () {}
-//   for(let key in 0console) {
-//     var item = console[key]
-//     if(typeof item === 'function') {
-//       console[key] = emptyFunction
-//     }
-//   }
-// })();
 
 
 </script>

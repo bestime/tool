@@ -3,12 +3,15 @@
   "version": "3.0.6",
   "description": " javascript tool",
   "main": "src/index.js",
-  "dependencies": {},
+  "dependencies": {
+    
+  },
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/plugin-transform-block-scoping": "^7.12.12",
     "@babel/plugin-transform-shorthand-properties": "^7.12.1",
     "@babel/plugin-transform-template-literals": "^7.12.1",
+    "rollup": "^2.61.0",
     "@rollup/plugin-babel": "^5.2.2",
     "rollup-plugin-banner": "^0.2.1",
     "rollup-plugin-uglify": "^6.0.4"
