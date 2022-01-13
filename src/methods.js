@@ -111,6 +111,7 @@ import polyfillCancelAnimationFrame from './split/polyfillCancelAnimationFrame'
 import polyfillRequestAnimationFrame from './split/polyfillRequestAnimationFrame'
 import deepArrayHasSameKey from './split/deepArrayHasSameKey'
 import arryoToMap from './split/arryoToMap'
+import flatArrayToTree from './split/flatArrayToTree'
 
 export default {
   polyfillCancelAnimationFrame,
@@ -227,5 +228,6 @@ export default {
   getRGBfromGradient,
   deepFindItem,
   deepArrayHasSameKey,
-  arryoToMap
+  arryoToMap,
+  flatArrayToTree
 };
