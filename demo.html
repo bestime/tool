@@ -42,15 +42,52 @@
   
 ];
 
-// nodes.reverse()
+nodes.reverse()
 
 
-const treeList = ns.flatArrayToTree(nodes, {
+const treeList = ns.flatArrayToTree(ns.clone(nodes), {
   id: 'dataId',
   pid: 'parentId',
   children: 'childList'
 })
-console.log(treeList)
+
+const ddd2 = jsonTree(ns.clone(nodes),{
+  id: 'dataId',
+  pid: 'parentId',
+  children: 'childList'
+})
+
+console.log(treeList, ddd2)
+
+
+function jsonTree(data, config) {
+  if (!data || data.length === 0) return []
+  const id = config.id || 'id'
+  const pid = config.pid || 'pid'
+  const name = config.label || 'name'
+  const children = config.children || 'children'
+  const idMap = []
+  const jsonTree = []
+
+  data.forEach((v) => {
+    idMap[v[id]] = v
+    v.label = v[name]
+  })
+
+  data.forEach((v) => {
+    const parent = idMap[v[pid]]
+    delete v.parent // 删除{v}的parent和id
+    if (parent && v[id] !== v[pid]) {
+      // eslint-disable-next-line no-unused-expressions
+      !parent[children] && (parent[children] = [])
+      parent[children].push(v)
+    } else {
+      jsonTree.push(v)
+    }
+  })
+  return jsonTree
+}
+
 
 
 </script>
