@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>测试页面444</title>
   <script src="./dist/bestime@beta.min.js"></script>
+  
   <style>
     
   </style>
@@ -14,7 +15,42 @@
 
 
 <script>
+
+  const nameObj = {
+    text: '张三'
+  }
+
+
+
+  const slhxStationSkList = [
+  {
+    name: nameObj,
+    tem: 210,
+  }
+  ]
+  const slhxForecastList = [
+  {
+    name: nameObj,
+    feng: 20
+  }
+  ]
+
+  slhxStationSkList[0].name.text = '李四'
+  slhxStationSkList[0].feng = '666'
+
+  console.log('dddddd', slhxStationSkList, slhxForecastList)
+
+
+
   var deepFindItem = ns.deepFindItem
+  var data00 = {
+    name: 132,
+    list: [
+      1,2,3,4,
+      { name: 123, list: [111] }
+    ]
+  }
+
   var nodes = [
   // {"dataId":'0',"parentId":'null',"name":"总父级"},
   {"dataId":'23.2',"parentId":'23',"name":"2-3-2"},

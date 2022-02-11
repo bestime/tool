@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<table border="1" cellspaceing="10" cellpadding="10">
+  <tr>
+    <td>类目名</td>
+    <td>收入</td>
+    <td>次数</td>
+    <td>总计</td>
+    <td>备注</td>
+  </tr>
+</table>
+
+<script>
+
+;(function () {
+  const moneyList = [
+    {
+      name: '工资',
+      money: 10000,
+      count: 1,
+      content: '工资收入'
+    },
+    {
+      name: '五险和个税',
+      money: -500,
+      count: 1,
+      content: ''
+    },
+    {
+      name: '房贷',
+      money: -2200,
+      count: 1,
+      content: '每月房贷'
+    },
+    {
+      name: '水电气',
+      money: -100,
+      count: 1,
+      content: '具体没算过多少'
+    },
+    {
+      name: '轻轨',
+      money: -12,
+      count: 30,
+      content: '单次6元，一日两次12元'
+    },
+    {
+      name: '早饭',
+      money: -10,
+      count: 30,
+      content: ''
+    },
+    {
+      name: '午饭',
+      money: -16,
+      count: 30,
+      content: ''
+    },
+    {
+      name: '晚饭',
+      money: -16,
+      count: 30,
+      content: ''
+    },
+  ]
+
+
+  const total = moneyList.reduce((total, item) => {
+    return total + item.money * item.count
+  }, 0)
+
+  moneyList.push({
+    name: '总计',
+    money: total,
+    count: 1,
+    content: ''
+  })
+
+  const oTable = document.getElementsByTagName('table')[0]
+  const htmlList = moneyList.map(item => {
+    return `
+      <tr>
+        <td>${item.name}</td>
+        <td>${item.money}</td>
+        <td>${item.count}</td>
+        <td>${item.money*item.count}</td>
+        <td>${item.content}</td>
+      </tr>
+    `
+  })
+
+  oTable.innerHTML += htmlList.join('')
+  
+})();
+</script>
+
+</body>
+</html>
