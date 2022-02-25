@@ -72,7 +72,7 @@ export default function flatArrayToTree (list, props) {
     var item = list[a]
     item[children] = _Array(item[children])
     father = deepFindItem(list, function (c) {
-      return c[id] != null && c[id] === item[pid]
+      return c[id] != null && c[id] != item[id] && c[id] === item[pid]
     }, children)
     
     if (father) {
