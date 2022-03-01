@@ -16,16 +16,25 @@
 
 <script>
 
-class Bestime {
-  #mark = '私有的'
-  name = '百思探'
-  showMark () {
-    console.log(this.#mark)
-  }
+function sleep (time) {
+  return new Promise(function (resolve, reject) {
+    if(time>1000) {
+      setTimeout(() => {
+        resolve(time + '毫秒')
+      }, 500)
+    } else {
+      reject('参数错误')
+    }
+  })
 }
 
-const testVB = new Bestime()
-console.log(testVB)
+(async function () {
+  const res = await Promise.all([
+    ['测试'],
+    sleep(2000)
+  ])
+  console.log('谷歌', res)
+})();
 
 </script>
 </body>
