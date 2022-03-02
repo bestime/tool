@@ -3,9 +3,7 @@
   "version": "3.0.6",
   "description": " javascript tool",
   "main": "src/index.js",
-  "dependencies": {
-    
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/plugin-transform-block-scoping": "^7.12.12",

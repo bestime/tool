@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const query = demo('user[job][category][mode]=前端')
+    console.log('解析结果', query)
+
+
+    function demo (str) {   
+      const result = {}
+      // 假设是json数据，没考虑数组，数字，字符串等其它格式
+      str.replace(/(.*?)(\[.*)/, function (_, key, lastValue) {
+        result[key] = result[key] || {}
+        deepKey(result[key], key, lastValue, function () {
+          console.log('步骤日志 =>', JSON.stringify(result))
+        })
+      })
+      return result
+    }
+
+    function deepKey (obj, key, lastValue, callback) {
+      lastValue.replace(/^\[(.*?)\](.*)?/, function (_, pre, next) {
+        if(/\[/.test(next)) {
+          obj[pre] = obj[pre] ||　{} // 这里简单判断，实际要复杂一点
+          callback()
+          deepKey(obj[pre], pre, next, callback)
+        } else {
+          obj[pre] = decodeURI(next).replace(/=/, '')
+          callback()
+        }
+      })
+    }
+  </script>
+</body>
+</html>

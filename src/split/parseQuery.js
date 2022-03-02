@@ -17,6 +17,7 @@ const defaultSplitArr = [_NULL, _NULL]
  * @param {*} originValue 
  */
 function handleDeepKey (res, more, originValue) {
+	
 	var sb = splitSymbol(more)
 	var nowKey = sb[0]
 
@@ -63,6 +64,7 @@ function splitSymbol (str) {
 		next = b
 		return '';
 	})
+
 	return [pre, next]
 }
 
@@ -108,6 +110,8 @@ export default function parseQuery (str) {
 				} else {
 					res[k] = _Object(res[k])
 				}
+
+				console.log('刚刚', JSON.stringify(res), k, '=>',m, '=>',val)
 				handleDeepKey(res[k], m, val);
 			});
 	

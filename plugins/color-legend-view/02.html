@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>色斑标插件</title>
+  <script src="./ColorLegendCanvas.js"></script>
+</head>
+<body>
+  <script>
+    var colorList01 = [
+      [0,0,255],
+      [0,255,0],
+      [255,255,0],
+      [255,0,0]
+    ]
+
+    var iColor01 = new ColorLegendCanvas()
+    iColor01.autoFragment(-10, 57, colorList01)
+    console.log('iColor01', iColor01)
+  </script>
+</body>
+
+</html>

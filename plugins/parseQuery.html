@@ -10,7 +10,7 @@
 	<script src="../dist/bestime@beta.min.js"></script>
 	
 
-<script>
+<script>;(function () {
 function testParseDemo (json) {
   var dataToUrlStr = ns.param(json)
   var _parseData = ns.parseQuery(dataToUrlStr)
@@ -44,6 +44,8 @@ testParseDemo({
 		]
 	]
 })
+
+return;
 
 
 // => 序列化数据： a=1
@@ -212,6 +214,6 @@ testParseDemo({
 		switch: true
 	}
 });
-</script>
+})();</script>
 </body>
 </html>

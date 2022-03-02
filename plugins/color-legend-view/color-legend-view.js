@@ -170,7 +170,7 @@ var ColorLegendView = (function () {
       }
       this.ctx.fillStyle = this.tickColor
       this.ctx.fillRect(this.colorWidth, item.y, keduWidth, 1)
-      this.ctx.fillStyle = this.fontColor
+      this.ctx.fillStyle = this.fontColor/*  */
       this.ctx.fillText(item.label, textSpace+this.colorWidth+keduWidth, item.y);
     })
   }

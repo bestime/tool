@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>桥思科技-项目预览导航</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    li {
+      border-bottom: #ddd solid 1px;
+      user-select: none;
+      cursor: pointer;
+      padding: 0 0 0 60px;
+      font-size: 0;
+    }
+    li:hover {
+      background: #eee;
+    }
+
+    a {
+      text-decoration: none;
+      color: #444;
+      font-size: 16px;
+      display: block;
+      line-height: 60px;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    ;(function (previewList) {
+      var oUl = document.createElement('ul')
+      oUl.innerHTML = previewList.map(function (item, index) {
+        return `
+          <li>
+            <a href="${item.url}" target="_bank">${index+1}、${item.name}</a>
+          </li>
+        `
+      }).join('')
+      document.body.appendChild(oUl)
+    })([
+      {
+        name: '酉阳',
+        url: 'http://www.baidu.com'
+      },
+      {
+        name: '测试',
+        url: 'http://www.baidu.com'
+      },
+    ]);
+  </script>
+</body>
+</html>
