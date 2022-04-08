@@ -12,7 +12,7 @@ import { ZERO_STRING } from './basic/constant'
  * 
  * @param {Number|String} variate 数字或长得像数字的字符串
  * @param {Number} [digit=0] <正整数> 采用几位小数
- * @param {Boolean} [rejection=false] 是否社区末尾的所有0
+ * @param {Boolean} [rejection=false] 是否舍去末尾的所有0
  * 
  * @return {String}
  */

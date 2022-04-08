@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="./css/mapbox-gl.css" rel="stylesheet">
+  <script src="./js/mapbox-gl.js"></script>
+  <script src="./js/turf.min.js"></script>
+  <script src="./js/FlyByPoints.js"></script>
+
+  <style>
+    h1 {
+      text-shadow: 1px 2px 0 white, -1px -2px 0 white;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+  <!-- <h1>测试文字</h1> -->
+  <div id="map" style="width:1000px;height:800px;"></div>
+  <script>
+    // TO MAKE THE MAP APPEAR YOU MUST
+    // ADD YOUR ACCESS TOKEN FROM
+    // https://account.mapbox.com
+    mapboxgl.accessToken = "pk.eyJ1IjoiY3F5aiIsImEiOiJja3d2cXcydTYyMnY1Mm5vMmh6N3d2a2s2In0.A4I9DmsUsrdbZuMRr922MQ"
+
+
+
+  const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'http://172.24.5.171:8095/geoserver/www/mapbox/styles/sitian/sitian.json',
+      center: [107.542735, 29.146182],
+    zoom: 4.2,
+    pitch: 40,
+  });
+
+  map.on('load', function () {
+    const iFly = new FlyByPoints(map)
+    iFly.add({
+      id: "a",
+      color: 'red',
+      path: [
+        {
+          name: "北京",
+          value: 0,
+          coordinate: [116.4551, 40.2539],
+        },
+        {
+          name: "上海",
+          value: 95,
+          coordinate: [121.4648, 31.2891],
+        },
+      ],
+    })
+
+    iFly.add({
+      id: "b",
+      color: 'red',
+      path: [
+        {
+          name: "北京",
+          value: 0,
+          coordinate: [116.4551, 40.2539],
+        },
+        {
+          name: "重庆",
+          value: 60,
+          coordinate: [107.542735, 29.146182],
+        },
+      ],
+    })
+  })
+
+  
+  </script>
+</body>
+</html>

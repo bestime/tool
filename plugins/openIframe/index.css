@@ -1,0 +1,51 @@
+.openIframe-wrapper {
+  position: absolute;
+  left:0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 999999;
+}
+
+.openIframe-title b {
+  width: 26px;
+  height: 26px;
+  background-image: url("./close.png");
+  background-repeat: no-repeat;
+  background-size: 18px 18px;
+  background-position: 4px 4px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.15s;
+}
+
+.openIframe-title b:hover {
+  opacity: 1;
+}
+
+
+.openIframe-title {
+  position:relative;
+  height: 40px;
+  font-size: 14px;
+  background:#1e7cb8;
+  color: #fff;
+  line-height: 40px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.openIframe-wrapper iframe{
+  flex: 1;
+  flex-shrink: 0;
+  width:100%;
+  height: 100%;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: #444;
+}

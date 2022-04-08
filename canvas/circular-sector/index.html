@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>圆形截图</title>
 
   <style>
     @keyframes centerpage001buttondscaleshow {
@@ -37,6 +37,7 @@
   
 </head>
 <body>
+  
   <div class="f1we748" style="z-index:2;">
     <canvas id="demo" style="width: 1000px;height: 1000px;"></canvas>
   </div>
@@ -46,11 +47,12 @@
   <script type="module">
     import  CircularSector  from './index.js?t=38';
 
+
     var oCircle = new CircularSector(document.getElementById('demo'), {
-      count: 20,
-      spaceAngle: 2,
-      thick: 150,
-      color: 'rgba(54,207,237,0.1)'
+      count: 30,
+      spaceAngle: 4,
+      thick: 200,
+      color: '#faa51b'
     })
 
     var oCircle = new CircularSector(document.getElementById('demo2'), {
@@ -59,7 +61,6 @@
       thick: 100,
       color: 'blue'
     })
-    console.log(CircularSector)
 
   </script>
 </body>
