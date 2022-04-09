@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="../static/css/mapbox-gl.css" rel="stylesheet" />
+    <script src="../static/js/mapbox-gl.js"></script>
+    <script src="../static/js/turf.min.js"></script>
+    <script src="../dist//MapboxPluginMigrate@1.0.0.min.js"></script>
+    <script src="../static/js/mapboxCircleImage.js"></script>
+
+    <style>
+      h1 {
+        text-shadow: 1px 2px 0 white, -1px -2px 0 white;
+        background: #000;
+      }
+    </style>
+  </head>
+  <body style="opacity: 0">
+    <!-- <h1>测试文字</h1> -->
+    <div>
+      <button onclick="toDispose()">销毁实例</button>
+      <br />
+      <br />
+
+      <button onclick="toAddPoint('a')">添加点①</button>
+      <button onclick="toDeletePoint('a')">删除</button>
+
+      <br />
+      <br />
+
+      <button onclick="toAddPoint('b')">添加点②</button>
+      <button onclick="toDeletePoint('b')">删除</button>
+    </div>
+    <div id="map" style="width: 1000px; height: 800px"></div>
+    <script>
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiY3F5aiIsImEiOiJja3d2cXcydTYyMnY1Mm5vMmh6N3d2a2s2In0.A4I9DmsUsrdbZuMRr922MQ"
+
+      const styleCustom = {
+        version: 8,
+
+        sources: {},
+        layers: [
+          {
+            id: "background",
+            type: "background",
+            layout: {
+              visibility: "visible",
+            },
+            paint: {
+              "background-color": "#000",
+            },
+          },
+        ],
+      }
+
+      const map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/light-v10",
+        center: [107.542735, 29.146182],
+        zoom: 4.2,
+        pitch: 40,
+      })
+
+      var iFly, demoData;
+      
+      map.on("load", function () {
+        map.loadImage("../static/images/1.png", (err, flyIcon) => {
+          map.loadImage("../static/images/wendu.png", (err, wdIcon) => {
+            document.body.style.opacity = "1"
+            iFly = new MapboxPluginMigrate('随机ID', map, turf)
+            demoData = {
+              a: {
+                id: "a",
+                speed: 0.01,
+                color: "rgb(255, 0, 0)",
+                flyIcon: flyIcon,
+                targetIcon: mapboxCircleImage([255, 0, 0], 200),
+                curveness: 0.5,
+                path: [
+                  {
+                    name: "北京",
+                    value: 0,
+                    coordinate: [116.4551, 40.2539],
+                  },
+                  {
+                    name: "上海",
+                    value: 95,
+                    coordinate: [121.4648, 31.2891],
+                  },
+                ],
+              },
+              b: {
+                id: "b",
+                color: "rgb(0, 0, 255)",
+                curveness: -0.2,
+                speed: 0.005,
+                flyIcon: wdIcon,
+                targetIcon: mapboxCircleImage([0, 0, 255], 200),
+                path: [
+                  {
+                    name: "北京",
+                    value: 0,
+                    coordinate: [116.4551, 40.2539],
+                  },
+                  {
+                    name: "重庆",
+                    value: 60,
+                    coordinate: [107.542735, 29.146182],
+                  },
+                ],
+              },
+            }
+          })
+        })
+      })
+
+      function toAddPoint(id) {
+        if (iFly) {
+          iFly.add(demoData[id])
+        }
+      }
+
+      function toDeletePoint(id) {
+        if (iFly) {
+          iFly.removeById(id)
+        }
+      }
+
+      function toDispose() {
+        if (iFly) {
+          iFly.dispose()
+        }
+      }
+    </script>
+  </body>
+</html>
