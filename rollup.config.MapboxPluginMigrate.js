@@ -31,7 +31,7 @@ export default {
       '',
       '@QQ 1174295440',
       '@author Jiang Yang (Bestime)',
-      '@see https://github.com/bestime/tool',
+      '@see https://github.com/bestime/mapbox-plugin',
       `@update ${formatTime(null, new Date())}`,
     ].join('\n'))
   ]

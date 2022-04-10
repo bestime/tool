@@ -37,7 +37,7 @@
     <div id="map" style="width: 1000px; height: 800px"></div>
     <script>
       mapboxgl.accessToken =
-        "pk.eyJ1IjoiY3F5aiIsImEiOiJja3d2cXcydTYyMnY1Mm5vMmh6N3d2a2s2In0.A4I9DmsUsrdbZuMRr922MQ"
+        "pk.eyJ1IjoiZXhhbXBsZXMiLCJhIjoiY2p1dHRybDR5MGJuZjQzcGhrZ2doeGgwNyJ9.a-vxW4UaxOoUMWUTGnEArw"
 
       const styleCustom = {
         version: 8,
@@ -51,7 +51,7 @@
               visibility: "visible",
             },
             paint: {
-              "background-color": "#000",
+              "background-color": "#eee",
             },
           },
         ],
@@ -69,52 +69,142 @@
       
       map.on("load", function () {
         map.loadImage("../static/images/1.png", (err, flyIcon) => {
-          map.loadImage("../static/images/wendu.png", (err, wdIcon) => {
-            document.body.style.opacity = "1"
-            iFly = new MapboxPluginMigrate('随机ID', map, turf)
-            demoData = {
-              a: {
-                id: "a",
-                speed: 0.01,
-                color: "rgb(255, 0, 0)",
-                flyIcon: flyIcon,
-                targetIcon: mapboxCircleImage([255, 0, 0], 200),
-                curveness: 0.5,
-                path: [
-                  {
-                    name: "北京",
-                    value: 0,
-                    coordinate: [116.4551, 40.2539],
-                  },
-                  {
-                    name: "上海",
-                    value: 95,
-                    coordinate: [121.4648, 31.2891],
-                  },
-                ],
-              },
-              b: {
-                id: "b",
-                color: "rgb(0, 0, 255)",
-                curveness: -0.2,
-                speed: 0.005,
-                flyIcon: wdIcon,
-                targetIcon: mapboxCircleImage([0, 0, 255], 200),
-                path: [
-                  {
-                    name: "北京",
-                    value: 0,
-                    coordinate: [116.4551, 40.2539],
-                  },
-                  {
-                    name: "重庆",
-                    value: 60,
-                    coordinate: [107.542735, 29.146182],
-                  },
-                ],
-              },
-            }
-          })
+          map.loadImage("../static/images/wendu.png", (err, icon02) => {
+            map.loadImage("../static/images/6.png", (err, icon03) => {
+              // 开始
+              document.body.style.opacity = "1"
+              iFly = new MapboxPluginMigrate('随机ID', map, turf)
+              demoData = {
+                a: {
+                  id: "a",
+                  speed: 0.01,
+                  color: "rgb(255, 0, 0)",
+                  flyIcon: flyIcon,
+                  targetIcon: mapboxCircleImage([255, 0, 0], 200),
+                  curveness: 0.5,
+                  path: [
+                    {
+                      name: "北京",
+                      value: 0,
+                      coordinate: [116.4551, 40.2539],
+                    },
+                    {
+                      name: "上海",
+                      value: 95,
+                      coordinate: [121.4648, 31.2891],
+                    },
+                  ],
+                },
+                b: {
+                  id: "b",
+                  color: "rgb(0, 0, 255)",
+                  curveness: -0.2,
+                  speed: 0.005,
+                  flyIcon: icon02,
+                  targetIcon: mapboxCircleImage([0, 0, 255], 200),
+                  path: [
+                    {
+                      name: "北京",
+                      value: 0,
+                      coordinate: [116.4551, 40.2539],
+                    },
+                    {
+                      name: "重庆",
+                      value: 60,
+                      coordinate: [107.542735, 29.146182],
+                    },
+                  ],
+                },
+                c: {
+                  id: "c",
+                  color: "rgb(255, 0, 255)",
+                  curveness: -0.2,
+                  speed: 0.002,
+                  flyIcon: flyIcon,
+                  targetIcon: mapboxCircleImage([255, 0, 255], 500),
+                  path: [
+                    {
+                      name: "北京",
+                      value: 0,
+                      coordinate: [116.4551, 40.2539],
+                    },
+                    {
+                      name: "测试",
+                      value: 60,
+                      coordinate: [88.542735, 40.146182],
+                    },
+                  ],
+                },
+                d: {
+                  id: "d",
+                  color: "rgb(0, 0, 0)",
+                  curveness: -0.2,
+                  speed: 0.002,
+                  flyIcon: icon02,
+                  targetIcon: mapboxCircleImage([0, 0, 0], 100),
+                  path: [
+                    {
+                      name: "北京",
+                      value: 0,
+                      coordinate: [116.4551, 40.2539],
+                    },
+                    {
+                      name: "测试2",
+                      value: 60,
+                      coordinate: [88.542735, 35.146182],
+                    },
+                  ],
+                },
+                e: {
+                  id: "e",
+                  color: "rgb(154, 100, 5)",
+                  curveness: -0.2,
+                  speed: 0.01,
+                  flyIcon: icon02,
+                  targetIcon: mapboxCircleImage([154, 100, 5], 100),
+                  path: [
+                    {
+                      name: "北京",
+                      value: 0,
+                      coordinate: [116.4551, 40.2539],
+                    },
+                    {
+                      name: "测试2",
+                      value: 60,
+                      coordinate: [92.542735, 30.146182],
+                    },
+                  ],
+                },
+                f: {
+                  id: "f",
+                  color: "rgb(154, 100, 5)",
+                  curveness: 0.5,
+                  speed: 0.01,
+                  flyIcon: icon03,
+                  targetIcon: mapboxCircleImage([154, 100, 5], 100),
+                  path: [
+                    {
+                      name: "北京",
+                      value: 0,
+                      coordinate: [116.4551, 40.2539],
+                    },
+                    {
+                      name: "测试2",
+                      value: 60,
+                      coordinate: [123.4648, 40.2891],
+                    },
+                  ],
+                },
+              }
+              
+              toAddPoint('c')
+              toAddPoint('d')
+              toAddPoint('e')
+              toAddPoint('f')
+              
+            })
+              // 结束
+            })
         })
       })
 
