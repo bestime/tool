@@ -242,20 +242,14 @@ MapboxPluginMigrate.prototype.add = function (line) {
 
   if (existPointId) return
 
-  const iconId = "targetIcon-" + line.id
-  !map.hasImage(iconId) &&
-    map.addImage(iconId, line.targetIcon, { pixelRatio: 2 })
-
-  const flyIconId = "flyicon-" + line.id
-  !map.hasImage(flyIconId) && map.addImage(flyIconId, line.flyIcon)
   
   this.records.push({
     id: line.id,
     delete: false,
     speed: line.speed,
     curveness: line.curveness,
-    flyIconId,
-    targetIcon: iconId,
+    flyIconId: line.iconFly,
+    targetIcon: line.iconTarget,
     direction: 1, // 当前运动方向
     percent: 0, // 当前百分比
     data: line, // 原始数据

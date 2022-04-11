@@ -68,9 +68,21 @@
       var iFly, demoData;
       
       map.on("load", function () {
-        map.loadImage("../static/images/1.png", (err, flyIcon) => {
-          map.loadImage("../static/images/wendu.png", (err, icon02) => {
-            map.loadImage("../static/images/6.png", (err, icon03) => {
+        map.loadImage("../static/images/1.png", (err, v) => {
+          map.loadImage("../static/images/wendu.png", (err, v2) => {
+            map.loadImage("../static/images/6.png", (err, v3) => {
+              map.addImage('icon01', v)
+              map.addImage('icon02', v2)
+              map.addImage('icon03', v3)
+
+              map.addImage('ped01', mapboxCircleImage([255, 0, 0], 200), { pixelRatio: 2 })
+              map.addImage('ped02', mapboxCircleImage([0, 0, 255], 200), { pixelRatio: 2 })
+              map.addImage('ped03', mapboxCircleImage([255, 0, 255], 500), { pixelRatio: 2 })
+              map.addImage('ped04', mapboxCircleImage([0, 0, 0], 100), { pixelRatio: 2 })
+              map.addImage('ped05', mapboxCircleImage([154, 100, 5], 100), { pixelRatio: 2 })
+
+              
+              
               // 开始
               document.body.style.opacity = "1"
               iFly = new MapboxPluginMigrate('随机ID', map, turf)
@@ -79,8 +91,8 @@
                   id: "a",
                   speed: 0.01,
                   color: "rgb(255, 0, 0)",
-                  flyIcon: flyIcon,
-                  targetIcon: mapboxCircleImage([255, 0, 0], 200),
+                  iconFly: 'icon01',
+                  iconTarget: 'ped01',
                   curveness: 0.5,
                   path: [
                     {
@@ -100,8 +112,8 @@
                   color: "rgb(0, 0, 255)",
                   curveness: -0.2,
                   speed: 0.005,
-                  flyIcon: icon02,
-                  targetIcon: mapboxCircleImage([0, 0, 255], 200),
+                  iconFly: 'icon02',
+                  iconTarget: 'ped02',
                   path: [
                     {
                       name: "北京",
@@ -120,8 +132,8 @@
                   color: "rgb(255, 0, 255)",
                   curveness: -0.2,
                   speed: 0.002,
-                  flyIcon: flyIcon,
-                  targetIcon: mapboxCircleImage([255, 0, 255], 500),
+                  iconFly: 'icon01',
+                  iconTarget: 'ped03',
                   path: [
                     {
                       name: "北京",
@@ -140,8 +152,8 @@
                   color: "rgb(0, 0, 0)",
                   curveness: -0.2,
                   speed: 0.002,
-                  flyIcon: icon02,
-                  targetIcon: mapboxCircleImage([0, 0, 0], 100),
+                  iconFly: 'icon02',
+                  iconTarget: 'ped04',
                   path: [
                     {
                       name: "北京",
@@ -160,8 +172,8 @@
                   color: "rgb(154, 100, 5)",
                   curveness: -0.2,
                   speed: 0.01,
-                  flyIcon: icon02,
-                  targetIcon: mapboxCircleImage([154, 100, 5], 100),
+                  iconFly: 'icon02',
+                  iconTarget: 'ped04',
                   path: [
                     {
                       name: "北京",
@@ -180,8 +192,8 @@
                   color: "rgb(154, 100, 5)",
                   curveness: 0.5,
                   speed: 0.01,
-                  flyIcon: icon03,
-                  targetIcon: mapboxCircleImage([154, 100, 5], 100),
+                  iconFly: 'icon03',
+                  iconTarget: 'ped05',
                   path: [
                     {
                       name: "北京",
