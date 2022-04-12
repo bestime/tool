@@ -7,6 +7,7 @@ import getType from './split/getType'
 import isString from './split/isString'
 import _Array from './split/_Array'
 import isArray from './split/isArray'
+import timeLine from './split/timeLine'
 import JSONPARSE from './split/JSONPARSE'
 import urlToGet from './split/urlToGet'
 import param from './split/param'
@@ -229,5 +230,6 @@ export default {
   deepFindItem,
   deepArrayHasSameKey,
   arryoToMap,
-  flatArrayToTree
+  flatArrayToTree,
+  timeLine
 };

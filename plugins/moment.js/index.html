@@ -10,12 +10,24 @@
     td {
       padding: 5px 10px;
     }
+
+    td:nth-of-type(1) {
+      text-align:left;
+      background: #eee;
+    }
+    td:nth-of-type(9) {
+      text-align:right;
+      background: #eee;
+    }
+    tr.trheader td {
+      background: #eee;
+    }
   </style>
 </head>
 <body>
 
-  <table id="demo" border="1" borderpadding="1" borderspacing="1">
-    <tr>
+  <table id="demo" border="1" cellspacing="0" cellpadding="0">
+    <tr class="trheader">
       <td>完整时间</td>
       <td>年</td>
       <td>月</td>
@@ -29,76 +41,7 @@
   </table>
 
   <script>
-    function defaultFormatTime (year, month, day, hour, minute, second, milliSecond) {
-      const prefix = [year, month, day].join('-').replace(/(-{2,})|(^-)|(-$)/g, '')
-      const _end = [hour, minute, second, milliSecond].join(':').replace(/(:{2,})|(^:)|((:$))/g, '')
-      
-      return ns.trim((prefix + ' ' + _end))
-    }
-
-    function handleOne (startTime, endTime) {
-      if(startTime.year === endTime.year) {
-        endTime.year = ''
-        if(startTime.month === endTime.month) {
-          endTime.month = ''
-          if(startTime.day === endTime.day) {
-            endTime.day = ''
-            if(startTime.hour === endTime.hour) {
-              endTime.hour = ''
-              if(startTime.minute === endTime.minute) {
-                endTime.minute = ''
-                if(startTime.second === endTime.second) {
-                  endTime.second = ''
-                  if(startTime.milliSecond === endTime.milliSecond) {
-                    endTime.milliSecond = ''
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    function convertShortTime(list) {
-      var result = [], item, date;
-      for(var a = 0; a <list.length; a++) {
-        date = new Date(list[a])
-        
-        result.push({
-          value: list[a],
-          timestamp: +date,
-          _t: ns.convertTime(date)
-        })
-      }
-      result.sort(function (a, b) {
-        return a.millisecond - b.millisecond
-      })
-
-      var startTime, nextItem;
-      
-
-      for(var a = 1; a<result.length; a++) {
-        handleOne(result[0]._t, result[a]._t)
-        console.log(result[0]._t, result[a]._t)
-      }
-
-      const fmtList = []
-      for(var a = 0; a<result.length; a++) {
-        item = result[a]
-        var _t = item._t
-        fmtList.push({
-          value: item.value,
-          timestamp: item.timestamp,
-          label: defaultFormatTime(_t.year, _t.month, _t.day,_t.hour,_t.minute,_t.second,_t.milliSecond),
-          split: _t
-        })
-      }
-
-
-      console.log("result", result, fmtList)
-      return fmtList;
-    }
+    
 
     const list = [
       '2022-04-10 12:10:20',
@@ -106,31 +49,43 @@
       '2022-04-10 12:12:20',
       '2022-04-10 13:00:20',
       '2022-04-10 13:01:20',
+      '2022-04-10 13:05:20',
+      '2022-04-11 00:00:00',
+      '2022-04-11 01:00:00',
+      '2022-04-11 02:00:00',
+      '2022-05-01 00:00:00',
+      '2022-05-02 00:00:00',
     ]
 
-    const newList = convertShortTime(list)
+    const newList = ns.timeLine(list, {
+      year: 'YYYY年',
+      month: 'MM月',
+      day: 'DD日',
+      hour: 'HH:',
+      minute: 'mm:',
+      second: 'ss:',
+      milliSecond: 'SSS',
+    })
+
+    console.log("newList", newList)
+
+
+    function getNumberStr (str) {
+      return str.replace(/\D/g, '')
+    }
 
     document.getElementById('demo').innerHTML += ns.map(newList, function (item) {
-      const gsh = defaultFormatTime(
-        item.split.year,
-        item.split.month,
-        item.split.day,
-        item.split.hour,
-        item.split.minute,
-        item.split.second,
-        '',
-      )
       return `
         <tr>
           <td>${item.value}</td>
-          <td>${item.split.year}</td>
-          <td>${item.split.month}</td>
-          <td>${item.split.day}</td>
-          <td>${item.split.hour}</td>
-          <td>${item.split.minute}</td>
-          <td>${item.split.second}</td>
-          <td>${item.split.milliSecond}</td>
-          <td>${gsh}</td>
+          <td>${getNumberStr(item.split[0])}</td>
+          <td>${getNumberStr(item.split[1])}</td>
+          <td>${getNumberStr(item.split[2])}</td>
+          <td>${getNumberStr(item.split[3])}</td>
+          <td>${getNumberStr(item.split[4])}</td>
+          <td>${getNumberStr(item.split[5])}</td>
+          <td>${getNumberStr(item.split[6])}</td>
+          <td>${item.label}</td>
         </tr>
       `
     }).join('')

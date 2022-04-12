@@ -16,6 +16,7 @@ import PAD_STRING from './PAD_STRING'
  * @return {String} 格式化后的时间
  */
 export default function formatTime (fmt, date) {
+  if(!fmt) return '';
   if(!/\d/.test(date)) return;
   var hour, date;
   var  Y, M, D, m, s, S, t;
