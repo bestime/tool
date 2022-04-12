@@ -141,15 +141,15 @@ declare module "@/utils/bestime/observeElementResize.js" {
 }
 
 declare module "@/utils/bestime/floorFixed.js" {
-  
+
   /**
-   * 
+   *
    * 保留几位小数并直接舍去后面的数（不进行四舍五入）
-   * 
+   *
    * @param {Number|String} variate 数字或长得像数字的字符串
    * @param {Number} [digitCount] <正整数> 采用几位小数
    * @param {Boolean} [rejection=false] 是否舍去末尾的所有0
-   * 
+   *
    * @return {String}
    */
   export default function floorFixed(variate: any, digitCount: number, rejection?:boolean): string
@@ -229,4 +229,11 @@ declare module "@/utils/bestime/mapToArray.js" {
   export default function mapToArray<T>(data: {
     [key: string]: T
   }): Array<T>
+}
+
+declare module "@/utils/bestime/onlyOneAddClass.js" {
+  /**
+   * 只给一组DOM中的其中一个添加某个类名
+   */
+  export default function onlyOneAddClass<T>(list: HTMLCollectionOf<HTMLLIElement>, index: number, className: string): void
 }

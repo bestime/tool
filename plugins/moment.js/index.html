@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../../dist/bestime@beta.min.js"></script>
+  <style>
+    td {
+      padding: 5px 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <table id="demo" border="1" borderpadding="1" borderspacing="1">
+    <tr>
+      <td>完整时间</td>
+      <td>年</td>
+      <td>月</td>
+      <td>日</td>
+      <td>时</td>
+      <td>分</td>
+      <td>秒</td>
+      <td>毫秒</td>
+      <td>格式化</td>
+    </tr>
+  </table>
+
+  <script>
+    function defaultFormatTime (year, month, day, hour, minute, second, milliSecond) {
+      const prefix = [year, month, day].join('-').replace(/(-{2,})|(^-)|(-$)/g, '')
+      const _end = [hour, minute, second, milliSecond].join(':').replace(/(:{2,})|(^:)|((:$))/g, '')
+      
+      return ns.trim((prefix + ' ' + _end))
+    }
+
+    function handleOne (startTime, endTime) {
+      if(startTime.year === endTime.year) {
+        endTime.year = ''
+        if(startTime.month === endTime.month) {
+          endTime.month = ''
+          if(startTime.day === endTime.day) {
+            endTime.day = ''
+            if(startTime.hour === endTime.hour) {
+              endTime.hour = ''
+              if(startTime.minute === endTime.minute) {
+                endTime.minute = ''
+                if(startTime.second === endTime.second) {
+                  endTime.second = ''
+                  if(startTime.milliSecond === endTime.milliSecond) {
+                    endTime.milliSecond = ''
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    function convertShortTime(list) {
+      var result = [], item, date;
+      for(var a = 0; a <list.length; a++) {
+        date = new Date(list[a])
+        
+        result.push({
+          value: list[a],
+          timestamp: +date,
+          _t: ns.convertTime(date)
+        })
+      }
+      result.sort(function (a, b) {
+        return a.millisecond - b.millisecond
+      })
+
+      var startTime, nextItem;
+      
+
+      for(var a = 1; a<result.length; a++) {
+        handleOne(result[0]._t, result[a]._t)
+        console.log(result[0]._t, result[a]._t)
+      }
+
+      const fmtList = []
+      for(var a = 0; a<result.length; a++) {
+        item = result[a]
+        var _t = item._t
+        fmtList.push({
+          value: item.value,
+          timestamp: item.timestamp,
+          label: defaultFormatTime(_t.year, _t.month, _t.day,_t.hour,_t.minute,_t.second,_t.milliSecond),
+          split: _t
+        })
+      }
+
+
+      console.log("result", result, fmtList)
+      return fmtList;
+    }
+
+    const list = [
+      '2022-04-10 12:10:20',
+      '2022-04-10 12:11:20',
+      '2022-04-10 12:12:20',
+      '2022-04-10 13:00:20',
+      '2022-04-10 13:01:20',
+    ]
+
+    const newList = convertShortTime(list)
+
+    document.getElementById('demo').innerHTML += ns.map(newList, function (item) {
+      const gsh = defaultFormatTime(
+        item.split.year,
+        item.split.month,
+        item.split.day,
+        item.split.hour,
+        item.split.minute,
+        item.split.second,
+        '',
+      )
+      return `
+        <tr>
+          <td>${item.value}</td>
+          <td>${item.split.year}</td>
+          <td>${item.split.month}</td>
+          <td>${item.split.day}</td>
+          <td>${item.split.hour}</td>
+          <td>${item.split.minute}</td>
+          <td>${item.split.second}</td>
+          <td>${item.split.milliSecond}</td>
+          <td>${gsh}</td>
+        </tr>
+      `
+    }).join('')
+  </script>
+  
+</body>
+</html>
