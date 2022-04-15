@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../dist/bestime@beta.min.js"></script>
+    <script src="../static/js/jquery1.9.1.min.js"></script>
+    <link href="../static/css/mapbox-gl.css" rel="stylesheet" />
+    <script src="../static/js/mapbox-gl.js"></script>
+    <script src="../static/js/turf.min.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/Turf.js/6.5.0/turf.min.js"></script> -->
+    <script src="../dist/MapboxPluginFlyPath@1.0.0.min.js"></script>
+    
+
+<script>
+
+
+
+</script>
+
+
+
+    <style>
+      h1 {
+        text-shadow: 1px 2px 0 white, -1px -2px 0 white;
+        background: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <button onclick="toDispose()">销毁</button>
+    <div id="map" style="width: 1000px; height: 800px"></div>
+    <script>
+
+      /**
+       * 获取json文件
+       */
+      function getJsonFile (url) {
+        return new Promise(resolve => {
+          $.getJSON(url)
+            .success(function (res) {
+              resolve(res)
+            })
+            .error(function (err) {
+              resolve()
+            })
+        })
+      }
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiZXhhbXBsZXMiLCJhIjoiY2p1dHRybDR5MGJuZjQzcGhrZ2doeGgwNyJ9.a-vxW4UaxOoUMWUTGnEArw"
+
+      const styleCustom = {
+        version: 8,
+
+        sources: {},
+        layers: [
+          {
+            id: "background",
+            type: "background",
+            layout: {
+              visibility: "visible",
+            },
+            paint: {
+              "background-color": "red",
+            },
+          },
+        ],
+      }
+
+      const map = new mapboxgl.Map({
+        container: "map",
+        style: styleCustom || "mapbox://styles/mapbox/light-v10",
+        center: [107.542735, 29.546182],
+        zoom: 8,
+        pitch: 40,
+      })
+
+    
+
+      var iFly
+      
+      map.on("load", async function () {
+        const trackJson = await getJsonFile('../static/json/track.json')
+        
+        iFly = new MapboxPluginFlyPath('DKDKO',map, turf, {
+          step: 1000,
+          curveness: 1,
+          iconPath: '../static/images/fj4.png'
+        })
+        
+        iFly.play(trackJson.data, function (coordinate, percent, isEnd) {
+          
+          // console.log('当前坐标',coordinate, percent)
+          if(percent===0) {
+            // console.log("新的起点", coordinate)
+          }
+          if(isEnd) {
+            console.log("跑完了", percent, isEnd)
+          }
+        })
+      })
+
+
+      function toDispose () {
+        iFly && iFly.dispose()
+      }
+    </script>
+  </body>
+</html>

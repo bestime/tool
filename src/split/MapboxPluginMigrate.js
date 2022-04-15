@@ -1,6 +1,6 @@
-import getQuadraticBezierPath from "./split/getQuadraticBezierPath.js"
-import { removeLayer, removeImage, removeSource } from "./split/mapboxUtils"
-import some from "./split/some.js"
+import getQuadraticBezierPath from "./getQuadraticBezierPath.js"
+import { removeLayer, removeImage, removeSource } from "./mapboxUtils"
+import some from "./some.js"
 const NAME = "MapboxPluginMigrate"
 let turfInject
 
@@ -196,6 +196,10 @@ MapboxPluginMigrate.prototype.startPlay = function () {
       } else if (item.percent <= 0) {
         item.percent = 0
         item.direction = 1
+        if(item.once) {
+          this.removeById(item.id)
+        }
+
       }
 
       const prePoint = item.coordinates
@@ -246,6 +250,7 @@ MapboxPluginMigrate.prototype.add = function (line) {
   this.records.push({
     id: line.id,
     delete: false,
+    once: line.once,
     speed: line.speed,
     curveness: line.curveness,
     flyIconId: line.iconFly,

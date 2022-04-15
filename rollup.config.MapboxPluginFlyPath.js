@@ -2,16 +2,16 @@ import { uglify } from 'rollup-plugin-uglify'
 import banner from 'rollup-plugin-banner'
 import babel from '@rollup/plugin-babel';
 
-const TOOL_NAME = `MapboxPluginMigrate@1.0.1.min.js`;
+const TOOL_NAME = `MapboxPluginFlyPath@1.0.0.min.js`;
 import formatTime from './src/split/formatTime'
 
 export default {
-  input: './src/split/MapboxPluginMigrate.js',
+  input: './src/split/MapboxPluginFlyPath.js',
   output: {
     file: 'dist/' + TOOL_NAME,
     format: 'iife',    
     strict: false,
-    name: 'MapboxPluginMigrate',
+    name: 'MapboxPluginFlyPath',
     indent: false,
     interop: false
   },
@@ -27,7 +27,7 @@ export default {
       }
     }),
     banner([
-      `mapbox插件，类似迁徙图 ${TOOL_NAME}`,
+      `mapbox路径运动 ${TOOL_NAME}`,
       '',
       '@QQ 1174295440',
       '@author Jiang Yang (Bestime)',

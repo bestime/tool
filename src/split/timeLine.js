@@ -1,13 +1,7 @@
 import clone from './clone'
 import formatTime from './formatTime'
-import trim from './trim'
 import assign from './assign'
-
-function arrToLabel (list) {
-  list = clone(list)
-  var prefix = list.splice(0, 3)
-  return trim(prefix.join('') + ' ' + list.join(''))
-}
+import trim from './trim'
 
 function handleOne (startTime, endTime) {
   var refer = startTime.split[0]
@@ -74,8 +68,8 @@ export default function timeLine (list, format) {
 
   for(var a = 0; a<result.length; a++) {
     item = result[a]
-    item.label = arrToLabel(item.split[1])
     item.split = item.split[1]
+    item.label = trim(item.split.join(''))
   }
 
   return result;

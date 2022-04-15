@@ -16,7 +16,8 @@
   },
   "scripts": {
     "build@tool": "rollup --config 'rollup.config.tool.js'",
-    "build@MapboxPluginMigrate": "rollup --config rollup.config.MapboxPluginMigrate.js"
+    "build@MapboxPluginMigrate": "rollup --config rollup.config.MapboxPluginMigrate.js",
+    "build@MapboxPluginFlyPath": "rollup --config rollup.config.MapboxPluginFlyPath.js"
   },
   "author": "bestime1020@gmail.com",
   "license": "ISC",

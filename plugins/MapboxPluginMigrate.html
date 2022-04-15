@@ -8,7 +8,7 @@
     <link href="../static/css/mapbox-gl.css" rel="stylesheet" />
     <script src="../static/js/mapbox-gl.js"></script>
     <script src="../static/js/turf.min.js"></script>
-    <script src="../dist//MapboxPluginMigrate@1.0.0.min.js"></script>
+    <script src="../dist//MapboxPluginMigrate@1.0.1.min.js"></script>
     <script src="../static/js/mapboxCircleImage.js"></script>
 
     <style>
@@ -51,7 +51,7 @@
               visibility: "visible",
             },
             paint: {
-              "background-color": "#eee",
+              "background-color": "red",
             },
           },
         ],
@@ -59,15 +59,18 @@
 
       const map = new mapboxgl.Map({
         container: "map",
-        style: "mapbox://styles/mapbox/light-v10",
+        style: styleCustom || "mapbox://styles/mapbox/light-v10",
         center: [107.542735, 29.146182],
         zoom: 4.2,
         pitch: 40,
       })
 
+ 
+
       var iFly, demoData;
       
       map.on("load", function () {
+        
         map.loadImage("../static/images/1.png", (err, v) => {
           map.loadImage("../static/images/wendu.png", (err, v2) => {
             map.loadImage("../static/images/6.png", (err, v3) => {
@@ -89,6 +92,7 @@
               demoData = {
                 a: {
                   id: "a",
+                  once: true,
                   speed: 0.01,
                   color: "rgb(255, 0, 0)",
                   iconFly: 'icon01',
@@ -109,6 +113,7 @@
                 },
                 b: {
                   id: "b",
+                  once: true,
                   color: "rgb(0, 0, 255)",
                   curveness: -0.2,
                   speed: 0.005,
