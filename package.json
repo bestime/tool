@@ -15,9 +15,7 @@
     "rollup-plugin-uglify": "^6.0.4"
   },
   "scripts": {
-    "build@tool": "rollup --config 'rollup.config.tool.js'",
-    "build@MapboxPluginMigrate": "rollup --config rollup.config.MapboxPluginMigrate.js",
-    "build@MapboxPluginFlyPath": "rollup --config rollup.config.MapboxPluginFlyPath.js"
+    "build": "rollup --config 'rollup.config.tool.js'"
   },
   "author": "bestime1020@gmail.com",
   "license": "ISC",
