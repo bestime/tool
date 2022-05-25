@@ -114,6 +114,7 @@ import deepArrayHasSameKey from './split/deepArrayHasSameKey'
 import arryoToMap from './split/arryoToMap'
 import flatArrayToTree from './split/flatArrayToTree'
 import getQuadraticBezierPath from './split/getQuadraticBezierPath'
+import deepFindTreePath from './split/deepFindTreePath'
 
 export default {
   polyfillCancelAnimationFrame,
@@ -233,5 +234,6 @@ export default {
   arryoToMap,
   flatArrayToTree,
   timeLine,
-  getQuadraticBezierPath
+  getQuadraticBezierPath,
+  deepFindTreePath
 };

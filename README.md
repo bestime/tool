@@ -94,7 +94,8 @@ git fetch origin <branch>
 git reset --hard FETCH_HEAD
 
 // 创建并切换到分支
-git checkout -b <branch>
+git checkout --orphan -b <branch>
+git rm -rf .
 
 // 拉取指定分支并到指定文件夹
 git clone -b 分支名 仓库地址 本地目录

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <script src="./dom-to-image.min.js"></script>
+
+  <style>
+    @font-face {
+      font-family: "DOUYU";
+      src: url('../../static/font/douyuFont.otf');
+      margin-top: 10px;
+    }
+
+    #box {
+      font-family: DOUYU;
+      width: 500px;
+      background: red;
+      overflow: hidden;
+      position: relative;
+      border: pink solid 10px;
+      padding: 50px;
+      box-sizing: border-box;
+      margin: 0;
+    }
+    h1 {
+      text-align:left;
+      background: blue;
+      color: #fff;
+    }
+
+    h2 {
+      text-align: right;
+      background: yellow;
+      margin: 10px;
+    }
+
+    .float {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      background: #000;
+    }
+
+    .ul {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    li {
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      background: green;
+      color: #fff;
+      list-style: none;
+      margin: 10px;
+    }
+
+    .bgimg {
+      padding: 10px;
+      background: skyblue;
+      color: #000;
+      background-image: url("../../static//images/wendu.png");
+    }
+  </style>
+</head>
+<body>
+  <button id="create-image">生成图片</button>
+  <div id="box">
+    <h1>左边</h1>
+    <h2>右边</h2>
+    <ul class="ul">
+      <li>1</li>
+      <li>2</li>
+      <li>2</li>
+    </ul>
+    <span class="bgimg">背景图片</span>
+    <img src="../../static/images/default.gif"/>
+    <img src="../../static/images/fj4.png"/>
+    <img src="../../static/images/wendu.png"/>
+    <img src="../../static/images/1.png"/>
+    <div class="float">浮动模块</div>
+  </div>
+  <br/>
+  
+
+  <script>
+    
+
+    document.getElementById('create-image').onclick = function () {
+      var node = document.getElementById('box');
+
+      domtoimage.toPng(node).then(function (dataUrl) {
+          var img = new Image();
+          img.src = dataUrl;
+          document.body.appendChild(img);
+      }).catch(function (error) {
+          console.error('oops, something went wrong!', error);
+      });
+    }
+
+    
+  </script>
+</body>
+</html>

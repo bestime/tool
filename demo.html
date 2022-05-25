@@ -16,15 +16,71 @@
 
 <script>
 
-groupArray([1,2,3,4,5,6,7], 4)
-
-function groupArray (list, count) {
-  const result = []
-  while (list.length) {
-    result.push(list.splice(0, count))
-  }
-  return result
+function getNavigationPlateData () {
+  return [
+    {
+      id: 'm',
+      name: '模式产品',
+      icon: '',
+      children: [
+        {
+          id: 'm1',
+          name: '云水混合比',
+          icon: '',
+        },
+        {
+          id: 'm2',
+          name: '雨水混合比',
+          icon: '',
+        },
+        {
+          id: 'm3',
+          name: '冰晶混合比',
+          icon: '',
+        },
+        {
+          id: 'm4',
+          name: '颗粒混合比',
+          icon: '',
+        },
+        {
+          id: 'm5',
+          name: '冰晶数浓度',
+          icon: '',
+          children: [
+            {
+              id: 'abc',
+              name: '家具及',
+              icon: '',
+            },
+            {
+              id: 'def',
+              name: '嘎嘎嘎',
+              icon: '',
+            },
+          ]
+        },
+        {
+          id: 'm6',
+          name: '霰粒子数浓度',
+          icon: '',
+        },
+      ]
+    },
+    {
+      id: 'z',
+      name: '智能网格',
+      icon: '',
+    },
+  ]
 }
+
+
+const result = ns.deepFindTreePath(getNavigationPlateData(), function (item) {
+  return item.id === 'def'
+})
+
+console.log("result", result)
 </script>
 </body>
 </html>
