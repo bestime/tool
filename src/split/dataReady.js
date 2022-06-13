@@ -7,7 +7,7 @@
  * @return {Number} [sleepTime=20] 检测失败后，等待多久继续检测。单位：毫秒
  * @return Promise
  */
- export default function dataReady (handler, sleepTime) {
+ export default async function dataReady (handler, sleepTime) {
   sleepTime = sleepTime == null ? 60 : sleepTime
   var timer;
   return new Promise(async function (resolve) {

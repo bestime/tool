@@ -5,82 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>测试页面444</title>
   <script src="./dist/bestime@beta.min.js"></script>
-  
-  <style>
-    
-  </style>
+  <script src="./static/js/axios.min.js"></script>
 </head>
 <body>
 
 
 
+
 <script>
 
-function getNavigationPlateData () {
-  return [
-    {
-      id: 'm',
-      name: '模式产品',
-      icon: '',
-      children: [
-        {
-          id: 'm1',
-          name: '云水混合比',
-          icon: '',
-        },
-        {
-          id: 'm2',
-          name: '雨水混合比',
-          icon: '',
-        },
-        {
-          id: 'm3',
-          name: '冰晶混合比',
-          icon: '',
-        },
-        {
-          id: 'm4',
-          name: '颗粒混合比',
-          icon: '',
-        },
-        {
-          id: 'm5',
-          name: '冰晶数浓度',
-          icon: '',
-          children: [
-            {
-              id: 'abc',
-              name: '家具及',
-              icon: '',
-            },
-            {
-              id: 'def',
-              name: '嘎嘎嘎',
-              icon: '',
-            },
-          ]
-        },
-        {
-          id: 'm6',
-          name: '霰粒子数浓度',
-          icon: '',
-        },
-      ]
-    },
-    {
-      id: 'z',
-      name: '智能网格',
-      icon: '',
-    },
-  ]
-}
 
 
-const result = ns.deepFindTreePath(getNavigationPlateData(), function (item) {
-  return item.id === 'def'
+
+
+const resolveServerUrl = ns.createServerUrl({
+  '/api': '/@api/work',
+  '/bestime': null,
+  'http': null,
+  'https': null
 })
 
-console.log("result", result)
+const url1 = resolveServerUrl('/api/list/page')
+const url5 = resolveServerUrl('/api2/d//g/e')
+const url4 = resolveServerUrl('/api/a/a/b')
+const url6 = resolveServerUrl('http://127.0.0.1:99')
+const url7 = resolveServerUrl('https://127.0.0.1:99')
+  
 </script>
 </body>
 </html>

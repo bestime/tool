@@ -1,5 +1,7 @@
 import _String from './_String'
 import _Number from './_Number'
+import trim from './trim'
+
 
 
 /**
@@ -26,6 +28,7 @@ export default function replaceCustom (value, start, end, mark) {
 		if(end <= 0) {
 			$3 = ''
 		}
+    $1 = trim($1)
 		return $1 + $2 + $3
 	})
   return res;
