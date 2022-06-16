@@ -40,41 +40,7 @@ $.ajax({
     newWindow.close(); // 失败之后记得关闭
   }
 })
-
 ```
-
-## library已移除以下方法 (部分源文件还可直接引用)
-  `throttle`
-  `debounce`
-  `FN_debounce`
-  `FunctionOnce`
-  `FunctionConfirm`
-  `FunctionLoop`
-  `numberLimit`
-  `ContainerFollowMouse`
-  `DomMouse`
-  `loading`
-  `CreateToast`
-  `numberMax`
-  `numberMin`
-  `barCode`
-  `mapJson`
-  `array`
-  `zero`
-  `createUUID`
-  `isPhone`
-  `write`
-  `average`
-  `openWindow`
-  `drag`
-  `fixed`
-  `Pager`
-  `FN_confirm`
-  `$null`
-  `authorization`
-  `getNowTime`
-  `getMinAndMax`
-  `RMB`
 
 ## 邮箱账号
  - 火狐：jiangyang0909@foxmail.com
@@ -82,23 +48,27 @@ $.ajax({
 ## git 常用操作
 ```
 // git pull 相当于
-git fetch origin <branch>
+git fetch origin <分支名>
 git merge FETCH_HEAD
 
 // 合并分支
-git fetch origin <branch>
-git merge <branch>
+git fetch origin <分支名>
+git merge <分支名>
 
 // 放弃本地修改，使用最新的远程代码
-git fetch origin <branch>
+git fetch origin <分支名>
 git reset --hard FETCH_HEAD
 
 // 创建并切换到分支
-git checkout --orphan -b <branch>
+git checkout --orphan -b <分支名>
 git rm -rf .
 
 // 拉取指定分支并到指定文件夹
 git clone -b 分支名 仓库地址 本地目录
+
+// 创建无记录的分支
+git checkout --orphan <分支名>
+git rm -rf .
 ```
 
 
