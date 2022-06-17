@@ -60,7 +60,7 @@ git fetch origin <分支名>
 git reset --hard FETCH_HEAD
 
 // 创建并切换到分支
-git checkout --orphan -b <分支名>
+git checkout --orphan <分支名>
 git rm -rf .
 
 // 拉取指定分支并到指定文件夹
