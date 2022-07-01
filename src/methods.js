@@ -116,6 +116,8 @@ import flatArrayToTree from './split/flatArrayToTree'
 import getQuadraticBezierPath from './split/getQuadraticBezierPath'
 import deepFindTreePath from './split/deepFindTreePath'
 import createServerUrl from './split/createServerUrl'
+import variableHasValue from './split/variableHasValue'
+import dataCacheUtil from './split/dataCacheUtil'
 
 export default {
   polyfillCancelAnimationFrame,
@@ -237,5 +239,7 @@ export default {
   timeLine,
   getQuadraticBezierPath,
   deepFindTreePath,
-  createServerUrl
+  createServerUrl,
+  variableHasValue,
+  dataCacheUtil
 };

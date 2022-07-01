@@ -1,4 +1,4 @@
-const isDebug = true; // 调试模式不改变版本号
+const isDebug = false; // 调试模式不改变版本号
 
 import { uglify } from 'rollup-plugin-uglify'
 import banner from 'rollup-plugin-banner'
@@ -36,7 +36,7 @@ export default {
       '@QQ 1174295440',
       '@author Jiang Yang (Bestime)',
       '@see https://github.com/bestime/tool',
-      `@update ${formatTime(null, new Date())}`,
+      `@update ${formatTime('YYYY-MM-DD HH:mm:ss', new Date())}`,
     ].join('\n'))
   ]
 };

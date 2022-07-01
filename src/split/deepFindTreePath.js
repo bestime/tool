@@ -6,7 +6,7 @@ const DEFAULT_CONFIG = {
   pid: "pid",
 };
 
-export default function (tree, func, config) {
+export default function deepFindTreePath (tree, func, config) {
   config = assign(DEFAULT_CONFIG, config);
   const path = [];
   const list = [...tree];
