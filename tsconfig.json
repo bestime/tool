@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "ES2015",    
+    "lib": ["dom", "es2015"],   
+    "moduleResolution": "node",
+    "strict": true,
+    "noEmit": true,    
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "types/index.d.ts",
+    "src",
+    "test/index.ts"
+  ]
+}
