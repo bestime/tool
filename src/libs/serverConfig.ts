@@ -1,4 +1,4 @@
-interface UrlConvertConfig {
+interface urlConvertConfig {
   [key: string]: string | null
 }
 
@@ -9,7 +9,9 @@ interface CacheData {
   }
 }
 
-export default function UrlConvert (config: UrlConvertConfig) {
+
+
+export default function serverConfig (config: urlConvertConfig) {
   
   let _cache: CacheData = {};
   let toPath: string | null;

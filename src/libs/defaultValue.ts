@@ -1,3 +1,3 @@
-export default function defaultValue<T> (data: T, value: any): T {
+export default function defaultValue<T> (data: any, value: T): T {
   return data === undefined ? value : data
 }

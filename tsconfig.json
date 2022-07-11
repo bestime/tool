@@ -12,8 +12,9 @@
     "node_modules"
   ],
   "include": [
-    "types/index.d.ts",
-    "src",
+    "types/bestime.esm.d.ts",
+    "types/bestime.iife.d.ts",
+    "src/*/*.ts",
     "test/index.ts"
   ]
 }

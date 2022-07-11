@@ -38,7 +38,7 @@ export default {
       banner: getBanner('iife'),
       format: 'iife',    
       strict: true,
-      name: 'jy',
+      name: 'bestime',
       indent: false,
       interop: false,
       

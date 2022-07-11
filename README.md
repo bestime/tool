@@ -1,13 +1,14 @@
-## npm包提交版本更新
+## 个人工具库
 
-- 发布npm包
-	```
-	npm init
-	npm login
-	npm publish
-	```
-- 更新npm包
-  ```
-  npm version patch
-  npm publish
-	```
+#### 安装
+```javascript
+npm i @bestime/utils
+```
+
+#### 使用
+```javascript
+import { getType } from '@bestime/utils'
+
+// => Array
+const type = getType([])
+```
