@@ -4,6 +4,10 @@ declare module "@bestime/utils" {
    */
   export default undefined
 
+  interface IMap {
+    [key: string]: any
+  }
+
   /**
    * 默认值处理函数
    * @param data - 需要处理的数据
@@ -58,7 +62,7 @@ declare module "@bestime/utils" {
    * @param data - 判断的值
    * @returns 真假值
    */
-  export function isObject (data: any): boolean
+  export function isMap (data: any): boolean
 
   /**
    * 判断数据是否为函数
@@ -82,9 +86,7 @@ declare module "@bestime/utils" {
    * @param data - 查询参数
    * @returns 拼接后的url地址
    */
-  export function urlToGet (url: string, data: string| {
-    [key: string]: any
-  }): string
+  export function urlToGet (url: string, data: string | IMap): string
   
   /**
    * 移除空字符串
@@ -101,10 +103,7 @@ declare module "@bestime/utils" {
    * @param removeEmptyStr - 是否移除空字符串
    * @returns string
    */
-  export function clean<T extends any[]| {
-    [key: string]: any
-    [key: number]: any
-  }> (data: T, removeEmptyStr?: boolean): string
+  export function clean<T extends any[] | IMap> (data: T, removeEmptyStr?: boolean): string
 
   /**
    * 对相同地址的数据进行缓存
@@ -167,6 +166,52 @@ declare module "@bestime/utils" {
    * @param key - 键名
    */
   export function removeCookie (key: string): void
+
+
+  /**
+   * 强制转换数据为键值对数据，如果是json字符串，会尝试解析，如果失败，则返回一个空Map
+   * 
+   * @param data - 转换的数据
+   * @returns 键值对数据
+   * 
+   * @example
+   * ```javascript
+   * // => {}
+   * const data = _Map('abc')
+   * 
+   * // => {}
+   * const data2 = _Map([])
+   * 
+   * // => {name: 'a'}
+   * const data3 = _Map({name: 'a'})
+   * ```
+   */
+  export function _Map (data: any): IMap
+
+
+  /**
+   * 强制转换数据为数组，如果是json字符串，会尝试解析，如果失败，则返回一个空[]
+   * 
+   * @param data - 转换的数据
+   * @returns 数组
+   * 
+   * @example
+   * ```javascript
+   * // => []
+   * const data = _Array('abc')
+   * 
+   * // => []
+   * const data3 = _Map({name: 'a'})
+   * ```
+   */
+  export function _Array (data: any): any[]
+
+  /**
+   * 解析url参数
+   * @param data - url参数。默认为window.location.href
+   * @returns 键值对
+   */
+  export function parseQuery (data?: string): IMap
 
 }
 

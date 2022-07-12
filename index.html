@@ -13,13 +13,14 @@
 
 <script>
 
-const iUrl = bestime.urlConvert({
-  '@api': '/api',
-  '@bestime': 'null'
-})
+var a = {
+  name: 'bestime',
+  age: 20,
+  num: '50',
+  dd: null
+}
 
-iUrl("/api/a/b/c/d")
-iUrl("@bestime/a/b/c/d")
+console.log(a, bestime.clean(a))
   
 </script>
 </body>

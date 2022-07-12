@@ -53,7 +53,7 @@ declare namespace bestime {
     * @param data - 判断的值
     * @returns 真假值
     */
-   export function isObject (data: any): boolean
+   export function isMap (data: any): boolean
  
    /**
     * 判断数据是否为函数

@@ -1,7 +1,7 @@
 import trim from './trim'
 import isString from './isString'
 import isEmptyMap from './isEmptyMap'
-import isObject from './isObject'
+import isMap from './isMap'
 import isArray from './isArray'
 
 
@@ -16,17 +16,20 @@ export default function clean<T extends any[]| {
 ):T {
   var res: any;
   removeEmptyObject = removeEmptyObject === false ? false : true;
-  if(isObject(data)) {
+  if(isMap(data)) {
     res = {}
     var mpItem, key: any, temp;
     for(key in data) {
       mpItem = data[key]
-      if(isArray(mpItem) || isObject(mpItem)) {
+      if(isArray(mpItem) || isMap(mpItem)) {
         temp = clean(mpItem, removeEmptyStr)
       } else {
         temp = mpItem
       }
+
+      // console.log("谷歌", key, temp)
       _filterData(temp, removeEmptyStr, removeEmptyObject, function (useValue: any) {
+        
         res[key] = useValue;
       });
     }
@@ -58,10 +61,8 @@ function _filterData (data: any, removeEmptyStr: any, removeEmptyObject: any, ca
       callback(data)
     }
   } else if(data != null){
-    if(removeEmptyObject) {
-      if(!isEmptyMap(data)) {
-        callback(data)
-      }
+    if(removeEmptyObject && isMap(data) && isEmptyMap(data)) {
+      callback(data)
     } else {
       callback(data)
     }
