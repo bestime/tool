@@ -50,7 +50,8 @@ export default function dataCacheUtil (url: string) {
   return {
     isExist: isStart,
     set: setData,
-    get: getData
+    get: getData,
+    logs: _tmp
   }
   
 }
