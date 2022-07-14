@@ -101,7 +101,7 @@ declare module "@bestime/utils" {
    * @param data - 查询参数
    * @returns 拼接后的url地址
    */
-  export function urlToGet(url: string, data: string | IMap): string;
+  export function urlToGet(url: string, data?: string | IMap): string;
 
   /**
    * 移除空字符串
@@ -121,7 +121,7 @@ declare module "@bestime/utils" {
   export function clean<T extends any[] | IMap>(
     data: T,
     removeEmptyStr?: boolean
-  ): string;
+  ): T;
 
   /**
    * 对相同地址的数据进行缓存
@@ -153,9 +153,8 @@ declare module "@bestime/utils" {
     tree: any[],
     handler: (item: any) => boolean,
     config?: {
-      id: string;
-      children: string;
-      pid: string;
+      id?: string;
+      children?: string;
     }
   ): null | any[];
 
@@ -231,4 +230,11 @@ declare module "@bestime/utils" {
    * @returns 数字
    */
   export function _Number(data: any): number;
+
+  /**
+   * 判断是否是数组
+   * @param data - 值
+   * @returns 真假
+   */
+  export function isArray(data: any): boolean;
 }

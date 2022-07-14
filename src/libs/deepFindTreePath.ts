@@ -2,8 +2,7 @@
 
 const DEFAULT_CONFIG = {
   id: "id",
-  children: "children",
-  pid: "pid",
+  children: "children"
 };
 
 export default function deepFindTreePath (
@@ -11,8 +10,7 @@ export default function deepFindTreePath (
   handler: (item: any) => boolean,
   config: {
     id: string,
-    children: string,
-    pid: string,
+    children: string
   }
 ) {
   config = Object.assign(DEFAULT_CONFIG, config);
