@@ -19,7 +19,7 @@ export default function serverConfig (config: urlConvertConfig) {
     toPath = config[fromPath]
     _cache[fromPath] = {
       to: toPath,
-      reg: new RegExp('^' + fromPath + '(\\b|$)')
+      reg: new RegExp('^' + fromPath + '(/|$)')
     }
   }
 
