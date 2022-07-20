@@ -3,10 +3,8 @@ var prototypeList = {}
 import methods from './methods'
 import assign from './split/assign'
 
-
-
 import { TYPE_STRING, TYPE_NUMBER, TYPE_OBJECT } from './split/basic/constant'
-import { WINDOW } from './split/basic/browser'
+
 
 function CreateMain () {  
   var main = function(v) {
@@ -15,7 +13,7 @@ function CreateMain () {
 
   main.fn = main.prototype = assign({
     constructor: main,
-    version: '2021',
+    author: 'Bestime',
     init: function (d) {
       this.selector = d    
     }

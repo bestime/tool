@@ -106,6 +106,7 @@ import setStorage from './split/setStorage'
 import symbolNumber from './split/symbolNumber'
 import encodeHTML from './split/encodeHTML'
 import decodeHTML from './split/decodeHTML'
+import observeElementResize from './split/observeElementResize'
 import getRGBfromGradient from './split/getRGBfromGradient'
 import deepFindItem from './split/deepFindItem'
 import polyfillCancelAnimationFrame from './split/polyfillCancelAnimationFrame'
@@ -118,6 +119,7 @@ import deepFindTreePath from './split/deepFindTreePath'
 import createServerUrl from './split/createServerUrl'
 import variableHasValue from './split/variableHasValue'
 import dataCacheUtil from './split/dataCacheUtil'
+import apiDataCache from './split/apiDataCache'
 
 export default {
   polyfillCancelAnimationFrame,
@@ -241,5 +243,7 @@ export default {
   deepFindTreePath,
   createServerUrl,
   variableHasValue,
-  dataCacheUtil
+  dataCacheUtil,
+  observeElementResize,
+  apiDataCache
 };
