@@ -109,7 +109,7 @@ declare module "@bestime/utils" {
    * @param position - 移除位置。默认：两侧，1：左侧，-1右侧，* 所有
    * @returns 字符串
    */
-  export function trim(data: any, position?: 1 | -1 | 0 | "*"): string;
+  export function trim(data: any, position?: 1 | -1 | "*"): string;
 
   /**
    * 移除undefined和null数据
