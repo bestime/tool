@@ -13,8 +13,7 @@
   ],
   "include": [
     "types/bestime.esm.d.ts",
-    "types/bestime.iife.d.ts",
-    "src/*/*.ts",
+    "src/**/*.ts",
     "test/index.ts"
   ]
 }

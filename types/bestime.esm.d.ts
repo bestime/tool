@@ -156,7 +156,7 @@ declare module "@bestime/utils" {
       id?: string;
       children?: string;
     }
-  ): null | any[];
+  ): undefined | any[];
 
   /**
    * 设置cookie
@@ -237,4 +237,11 @@ declare module "@bestime/utils" {
    * @returns 真假
    */
   export function isArray(data: any): boolean;
+
+  /**
+   * 判断是否是 null 或者 undefined
+   * @param data - 值
+   * @returns 真假
+   */
+  export function isNull(data: any): boolean;
 }

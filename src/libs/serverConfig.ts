@@ -19,7 +19,7 @@ export default function serverConfig (config: urlConvertConfig) {
     toPath = config[fromPath]
     _cache[fromPath] = {
       to: toPath,
-      reg: new RegExp('^' + fromPath + '(/|$)')
+      reg: new RegExp('^(' + fromPath + ')(/|$)')
     }
   }
 
@@ -32,7 +32,7 @@ export default function serverConfig (config: urlConvertConfig) {
       if (item.reg.test(path)) {
         success = true
         if(typeof item.to === 'string') {
-          result = path.replace(item.reg, item.to)
+          result = path.replace(item.reg, item.to + '$2')
         }
         break;
       }
@@ -48,6 +48,8 @@ export default function serverConfig (config: urlConvertConfig) {
     return result
   }
 }
+
+
 
 
 

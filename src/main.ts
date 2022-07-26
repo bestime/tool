@@ -19,6 +19,8 @@ export { default as getCookie } from './libs/getCookie'
 export { default as removeCookie } from './libs/removeCookie'
 export { default as parseQuery } from './libs/parseQuery'
 export { default as _Number } from './libs/_Number'
+export { default as isNull } from './libs/isNull'
+export { default as defaultValue } from './libs/defaultValue'
 
 
 
