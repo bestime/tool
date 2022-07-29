@@ -21,6 +21,8 @@ export { default as parseQuery } from './libs/parseQuery'
 export { default as _Number } from './libs/_Number'
 export { default as isNull } from './libs/isNull'
 export { default as defaultValue } from './libs/defaultValue'
+export { default as downloadFileByUrl } from './libs/downloadFileByUrl'
+export { default as downloadFileByArrayBuffer } from './libs/downloadFileByArrayBuffer'
 
 
 

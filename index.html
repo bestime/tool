@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>测试页面444</title>
-  <script src="./dist/bestime.iife.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- <script src="./dist/bestime.iife.min.js"></script> -->
 </head>
 <body>
 
@@ -13,62 +14,31 @@
 
 <script>
 
-var _html = `
-<img src="/images/png"/>
-<img src="/abc/images/png"/>
-<img :src="/images/png"/>
-<img src="/images/png"/>
-<img src="/abc/images/png"/>
-<img data-id=" " src = '/images/aqi01/7.png'/>
-`
 
-const args = [
-  /(<img.* src\s?=\s?"\s?)(.*?)(".*?\/\>)/gi,
-  /(<img.* src\s?=\s?'\s?)(.*?)('.*?\/\>)/gi
-]
-
-function tagsUrlReplace (data, callback) {
-  data = data.replace(/(<img.* src\s?=\s?"\s?)(.*?)(".*?\/\>)/gi, '$1***$3')
-  data = data.replace(/(<img.* src\s?=\s?'\s?)(.*?)('.*?\/\>)/gi, '$1***$3')
-  return data
-}
-
-function main (data) {
-  const config = {
-    // '/': '/bestime/',
-    '/abc': '/@url/abc',
-  }
-  data = tagsUrlReplace(data, function (path) {
-    // console.log("path", path)
-    for (var key in config) {
-      var regStr = new RegExp('^' + key + '(?=/|$)')
-      path = path.replace(regStr, config[key])
-    }
-    
-    return path.replace(/^\/\//, '/')
-  })
+var list = [
+  {
+    name: '张三',
+    children: [
+      {
+        name: "李四"
+      }
+    ]
+  },
+  {
+    name: '张三',
+    children: [
+      {
+        name: "王五"
+      }
+    ]
+  },
   
-  return data
-}
-const res = main(_html)
+]
+$.getScript('./dist/bestime.iife.min.js', function (res, ss) {
+  console.log(bestime)
+})
 
 
-
-
-
-
-
-
-
-
-
-
-const logText = {
-  red: function () {
-
-  }
-}
-console.log("%c 你好 %c 张三",'color: red;','color: green;', 'asdf')
 </script>
 </body>
 </html>

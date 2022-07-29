@@ -244,4 +244,18 @@ declare module "@bestime/utils" {
    * @returns 真假
    */
   export function isNull(data: any): boolean;
+
+  /**
+   * 下载 url 文件
+   * @param url - 文件地址
+   * @param fileName - 文件名
+   */
+  export function downloadFileByUrl(url: string, fileName: string): void;
+
+  /**
+   * 下载ArrayBuffer文件
+   * @param data - ArrayBuffer格式的数据
+   * @param fileName - 文件名
+   */
+  export function downloadFileByArrayBuffer(data: ArrayBuffer, fileName: string): void;
 }
