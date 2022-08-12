@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>测试页面444</title>
-  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <!-- <script src="./dist/bestime.iife.min.js"></script> -->
+  
+  <script src="./dist/bestime.iife.min.js"></script>
 </head>
 <body>
 
@@ -15,28 +15,42 @@
 <script>
 
 
-var list = [
-  {
-    name: '张三',
-    children: [
-      {
-        name: "李四"
-      }
-    ]
-  },
-  {
-    name: '张三',
-    children: [
-      {
-        name: "王五"
-      }
-    ]
-  },
+
+
+bestime.laterIdx = function (max, current, increase) {
+  current = current + increase
+
+  if(current > max) {
+    current = current % max
+  }
   
-]
-$.getScript('./dist/bestime.iife.min.js', function (res, ss) {
-  console.log(bestime)
-})
+
+  console.log("current", max, current)
+
+  return current
+}
+
+bestime.laterIdx(3, 0, 1) // 1
+bestime.laterIdx(3, 0, 2) // 2
+bestime.laterIdx(3, 0, 3) // 3
+bestime.laterIdx(3, 0, 4) // 0
+bestime.laterIdx(3, 0, 5) // 1
+bestime.laterIdx(3, 0, 6) // 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </script>

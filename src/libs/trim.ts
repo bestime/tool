@@ -2,7 +2,7 @@ import getType from './getType'
 import { TYPE_STRING, TYPE_NUMBER } from './constant'
 
 
-export default function trim (str: any, pos: 1 | -1 | 0 | '*') {
+export default function trim (str: any, pos?: 1 | -1 | 0 | '*'): string {
   var TYPE = getType(str)
   
   if(TYPE === TYPE_NUMBER) {

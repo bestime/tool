@@ -1,4 +1,8 @@
-export default function jsonParse(data: any) {
-  try { data = JSON.parse(data) } catch (e) {}
+export default function jsonParse(data: any): any[] | {[key: string]: any} | undefined {
+
+  try { data = JSON.parse(data) } catch (e) {
+    data = undefined
+  }
+
   return data
 }

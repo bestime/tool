@@ -1,19 +1,14 @@
 {
   "compilerOptions": {
-    "module": "ES2015",    
-    "lib": ["dom", "es2015"],   
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["dom", "esnext"],
     "moduleResolution": "node",
-    "strict": true,
-    "noEmit": true,    
+    "strict": false,
+    "noEmit": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "types/bestime.esm.d.ts",
-    "src/**/*.ts",
-    "test/index.ts"
-  ]
+  "exclude": ["node_modules"],
+  "include": ["types/bestime.iife.d.ts","src/**/*.ts"]
 }

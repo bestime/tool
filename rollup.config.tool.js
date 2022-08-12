@@ -1,14 +1,26 @@
-const isDebug = false; // 调试模式不改变版本号
 import { uglify } from 'rollup-plugin-uglify'
 import babel from '@rollup/plugin-babel';
-const pkg = require('./package.json')
 import typescript from "typescript"
 import rollupTypescript from "rollup-plugin-typescript2"
 
+function zeroTo2 (data) {
+  if(data < 10) {
+    return '0' + data
+  } else {
+    return String(data)
+  }
+}
 
+function simpleFromatTime (date) {
+  var year = zeroTo2(date.getFullYear());
+  var month = zeroTo2(date.getMonth() + 1);
+  var day = zeroTo2(date.getDate());
+  var hour = zeroTo2(date.getHours());
+  var minute = zeroTo2(date.getMinutes());
+  var second = zeroTo2(date.getSeconds());
 
-var nextVersion = isDebug ? 'beta' : pkg.version;
-
+  return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+}
 
 function getName (type) {
   return `bestime.${type}.min.js`;
@@ -16,12 +28,11 @@ function getName (type) {
 
 function getBanner (type) {
   return `/**  
- * ${getName(type)}
- * @version ${nextVersion}
+ * 个人工具库. ${getName(type)}
  * @QQ 1174295440
  * @author Bestime
  * @see https://github.com/bestime/tool
- * @update ${new Date()}
+ * @update ${simpleFromatTime(new Date())}
  */`
 }
 

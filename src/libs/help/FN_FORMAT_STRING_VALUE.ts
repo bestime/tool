@@ -23,10 +23,8 @@ export default function FN_FORMAT_STRING_VALUE (data: string): any {
     res = false
   } else if(STRING_TRUE === data) {
     res = true
-  } else if(isString(data)) {
-    if (/^\d+$/.test(data)) {
-      res = String(data);
-    }
+  } else if(isString(data) && /^\d+$/.test(data)) {
+    res = String(data);
   } else {
     try { res = JSON.parse(data) } catch (e) {}
   }

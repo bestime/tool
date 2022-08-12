@@ -2,7 +2,6 @@ import _Array from './_Array'
 import _Number from './_Number'
 import _Map from './_Map'
 import isString from './isString'
-import {  } from './constant'
 import { WINDOW, DECODE_URI_COMPONENT, _NULL } from './constant'
 import FN_FORMAT_STRING_VALUE from './help/FN_FORMAT_STRING_VALUE'
 
@@ -71,24 +70,12 @@ function splitSymbol (str: any) {
  * @param {String} data
  * @return {Boolean}
  */
-function isPreLikeArray (data: any) {
+function isPreLikeArray (data: any): boolean {
 	return data === '' || /^\d+$/.test(data)
 }
 
 
 
-
-
-
-
-
-
-
-/**
- * 解析url复杂参数
- * @param {String} [str = window.location.href] 序列化后的字符串
- * @return {Object}
- */
 
 export default function parseQuery (str: string) {
   var res: any = {}, href, hasChlid, queryKey;
