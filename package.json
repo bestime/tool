@@ -6,7 +6,7 @@
   "description": "个人常用typescript工具库",
   "files": [
     "dist/bestime.esm.min.js",
-    "types/bestime.esm.d.ts"
+    "types/index.d.ts"
   ],
   "devDependencies": {
     "@babel/core": "7.18.6",
@@ -17,10 +17,12 @@
     "rollup": "2.75.7",
     "rollup-plugin-typescript2": "0.32.1",
     "rollup-plugin-uglify": "6.0.4",
-    "typescript": "4.7.4"
+    "typescript": "4.7.4",
+    "rollup-plugin-livereload": "2.0.5"
   },
   "scripts": {
-    "build": "rollup --config 'rollup.config.tool.js'"
+    "build": "rollup --config rollup.config.prod.js",
+    "serve": "rollup --config rollup.config.dev.js --watch"
   },
   "author": "bestime1020@gmail.com",
   "license": "ISC",
@@ -32,5 +34,5 @@
     "javascript",
     "工具库"
   ],
-  "homepage": "https://github.com/bestime/tool"
+  "homepage": "https://github.com/bestime/tool"  
 }

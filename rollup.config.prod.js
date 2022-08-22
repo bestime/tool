@@ -51,6 +51,7 @@ export default {
       strict: true,
       name: 'bestime',
       indent: false,
+      sourcemap: false,
       interop: false,
       
       
@@ -61,6 +62,7 @@ export default {
       format: 'esm',
       strict: true,
       indent: false,
+      sourcemap: false,
       interop: false,
       
     }

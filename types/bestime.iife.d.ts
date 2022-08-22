@@ -386,13 +386,13 @@ declare namespace bestime {
   export function deepFindItem(list: any[], handle: (data: any) => void, children?: string): any;
 
   /**
-   * 一维数组转树结构
-   * @param max - 索引最大值
-   * @param current - 当前索引
+   * 在给定索引范围内，增减当前索引，如果超出范围，则按当前方向重新循环取值。
+   * @param maxIndex - 最大索引
+   * @param currentIndex - 当前索引
    * @param increase - 调整多少索引，可为负数
-   * @returns 结果
+   * @returns 改变后的索引
    */
-  export function laterIdx(max: number, current: number, increase: number): any;
+  export function changeIndex(maxIndex: number, currentIndex: number, increase: number): any;
 
   type ITimeLineUnints = [string, string, string, string, string, string, string];
 
@@ -496,4 +496,12 @@ declare namespace bestime {
     clientWidth: number;
     clientHeight: number;
   };
+
+  /**
+   * 将树形结构转为一维数组
+   * @param data - 树
+   * @param childKey - 子项字段。默认 children
+   * @returns 浅克隆的数组
+   */
+  export function flatTree(data: any[], childKey?: string): any[];
 }

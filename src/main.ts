@@ -31,7 +31,7 @@ export { default as roundFixed } from './libs/roundFixed'
 export { default as split } from './libs/split'
 export { default as deepFindItem } from './libs/deepFindItem'
 export { default as tree } from './libs/tree'
-export { default as laterIdx } from './libs/laterIdx'
+export { default as changeIndex } from './libs/changeIndex'
 export { default as timeLine } from './libs/timeLine'
 export { default as fileSize } from './libs/fileSize'
 export { default as removeElement } from './libs/removeElement'
@@ -43,6 +43,7 @@ export { default as getStorage } from './libs/getStorage'
 export { default as removeStorage } from './libs/removeStorage'
 export { default as setStorage } from './libs/setStorage'
 export { default as getRelativePos } from './libs/getRelativePos'
+export { default as flatTree } from './libs/flatTree'
 
 
 
