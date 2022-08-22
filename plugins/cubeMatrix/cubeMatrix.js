@@ -7,21 +7,9 @@ var cubeMatrix = (function () {
     return isInt ? Math.floor(min) : min
   }  
 
-  function parseColor (ratio, gradientColorConfig) {
-    
-    var colorSplit = 1 / gradientColorConfig.length
-    var colorIndex = Math.floor(ratio/colorSplit)
-    
-    var splitRatio = (ratio - colorIndex * colorSplit) * gradientColorConfig.length
-    if(colorIndex>=1) {
-      colorIndex = gradientColorConfig.length - 1
-      splitRatio = 1
-    }
-    
-    
-    var colorList = gradientColorConfig[colorIndex]
-    return ns.getRGBfromGradient(colorList[0], colorList[1], splitRatio)
-  }
+
+
+
 
 
 
@@ -56,7 +44,8 @@ var cubeMatrix = (function () {
   }
 
   var columns = 32;
-  function init (oWrapper, list, gradientColorConfig, option) {
+  function init (oWrapper, list, option) {
+    oWrapper.innerHTML = ''
     var is3D = option ? option['3d'] : false
     var group = []
     var row = [];
@@ -75,6 +64,31 @@ var cubeMatrix = (function () {
     group.push(row)
 
 
+    const abc = {
+      min: min,
+      max: max,
+      colors: [
+        [0,0,255],
+        [0,255,0],
+        [255,255,0],
+        [255,0,0]
+      ]
+    }
+    var oColorLegeng = document.createElement('canvas')
+    var iColor = new ColorLegendView(oColorLegeng, {
+      ASC: true,
+      height: 320,
+      gradientMode: true,
+      isAverageyAxis: true,
+      colors: abc, 
+      axis: {
+        fontSize: 12, // 坐标轴字号
+        fontColor: '#9ca9c2', // 坐标轴文字颜色
+        tickColor: '#325781', // 坐标轴刻度的颜色
+      }
+    })
+
+
     var daoZhangData = []
     group.forEach(function (row,rowIndex) {
       row.forEach(function (item,columnIndex) {
@@ -87,7 +101,7 @@ var cubeMatrix = (function () {
 
 
     
-
+    
 
 
 
@@ -105,9 +119,8 @@ var cubeMatrix = (function () {
     group.forEach(function (rowItem, rowIndex) {
       rowItem.forEach(function (item, columnIndex) {
         var ratio = diff > 0 ? (item - min) / diff : 0
-        let color = parseColor(ratio, gradientColorConfig).join(',')
-        color = `rgb(${color})`
-        _itemHtmls += createItem(color, item, group.length-rowIndex-1, columnIndex)
+        
+        _itemHtmls += createItem(iColor.getColor(item), item, group.length-rowIndex-1, columnIndex)
         _axisLineHtml += '<div data-ro class="cubeMatrix-axisline"></div>'
       })
     })
@@ -115,7 +128,7 @@ var cubeMatrix = (function () {
 
     var o3DWarpper = document.createElement('div')
     o3DWarpper.className = 'cubeMatrix-wrapper'
-    var oColorLegeng = document.createElement('canvas')
+    
     
 
     
@@ -144,7 +157,8 @@ var cubeMatrix = (function () {
     oWrapper.appendChild(o3DWarpper)
     oWrapper.appendChild(oColorLegeng)
 
-    colorLegendView(oColorLegeng, gradientColorConfig, min, max)
+    
+
 
   }
   return init

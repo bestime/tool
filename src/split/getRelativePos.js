@@ -1,5 +1,3 @@
-import getScrollPosition from './getScrollPosition'
-
 //获取元素相对窗口的距离
 export default function getRelativePos(el) {
 	// var scrollPos = getScrollPosition();
