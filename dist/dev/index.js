@@ -1068,6 +1068,108 @@ function flatTree(data, childKey) {
     return result;
 }
 
+function getJsFileBaseUrl(tir) {
+    tir = tir || 0;
+    var reg = '\/[^/]*', arr = document.scripts;
+    for (var a = 0; a < tir; a++) {
+        reg += reg;
+    }
+    return arr[arr.length - 1].src.replace(new RegExp(reg + '$'), '');
+}
+
+function getfile(gid, oHead, type, url, callback) {
+    let oElement;
+    if (type === 'script') {
+        oElement = document.createElement('script');
+        oElement.src = url;
+    }
+    else {
+        oElement = document.createElement('link');
+        oElement.href = url;
+        oElement.setAttribute('rel', 'stylesheet');
+    }
+    oElement.setAttribute('level-id', gid);
+    oElement.onload = oElement.onerror = callback;
+    oHead.appendChild(oElement);
+}
+
+let _setting = {};
+let times = 0;
+let oHead = document.getElementsByTagName("head")[0];
+function getMuti(times, id, alias, callback) {
+    const result = [];
+    let flag = 0;
+    for (let a = 0; a < alias.length; a++) {
+        getOne(times, id, alias[a], function (res) {
+            result[a] = res;
+            if (++flag === alias.length) {
+                callback(...result);
+            }
+        });
+    }
+}
+function getOne(times, id, alias, callback) {
+    const item = _setting[alias];
+    if (!item)
+        throw "未配置该资源：" + alias;
+    const isJsFile = /^js/.test(alias);
+    function onSuccess() {
+        item._complete = true;
+        if (!isFunction(callback))
+            return;
+        if (isJsFile) {
+            callback(window[item.global]);
+        }
+        else {
+            callback();
+        }
+    }
+    // 如果已经存在，则等待
+    if (item._count > 0) {
+        variableHasValue(function () {
+            return item._complete;
+        }, onSuccess);
+    }
+    // 如果存在依赖文件
+    else if (!item._depenIsLoad &&
+        item.dependencies &&
+        item.dependencies.length > 0) {
+        item._depenIsLoad = true;
+        getMuti(times, id + 1, item.dependencies, function () {
+            getOne(times, id, alias, onSuccess);
+        });
+    }
+    // 可以同步加载的依赖
+    else if (!item._syncsIsLoad && item.syncs && item.syncs.length > 0) {
+        item._syncsIsLoad = true;
+        getMuti(times, id, item.syncs.concat(alias), onSuccess);
+    }
+    // 无任何依赖，则创建新请求
+    else {
+        item._count = item._count ? item._count + 1 : 1;
+        item._deeps = `${times}.${id}`;
+        const fileType = isJsFile ? "script" : "link";
+        getfile(item._deeps, oHead, fileType, item.url, onSuccess);
+    }
+}
+function loadJsAndCss(alias, callback) {
+    times++;
+    if (typeof alias === "object") {
+        getMuti(times, 1, alias, callback);
+    }
+    else {
+        getOne(times, 1, alias, callback);
+    }
+}
+loadJsAndCss.config = function (setting) {
+    if (!isEmptyMap(_setting))
+        throw "config is already configured";
+    _setting = setting;
+};
+loadJsAndCss.getConfig = function () {
+    return _setting;
+};
+
 exports._Array = _Array;
 exports._Boolean = _Boolean;
 exports._Map = _Map;
@@ -1085,6 +1187,7 @@ exports.fileSize = fileSize;
 exports.flatTree = flatTree;
 exports.floorFixed = floorFixed;
 exports.getCookie = getCookie;
+exports.getJsFileBaseUrl = getJsFileBaseUrl;
 exports.getRandom = getRandom;
 exports.getRelativePos = getRelativePos;
 exports.getStorage = getStorage;
@@ -1093,6 +1196,7 @@ exports.isArray = isArray;
 exports.isFunction = isFunction;
 exports.isMap = isMap;
 exports.isNull = isNull;
+exports.need = loadJsAndCss;
 exports.padEnd = padEnd;
 exports.padStart = padStart;
 exports.param = param;

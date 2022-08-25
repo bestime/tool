@@ -1,82 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>测试页面444</title>
-  
-  <script>
-    document.write(`\<script src="./dist/dev/index.js?t=${new Date().getTime()}"\><\/script\>`)
-  </script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>测试页面444</title>
 
-<script>
-
-
-// 555
-
-// bestime.laterIdx = function (maxIndex, index, increase) {
-//   const length = maxIndex +1
-
-//   index = (index+increase) % length
-//   if(index<0) {
-//     index = index + length
-//   }
-
-//   index = index === -0 ? 0 : index
-
-//   console.log("index", index)
-
-//   return index
-// }
-
-// bestime.laterIdx(4, 13, -8) // 2
-// bestime.laterIdx(4, 13, -7) // 3
-// bestime.laterIdx(4, 13, -6) // 4
-// bestime.laterIdx(4, 13, -5) // 0
-// bestime.laterIdx(4, 13, -4) // 1
-// bestime.laterIdx(4, 13, -3) // 2
-// bestime.laterIdx(4, 13, -2) // 3
-// bestime.laterIdx(4, 13, -1) // 4
-
-// bestime.laterIdx(4, 13, 0) // 3
-// bestime.laterIdx(4, 13, 1) // 4
-// bestime.laterIdx(4, 13, 2) // 0
-// bestime.laterIdx(4, 13, 3) // 3
-// bestime.laterIdx(4, 13, 4) // 4
-// bestime.laterIdx(4, 13, 5) // 0
-// bestime.laterIdx(4, 13, 6) // 1
-// bestime.laterIdx(4, 13, 7) // 2
-// bestime.laterIdx(4, 13, 8) // 3
-// bestime.laterIdx(4, 13, 9) // 4
-// bestime.laterIdx(4, 13, 10) // 0
-
-
-console.log("下一个索引", bestime.changeIndex(4, 13, 10))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
-</body>
+    <script>
+      document.write(
+        `\<script src="./dist/dev/index.js?t=${new Date().getTime()}"\><\/script\>`
+      );
+    </script>
+  </head>
+  <body>
+    <ul>
+      <li>
+        <a href="./static/need.html">按需加载js/css 的cdn资源</a>
+      </li>
+    </ul>
+  </body>
 </html>
-
-

@@ -44,6 +44,5 @@ export { default as removeStorage } from './libs/removeStorage'
 export { default as setStorage } from './libs/setStorage'
 export { default as getRelativePos } from './libs/getRelativePos'
 export { default as flatTree } from './libs/flatTree'
-
-
-
+export { default as getJsFileBaseUrl } from './libs/getJsFileBaseUrl'
+export { default as need } from './libs/need'
