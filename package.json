@@ -6,7 +6,7 @@
   "description": "个人常用typescript工具库",
   "files": [
     "dist/bestime.esm.min.js",
-    "types/index.d.ts"
+    "dist/bestime.esm.d.ts"
   ],
   "devDependencies": {
     "@babel/core": "7.18.6",
