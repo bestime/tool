@@ -10,33 +10,43 @@ declare namespace bestime {
     [key: string]: any;
   }
 
-  export interface INeedItem{
-    /** 暴露的全局变量名 */
-    global?: string,
+  export interface INeedConfig {
+    /** 请求前缀 */
+    baseUrl?: string,
 
-    /** 资源地址 */
-    url: string,
-  
-    /** 必需先加载的依赖 */
-    dependencies?: string[]
+    /** 请求地址上拼接hash值（可用于缓存或标识） */
+    hash?: string,
 
-    /** 可以同步加载的依赖 */
-    syncs?: string[],
-  
-    /** 是否请求完毕（无论成功失败） */
-    _complete?: boolean
-
-    /** 内部使用：同步依赖是否已经请求 */
-    _syncsIsLoad?: boolean,
-
-    /** 内部使用：异步依赖是否已经请求 */
-    _depenIsLoad?: boolean,
-  
-    /** 内部使用：分组ID（方便调试）。第一位表示发起的请求分组，大小表示先后顺序。第二位表示此组中的依赖关系，值越大越先请求 */
-    _deeps?: string,
-  
-    /** 内部使用：被请求次数 */
-    _count?: number
+    alias?: {
+      [key: string]: {
+        /** 暴露的全局变量名 */
+        moduleName?: string,
+    
+        /** 资源地址 */
+        url: string,
+      
+        /** 必需先加载的依赖 */
+        dependencies?: string[]
+    
+        /** 可以同步加载的依赖 */
+        syncs?: string[],
+      
+        /** 是否请求完毕（无论成功失败） */
+        _complete?: boolean
+    
+        /** 内部使用：同步依赖是否已经请求 */
+        _syncsIsLoad?: boolean,
+    
+        /** 内部使用：异步依赖是否已经请求 */
+        _depenIsLoad?: boolean,
+      
+        /** 内部使用：分组ID（方便调试）。第一位表示发起的请求分组，大小表示先后顺序。第二位表示此组中的依赖关系，值越大越先请求 */
+        _deeps?: string,
+      
+        /** 内部使用：被请求次数 */
+        _count?: number
+      }
+    }
   }
 
   /** 数据缓存工具回调函数 */
@@ -545,8 +555,8 @@ declare namespace bestime {
   export function need(alias: string|string[], callback: (...args: any[]) => void): string;
   
   export namespace need {
-    export function config (setting: {[key: string]: INeedItem}): void
-    export function getConfig (): {[key: string]: INeedItem}
+    export function config (setting:INeedConfig ): void
+    export function getConfig (): INeedConfig
   }
 
 }

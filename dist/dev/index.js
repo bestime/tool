@@ -440,10 +440,7 @@ function getCookie(key, target) {
 
 //删除cookie
 function removeCookie(key) {
-    var oDate = new Date();
-    oDate.setTime(oDate.getTime() - 10000000);
-    var str = key + '=' + encodeURI('') + ';expires=' + oDate.toUTCString();
-    document.cookie = str;
+    setCookie(key, '', -1);
 }
 
 function _Number(data) {
@@ -562,11 +559,13 @@ function downloadFileByUrl(url, fileName) {
     document.body.appendChild(link);
     link.click();
     link.remove();
+    link = undefined;
 }
 
 function downloadFileByArrayBuffer(data, fileName) {
     const url = window.URL.createObjectURL(new Blob([data]));
     downloadFileByUrl(url, fileName);
+    window.URL.revokeObjectURL(url);
 }
 
 function repeatString(target, count) {
@@ -1089,6 +1088,7 @@ function getfile(gid, oHead, type, url, callback) {
         oElement.setAttribute('rel', 'stylesheet');
     }
     oElement.setAttribute('level-id', gid);
+    oElement.setAttribute('author', 'bestime');
     oElement.onload = oElement.onerror = callback;
     oHead.appendChild(oElement);
 }
@@ -1108,17 +1108,22 @@ function getMuti(times, id, alias, callback) {
         });
     }
 }
-function getOne(times, id, alias, callback) {
-    const item = _setting[alias];
-    if (!item)
-        throw "未配置该资源：" + alias;
-    const isJsFile = /^js/.test(alias);
+function getOne(times, id, aliasName, callback) {
+    const item = _setting.alias && _setting.alias[aliasName];
+    let errorMsg = '';
+    if (!item) {
+        errorMsg = `alias "${aliasName}" is't configured`;
+    }
+    if (errorMsg) {
+        throw errorMsg;
+    }
+    const isJsFile = /^js/.test(aliasName);
     function onSuccess() {
         item._complete = true;
         if (!isFunction(callback))
             return;
         if (isJsFile) {
-            callback(window[item.global]);
+            callback(window[item.moduleName]);
         }
         else {
             callback();
@@ -1136,20 +1141,23 @@ function getOne(times, id, alias, callback) {
         item.dependencies.length > 0) {
         item._depenIsLoad = true;
         getMuti(times, id + 1, item.dependencies, function () {
-            getOne(times, id, alias, onSuccess);
+            getOne(times, id, aliasName, onSuccess);
         });
     }
     // 可以同步加载的依赖
     else if (!item._syncsIsLoad && item.syncs && item.syncs.length > 0) {
         item._syncsIsLoad = true;
-        getMuti(times, id, item.syncs.concat(alias), onSuccess);
+        getMuti(times, id, item.syncs.concat(aliasName), onSuccess);
     }
     // 无任何依赖，则创建新请求
     else {
         item._count = item._count ? item._count + 1 : 1;
         item._deeps = `${times}.${id}`;
         const fileType = isJsFile ? "script" : "link";
-        getfile(item._deeps, oHead, fileType, item.url, onSuccess);
+        const filePath = urlToGet(_setting.baseUrl + item.url, {
+            hash: _setting.hash
+        });
+        getfile(item._deeps, oHead, fileType, filePath, onSuccess);
     }
 }
 function loadJsAndCss(alias, callback) {

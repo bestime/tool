@@ -1,15 +1,14 @@
 import isEmptyMap from "../isEmptyMap";
 import isFunction from "../isFunction";
+import urlToGet from "../urlToGet";
 import variableHasValue from "../variableHasValue";
 import getfile from "./getfile";
 
-let _setting: Setting = {};
+let _setting: bestime.INeedConfig = {};
 let times = 0;
 let oHead = document.getElementsByTagName("head")[0];
 
-interface Setting {
-  [key: string]: bestime.INeedItem;
-}
+
 
 function getMuti(
   times: number,
@@ -32,18 +31,26 @@ function getMuti(
 function getOne(
   times: number,
   id: number,
-  alias: string,
+  aliasName: string,
   callback?: (data?: any) => void
 ) {
-  const item = _setting[alias];
-  if (!item) throw "未配置该资源：" + alias;
-  const isJsFile = /^js/.test(alias);
+  const item = _setting.alias && _setting.alias[aliasName];
+  let errorMsg = ''
+  if (!item) {
+    errorMsg = `alias "${aliasName}" is't configured`
+  }
+
+  if(errorMsg) {
+    throw errorMsg
+  }
+
+  const isJsFile = /^js/.test(aliasName);
 
   function onSuccess() {
     item._complete = true;
     if (!isFunction(callback)) return;
     if (isJsFile) {
-      callback(window[item.global]);
+      callback(window[item.moduleName]);
     } else {
       callback();
     }
@@ -63,20 +70,23 @@ function getOne(
   ) {
     item._depenIsLoad = true;
     getMuti(times, id + 1, item.dependencies, function () {
-      getOne(times, id, alias, onSuccess);
+      getOne(times, id, aliasName, onSuccess);
     });
   }
   // 可以同步加载的依赖
   else if (!item._syncsIsLoad && item.syncs && item.syncs.length > 0) {
     item._syncsIsLoad = true;
-    getMuti(times, id, item.syncs.concat(alias), onSuccess);
+    getMuti(times, id, item.syncs.concat(aliasName), onSuccess);
   }
   // 无任何依赖，则创建新请求
   else {
     item._count = item._count ? item._count + 1 : 1;
     item._deeps = `${times}.${id}`;
     const fileType = isJsFile ? "script" : "link";
-    getfile(item._deeps, oHead, fileType, item.url, onSuccess);
+    const filePath = urlToGet(_setting.baseUrl + item.url, {
+      hash: _setting.hash
+    })
+    getfile(item._deeps, oHead, fileType, filePath, onSuccess);
   }
 }
 
@@ -89,7 +99,7 @@ function loadJsAndCss(alias: string[], callback?: (...data: any) => void) {
   }
 }
 
-loadJsAndCss.config = function (setting: Setting) {
+loadJsAndCss.config = function (setting: bestime.INeedConfig) {
   if (!isEmptyMap(_setting)) throw "config is already configured";
   _setting = setting;
 };

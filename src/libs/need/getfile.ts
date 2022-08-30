@@ -10,6 +10,7 @@ export default function getfile (gid: string, oHead: HTMLHeadElement, type: 'scr
   }
 
   oElement.setAttribute('level-id', gid)
+  oElement.setAttribute('author', 'bestime')
   oElement.onload = oElement.onerror = callback
   oHead.appendChild(oElement)
 }

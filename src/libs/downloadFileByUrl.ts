@@ -6,4 +6,5 @@ export default function downloadFileByUrl (url: string, fileName: string) {
   document.body.appendChild(link)
   link.click()
   link.remove()
+  link = undefined
 }

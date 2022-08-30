@@ -2,7 +2,6 @@
   "plugins": [
     // 转换const和let
     "@babel/plugin-transform-block-scoping",
-
     // json同名键=>值
     "@babel/plugin-transform-shorthand-properties", 
 

@@ -14,24 +14,28 @@
   <body>
     <script>
       bestime.need.config({
-        "js#one": {
-          url: "../static/js/one.js",
-          syncs: ['js#three', 'css#test'],
-          dependencies: ["js#two"],
-          global: 'one'
-        },
-        "js#two": {
-          url: "../static/js/two.js",
-          dependencies: ["js#three"],
-          global: 'two'
-        },
-        "js#three": {
-          url: "../static/js/three.js",
-          dependencies: ["css#test"],
-          global: 'three'
-        },
-        "css#test": {
-          url: "../static/css/test.css",
+        baseUrl: '../',
+        hash: '123456',
+        alias: {
+          "js#one": {
+            url: "static/js/one.js",
+            syncs: ['js#three', 'css#test'],
+            dependencies: ["js#two"],
+            moduleName: 'one'
+          },
+          "js#two": {
+            url: "static/js/two.js",
+            dependencies: ["js#three"],
+            moduleName: 'two'
+          },
+          "js#three": {
+            url: "static/js/three.js",
+            dependencies: ["css#test"],
+            moduleName: 'three'
+          },
+          "css#test": {
+            url: "static/css/test.css",
+          }
         },
       });
 
