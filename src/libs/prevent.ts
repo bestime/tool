@@ -1,10 +1,10 @@
-import { WINDOW } from './constant'
+import { browserGlobal } from './constant'
 
 //阻止冒泡及默认行为
 export default function prevent (ev: Event, bubble: boolean, stop: boolean) {
-    ev = ev || WINDOW.event
+    ev = ev || browserGlobal.event
     bubble = bubble === false ? false : true
     stop = stop === false ? false : true
-    bubble && WINDOW.event ? WINDOW.event.cancelBubble = true : ev.stopPropagation()
-    stop && WINDOW.event ? WINDOW.event.returnValue = false : ev.preventDefault()
+    bubble && browserGlobal.event ? browserGlobal.event.cancelBubble = true : ev.stopPropagation()
+    stop && browserGlobal.event ? browserGlobal.event.returnValue = false : ev.preventDefault()
 }

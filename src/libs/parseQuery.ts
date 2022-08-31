@@ -2,11 +2,11 @@ import _Array from './_Array'
 import _Number from './_Number'
 import _Map from './_Map'
 import isString from './isString'
-import { WINDOW, DECODE_URI_COMPONENT, _NULL } from './constant'
+import { browserGlobal, DECODE_URI_COMPONENT, undefinedData } from './constant'
 import FN_FORMAT_STRING_VALUE from './help/FN_FORMAT_STRING_VALUE'
 
 
-const defaultSplitArr = [_NULL, _NULL]
+const defaultSplitArr = [undefinedData, undefinedData]
 
 /**
  * 处理可能是深层级的数据
@@ -21,7 +21,7 @@ function handleDeepKey (res: any, more: any, originValue: any) {
 
 	if(isPreLikeArray(nowKey)) {
 		nowKey = _Number(nowKey)
-		if(sb[1] == _NULL) {
+		if(sb[1] == undefinedData) {
 			res.push(originValue)
 		} else {
 			if(/^\[[\D]+\]/.test(sb[1])) {
@@ -32,7 +32,7 @@ function handleDeepKey (res: any, more: any, originValue: any) {
 			handleDeepKey(res[nowKey], sb[1], originValue)
 		}
 	} else {
-		if(sb[1] == _NULL) {
+		if(sb[1] == undefinedData) {
 			res[nowKey] = originValue
 		} else {
 			if(/^\[[\D]+\]/.test(sb[1])) {
@@ -51,7 +51,7 @@ function handleDeepKey (res: any, more: any, originValue: any) {
  * @return {Array}
  */
 function splitSymbol (str: any) {
-	if(str == _NULL) {
+	if(str == undefinedData) {
 		return defaultSplitArr
 	}
 
@@ -77,10 +77,11 @@ function isPreLikeArray (data: any): boolean {
 
 
 
-export default function parseQuery (str: string) {
-  var res: any = {}, href, hasChlid, queryKey;
-	try { href = WINDOW.location.href } catch (e) {href = ''};
-  str = isString(str) ? str : href
+export default function parseQuery (str?: string) {
+  var res: any = {}, hasChlid, queryKey;
+  if(!str) {
+    str = browserGlobal.location.href
+  }
 	
   str.replace(/([^=&?/#]*?)=([^=&?/#]*)/g, function (_: any, key: any, val: any): any {
 		val = FN_FORMAT_STRING_VALUE(DECODE_URI_COMPONENT(val))

@@ -18,7 +18,7 @@ export default function deepFindItem (list: any[], handle: (data: any) => void, 
         res = children[a]
         break;
       } else {
-        doOnce(children[a][childrenKey])
+        doOnce(children[a][childrenKey as any])
       }
       if(isFind) {
         break;

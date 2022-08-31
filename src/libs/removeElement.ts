@@ -1,7 +1,5 @@
 export default function removeElement (el: HTMLElement) {
-  try {
+  if(el.parentNode) {
     el.parentNode.removeChild(el)
-  } catch(e) {
-    
   }
 }

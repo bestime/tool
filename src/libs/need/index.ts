@@ -3,6 +3,11 @@ import isFunction from "../isFunction";
 import urlToGet from "../urlToGet";
 import variableHasValue from "../variableHasValue";
 import getfile from "./getfile";
+import { browserGlobal, undefinedData } from '../constant'
+
+type loadCallback = (...data: number[]) => void
+
+function defaultCallback () {}
 
 let _setting: bestime.INeedConfig = {};
 let times = 0;
@@ -14,7 +19,7 @@ function getMuti(
   times: number,
   id: number,
   alias: string[],
-  callback?: (...args: any[]) => void
+  callback: (...args: any[]) => void
 ) {
   const result: any[] = [];
   let flag = 0;
@@ -22,7 +27,7 @@ function getMuti(
     getOne(times, id, alias[a], function (res) {
       result[a] = res;
       if (++flag === alias.length) {
-        callback(...result);
+        callback.apply(undefinedData, result);
       }
     });
   }
@@ -32,32 +37,32 @@ function getOne(
   times: number,
   id: number,
   aliasName: string,
-  callback?: (data?: any) => void
+  callback: (data?: any) => void
 ) {
   const item = _setting.alias && _setting.alias[aliasName];
-  let errorMsg = ''
+
   if (!item) {
-    errorMsg = `alias "${aliasName}" is't configured`
+    throw `alias \"${aliasName}" is not configured`
   }
 
-  if(errorMsg) {
-    throw errorMsg
-  }
+  
 
   const isJsFile = /^js/.test(aliasName);
 
   function onSuccess() {
-    item._complete = true;
-    if (!isFunction(callback)) return;
-    if (isJsFile) {
-      callback(window[item.moduleName]);
-    } else {
-      callback();
-    }
+    if(item) {
+      item._complete = true;
+      if (!isFunction(callback)) return;
+      if (isJsFile) {
+        callback(item.moduleName ? browserGlobal[item.moduleName as any] : undefined);
+      } else {
+        callback();
+      }
+    }    
   }
 
   // 如果已经存在，则等待
-  if (item._count > 0) {
+  if (item._count && item._count > 0) {
     variableHasValue(function () {
       return item._complete;
     }, onSuccess);
@@ -90,7 +95,8 @@ function getOne(
   }
 }
 
-function loadJsAndCss(alias: string[], callback?: (...data: any) => void) {
+function loadJsAndCss(alias: string[], callback?: loadCallback) {
+  callback = callback || defaultCallback
   times++;
   if (typeof alias === "object") {
     getMuti(times, 1, alias, callback);

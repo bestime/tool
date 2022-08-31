@@ -1,13 +1,12 @@
 {
   "plugins": [
-    // 转换const和let
     "@babel/plugin-transform-block-scoping",
-    // json同名键=>值
     "@babel/plugin-transform-shorthand-properties", 
-
-    // 模板字符串转换
     ["@babel/plugin-transform-template-literals", {
-      "loose": true // 字符串连接不使用"concat"而使用"+"
+      "loose": true
+    }],
+    ["@babel/plugin-transform-spread", {
+      "loose": true
     }]
   ]
 }

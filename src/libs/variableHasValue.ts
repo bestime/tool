@@ -6,7 +6,7 @@
  * @param callback - 成功回调
  * @param sleepTime - 间隔时间
  */
- export default function variableHasValue (handler: () => boolean, callback: () => void, sleepTime?: number) {
+ export default function variableHasValue (handler: () => boolean | undefined, callback: () => void, sleepTime?: number) {
   sleepTime = sleepTime == null ? 60 : sleepTime
   var timer;
 

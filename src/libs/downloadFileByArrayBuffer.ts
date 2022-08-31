@@ -1,7 +1,10 @@
 import downloadFileByUrl from './downloadFileByUrl'
+import { browserGlobal } from './constant'
+
+const iUrl = browserGlobal.URL
 
 export default function downloadFileByArrayBuffer (data: ArrayBuffer, fileName: string) {
-  const url = window.URL.createObjectURL(new Blob([data]))
+  const url = iUrl.createObjectURL(new Blob([data]))
   downloadFileByUrl(url, fileName)
-  window.URL.revokeObjectURL(url)
+  iUrl.revokeObjectURL(url)
 }

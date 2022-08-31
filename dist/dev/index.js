@@ -51,14 +51,14 @@ const TB = GB * 1024;
 const LETTER_LIST = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 /** 数据类型常量：Array */
 const TYPE_ARRAY = 'Array';
-/** 常量：null */
-const _NULL = null;
+const undefinedData = undefined;
 const ZERO_STRING = '0';
 /** false字符串 */
 const STRING_FALSE = 'false';
 /** true字符串 */
 const STRING_TRUE = 'true';
-const WINDOW = window;
+/** 代理浏览器 window */
+const browserGlobal = window;
 /** toString简写 */
 const _TOSTRING = Object.prototype.toString;
 /** 数据类型常量：Object */
@@ -193,7 +193,6 @@ function trim(str, pos) {
         switch (pos) {
             case 1: return str.replace(/^[\s\uFEFF\xA0]+/, ''); // 左侧
             case -1: return str.replace(/[\s\uFEFF\xA0]+$/, ''); // 右侧
-            case 0:
             case '*': return str.replace(/[\s\uFEFF\xA0]+/g, ''); // 所有空格
             default: return str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, ''); // 两侧
         }
@@ -347,6 +346,10 @@ function dataCacheUtil(url) {
     };
 }
 
+function cloneSimple(data) {
+    let res = JSON.stringify(data);
+    return JSON.parse(res);
+}
 const DEFAULT_CONFIG = {
     id: "id",
     children: "children"
@@ -354,7 +357,7 @@ const DEFAULT_CONFIG = {
 function deepFindTreePath(tree, handler, config) {
     config = Object.assign(DEFAULT_CONFIG, config);
     const path = [];
-    const list = [...tree];
+    const list = cloneSimple(tree);
     const visitedSet = new Set();
     const { children } = config;
     while (list.length) {
@@ -365,7 +368,7 @@ function deepFindTreePath(tree, handler, config) {
         }
         else {
             visitedSet.add(node);
-            node[children] && list.unshift(...node[children]);
+            node[children] && list.unshift.apply(list, node[children]);
             path.push(node);
             if (handler(node))
                 return path;
@@ -448,7 +451,7 @@ function _Number(data) {
     return data === Math.abs(Infinity) || isNaN(data) ? 0 : data;
 }
 
-const defaultSplitArr = [_NULL, _NULL];
+const defaultSplitArr = [undefinedData, undefinedData];
 /**
  * 处理可能是深层级的数据
  *
@@ -461,7 +464,7 @@ function handleDeepKey(res, more, originValue) {
     var nowKey = sb[0];
     if (isPreLikeArray(nowKey)) {
         nowKey = _Number(nowKey);
-        if (sb[1] == _NULL) {
+        if (sb[1] == undefinedData) {
             res.push(originValue);
         }
         else {
@@ -475,7 +478,7 @@ function handleDeepKey(res, more, originValue) {
         }
     }
     else {
-        if (sb[1] == _NULL) {
+        if (sb[1] == undefinedData) {
             res[nowKey] = originValue;
         }
         else {
@@ -495,7 +498,7 @@ function handleDeepKey(res, more, originValue) {
  * @return {Array}
  */
 function splitSymbol(str) {
-    if (str == _NULL) {
+    if (str == undefinedData) {
         return defaultSplitArr;
     }
     var pre = str, next;
@@ -515,14 +518,10 @@ function isPreLikeArray(data) {
     return data === '' || /^\d+$/.test(data);
 }
 function parseQuery(str) {
-    var res = {}, href, hasChlid, queryKey;
-    try {
-        href = WINDOW.location.href;
+    var res = {}, hasChlid, queryKey;
+    if (!str) {
+        str = browserGlobal.location.href;
     }
-    catch (e) {
-        href = '';
-    }
-    str = isString(str) ? str : href;
     str.replace(/([^=&?/#]*?)=([^=&?/#]*)/g, function (_, key, val) {
         val = FN_FORMAT_STRING_VALUE(DECODE_URI_COMPONENT(val));
         queryKey = DECODE_URI_COMPONENT(key);
@@ -562,10 +561,11 @@ function downloadFileByUrl(url, fileName) {
     link = undefined;
 }
 
+const iUrl = browserGlobal.URL;
 function downloadFileByArrayBuffer(data, fileName) {
-    const url = window.URL.createObjectURL(new Blob([data]));
+    const url = iUrl.createObjectURL(new Blob([data]));
     downloadFileByUrl(url, fileName);
-    window.URL.revokeObjectURL(url);
+    iUrl.revokeObjectURL(url);
 }
 
 function repeatString(target, count) {
@@ -901,20 +901,18 @@ JSON.stringify(fileSize(1.1, 'KB'))
 */
 
 function removeElement(el) {
-    try {
+    if (el.parentNode) {
         el.parentNode.removeChild(el);
-    }
-    catch (e) {
     }
 }
 
 //阻止冒泡及默认行为
 function prevent(ev, bubble, stop) {
-    ev = ev || WINDOW.event;
+    ev = ev || browserGlobal.event;
     bubble = bubble === false ? false : true;
     stop = stop === false ? false : true;
-    bubble && WINDOW.event ? WINDOW.event.cancelBubble = true : ev.stopPropagation();
-    stop && WINDOW.event ? WINDOW.event.returnValue = false : ev.preventDefault();
+    bubble && browserGlobal.event ? browserGlobal.event.cancelBubble = true : ev.stopPropagation();
+    stop && browserGlobal.event ? browserGlobal.event.returnValue = false : ev.preventDefault();
 }
 
 /**
@@ -934,24 +932,24 @@ getRandom(0.1, 9.9, false)
 
 */
 
+const letterLength = LETTER_LIST.length - 1;
+function getRandomWord() {
+    return LETTER_LIST[getRandom(0, letterLength)][0];
+}
 /**
  * 生成随机ID
- * @param {Number} [length = 24] 生成的字符串长度，最大24
- *
  * @return {String}
  */
 function uuid(length) {
     length = _Number(length);
-    let multiplicand = '';
-    for (let a = 0; a < 13; a++)
-        multiplicand += getRandom(1, 9);
-    multiplicand = _Number(multiplicand);
-    const stamp = +new Date();
-    const num = stamp * getRandom(1, String(stamp).length) + multiplicand;
-    const letterRandom = LETTER_LIST[getRandom(0, LETTER_LIST.length)]; // 第一位字母
-    let res = (letterRandom + multiplicand.toString(32) + num);
-    res = length ? res.substring(0, length) : res;
-    return res;
+    let multiplicand = "";
+    for (let a = 0; a < 13; a++) {
+        multiplicand = multiplicand + getRandom(1, 9);
+    }
+    const t = new Date().getTime() * getRandom(1, 100);
+    const res = getRandomWord() + Number(multiplicand).toString(32) + t.toString(32);
+    const endStr = getRandomWord() + getRandomWord() + getRandomWord();
+    return padEnd(res, 20, endStr);
 }
 
 function _Boolean(data) {
@@ -963,14 +961,9 @@ function _Boolean(data) {
     }
 }
 
-/**
- * 获取本地存储
- *
- * @param {String} key
- * @return {Object|Array|String}
- */
 function getStorage(key) {
-    return FN_FORMAT_STRING_VALUE(localStorage.getItem(key));
+    const res = localStorage.getItem(key);
+    return res ? FN_FORMAT_STRING_VALUE(res) : '';
 }
 
 function removeStorage(key) {
@@ -1093,6 +1086,7 @@ function getfile(gid, oHead, type, url, callback) {
     oHead.appendChild(oElement);
 }
 
+function defaultCallback() { }
 let _setting = {};
 let times = 0;
 let oHead = document.getElementsByTagName("head")[0];
@@ -1103,34 +1097,32 @@ function getMuti(times, id, alias, callback) {
         getOne(times, id, alias[a], function (res) {
             result[a] = res;
             if (++flag === alias.length) {
-                callback(...result);
+                callback.apply(undefinedData, result);
             }
         });
     }
 }
 function getOne(times, id, aliasName, callback) {
     const item = _setting.alias && _setting.alias[aliasName];
-    let errorMsg = '';
     if (!item) {
-        errorMsg = `alias "${aliasName}" is't configured`;
-    }
-    if (errorMsg) {
-        throw errorMsg;
+        throw `alias \"${aliasName}" is not configured`;
     }
     const isJsFile = /^js/.test(aliasName);
     function onSuccess() {
-        item._complete = true;
-        if (!isFunction(callback))
-            return;
-        if (isJsFile) {
-            callback(window[item.moduleName]);
-        }
-        else {
-            callback();
+        if (item) {
+            item._complete = true;
+            if (!isFunction(callback))
+                return;
+            if (isJsFile) {
+                callback(item.moduleName ? browserGlobal[item.moduleName] : undefined);
+            }
+            else {
+                callback();
+            }
         }
     }
     // 如果已经存在，则等待
-    if (item._count > 0) {
+    if (item._count && item._count > 0) {
         variableHasValue(function () {
             return item._complete;
         }, onSuccess);
@@ -1161,6 +1153,7 @@ function getOne(times, id, aliasName, callback) {
     }
 }
 function loadJsAndCss(alias, callback) {
+    callback = callback || defaultCallback;
     times++;
     if (typeof alias === "object") {
         getMuti(times, 1, alias, callback);

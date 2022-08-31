@@ -4,12 +4,12 @@
     "module": "esnext",
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
-    "strict": false,
+    "strict": true,
     "noEmit": true,
-    "allowJs": true,
+    "allowJs": false,
     "sourceMap": true,
     "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules"],
-  "include": ["dist/bestime.iife.d.ts","src/**/*.ts","index.html", "static/**/*.js"]
+  "include": ["dist/release/iife/bestime.iife.d.ts","src/**/*.ts", "static/**/*.js"]
 }

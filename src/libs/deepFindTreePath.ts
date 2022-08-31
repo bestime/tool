@@ -1,4 +1,9 @@
 
+function cloneSimple<T> (data: T): T {
+  let res = JSON.stringify(data)
+  return JSON.parse(res)
+}
+
 
 const DEFAULT_CONFIG = {
   id: "id",
@@ -15,7 +20,7 @@ export default function deepFindTreePath (
 ) {
   config = Object.assign(DEFAULT_CONFIG, config);
   const path = [];
-  const list = [...tree];
+  const list = cloneSimple(tree);
   const visitedSet = new Set();
   const { children } = config;
 
@@ -26,7 +31,7 @@ export default function deepFindTreePath (
       list.shift();
     } else {
       visitedSet.add(node);
-      node[children] && list.unshift(...node[children]);
+      node[children] && list.unshift.apply(list, node[children]);
       path.push(node);
       if (handler(node)) return path;
     }

@@ -36,60 +36,66 @@ function getBanner (type) {
  */`
 }
 
-function getDistPath () {
-  return 'dist/'
+function getDistPath (type) {
+  return 'dist/release/' + type + '/' + getName(type)
 }
+
+
+
+
 
 export default {
   input: './src/main.ts',
   
   output: [
     {
-      file:  getDistPath()+getName('iife'),
+      file:  getDistPath('iife'),
       banner: getBanner('iife'),
       format: 'iife',    
       strict: true,
       name: 'bestime',
       indent: false,
-      sourcemap: true,
+      sourcemap: false,
       interop: false,
-      
-      
     },
     {
-      file: getDistPath() + getName('esm'),
+      file: getDistPath('esm'),
       banner: getBanner('esm'),
       format: 'esm',
       strict: true,
       indent: false,
       sourcemap: false,
       interop: false,
-      
     }
   ],
   plugins: [
+    rollupTypescript({
+      include: "src/**/*.ts",
+      exclude: "node_modules/**",
+      typescript: typescript,
+      useTsconfigDeclarationDir: true,
+      allowNonTsExtensions: false,
+    }),
+
     babel({
       babelHelpers: 'bundled',
       exclude: "node_modules/**",
+      extensions: [
+        '.ts',
+        '.js'
+      ]
     }),
+
     uglify({
       ie8: true,
       warnings: false,
       compress: true,
       output: {
         beautify: false,
-        comments: false,
-        // preamble: banner,
         comments: function(node, comment) {
             return /@see/i.test(comment.value);
         }
       }
-    }),
-    rollupTypescript({
-      include: "src/**/*.ts",
-      exclude: "node_modules/**",
-      typescript: typescript,
-      useTsconfigDeclarationDir: true
-    })
+    }),    
   ]
 };

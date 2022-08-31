@@ -1,4 +1,4 @@
-/**  
+/**
  * 个人工具库文档声明文件. bestime.iife.min.js
  * @QQ 1174295440
  * @author Bestime
@@ -12,41 +12,41 @@ declare namespace bestime {
 
   export interface INeedConfig {
     /** 请求前缀 */
-    baseUrl?: string,
+    baseUrl?: string;
 
     /** 请求地址上拼接hash值（可用于缓存或标识） */
-    hash?: string,
+    hash?: string;
 
     alias?: {
       [key: string]: {
         /** 暴露的全局变量名 */
-        moduleName?: string,
-    
+        moduleName?: string;
+
         /** 资源地址 */
-        url: string,
-      
+        url: string;
+
         /** 必需先加载的依赖 */
-        dependencies?: string[]
-    
+        dependencies?: string[];
+
         /** 可以同步加载的依赖 */
-        syncs?: string[],
-      
+        syncs?: string[];
+
         /** 是否请求完毕（无论成功失败） */
-        _complete?: boolean
-    
+        _complete?: boolean;
+
         /** 内部使用：同步依赖是否已经请求 */
-        _syncsIsLoad?: boolean,
-    
+        _syncsIsLoad?: boolean;
+
         /** 内部使用：异步依赖是否已经请求 */
-        _depenIsLoad?: boolean,
-      
+        _depenIsLoad?: boolean;
+
         /** 内部使用：分组ID（方便调试）。第一位表示发起的请求分组，大小表示先后顺序。第二位表示此组中的依赖关系，值越大越先请求 */
-        _deeps?: string,
-      
+        _deeps?: string;
+
         /** 内部使用：被请求次数 */
-        _count?: number
-      }
-    }
+        _count?: number;
+      };
+    };
   }
 
   /** 数据缓存工具回调函数 */
@@ -88,7 +88,9 @@ declare namespace bestime {
    * const apiUrl = iUrl('/@baidu/api/user/info')
    * ```
    */
-  export function serverConfig(config: { [key: string]: string | null }): (path: string) => string;
+  export function serverConfig(config: {
+    [key: string]: string | null;
+  }): (path: string) => string;
 
   /**
    * 强制转化数据为字符串
@@ -147,7 +149,7 @@ declare namespace bestime {
    * @param position - 移除位置。默认：两侧，1：左侧，-1右侧，* 所有
    * @returns 字符串
    */
-  export function trim(data: string | number, position?: 1 | -1 | '*'): string;
+  export function trim(data: string | number, position?: 1 | -1 | "*"): string;
 
   /**
    * 移除undefined和null数据
@@ -156,7 +158,10 @@ declare namespace bestime {
    * @param removeEmptyStr - 是否移除空字符串
    * @returns string
    */
-  export function clean<T extends any[] | IMap>(data: T, removeEmptyStr?: boolean): T;
+  export function clean<T extends any[] | IMap>(
+    data: T,
+    removeEmptyStr?: boolean
+  ): T;
 
   /**
    * 对相同地址的数据进行缓存
@@ -172,7 +177,7 @@ declare namespace bestime {
    * @param interval - 检测时间间隔（毫秒）. 默认60
    */
   export function variableHasValue(
-    handler: () => boolean,
+    handler: () => boolean | undefined,
     callback: () => void,
     interval?: number
   ): void;
@@ -334,7 +339,10 @@ declare namespace bestime {
    * @param data - ArrayBuffer格式的数据
    * @param fileName - 文件名
    */
-  export function downloadFileByArrayBuffer(data: ArrayBuffer, fileName: string): void;
+  export function downloadFileByArrayBuffer(
+    data: ArrayBuffer,
+    fileName: string
+  ): void;
 
   /**
    * 循环复制字符串
@@ -351,7 +359,11 @@ declare namespace bestime {
    * @param target - 填充的字符串
    * @returns 结果
    */
-  export function padEnd(data: string | number, len: number, target: string): string;
+  export function padEnd(
+    data: string | number,
+    len: number,
+    target: string
+  ): string;
 
   /**
    * 向前填充字符串
@@ -360,7 +372,11 @@ declare namespace bestime {
    * @param target - 填充的字符串
    * @returns 结果
    */
-  export function padStart(data: string | number, len: number, target: string): string;
+  export function padStart(
+    data: string | number,
+    len: number,
+    target: string
+  ): string;
 
   /**
    * 基于原生split优化版，使空字符传结果为 "[]"
@@ -422,7 +438,11 @@ declare namespace bestime {
    * @param children - 子项字段
    * @returns 结果
    */
-  export function deepFindItem(list: any[], handle: (data: any) => void, children?: string): any;
+  export function deepFindItem(
+    list: any[],
+    handle: (data: any) => void,
+    children?: string
+  ): any;
 
   /**
    * 在给定索引范围内，增减当前索引，如果超出范围，则按当前方向重新循环取值。
@@ -431,9 +451,21 @@ declare namespace bestime {
    * @param increase - 调整多少索引，可为负数
    * @returns 改变后的索引
    */
-  export function changeIndex(maxIndex: number, currentIndex: number, increase: number): any;
+  export function changeIndex(
+    maxIndex: number,
+    currentIndex: number,
+    increase: number
+  ): any;
 
-  type ITimeLineUnints = [string, string, string, string, string, string, string];
+  type ITimeLineUnints = [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string
+  ];
 
   /**
    * 时间轴刻度格式化
@@ -481,7 +513,7 @@ declare namespace bestime {
    */
   export function fileSize(
     data: number,
-    unit?: 'KB' | 'Bytes' | 'MB'
+    unit?: "KB" | "Bytes" | "MB"
   ): {
     Bit: number;
     Bytes: string;
@@ -551,12 +583,27 @@ declare namespace bestime {
    */
   export function getJsFileBaseUrl(tir?: number): string;
 
-  /** 按配置ID获取js或css */
-  export function need(alias: string|string[], callback: (...args: any[]) => void): string;
-  
-  export namespace need {
-    export function config (setting:INeedConfig ): void
-    export function getConfig (): INeedConfig
-  }
+  /**
+   * 按配置别名，异步获取js或css
+   * @param alias - 初始化时配置的别名
+   * @param callback - 加载成功回调
+   */
+  export function need(
+    alias: string | string[],
+    callback?: (...args: any[]) => void
+  ): string;
 
+  /** js、css 静态模块加载器 */
+  export namespace need {
+    /**
+     * @param setting - 配置参数
+     */
+    export function config(setting: INeedConfig): void;
+
+    /**
+     * 查看当前配置
+     * @returns 实时配置
+     */
+    export function getConfig(): INeedConfig;
+  }
 }
