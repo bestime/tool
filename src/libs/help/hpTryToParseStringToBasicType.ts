@@ -1,7 +1,8 @@
 
-import { STRING_FALSE, STRING_TRUE } from '../constant'
+import { $falseString, $trueString } from './hpConsts'
 
 import isString from '../isString';
+import hpJsonParse from './hpJsonParse';
 
 /**
  * 解析字符串
@@ -13,20 +14,20 @@ import isString from '../isString';
  * 
  * @return {*}
  */
-export default function FN_FORMAT_STRING_VALUE (data: string): any {  
+export default function hpTryToParseStringToBasicType (data: string): any {  
   let res: any = data;
 
   
   if(data == null) {
     res = undefined
-  } else if(STRING_FALSE === data) {
+  } else if($falseString === data) {
     res = false
-  } else if(STRING_TRUE === data) {
+  } else if($trueString === data) {
     res = true
   } else if(isString(data) && /^\d+$/.test(data)) {
     res = String(data);
   } else {
-    try { res = JSON.parse(data) } catch (e) {}
+    res = hpJsonParse(hpJsonParse)
   }
 
   return res

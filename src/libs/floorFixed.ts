@@ -2,7 +2,7 @@ import _Number from './_Number'
 import padEnd from './padEnd'
 import split from './split'
 import trim from './trim'
-import { ZERO_STRING } from './constant'
+import { $zeroString } from './help/hpConsts'
 
 
 export default function floorFixed (data: number|string, fractionDigits: number, rejection?: boolean) {
@@ -11,7 +11,7 @@ export default function floorFixed (data: number|string, fractionDigits: number,
   var arr = split(data, '.')
   var decp = arr[1] || ''
   if (decp.length < fractionDigits) {
-    decp = padEnd(decp, fractionDigits, ZERO_STRING);
+    decp = padEnd(decp, fractionDigits, $zeroString);
     if(rejection) {
       decp = decp.replace(/0+$/, '')
     }

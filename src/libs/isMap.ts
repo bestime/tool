@@ -1,7 +1,7 @@
 import getType from './getType'
-import { TYPE_OBJECT } from './constant'
+import { $ObjectTypeNameBig } from './help/hpConsts'
 
 
 export default function isMap (data: any): boolean {
-  return getType(data) === TYPE_OBJECT
+  return getType(data) === $ObjectTypeNameBig
 }

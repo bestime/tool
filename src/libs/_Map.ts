@@ -1,5 +1,5 @@
 import isMap from "./isMap"
-import jsonParse from './help/jsonParse'
+import jsonParse from './help/hpJsonParse'
 
 interface IMap {
   [key: string]: any

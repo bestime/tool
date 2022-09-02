@@ -2,7 +2,7 @@ import _Number from './_Number'
 import padEnd from './padEnd'
 import split from './split'
 import _String from './_String'
-import { ZERO_STRING } from './constant'
+import { $zeroString } from './help/hpConsts'
 
 
 export default function roundFixed (data: number|string, fractionDigits: number, rejection?: boolean) {
@@ -21,7 +21,7 @@ export default function roundFixed (data: number|string, fractionDigits: number,
     var decp = chai[1] || ''; // 小数部分
     
     if (decp.length < fractionDigits) {
-      decp = padEnd(decp, fractionDigits, ZERO_STRING)
+      decp = padEnd(decp, fractionDigits, $zeroString)
       if(rejection) {
         decp = decp.replace(/0+$/, '')
       }

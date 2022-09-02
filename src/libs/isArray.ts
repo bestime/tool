@@ -1,6 +1,6 @@
 import getType from './getType'
-import { TYPE_ARRAY } from './constant'
+import { $ArrayTypeNameBig } from './help/hpConsts'
 
 export default function isArray (data: any): boolean {
-  return getType(data) === TYPE_ARRAY
+  return getType(data) === $ArrayTypeNameBig
 }

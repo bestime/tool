@@ -2,11 +2,11 @@ import _Array from './_Array'
 import _Number from './_Number'
 import _Map from './_Map'
 import isString from './isString'
-import { browserGlobal, DECODE_URI_COMPONENT, undefinedData } from './constant'
-import FN_FORMAT_STRING_VALUE from './help/FN_FORMAT_STRING_VALUE'
+import { $browserGlobal, $decodeURIComponent, $undefinedValue } from './help/hpConsts'
+import FN_FORMAT_STRING_VALUE from './help/hpTryToParseStringToBasicType'
 
 
-const defaultSplitArr = [undefinedData, undefinedData]
+const defaultSplitArr = [$undefinedValue, $undefinedValue]
 
 /**
  * 处理可能是深层级的数据
@@ -21,7 +21,7 @@ function handleDeepKey (res: any, more: any, originValue: any) {
 
 	if(isPreLikeArray(nowKey)) {
 		nowKey = _Number(nowKey)
-		if(sb[1] == undefinedData) {
+		if(sb[1] == $undefinedValue) {
 			res.push(originValue)
 		} else {
 			if(/^\[[\D]+\]/.test(sb[1])) {
@@ -32,7 +32,7 @@ function handleDeepKey (res: any, more: any, originValue: any) {
 			handleDeepKey(res[nowKey], sb[1], originValue)
 		}
 	} else {
-		if(sb[1] == undefinedData) {
+		if(sb[1] == $undefinedValue) {
 			res[nowKey] = originValue
 		} else {
 			if(/^\[[\D]+\]/.test(sb[1])) {
@@ -51,7 +51,7 @@ function handleDeepKey (res: any, more: any, originValue: any) {
  * @return {Array}
  */
 function splitSymbol (str: any) {
-	if(str == undefinedData) {
+	if(str == $undefinedValue) {
 		return defaultSplitArr
 	}
 
@@ -80,12 +80,12 @@ function isPreLikeArray (data: any): boolean {
 export default function parseQuery (str?: string) {
   var res: any = {}, hasChlid, queryKey;
   if(!str) {
-    str = browserGlobal.location.href
+    str = $browserGlobal.location.href
   }
 	
   str.replace(/([^=&?/#]*?)=([^=&?/#]*)/g, function (_: any, key: any, val: any): any {
-		val = FN_FORMAT_STRING_VALUE(DECODE_URI_COMPONENT(val))
-		queryKey = DECODE_URI_COMPONENT(key)
+		val = FN_FORMAT_STRING_VALUE($decodeURIComponent(val))
+		queryKey = $decodeURIComponent(key)
 		hasChlid = false
 		if(queryKey!=='') {
 			queryKey.replace(/(.*?)(\[.*)/, function (_: any, k: any, m: any): any {

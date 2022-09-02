@@ -7,7 +7,7 @@ import isString from '../isString'
  * @param {*} val 需要转换的数据
  * @return {String}
  */
-export default function SET_STRING_VALUE (val: any): string {
+export default function hpSetStringValue (val: any): string {
   if(!isString(val)) {
     val = JSON.stringify(val)
   }

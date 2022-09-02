@@ -1,6 +1,7 @@
-import simpleClone from './help/simpleClone';
+
 import trim from './trim';
-import zeroTo2 from './help/zeroTo2';
+import zeroTo2 from './help/hpZeroTo2';
+import cloneEasy from './cloneEasy';
 
 function formatFunc(units: string[], unitIndex: number, data: number) {
   const item = units[unitIndex];
@@ -49,7 +50,7 @@ export default function timeLine(
     result.push({
       value: list[a],
       timestamp: +date,
-      split: [fmt, simpleClone(fmt)]
+      split: [fmt, cloneEasy(fmt)]
     });
   }
 

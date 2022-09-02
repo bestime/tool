@@ -1,9 +1,9 @@
 import getType from './getType'
-import { TYPE_STRING } from './constant'
+import { $stringTypeNameBig } from './help/hpConsts'
 
 
 export default function isString (data: any) {
-  return getType(data) === TYPE_STRING
+  return getType(data) === $stringTypeNameBig
 }
 
 

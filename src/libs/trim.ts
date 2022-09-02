@@ -1,16 +1,16 @@
 import getType from './getType'
-import { TYPE_STRING, TYPE_NUMBER } from './constant'
+import { $stringTypeNameBig, $numberTypeNameBig } from './help/hpConsts'
 
 
 export default function trim (str: any, pos?: 1 | -1 | '*'): string {
   var tp = getType(str)
   
-  if(tp === TYPE_NUMBER) {
+  if(tp === $numberTypeNameBig) {
     str = String(str)
-    tp = TYPE_STRING
+    tp = $stringTypeNameBig
   }
 
-  if(tp === TYPE_STRING) {
+  if(tp === $stringTypeNameBig) {
     switch (pos) {
       case 1: return str.replace(/^[\s\uFEFF\xA0]+/, ''); // 左侧
       case -1: return str.replace(/[\s\uFEFF\xA0]+$/, ''); // 右侧

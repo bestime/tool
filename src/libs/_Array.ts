@@ -1,5 +1,5 @@
 import isArray from "./isArray"
-import jsonParse from './help/jsonParse'
+import jsonParse from './help/hpJsonParse'
 
 
 

@@ -1,7 +1,11 @@
 
 import floorFixed from './floorFixed'
 
-import { Bytes, KB, GB, MB, TB } from './constant'
+export const Bytes = 8;
+export const KB = Bytes * 1024
+export const MB = KB * 1024
+export const GB = MB * 1024
+export const TB = GB * 1024
 
 
 /**

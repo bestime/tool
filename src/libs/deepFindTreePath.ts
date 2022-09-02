@@ -1,8 +1,5 @@
+import cloneEasy from "./cloneEasy";
 
-function cloneSimple<T> (data: T): T {
-  let res = JSON.stringify(data)
-  return JSON.parse(res)
-}
 
 
 const DEFAULT_CONFIG = {
@@ -20,7 +17,7 @@ export default function deepFindTreePath (
 ) {
   config = Object.assign(DEFAULT_CONFIG, config);
   const path = [];
-  const list = cloneSimple(tree);
+  const list = cloneEasy(tree);
   const visitedSet = new Set();
   const { children } = config;
 

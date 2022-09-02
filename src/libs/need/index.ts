@@ -3,7 +3,7 @@ import isFunction from "../isFunction";
 import urlToGet from "../urlToGet";
 import variableHasValue from "../variableHasValue";
 import getfile from "./getfile";
-import { browserGlobal, undefinedData } from '../constant'
+import { $browserGlobal, $undefinedValue } from '../help/hpConsts'
 
 type loadCallback = (...data: number[]) => void
 
@@ -27,7 +27,7 @@ function getMuti(
     getOne(times, id, alias[a], function (res) {
       result[a] = res;
       if (++flag === alias.length) {
-        callback.apply(undefinedData, result);
+        callback.apply($undefinedValue, result);
       }
     });
   }
@@ -54,7 +54,7 @@ function getOne(
       item._complete = true;
       if (!isFunction(callback)) return;
       if (isJsFile) {
-        callback(item.moduleName ? browserGlobal[item.moduleName as any] : undefined);
+        callback(item.moduleName ? $browserGlobal[item.moduleName as any] : undefined);
       } else {
         callback();
       }

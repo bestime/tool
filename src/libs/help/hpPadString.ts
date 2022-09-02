@@ -2,7 +2,7 @@ import _String from '../_String'
 import repeatString from '../repeatString'
 
 
-export default function PAD_STRING (padTarget: string|number, targetLength: number, padString: string, direction: number): string {
+export default function hpPadString (padTarget: string|number, targetLength: number, padString: string, direction: number): string {
   padTarget = _String(padTarget)
   targetLength = targetLength >> 0;
   if(padTarget.length > targetLength) {

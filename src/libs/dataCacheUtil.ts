@@ -1,4 +1,5 @@
 
+import hpJsonParse from './help/hpJsonParse'
 import variableHasValue from './variableHasValue'
 
 const _tmp: {
@@ -43,7 +44,7 @@ export default function dataCacheUtil (url: string) {
     variableHasValue(function () {
       return item.complete
     }, function () {
-      callback(JSON.parse(item.data))
+      callback(hpJsonParse(item.data))
     }, 100)
   }
 

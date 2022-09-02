@@ -1,4 +1,4 @@
-import SET_STRING_VALUE from './help/SET_STRING_VALUE'
+import SET_STRING_VALUE from './help/hpSetStringValue'
 
 
 /**

@@ -1,7 +1,7 @@
-import { _TOSTRING} from './constant'
+import { $ObjectTypeNameBigPrototypeToString} from './help/hpConsts'
 
 
 export default function getType (data: any): string {
-  return _TOSTRING.call(data).slice(8, -1)
+  return $ObjectTypeNameBigPrototypeToString.call(data).slice(8, -1)
 }
 

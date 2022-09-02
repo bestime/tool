@@ -1,13 +1,12 @@
-import { LETTER_LIST } from "./constant";
+import { $letters } from "./help/hpConsts";
 import _Number from "./_Number";
 import getRandom from "./getRandom";
 import padEnd from "./padEnd";
 
-const letterLength = LETTER_LIST.length - 1;
-
+const letterLength = $letters.length - 1;
 
 function getRandomWord() {
-  return LETTER_LIST[getRandom(0, letterLength)][0];
+  return $letters[getRandom(0, letterLength)][0];
 }
 
 /**

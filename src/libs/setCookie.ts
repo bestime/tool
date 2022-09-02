@@ -1,4 +1,4 @@
-import setObjectToString from './help/setObjectToString'
+import setObjectToString from './help/hpSetObjectToString'
 
 /**
  * 设置cookie。默认path="/"

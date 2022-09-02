@@ -43,50 +43,44 @@ function _String(data) {
     return isNull(data) ? '' : String(data);
 }
 
-const Bytes = 8;
-const KB = Bytes * 1024;
-const MB = KB * 1024;
-const GB = MB * 1024;
-const TB = GB * 1024;
-const LETTER_LIST = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+const $letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 /** 数据类型常量：Array */
-const TYPE_ARRAY = 'Array';
-const undefinedData = undefined;
-const ZERO_STRING = '0';
-/** false字符串 */
-const STRING_FALSE = 'false';
-/** true字符串 */
-const STRING_TRUE = 'true';
-/** 代理浏览器 window */
-const browserGlobal = window;
-/** toString简写 */
-const _TOSTRING = Object.prototype.toString;
+const $ArrayTypeNameBig = 'Array';
+const $FunctionTypeNameBig = 'Function';
 /** 数据类型常量：Object */
-const TYPE_OBJECT = 'Object';
-/** 编码 encodeURIComponent */
-const ENCODE_URI_COMPONENT = encodeURIComponent;
-/** 常量小写：function */
-const _FUNCTION_NAME = 'function';
+const $ObjectTypeNameBig = 'Object';
 /** 数据类型常量(大写)：String */
-const TYPE_STRING = 'String';
+const $stringTypeNameBig = 'String';
 /** 数据类型常量：Number */
-const TYPE_NUMBER = 'Number';
+const $numberTypeNameBig = 'Number';
+const $undefinedValue = undefined;
+const $zeroString = '0';
+/** false字符串 */
+const $falseString = 'false';
+/** true字符串 */
+const $trueString = 'true';
+/** 代理浏览器 window */
+const $browserGlobal = window;
+/** toString简写 */
+const $ObjectTypeNameBigPrototypeToString = Object.prototype.toString;
+/** 编码 encodeURIComponent */
+const $encodeURIComponent = encodeURIComponent;
 /** 解码 decodeURIComponent */
-const DECODE_URI_COMPONENT = decodeURIComponent;
+const $decodeURIComponent = decodeURIComponent;
 
 function getType(data) {
-    return _TOSTRING.call(data).slice(8, -1);
+    return $ObjectTypeNameBigPrototypeToString.call(data).slice(8, -1);
 }
 
 function isArray(data) {
-    return getType(data) === TYPE_ARRAY;
+    return getType(data) === $ArrayTypeNameBig;
 }
 
 function isMap(data) {
-    return getType(data) === TYPE_OBJECT;
+    return getType(data) === $ObjectTypeNameBig;
 }
 
-function jsonParse(data) {
+function hpJsonParse(data) {
     try {
         data = JSON.parse(data);
     }
@@ -98,7 +92,7 @@ function jsonParse(data) {
 
 function _Map(data) {
     if (!isMap(data)) {
-        data = jsonParse(data);
+        data = hpJsonParse(data);
         if (!isMap(data)) {
             data = {};
         }
@@ -107,7 +101,7 @@ function _Map(data) {
 }
 
 function isFunction(variate) {
-    return typeof variate === _FUNCTION_NAME;
+    return typeof variate === 'function';
 }
 
 function param(data) {
@@ -117,7 +111,7 @@ function param(data) {
         if (key != null && key !== '') {
             value = isFunction(value) ? value() : value;
             value = value == null ? '' : value;
-            res[res.length] = ENCODE_URI_COMPONENT(key) + '=' + ENCODE_URI_COMPONENT(value);
+            res[res.length] = $encodeURIComponent(key) + '=' + $encodeURIComponent(value);
         }
     }
     buildOnce('', data);
@@ -125,13 +119,13 @@ function param(data) {
         var index, objKey;
         if (prefix) {
             switch (getType(item)) {
-                case TYPE_ARRAY:
+                case $ArrayTypeNameBig:
                     for (index = 0; index < item.length; index++) {
                         // 如果数组项为object包括数组，需要创建一个索引
                         buildOnce(prefix + '[' + (typeof item[index] === 'object' && item[index] ? index : '') + ']', item[index]);
                     }
                     break;
-                case TYPE_OBJECT:
+                case $ObjectTypeNameBig:
                     for (objKey in item) {
                         // 组装JSON的key为prefix
                         buildOnce(prefix + '[' + objKey + ']', item[objKey]);
@@ -143,13 +137,13 @@ function param(data) {
         }
         else {
             switch (getType(item)) {
-                case TYPE_STRING:
-                case TYPE_OBJECT:
+                case $stringTypeNameBig:
+                case $ObjectTypeNameBig:
                     for (objKey in item) {
                         buildOnce(objKey, item[objKey]);
                     }
                     break;
-                case TYPE_ARRAY:
+                case $ArrayTypeNameBig:
                     for (index = 0; index < item.length; index++) {
                         addOne(item[index].name, item[index].value);
                     }
@@ -184,12 +178,12 @@ urlToGet('333333333?c=5&', {
 */
 
 function trim(str, pos) {
-    var TYPE = getType(str);
-    if (TYPE === TYPE_NUMBER) {
+    var tp = getType(str);
+    if (tp === $numberTypeNameBig) {
         str = String(str);
-        TYPE = TYPE_STRING;
+        tp = $stringTypeNameBig;
     }
-    if (TYPE === TYPE_STRING) {
+    if (tp === $stringTypeNameBig) {
         switch (pos) {
             case 1: return str.replace(/^[\s\uFEFF\xA0]+/, ''); // 左侧
             case -1: return str.replace(/[\s\uFEFF\xA0]+$/, ''); // 右侧
@@ -203,7 +197,7 @@ function trim(str, pos) {
 }
 
 function isString(data) {
-    return getType(data) === TYPE_STRING;
+    return getType(data) === $stringTypeNameBig;
 }
 
 function isEmptyMap(data) {
@@ -277,7 +271,7 @@ function _filterData(data, removeEmptyStr, removeEmptyObject, callback) {
 
 function _Array(data) {
     if (!isArray(data)) {
-        data = jsonParse(data);
+        data = hpJsonParse(data);
         if (!isArray(data)) {
             data = [];
         }
@@ -335,7 +329,7 @@ function dataCacheUtil(url) {
         variableHasValue(function () {
             return item.complete;
         }, function () {
-            callback(JSON.parse(item.data));
+            callback(hpJsonParse(item.data));
         }, 100);
     }
     return {
@@ -346,10 +340,37 @@ function dataCacheUtil(url) {
     };
 }
 
-function cloneSimple(data) {
-    let res = JSON.stringify(data);
-    return JSON.parse(res);
+function cloneEasy(data) {
+    let ret;
+    switch (getType(data)) {
+        case $ArrayTypeNameBig:
+            ret = [];
+            for (let a = 0; a < data.length; a++) {
+                ret.push(cloneEasy(data[a]));
+            }
+            break;
+        case $ObjectTypeNameBig:
+            ret = {};
+            for (const key in data) {
+                ret[key] = cloneEasy(data[key]);
+            }
+            break;
+        case $FunctionTypeNameBig:
+            function newFun() {
+                data.apply(this, arguments);
+            }
+            for (const key in data.prototype) {
+                newFun.prototype[key] = data.prototype[key];
+            }
+            ret = newFun;
+            break;
+        default:
+            ret = data;
+            break;
+    }
+    return ret;
 }
+
 const DEFAULT_CONFIG = {
     id: "id",
     children: "children"
@@ -357,7 +378,7 @@ const DEFAULT_CONFIG = {
 function deepFindTreePath(tree, handler, config) {
     config = Object.assign(DEFAULT_CONFIG, config);
     const path = [];
-    const list = cloneSimple(tree);
+    const list = cloneEasy(tree);
     const visitedSet = new Set();
     const { children } = config;
     while (list.length) {
@@ -409,25 +430,22 @@ function setCookie(key, value, t) {
  *
  * @return {*}
  */
-function FN_FORMAT_STRING_VALUE(data) {
+function hpTryToParseStringToBasicType(data) {
     let res = data;
     if (data == null) {
         res = undefined;
     }
-    else if (STRING_FALSE === data) {
+    else if ($falseString === data) {
         res = false;
     }
-    else if (STRING_TRUE === data) {
+    else if ($trueString === data) {
         res = true;
     }
     else if (isString(data) && /^\d+$/.test(data)) {
         res = String(data);
     }
     else {
-        try {
-            res = JSON.parse(data);
-        }
-        catch (e) { }
+        res = hpJsonParse(hpJsonParse);
     }
     return res;
 }
@@ -436,7 +454,7 @@ function getCookie(key, target) {
     target = target || document.cookie;
     let res = '';
     target.replace(new RegExp('(^|;\\s)' + key + '=(.*?)($|(;\\s))'), function (g, prefix, value) {
-        res = FN_FORMAT_STRING_VALUE(DECODE_URI_COMPONENT(value));
+        res = hpTryToParseStringToBasicType($decodeURIComponent(value));
     });
     return res;
 }
@@ -451,7 +469,7 @@ function _Number(data) {
     return data === Math.abs(Infinity) || isNaN(data) ? 0 : data;
 }
 
-const defaultSplitArr = [undefinedData, undefinedData];
+const defaultSplitArr = [$undefinedValue, $undefinedValue];
 /**
  * 处理可能是深层级的数据
  *
@@ -464,7 +482,7 @@ function handleDeepKey(res, more, originValue) {
     var nowKey = sb[0];
     if (isPreLikeArray(nowKey)) {
         nowKey = _Number(nowKey);
-        if (sb[1] == undefinedData) {
+        if (sb[1] == $undefinedValue) {
             res.push(originValue);
         }
         else {
@@ -478,7 +496,7 @@ function handleDeepKey(res, more, originValue) {
         }
     }
     else {
-        if (sb[1] == undefinedData) {
+        if (sb[1] == $undefinedValue) {
             res[nowKey] = originValue;
         }
         else {
@@ -498,7 +516,7 @@ function handleDeepKey(res, more, originValue) {
  * @return {Array}
  */
 function splitSymbol(str) {
-    if (str == undefinedData) {
+    if (str == $undefinedValue) {
         return defaultSplitArr;
     }
     var pre = str, next;
@@ -520,11 +538,11 @@ function isPreLikeArray(data) {
 function parseQuery(str) {
     var res = {}, hasChlid, queryKey;
     if (!str) {
-        str = browserGlobal.location.href;
+        str = $browserGlobal.location.href;
     }
     str.replace(/([^=&?/#]*?)=([^=&?/#]*)/g, function (_, key, val) {
-        val = FN_FORMAT_STRING_VALUE(DECODE_URI_COMPONENT(val));
-        queryKey = DECODE_URI_COMPONENT(key);
+        val = hpTryToParseStringToBasicType($decodeURIComponent(val));
+        queryKey = $decodeURIComponent(key);
         hasChlid = false;
         if (queryKey !== '') {
             queryKey.replace(/(.*?)(\[.*)/, function (_, k, m) {
@@ -561,11 +579,12 @@ function downloadFileByUrl(url, fileName) {
     link = undefined;
 }
 
-const iUrl = browserGlobal.URL;
+const iUrl = $browserGlobal.URL;
 function downloadFileByArrayBuffer(data, fileName) {
-    const url = iUrl.createObjectURL(new Blob([data]));
+    let url = iUrl.createObjectURL(new Blob([data]));
     downloadFileByUrl(url, fileName);
     iUrl.revokeObjectURL(url);
+    url = undefined;
 }
 
 function repeatString(target, count) {
@@ -586,7 +605,7 @@ function repeatString(target, count) {
     return res;
 }
 
-function PAD_STRING(padTarget, targetLength, padString, direction) {
+function hpPadString(padTarget, targetLength, padString, direction) {
     padTarget = _String(padTarget);
     targetLength = targetLength >> 0;
     if (padTarget.length > targetLength) {
@@ -607,11 +626,11 @@ function PAD_STRING(padTarget, targetLength, padString, direction) {
 }
 
 function padStart(data, len, target) {
-    return PAD_STRING(data, len, target, -1);
+    return hpPadString(data, len, target, -1);
 }
 
 function padEnd(data, len, target) {
-    return PAD_STRING(data, len, target, 1);
+    return hpPadString(data, len, target, 1);
 }
 
 function split(data, symbol) {
@@ -624,7 +643,7 @@ function floorFixed(data, fractionDigits, rejection) {
     var arr = split(data, '.');
     var decp = arr[1] || '';
     if (decp.length < fractionDigits) {
-        decp = padEnd(decp, fractionDigits, ZERO_STRING);
+        decp = padEnd(decp, fractionDigits, $zeroString);
         if (rejection) {
             decp = decp.replace(/0+$/, '');
         }
@@ -649,7 +668,7 @@ function roundFixed(data, fractionDigits, rejection) {
         const intp = chai[0]; // 整数部分
         var decp = chai[1] || ''; // 小数部分
         if (decp.length < fractionDigits) {
-            decp = padEnd(decp, fractionDigits, ZERO_STRING);
+            decp = padEnd(decp, fractionDigits, $zeroString);
             if (rejection) {
                 decp = decp.replace(/0+$/, '');
             }
@@ -780,12 +799,6 @@ function changeIndex(maxIndex, currentIndex, increase) {
     return currentIndex === -0 ? 0 : currentIndex;
 }
 
-function simpleClone (data) {
-    data = JSON.stringify(data);
-    data = jsonParse(data);
-    return data;
-}
-
 function zeroTo2 (data) {
     return padStart(data, 2, '0');
 }
@@ -800,7 +813,7 @@ function handleOne(startTime, endTime) {
     var modify = endTime.split[1];
     for (var a = 0; a < refer.length; a++) {
         if (refer[a] === modify[a]) {
-            modify[a] = "";
+            modify[a] = '';
         }
         else {
             break;
@@ -824,12 +837,12 @@ function timeLine(list, units) {
             formatFunc(units, 3, date.getHours()),
             formatFunc(units, 4, date.getMinutes()),
             formatFunc(units, 5, date.getSeconds()),
-            formatFunc(units, 6, date.getMilliseconds()),
+            formatFunc(units, 6, date.getMilliseconds())
         ];
         result.push({
             value: list[a],
             timestamp: +date,
-            split: [fmt, simpleClone(fmt)],
+            split: [fmt, cloneEasy(fmt)]
         });
     }
     result.sort(function (a, b) {
@@ -841,11 +854,16 @@ function timeLine(list, units) {
     for (var a = 0; a < result.length; a++) {
         item = result[a];
         item.split = item.split[1];
-        item.label = trim(item.split.join(""));
+        item.label = trim(item.split.join(''));
     }
     return result;
 }
 
+const Bytes = 8;
+const KB = Bytes * 1024;
+const MB = KB * 1024;
+const GB = MB * 1024;
+const TB = GB * 1024;
 /**
  * 转换文件大小
  * @param {Number} value 文件大小
@@ -908,11 +926,11 @@ function removeElement(el) {
 
 //阻止冒泡及默认行为
 function prevent(ev, bubble, stop) {
-    ev = ev || browserGlobal.event;
+    ev = ev || $browserGlobal.event;
     bubble = bubble === false ? false : true;
     stop = stop === false ? false : true;
-    bubble && browserGlobal.event ? browserGlobal.event.cancelBubble = true : ev.stopPropagation();
-    stop && browserGlobal.event ? browserGlobal.event.returnValue = false : ev.preventDefault();
+    bubble && $browserGlobal.event ? $browserGlobal.event.cancelBubble = true : ev.stopPropagation();
+    stop && $browserGlobal.event ? $browserGlobal.event.returnValue = false : ev.preventDefault();
 }
 
 /**
@@ -932,9 +950,9 @@ getRandom(0.1, 9.9, false)
 
 */
 
-const letterLength = LETTER_LIST.length - 1;
+const letterLength = $letters.length - 1;
 function getRandomWord() {
-    return LETTER_LIST[getRandom(0, letterLength)][0];
+    return $letters[getRandom(0, letterLength)][0];
 }
 /**
  * 生成随机ID
@@ -963,7 +981,7 @@ function _Boolean(data) {
 
 function getStorage(key) {
     const res = localStorage.getItem(key);
-    return res ? FN_FORMAT_STRING_VALUE(res) : '';
+    return res ? hpTryToParseStringToBasicType(res) : '';
 }
 
 function removeStorage(key) {
@@ -977,7 +995,7 @@ function removeStorage(key) {
  * @param {*} val 需要转换的数据
  * @return {String}
  */
-function SET_STRING_VALUE(val) {
+function hpSetStringValue(val) {
     if (!isString(val)) {
         val = JSON.stringify(val);
     }
@@ -991,7 +1009,7 @@ function SET_STRING_VALUE(val) {
  * @param {*} val
  */
 function setStorage(key, val) {
-    localStorage.setItem(key, SET_STRING_VALUE(val));
+    localStorage.setItem(key, hpSetStringValue(val));
 }
 
 //获取元素相对窗口的距离
@@ -1097,7 +1115,7 @@ function getMuti(times, id, alias, callback) {
         getOne(times, id, alias[a], function (res) {
             result[a] = res;
             if (++flag === alias.length) {
-                callback.apply(undefinedData, result);
+                callback.apply($undefinedValue, result);
             }
         });
     }
@@ -1114,7 +1132,7 @@ function getOne(times, id, aliasName, callback) {
             if (!isFunction(callback))
                 return;
             if (isJsFile) {
-                callback(item.moduleName ? browserGlobal[item.moduleName] : undefined);
+                callback(item.moduleName ? $browserGlobal[item.moduleName] : undefined);
             }
             else {
                 callback();
@@ -1178,6 +1196,7 @@ exports._Number = _Number;
 exports._String = _String;
 exports.changeIndex = changeIndex;
 exports.clean = clean;
+exports.cloneEasy = cloneEasy;
 exports.dataCacheUtil = dataCacheUtil;
 exports.deepFindItem = deepFindItem;
 exports.deepFindTreePath = deepFindTreePath;

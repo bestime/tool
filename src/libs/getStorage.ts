@@ -1,4 +1,4 @@
-import FN_FORMAT_STRING_VALUE from './help/FN_FORMAT_STRING_VALUE'
+import FN_FORMAT_STRING_VALUE from './help/hpTryToParseStringToBasicType'
 
 
 export default function getStorage (key: string) {
