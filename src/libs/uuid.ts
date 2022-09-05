@@ -3,10 +3,8 @@ import _Number from "./_Number";
 import getRandom from "./getRandom";
 import padEnd from "./padEnd";
 
-const letterLength = $letters.length - 1;
-
 function getRandomWord() {
-  return $letters[getRandom(0, letterLength)][0];
+  return $letters[getRandom(0, $letters.length - 1)][0];
 }
 
 /**
@@ -15,7 +13,7 @@ function getRandomWord() {
  */
 export default function uuid(length: number) {
   length = _Number(length);
-  let multiplicand = "";
+  let multiplicand = '';
   
   for (let a = 0; a < 13; a++) {
     multiplicand = multiplicand + getRandom(1, 9)

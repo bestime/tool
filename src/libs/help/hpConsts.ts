@@ -35,3 +35,6 @@ export const $encodeURIComponent = encodeURIComponent
 
 /** 解码 decodeURIComponent */
 export const $decodeURIComponent = decodeURIComponent
+
+/** 空白字符串 (已转意) */
+export const $regSpaceStr = '\\s\\uFEFF\\xA0'

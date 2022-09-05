@@ -1,11 +1,10 @@
 import { $ArrayTypeNameBig, $ObjectTypeNameBig, $FunctionTypeNameBig } from "./help/hpConsts";
 import getType from "./getType";
 
-type TDataList = []
-type TDataMap = Record<any, any>
-type TDataFunction = Function
 
-export default function cloneEasy<T extends TDataList | TDataMap | TDataFunction> (data: T): T {
+
+
+export default function cloneEasy<T extends [] | Record<any, any> | Function> (data: T): T {
   let ret: any
   
   switch (getType(data)) {
@@ -13,7 +12,7 @@ export default function cloneEasy<T extends TDataList | TDataMap | TDataFunction
     case $ArrayTypeNameBig:
       ret = [];
       for(let a = 0; a<(data as []).length; a++) {
-        ret.push(cloneEasy((data as TDataList)[a]))
+        ret.push(cloneEasy((data as [])[a]))
       }
       break;
     case $ObjectTypeNameBig:
@@ -24,11 +23,11 @@ export default function cloneEasy<T extends TDataList | TDataMap | TDataFunction
       break;
     case $FunctionTypeNameBig:
       function newFun(this:any) {
-        (data as TDataFunction).apply(this, arguments as any);
+        (data as Function).apply(this, arguments as any);
       }
 
-      for (const key in (data as TDataFunction).prototype) {
-        newFun.prototype[key] = (data as TDataFunction).prototype[key];
+      for (const key in (data as Function).prototype) {
+        newFun.prototype[key] = (data as Function).prototype[key];
       }
 
       ret = newFun

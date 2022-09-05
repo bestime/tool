@@ -67,6 +67,8 @@ const $ObjectTypeNameBigPrototypeToString = Object.prototype.toString;
 const $encodeURIComponent = encodeURIComponent;
 /** 解码 decodeURIComponent */
 const $decodeURIComponent = decodeURIComponent;
+/** 空白字符串 (已转意) */
+const $regSpaceStr = '\\s\\uFEFF\\xA0';
 
 function getType(data) {
     return $ObjectTypeNameBigPrototypeToString.call(data).slice(8, -1);
@@ -80,14 +82,14 @@ function isMap(data) {
     return getType(data) === $ObjectTypeNameBig;
 }
 
-function hpJsonParse(data) {
+function hpJsonParse(data, defualtData) {
     try {
         data = JSON.parse(data);
     }
     catch (e) {
-        data = undefined;
+        data = defualtData;
     }
-    return data;
+    return defualtData;
 }
 
 function _Map(data) {
@@ -177,19 +179,30 @@ urlToGet('333333333?c=5&', {
 })
 */
 
-function trim(str, pos) {
-    var tp = getType(str);
+const baseReg = `[${$regSpaceStr}]+`;
+function trim(data, pos) {
+    var tp = getType(data);
     if (tp === $numberTypeNameBig) {
-        str = String(str);
+        data = String(data);
         tp = $stringTypeNameBig;
     }
+    let regStr = '';
     if (tp === $stringTypeNameBig) {
         switch (pos) {
-            case 1: return str.replace(/^[\s\uFEFF\xA0]+/, ''); // 左侧
-            case -1: return str.replace(/[\s\uFEFF\xA0]+$/, ''); // 右侧
-            case '*': return str.replace(/[\s\uFEFF\xA0]+/g, ''); // 所有空格
-            default: return str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, ''); // 两侧
+            case 1: // 左侧
+                regStr = '^' + baseReg;
+                break;
+            case -1: // 右侧
+                regStr = baseReg + '$';
+                break;
+            case '*': // 所有空格
+                regStr = baseReg;
+                break;
+            default: // 两侧
+                regStr = `^${baseReg}|${baseReg}$`;
+                break;
         }
+        return data.replace(new RegExp(regStr, 'g'), '');
     }
     else {
         return '';
@@ -441,11 +454,8 @@ function hpTryToParseStringToBasicType(data) {
     else if ($trueString === data) {
         res = true;
     }
-    else if (isString(data) && /^\d+$/.test(data)) {
-        res = String(data);
-    }
     else {
-        res = hpJsonParse(hpJsonParse);
+        res = hpJsonParse(data, data);
     }
     return res;
 }
@@ -950,9 +960,8 @@ getRandom(0.1, 9.9, false)
 
 */
 
-const letterLength = $letters.length - 1;
 function getRandomWord() {
-    return $letters[getRandom(0, letterLength)][0];
+    return $letters[getRandom(0, $letters.length - 1)][0];
 }
 /**
  * 生成随机ID
@@ -960,7 +969,7 @@ function getRandomWord() {
  */
 function uuid(length) {
     length = _Number(length);
-    let multiplicand = "";
+    let multiplicand = '';
     for (let a = 0; a < 13; a++) {
         multiplicand = multiplicand + getRandom(1, 9);
     }
@@ -1121,7 +1130,7 @@ function getMuti(times, id, alias, callback) {
     }
 }
 function getOne(times, id, aliasName, callback) {
-    const item = _setting.alias && _setting.alias[aliasName];
+    const item = _setting && _setting[aliasName];
     if (!item) {
         throw `alias \"${aliasName}" is not configured`;
     }
@@ -1155,19 +1164,16 @@ function getOne(times, id, aliasName, callback) {
         });
     }
     // 可以同步加载的依赖
-    else if (!item._syncsIsLoad && item.syncs && item.syncs.length > 0) {
-        item._syncsIsLoad = true;
-        getMuti(times, id, item.syncs.concat(aliasName), onSuccess);
+    else if (!item._withIsLoad && item.with && item.with.length > 0) {
+        item._withIsLoad = true;
+        getMuti(times, id, item.with.concat(aliasName), onSuccess);
     }
     // 无任何依赖，则创建新请求
     else {
         item._count = item._count ? item._count + 1 : 1;
         item._deeps = `${times}.${id}`;
         const fileType = isJsFile ? "script" : "link";
-        const filePath = urlToGet(_setting.baseUrl + item.url, {
-            hash: _setting.hash
-        });
-        getfile(item._deeps, oHead, fileType, filePath, onSuccess);
+        getfile(item._deeps, oHead, fileType, item.url, onSuccess);
     }
 }
 function loadJsAndCss(alias, callback) {

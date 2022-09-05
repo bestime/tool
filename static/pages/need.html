@@ -14,37 +14,34 @@
   <body>
     <script>
       bestime.need.config({
-        baseUrl: '../../',
-        hash: '123456',
-        alias: {
-          "js#one": {
-            url: "static/js/one.js",
-            syncs: ['js#three', 'css#test'],
-            dependencies: ["js#two"],
-            moduleName: 'one'
-          },
-          "js#two": {
-            url: "static/js/two.js",
-            dependencies: ["js#three"],
-            moduleName: 'two'
-          },
-          "js#three": {
-            url: "static/js/three.js",
-            dependencies: ["css#test"],
-            moduleName: 'three'
-          },
-          "css#test": {
-            url: "static/css/test.css",
-          }
+        "js#one": {
+          url: "../../static/js/one.js",
+          with: ['js#three', 'css#test'],
+          dependencies: ["js#zepto"],
+          moduleName: 'one'
         },
+        "js#two": {
+          url: "../../static/js/two.js",
+          dependencies: ["js#three"],
+          moduleName: 'two'
+        },
+        "js#three": {
+          url: "../../static/js/three.js",
+          dependencies: ["css#test"],
+          moduleName: 'three'
+        },
+        "css#test": {
+          url: "../../static/css/test.css",
+        },
+        "js#zepto": {
+          url: 'https://cdn.bootcdn.net/ajax/libs/zepto/1.2.0/zepto.min.js',
+          moduleName: '$'
+        }
       });
 
       bestime.need('js#one', function (json) {
-        console.log("成功了01：", json)    
+        console.log("加载成功：", json)    
       })
-      // bestime.need('css#test')
-
-      
     </script>
   </body>
 </html>

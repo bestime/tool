@@ -5,7 +5,7 @@ import jsonParse from './help/hpJsonParse'
 
 
 
-export default function _Array (data: any) {
+export default function _Array<T> (data: any): T[] {
   if(!isArray(data)) {
     data = jsonParse(data)
     if(!isArray(data)) {

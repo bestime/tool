@@ -6,7 +6,7 @@ import rollupTypescript from "rollup-plugin-typescript2"
 export default {
   input: './src/main.ts',
   watch: {
-    include: ['src/**', 'index.html']
+    include: ['src/**']
   },
   
   output: {

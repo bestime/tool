@@ -10,52 +10,11 @@ declare namespace bestime {
     [key: string]: any;
   }
 
-  interface INeedConfigAliasItem {
-    /** 资源地址 */
-    url: string;
+  
 
-    /** 暴露的全局变量名 */
-    moduleName?: string;
 
-    /** 依赖项优先加载，然后再加载自己 */
-    dependencies?: string[];
 
-    /** 没有加载顺序 */
-    syncs?: string[];
-
-    /** 是否请求完毕（无论成功失败） */
-    _complete?: boolean;
-
-    /** 内部使用：同步依赖是否已经请求 */
-    _syncsIsLoad?: boolean;
-
-    /** 内部使用：异步依赖是否已经请求 */
-    _depenIsLoad?: boolean;
-
-    /** 内部使用：分组ID（方便调试）。第一位表示发起的请求分组，大小表示先后顺序。第二位表示此组中的依赖关系，值越大越先请求 */
-    _deeps?: string;
-
-    /** 内部使用：被请求次数 */
-    _count?: number;
-  }
-
-  export interface INeedConfig {
-    /** 请求前缀 */
-    baseUrl?: string;
-
-    /** 请求地址上拼接hash值（可用于缓存或标识） */
-    hash?: string;
-
-    /** 
-     * 别名配置
-     * 键仅支持两种格式："js#name"、"css#name"
-     */
-    alias?: {
-      [key: string]: INeedConfigAliasItem
-    };
-  }
-
-  /** 数据缓存工具回调函数 */
+  /** 数据缓存工具提供的方法 */
   export interface IdataCacheCAllback {
     /** 检查对应url是否已经有缓存标记 */
     isExist: () => boolean;
@@ -145,7 +104,7 @@ declare namespace bestime {
    * @param data - 查询参数
    * @returns 拼接后的url地址
    */
-  export function urlToGet(url: string, data?: string | IMap): string;
+  export function urlToGet(url: string, data?: string | Record<string|number, any>): string;
 
   /**
    * 移除空字符串
@@ -159,10 +118,10 @@ declare namespace bestime {
    * 移除undefined和null数据
    *
    * @param data - 需要处理的数据
-   * @param removeEmptyStr - 是否移除空字符串
+   * @param needRemoveEmptyString - 是否移除空字符串
    * @returns string
    */
-  export function clean<T extends any[] | IMap>(data: T, removeEmptyStr?: boolean): T;
+  export function clean<T extends any[] | IMap>(data: T, needRemoveEmptyString?: boolean): T;
 
   /**
    * 对相同地址的数据进行缓存
@@ -263,7 +222,7 @@ declare namespace bestime {
   /**
    * 强制转换数据为数组，如果是json字符串，会尝试解析，如果失败，则返回一个空[]
    *
-   * @param data - 转换的数据
+   * @param data - 待转换的数据
    * @returns 数组
    *
    * @example
@@ -275,7 +234,7 @@ declare namespace bestime {
    * const data3 = _Map({name: 'a'})
    * ```
    */
-  export function _Array(data: any): any[];
+  export function _Array<T>(data: any): T[];
 
   /**
    * 强制转换数据为boolean
@@ -564,18 +523,37 @@ declare namespace bestime {
    */
   export function need(alias: string | string[], callback?: (...args: any[]) => void): string;
 
+ 
+
   /** js、css 静态模块加载器 */
   export namespace need {
+
+    export interface INeedConfigAliasItem {
+      /** 资源地址 */
+      url: string;
+  
+      /** 暴露的全局变量名 */
+      moduleName?: string;
+  
+      /** 依赖项优先加载，然后再加载自己 */
+      dependencies?: string[];
+  
+      /** 没有加载顺序 */
+      with?: string[];
+    }
+
     /**
+     * 不支持懒人式的baseUrl，做人还是勤快点好。
      * @param setting - 配置参数
+     * 
      */
-    export function config(setting: INeedConfig): void;
+    export function config(setting: Record<string, INeedConfigAliasItem>): void;
 
     /**
      * 查看当前配置
      * @returns 实时配置
      */
-    export function getConfig(): INeedConfig;
+    export function getConfig(): Record<string, INeedConfigAliasItem>;
   }
 
   /**

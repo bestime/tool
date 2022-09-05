@@ -9,9 +9,29 @@ type loadCallback = (...data: number[]) => void
 
 function defaultCallback () {}
 
-let _setting: bestime.INeedConfig = {};
+
+
+
+let _setting: Record<string, bestime.need.INeedConfigAliasItem> = {};
 let times = 0;
 let oHead = document.getElementsByTagName("head")[0];
+
+type innterItem = bestime.need.INeedConfigAliasItem & {
+  /** 是否请求完毕（无论成功失败） */
+  _complete?: boolean;
+
+  /** 内部使用：同步依赖是否已经请求 */
+  _withIsLoad?: boolean;
+
+  /** 内部使用：异步依赖是否已经请求 */
+  _depenIsLoad?: boolean;
+
+  /** 内部使用：分组ID（方便调试）。第一位表示发起的请求分组，大小表示先后顺序。第二位表示此组中的依赖关系，值越大越先请求 */
+  _deeps?: string;
+
+  /** 内部使用：被请求次数 */
+  _count?: number;
+}
 
 
 
@@ -39,13 +59,11 @@ function getOne(
   aliasName: string,
   callback: (data?: any) => void
 ) {
-  const item = _setting.alias && _setting.alias[aliasName];
-
+  const item: undefined | innterItem = _setting && _setting[aliasName];
+  
   if (!item) {
     throw `alias \"${aliasName}" is not configured`
-  }
-
-  
+  }  
 
   const isJsFile = /^js/.test(aliasName);
 
@@ -79,19 +97,18 @@ function getOne(
     });
   }
   // 可以同步加载的依赖
-  else if (!item._syncsIsLoad && item.syncs && item.syncs.length > 0) {
-    item._syncsIsLoad = true;
-    getMuti(times, id, item.syncs.concat(aliasName), onSuccess);
+  else if (!item._withIsLoad && item.with && item.with.length > 0) {
+    item._withIsLoad = true;
+    getMuti(times, id, item.with.concat(aliasName), onSuccess);
   }
   // 无任何依赖，则创建新请求
   else {
     item._count = item._count ? item._count + 1 : 1;
     item._deeps = `${times}.${id}`;
     const fileType = isJsFile ? "script" : "link";
-    const filePath = urlToGet(_setting.baseUrl + item.url, {
-      hash: _setting.hash
-    })
-    getfile(item._deeps, oHead, fileType, filePath, onSuccess);
+ 
+    
+    getfile(item._deeps, oHead, fileType, item.url, onSuccess);
   }
 }
 
@@ -105,7 +122,7 @@ function loadJsAndCss(alias: string[], callback?: loadCallback) {
   }
 }
 
-loadJsAndCss.config = function (setting: bestime.INeedConfig) {
+loadJsAndCss.config = function (setting: Record<string, bestime.need.INeedConfigAliasItem>) {
   if (!isEmptyMap(_setting)) throw "config is already configured";
   _setting = setting;
 };

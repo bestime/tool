@@ -1,8 +1,7 @@
 
 import { $falseString, $trueString } from './hpConsts'
-
-import isString from '../isString';
 import hpJsonParse from './hpJsonParse';
+import _Number from '../_Number';
 
 /**
  * 解析字符串
@@ -24,10 +23,8 @@ export default function hpTryToParseStringToBasicType (data: string): any {
     res = false
   } else if($trueString === data) {
     res = true
-  } else if(isString(data) && /^\d+$/.test(data)) {
-    res = String(data);
   } else {
-    res = hpJsonParse(hpJsonParse)
+    res = hpJsonParse(data, data)
   }
 
   return res

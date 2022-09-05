@@ -1,11 +1,7 @@
 import isMap from "./isMap"
 import jsonParse from './help/hpJsonParse'
 
-interface IMap {
-  [key: string]: any
-}
-
-export default function _Map (data: any): IMap {
+export default function _Map (data: any): Record<string, any> {
   if(!isMap(data)) {
     data = jsonParse(data)
     if(!isMap(data)) {

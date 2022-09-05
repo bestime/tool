@@ -1,8 +1,8 @@
-export default function hpJsonParse(data: any): any[] | {[key: string]: any} | undefined {
+export default function hpJsonParse(data: string, defualtData?: any): any[] | Record<string, any> | undefined {
 
   try { data = JSON.parse(data) } catch (e) {
-    data = undefined
+    data = defualtData
   }
 
-  return data
+  return defualtData
 }
