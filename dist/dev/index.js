@@ -83,13 +83,14 @@ function isMap(data) {
 }
 
 function hpJsonParse(data, defualtData) {
+    let res;
     try {
-        data = JSON.parse(data);
+        res = JSON.parse(data);
     }
     catch (e) {
-        data = defualtData;
+        res = defualtData;
     }
-    return defualtData;
+    return res;
 }
 
 function _Map(data) {
@@ -1193,6 +1194,18 @@ loadJsAndCss.config = function (setting) {
 };
 loadJsAndCss.getConfig = function () {
     return _setting;
+};
+loadJsAndCss.async = function (alias) {
+    return new Promise(function (resolve) {
+        loadJsAndCss(alias, function () {
+            if (isArray(alias)) {
+                resolve(arguments);
+            }
+            else {
+                resolve(arguments[0]);
+            }
+        });
+    });
 };
 
 exports._Array = _Array;

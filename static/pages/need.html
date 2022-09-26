@@ -39,8 +39,8 @@
         }
       });
 
-      bestime.need('js#one', function (json) {
-        console.log("加载成功：", json)    
+      bestime.need.async(['js#one']).then(function ([a]) {
+        console.log("加载成功：", a)
       })
     </script>
   </body>

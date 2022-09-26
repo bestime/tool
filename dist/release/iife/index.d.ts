@@ -1,11 +1,14 @@
 /**
- * 个人工具库文档声明文件. bestime.iife.min.js
+ * 个人工具库文档声明文件 bestime.iife.min.js
  * @QQ 1174295440
  * @author Bestime
  * @see https://github.com/bestime/tool
  */
 declare namespace bestime {
-  /** 键值对格式的数据 */
+  /**
+   * @deprecated
+   * 键值对格式的数据
+   * */
   export interface IMap {
     [key: string]: any;
   }
@@ -53,7 +56,7 @@ declare namespace bestime {
    * const apiUrl = iUrl('/@baidu/api/user/info')
    * ```
    */
-  export function serverConfig(config: { [key: string]: string | null }): (path: string) => string;
+  export function serverConfig(config: Record<string, string | null>): (path: string) => string;
 
   /**
    * 强制转化数据为字符串
@@ -79,6 +82,7 @@ declare namespace bestime {
 
   /**
    * 判断数据是否为对象
+   * @deprecated
    * @param data - 判断的值
    * @returns 真假值
    */
@@ -96,7 +100,7 @@ declare namespace bestime {
    * @param data - 需要转化的数据
    * @returns 转换后的字符串
    */
-  export function param(data: { [key: string]: any }): string;
+  export function param(data: Record<string | number, any>): string;
 
   /**
    * 为url链接拼接参数
@@ -201,7 +205,7 @@ declare namespace bestime {
 
   /**
    * 强制转换数据为键值对数据，如果是json字符串，会尝试解析，如果失败，则返回一个空Map
-   *
+   *@deprecated
    * @param data - 转换的数据
    * @returns 键值对数据
    *
@@ -538,7 +542,7 @@ declare namespace bestime {
       /** 依赖项优先加载，然后再加载自己 */
       dependencies?: string[];
   
-      /** 没有加载顺序 */
+      /** 和自身一起加载的库，没有先后顺序 */
       with?: string[];
     }
 
@@ -554,6 +558,13 @@ declare namespace bestime {
      * @returns 实时配置
      */
     export function getConfig(): Record<string, INeedConfigAliasItem>;
+
+    /**
+     * 获取插件（Promise版）。
+     * @remarks 注意：请保证你的项目支持Promise，此方法不做兼容
+     */
+    export function async(alias: string): Promise<any>;
+    export function async(alias: string[]): Promise<any[]>;
   }
 
   /**
