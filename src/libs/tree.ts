@@ -1,6 +1,6 @@
 import deepFindItem from "./deepFindItem";
 import _Array from "./_Array";
-import _Map from "./_Map";
+import _KvPair from "./_KvPair";
 
 /*
 
@@ -61,7 +61,7 @@ export default function flatArrayToTree(
     children?: string;
   }
 ): any[] {
-  props = _Map(props);
+  props = _KvPair(props);
   var id = props.id || "id";
   var pid = props.pid || "pid";
   var children = props.children || "children";

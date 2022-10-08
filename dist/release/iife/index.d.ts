@@ -6,12 +6,9 @@
  */
 declare namespace bestime {
   /**
-   * @deprecated
    * 键值对格式的数据
    * */
-  export interface IMap {
-    [key: string]: any;
-  }
+  type IKvPair = Record<string, any>
 
   
 
@@ -82,11 +79,10 @@ declare namespace bestime {
 
   /**
    * 判断数据是否为对象
-   * @deprecated
    * @param data - 判断的值
    * @returns 真假值
    */
-  export function isMap(data: any): boolean;
+  export function isKvPair(data: any): boolean;
 
   /**
    * 判断数据是否为函数
@@ -125,7 +121,7 @@ declare namespace bestime {
    * @param needRemoveEmptyString - 是否移除空字符串
    * @returns string
    */
-  export function clean<T extends any[] | IMap>(data: T, needRemoveEmptyString?: boolean): T;
+  export function clean<T>(data: T, needRemoveEmptyString?: boolean): T;
 
   /**
    * 对相同地址的数据进行缓存
@@ -145,6 +141,13 @@ declare namespace bestime {
     callback: () => void,
     interval?: number
   ): void;
+
+  export namespace variableHasValue {
+    export function async (
+      handler: () => boolean | undefined,
+      interval?: number
+    ): Promise<true>
+  }
 
   /**
    * 查找某个元素所在树的所有父链
@@ -203,25 +206,26 @@ declare namespace bestime {
    */
   export function removeCookie(key: string): void;
 
+
+
   /**
    * 强制转换数据为键值对数据，如果是json字符串，会尝试解析，如果失败，则返回一个空Map
-   *@deprecated
    * @param data - 转换的数据
    * @returns 键值对数据
    *
    * @example
    * ```javascript
    * // => {}
-   * const data = _Map('abc')
+   * const data = _KvPair('abc')
    *
    * // => {}
-   * const data2 = _Map([])
+   * const data2 = _KvPair([])
    *
    * // => {name: 'a'}
-   * const data3 = _Map({name: 'a'})
+   * const data3 = _KvPair({name: 'a'})
    * ```
    */
-  export function _Map(data: any): IMap;
+   export function _KvPair(data: any): IKvPair;
 
   /**
    * 强制转换数据为数组，如果是json字符串，会尝试解析，如果失败，则返回一个空[]
@@ -235,7 +239,7 @@ declare namespace bestime {
    * const data = _Array('abc')
    *
    * // => []
-   * const data3 = _Map({name: 'a'})
+   * const data3 = _Array({name: 'a'})
    * ```
    */
   export function _Array<T>(data: any): T[];
@@ -268,7 +272,7 @@ declare namespace bestime {
    * @param data - url参数。默认为window.location.href
    * @returns 键值对
    */
-  export function parseQuery(data?: string): IMap;
+  export function parseQuery(data?: string): IKvPair;
 
   /**
    * 强制转换数据为字符串
@@ -391,7 +395,7 @@ declare namespace bestime {
    * @param children - 子项字段
    * @returns 结果
    */
-  export function deepFindItem(list: any[], handle: (data: any) => void, children?: string): any;
+   export function deepFindItem<T>(list: T[], handle: (data: T) => void, children?: string): T | undefined;
 
   /**
    * 在给定索引范围内，增减当前索引，如果超出范围，则按当前方向重新循环取值。
@@ -402,7 +406,7 @@ declare namespace bestime {
    */
   export function changeIndex(maxIndex: number, currentIndex: number, increase: number): any;
 
-  type ITimeLineUnints = [string, string, string, string, string, string, string];
+  type ITimeLineUnints = Partial<[string, string, string, string, string, string, string]>;
 
   /**
    * 时间轴刻度格式化

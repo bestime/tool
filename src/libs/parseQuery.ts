@@ -1,7 +1,6 @@
 import _Array from './_Array'
 import _Number from './_Number'
-import _Map from './_Map'
-import isString from './isString'
+import _KvPair from './_KvPair'
 import { $browserGlobal, $decodeURIComponent, $undefinedValue } from './help/hpConsts'
 import FN_FORMAT_STRING_VALUE from './help/hpTryToParseStringToBasicType'
 
@@ -25,7 +24,7 @@ function handleDeepKey (res: any, more: any, originValue: any) {
 			res.push(originValue)
 		} else {
 			if(/^\[[\D]+\]/.test(sb[1])) {
-				res[nowKey] = _Map(res[nowKey])
+				res[nowKey] = _KvPair(res[nowKey])
 			} else {
 				res[nowKey] = _Array(res[nowKey])
 			}			
@@ -36,7 +35,7 @@ function handleDeepKey (res: any, more: any, originValue: any) {
 			res[nowKey] = originValue
 		} else {
 			if(/^\[[\D]+\]/.test(sb[1])) {
-				res[nowKey] = _Map(res[nowKey])
+				res[nowKey] = _KvPair(res[nowKey])
 			} else {
 				res[nowKey] = _Array(res[nowKey])
 			}
@@ -94,7 +93,7 @@ export default function parseQuery (str?: string) {
 				if(isPreLikeArray(sb[0])) {
 					res[k] = _Array(res[k])
 				} else {
-					res[k] = _Map(res[k])
+					res[k] = _KvPair(res[k])
 				}
 				handleDeepKey(res[k], m, val);
         

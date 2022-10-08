@@ -1,12 +1,12 @@
 {
   "name": "@bestime/utils",
   "version": "1.0.1",
-  "main": "dist/release/esm/bestime.esm.min.js",
-  "types": "dist/release/esm/bestime.esm.d.ts",
+  "main": "dist/release/esm/index.min.js",
+  "types": "dist/release/esm/index.d.ts",
   "description": "个人常用typescript工具库",
   "files": [
-    "dist/release/esm/bestime.esm.min.js",
-    "dist/release/esm/bestime.esm.d.ts"
+    "dist/release/esm/index.min.js",
+    "dist/release/esm/index.d.ts"
   ],
   "devDependencies": {
     "@babel/core": "7.18.6",

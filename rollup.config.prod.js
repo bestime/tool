@@ -37,11 +37,8 @@ function getBanner (type) {
 }
 
 function getDistPath (type) {
-  return 'dist/release/' + type + '/' + getName(type)
+  return 'dist/release/' + type + '/index.min.js'
 }
-
-
-
 
 
 export default {

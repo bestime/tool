@@ -19,3 +19,9 @@
     }, sleepTime)
   }
 }
+
+variableHasValue.async = function (handler: () => boolean | undefined, sleepTime?: number) {
+  return new Promise(function (resolve: any) {
+    variableHasValue(handler, resolve, sleepTime)
+  })
+}

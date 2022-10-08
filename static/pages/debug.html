@@ -15,35 +15,14 @@
 
     <script>
 
-      function Toast (name) {
-        this.name = name
-      }
+      const time = [
+        '2022-10-01 12:00:00:123',
+        '2022-10-01 12:10:00:56',
+      ]
 
-      Toast.prototype.say = function () {
-        console.log("说",  this.name)
-      }
-
-      var a = {
-        bestime: {
-          name: 'jcy'
-        },
-        list: [0,1,3],
-        yzl: {
-          name: '袁'
-        },
-        Toast: Toast
-      }
-
-      var b = bestime.cloneEasy(a)
-
-      a.bestime.name = '还好'
-      a.list[1] = 6
-
-      new a.Toast('第一').say()
-      new b.Toast('第二').say()
-      
-      console.log("随机ID", bestime.uuid())
-      console.log(a, b)
+      const res = bestime.timeLine(time, ['年', '月', '日 ', '时', '分', '秒', null])
+      const res2 = bestime.timeLine(time, [null, '月', '日 ', ':', '', null, null])
+      console.log("时间轴", res, res2)
       
     </script>
   </body>

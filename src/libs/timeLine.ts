@@ -5,7 +5,12 @@ import cloneEasy from './cloneEasy';
 
 function formatFunc(units: string[], unitIndex: number, data: number) {
   const item = units[unitIndex];
-  let res = item === '' ? '' : zeroTo2(data) + item;
+  let res = '';
+  if(units[unitIndex] === undefined || units[unitIndex] === null) {
+    res = ''
+  } else {
+    res = zeroTo2(data) + item
+  }
   return res;
 }
 
@@ -46,6 +51,8 @@ export default function timeLine(
       formatFunc(units, 5, date.getSeconds()),
       formatFunc(units, 6, date.getMilliseconds())
     ];
+
+    
 
     result.push({
       value: list[a],

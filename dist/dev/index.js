@@ -78,7 +78,7 @@ function isArray(data) {
     return getType(data) === $ArrayTypeNameBig;
 }
 
-function isMap(data) {
+function isKvPair(data) {
     return getType(data) === $ObjectTypeNameBig;
 }
 
@@ -93,10 +93,10 @@ function hpJsonParse(data, defualtData) {
     return res;
 }
 
-function _Map(data) {
-    if (!isMap(data)) {
+function KvPair(data) {
+    if (!isKvPair(data)) {
         data = hpJsonParse(data);
-        if (!isMap(data)) {
+        if (!isKvPair(data)) {
             data = {};
         }
     }
@@ -161,7 +161,7 @@ function param(data) {
 function urlToGet(url, searchString) {
     url = _String(url).replace(/&*$/g, '').replace(/\?*$/, '');
     var str = '';
-    if (isMap(searchString) || isArray(searchString)) {
+    if (isKvPair(searchString) || isArray(searchString)) {
         str = param(searchString);
     }
     else {
@@ -227,12 +227,12 @@ function isEmptyMap(data) {
 function clean(data, removeEmptyStr, removeEmptyObject) {
     var res;
     removeEmptyObject = removeEmptyObject === false ? false : true;
-    if (isMap(data)) {
+    if (isKvPair(data)) {
         res = {};
         var mpItem, key, temp;
         for (key in data) {
             mpItem = data[key];
-            if (isArray(mpItem) || isMap(mpItem)) {
+            if (isArray(mpItem) || isKvPair(mpItem)) {
                 temp = clean(mpItem, removeEmptyStr);
             }
             else {
@@ -274,7 +274,7 @@ function _filterData(data, removeEmptyStr, removeEmptyObject, callback) {
         }
     }
     else if (data != null) {
-        if (removeEmptyObject && isMap(data) && isEmptyMap(data)) {
+        if (removeEmptyObject && isKvPair(data) && isEmptyMap(data)) {
             callback(data);
         }
         else {
@@ -313,6 +313,11 @@ function variableHasValue(handler, callback, sleepTime) {
         }, sleepTime);
     }
 }
+variableHasValue.async = function (handler, sleepTime) {
+    return new Promise(function (resolve) {
+        variableHasValue(handler, resolve, sleepTime);
+    });
+};
 
 const _tmp = {};
 /**
@@ -498,7 +503,7 @@ function handleDeepKey(res, more, originValue) {
         }
         else {
             if (/^\[[\D]+\]/.test(sb[1])) {
-                res[nowKey] = _Map(res[nowKey]);
+                res[nowKey] = KvPair(res[nowKey]);
             }
             else {
                 res[nowKey] = _Array(res[nowKey]);
@@ -512,7 +517,7 @@ function handleDeepKey(res, more, originValue) {
         }
         else {
             if (/^\[[\D]+\]/.test(sb[1])) {
-                res[nowKey] = _Map(res[nowKey]);
+                res[nowKey] = KvPair(res[nowKey]);
             }
             else {
                 res[nowKey] = _Array(res[nowKey]);
@@ -563,7 +568,7 @@ function parseQuery(str) {
                     res[k] = _Array(res[k]);
                 }
                 else {
-                    res[k] = _Map(res[k]);
+                    res[k] = KvPair(res[k]);
                 }
                 handleDeepKey(res[k], m, val);
             });
@@ -774,7 +779,7 @@ console.log(treeList)
  * @return {Array} treeList
  */
 function flatArrayToTree(list, props) {
-    props = _Map(props);
+    props = KvPair(props);
     var id = props.id || "id";
     var pid = props.pid || "pid";
     var children = props.children || "children";
@@ -816,7 +821,13 @@ function zeroTo2 (data) {
 
 function formatFunc(units, unitIndex, data) {
     const item = units[unitIndex];
-    let res = item === '' ? '' : zeroTo2(data) + item;
+    let res = '';
+    if (units[unitIndex] === undefined || units[unitIndex] === null) {
+        res = '';
+    }
+    else {
+        res = zeroTo2(data) + item;
+    }
     return res;
 }
 function handleOne(startTime, endTime) {
@@ -1210,7 +1221,7 @@ loadJsAndCss.async = function (alias) {
 
 exports._Array = _Array;
 exports._Boolean = _Boolean;
-exports._Map = _Map;
+exports._KvPair = KvPair;
 exports._Number = _Number;
 exports._String = _String;
 exports.changeIndex = changeIndex;
@@ -1233,7 +1244,7 @@ exports.getStorage = getStorage;
 exports.getType = getType;
 exports.isArray = isArray;
 exports.isFunction = isFunction;
-exports.isMap = isMap;
+exports.isKvPair = isKvPair;
 exports.isNull = isNull;
 exports.need = loadJsAndCss;
 exports.padEnd = padEnd;
