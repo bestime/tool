@@ -586,13 +586,14 @@ function defaultValue(data, value) {
 
 function downloadFileByUrl(url, fileName) {
     var link = document.createElement('a');
-    link.style.display = 'none';
+    // link.style.display = 'none'
     link.download = fileName;
     link.setAttribute('href', url);
+    link.setAttribute('download', fileName);
     document.body.appendChild(link);
-    link.click();
-    link.remove();
-    link = undefined;
+    // link.click()
+    // link.remove()
+    // link = undefined;
 }
 
 const iUrl = $browserGlobal.URL;

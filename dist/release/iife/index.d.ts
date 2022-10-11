@@ -411,7 +411,7 @@ declare namespace bestime {
   /**
    * 时间轴刻度格式化
    * @param list - 时间列表
-   * @param units - 自定义单位。默认 ['年', '月', '日 ', '时', '分', '秒', '毫秒']
+   * @param units - 自定义单位。默认 ['年', '月', '日 ', '时', '分', '秒', '毫秒']。可以空字符串
    * @returns 格式化后的数组
    *
    * @example
