@@ -1290,7 +1290,7 @@ function defineEventBus(eventName) {
     }
     function emit(...args) {
         for (let a = 0; a < events[eventName].length; a++) {
-            events[eventName][a].apply(void 0, args);
+            events[eventName][a].apply($undefinedValue, args);
         }
     }
     function off(hander) {

@@ -1,3 +1,5 @@
+import { $undefinedValue } from "./help/hpConsts"
+
 const events: Record<string, EventHander[]> = {}
 
 type EventHander = (...args: any[]) => void
@@ -12,7 +14,7 @@ function defineEventBus<T extends EventHander> (eventName: string) {
 
   function emit (...args: Parameters<T>) {
     for(let a = 0; a<events[eventName].length; a++) {
-      events[eventName][a].apply(void 0, args)
+      events[eventName][a].apply($undefinedValue, args)
     }
   }
 
