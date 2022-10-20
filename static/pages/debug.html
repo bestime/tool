@@ -11,18 +11,19 @@
       );
     </script>
   </head>
-  <body>  
-    <a download="张三" href="http://192.168.3.190:12315/ossfile/device/zhangsan.jpg">下载</a>
+  <body>      
     <script>
+        console.log("还好", bestime.fileSize(10272, 'Bytes'))
+        const bus01 = bestime.useEventBus('a')
+        const bus02 = bestime.useEventBus('b')
 
-      const time = [
-        '2022-10-01 12:00:00:123',
-        '2022-10-01 12:10:00:56',
-      ]
+        bus01.on(function () {
+          console.log("01来了")
+        })
 
-      const res = bestime.timeLine(time, ['年', '月', '日 ', '时', '分', '秒', null])
-      const res2 = bestime.timeLine(time, [null, '月', '日 ', ':', '', null, null])
-      console.log("时间轴", res, res2)
+        bus02.on(function () {
+          console.log("02来了")
+        })
       
     </script>
   </body>
