@@ -280,6 +280,7 @@ declare namespace bestime {
   export function isArray(data: any): boolean;
 
   /**
+   * @deprecated 名字取得不好
    * 判断是否是 null 或者 undefined
    * @param data - 值
    * @returns 真假
@@ -603,6 +604,18 @@ declare namespace bestime {
   ): T[];
 
   /**
+   * 树形结构迭代
+   * @param data - 原始树
+   * @param handle - 迭代方法。这里不用返回子节点
+   * @param childKey - 子节点字段。默认值：children
+   */
+  export function forEachTree<T extends IKvPair>(
+    data: T[],
+    handle: (data: T) => void,
+    childKey?: keyof T
+  ): void;
+
+  /**
    * 事件订阅，可获得TS类型推导支持
    * @param eventName - 订阅名
    * @returns 订阅实例
@@ -617,7 +630,7 @@ declare namespace bestime {
    *
    * // 执行订阅
    * useUpdateDataBus.emit(12, true)
-   * 
+   *
    * // 取消订阅
    * useUpdateDataBus.off(busCallback)
    *

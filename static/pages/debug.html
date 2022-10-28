@@ -13,17 +13,22 @@
   </head>
   <body>      
     <script>
-        console.log("还好", bestime.fileSize(10272, 'Bytes'))
-        const bus01 = bestime.useEventBus('a')
-        const bus02 = bestime.useEventBus('b')
 
-        bus01.on(function () {
-          console.log("01来了")
-        })
 
-        bus02.on(function () {
-          console.log("02来了")
-        })
+var test = (function () {
+  var pluginName = '你好'
+  return {
+    say: function (desc) {
+      var res = pluginName + ' => ' + desc
+      console.log(res)
+      return res
+    }
+  }
+})();
+
+eval('test.say("张三")')
+
+
       
     </script>
   </body>

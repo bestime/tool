@@ -1,4 +1,4 @@
-import isEmptyMap from "../isEmptyMap";
+import hpIsEmptyMap from "../help/hpIsEmptyMap";
 import isFunction from "../isFunction";
 import urlToGet from "../urlToGet";
 import variableHasValue from "../variableHasValue";
@@ -124,7 +124,7 @@ function loadJsAndCss(alias: string[], callback?: loadCallback) {
 }
 
 loadJsAndCss.config = function (setting: Record<string, bestime.need.INeedConfigAliasItem>) {
-  if (!isEmptyMap(_setting)) throw "config is already configured";
+  if (!hpIsEmptyMap(_setting)) throw "config is already configured";
   _setting = setting;
 };
 

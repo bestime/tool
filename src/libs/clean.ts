@@ -1,6 +1,6 @@
 import trim from './trim'
 import isString from './isString'
-import isEmptyMap from './isEmptyMap'
+import hpIsEmptyMap from './help/hpIsEmptyMap'
 import isKvPair from './isKvPair'
 import isArray from './isArray'
 
@@ -61,7 +61,7 @@ function _filterData (data: any, removeEmptyStr: any, removeEmptyObject: any, ca
       callback(data)
     }
   } else if(data != null){
-    if(removeEmptyObject && isKvPair(data) && isEmptyMap(data)) {
+    if(removeEmptyObject && isKvPair(data) && hpIsEmptyMap(data)) {
       callback(data)
     } else {
       callback(data)

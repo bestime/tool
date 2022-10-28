@@ -1,4 +1,4 @@
-export default function isEmptyMap (data: {
+export default function hpIsEmptyMap (data: {
   [key: string]: any
 }) {
   var result = true
