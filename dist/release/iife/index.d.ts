@@ -1,18 +1,14 @@
 /**
- * 个人工具库文档声明文件. bestime.iife.min.js
+ * 个人工具库文档声明文件 bestime.iife.min.js
  * @QQ 1174295440
  * @author Bestime
  * @see https://github.com/bestime/tool
  */
 declare namespace bestime {
-  /** 键值对格式的数据 */
-  export interface IMap {
-    [key: string]: any;
-  }
-
-  
-
-
+  /**
+   * 键值对格式的数据
+   * */
+  type IKvPair = Record<string, any>;
 
   /** 数据缓存工具提供的方法 */
   export interface IdataCacheCAllback {
@@ -53,7 +49,7 @@ declare namespace bestime {
    * const apiUrl = iUrl('/@baidu/api/user/info')
    * ```
    */
-  export function serverConfig(config: { [key: string]: string | null }): (path: string) => string;
+  export function serverConfig(config: Record<string, string | null>): (path: string) => string;
 
   /**
    * 强制转化数据为字符串
@@ -82,7 +78,7 @@ declare namespace bestime {
    * @param data - 判断的值
    * @returns 真假值
    */
-  export function isMap(data: any): boolean;
+  export function isKvPair(data: any): boolean;
 
   /**
    * 判断数据是否为函数
@@ -96,7 +92,7 @@ declare namespace bestime {
    * @param data - 需要转化的数据
    * @returns 转换后的字符串
    */
-  export function param(data: { [key: string]: any }): string;
+  export function param(data: Record<string | number, any>): string;
 
   /**
    * 为url链接拼接参数
@@ -104,7 +100,7 @@ declare namespace bestime {
    * @param data - 查询参数
    * @returns 拼接后的url地址
    */
-  export function urlToGet(url: string, data?: string | Record<string|number, any>): string;
+  export function urlToGet(url: string, data?: string | Record<string | number, any>): string;
 
   /**
    * 移除空字符串
@@ -121,7 +117,7 @@ declare namespace bestime {
    * @param needRemoveEmptyString - 是否移除空字符串
    * @returns string
    */
-  export function clean<T extends any[] | IMap>(data: T, needRemoveEmptyString?: boolean): T;
+  export function clean<T>(data: T, needRemoveEmptyString?: boolean): T;
 
   /**
    * 对相同地址的数据进行缓存
@@ -141,6 +137,10 @@ declare namespace bestime {
     callback: () => void,
     interval?: number
   ): void;
+
+  export namespace variableHasValue {
+    export function async(handler: () => boolean | undefined, interval?: number): Promise<true>;
+  }
 
   /**
    * 查找某个元素所在树的所有父链
@@ -201,23 +201,22 @@ declare namespace bestime {
 
   /**
    * 强制转换数据为键值对数据，如果是json字符串，会尝试解析，如果失败，则返回一个空Map
-   *
    * @param data - 转换的数据
    * @returns 键值对数据
    *
    * @example
    * ```javascript
    * // => {}
-   * const data = _Map('abc')
+   * const data = _KvPair('abc')
    *
    * // => {}
-   * const data2 = _Map([])
+   * const data2 = _KvPair([])
    *
    * // => {name: 'a'}
-   * const data3 = _Map({name: 'a'})
+   * const data3 = _KvPair({name: 'a'})
    * ```
    */
-  export function _Map(data: any): IMap;
+  export function _KvPair(data: any): IKvPair;
 
   /**
    * 强制转换数据为数组，如果是json字符串，会尝试解析，如果失败，则返回一个空[]
@@ -231,7 +230,7 @@ declare namespace bestime {
    * const data = _Array('abc')
    *
    * // => []
-   * const data3 = _Map({name: 'a'})
+   * const data3 = _Array({name: 'a'})
    * ```
    */
   export function _Array<T>(data: any): T[];
@@ -264,7 +263,7 @@ declare namespace bestime {
    * @param data - url参数。默认为window.location.href
    * @returns 键值对
    */
-  export function parseQuery(data?: string): IMap;
+  export function parseQuery(data?: string): IKvPair;
 
   /**
    * 强制转换数据为字符串
@@ -281,6 +280,7 @@ declare namespace bestime {
   export function isArray(data: any): boolean;
 
   /**
+   * @deprecated 名字取得不好
    * 判断是否是 null 或者 undefined
    * @param data - 值
    * @returns 真假
@@ -387,7 +387,11 @@ declare namespace bestime {
    * @param children - 子项字段
    * @returns 结果
    */
-  export function deepFindItem(list: any[], handle: (data: any) => void, children?: string): any;
+  export function deepFindItem<T>(
+    list: T[],
+    handle: (data: T) => void,
+    children?: string
+  ): T | undefined;
 
   /**
    * 在给定索引范围内，增减当前索引，如果超出范围，则按当前方向重新循环取值。
@@ -398,12 +402,12 @@ declare namespace bestime {
    */
   export function changeIndex(maxIndex: number, currentIndex: number, increase: number): any;
 
-  type ITimeLineUnints = [string, string, string, string, string, string, string];
+  type ITimeLineUnints = Partial<[string, string, string, string, string, string, string]>;
 
   /**
    * 时间轴刻度格式化
    * @param list - 时间列表
-   * @param units - 自定义单位。默认 ['年', '月', '日 ', '时', '分', '秒', '毫秒']
+   * @param units - 自定义单位。默认 ['年', '月', '日 ', '时', '分', '秒', '毫秒']。可以空字符串
    * @returns 格式化后的数组
    *
    * @example
@@ -523,29 +527,26 @@ declare namespace bestime {
    */
   export function need(alias: string | string[], callback?: (...args: any[]) => void): string;
 
- 
-
   /** js、css 静态模块加载器 */
   export namespace need {
-
     export interface INeedConfigAliasItem {
       /** 资源地址 */
       url: string;
-  
+
       /** 暴露的全局变量名 */
       moduleName?: string;
-  
+
       /** 依赖项优先加载，然后再加载自己 */
       dependencies?: string[];
-  
-      /** 没有加载顺序 */
+
+      /** 和自身一起加载的库，没有先后顺序 */
       with?: string[];
     }
 
     /**
      * 不支持懒人式的baseUrl，做人还是勤快点好。
      * @param setting - 配置参数
-     * 
+     *
      */
     export function config(setting: Record<string, INeedConfigAliasItem>): void;
 
@@ -554,13 +555,99 @@ declare namespace bestime {
      * @returns 实时配置
      */
     export function getConfig(): Record<string, INeedConfigAliasItem>;
+
+    /**
+     * 获取插件（Promise版）。
+     * @remarks 注意：请保证你的项目支持Promise，此方法不做兼容
+     */
+    export function async(alias: string): Promise<any>;
+    export function async(alias: string[]): Promise<any[]>;
   }
 
   /**
    * 简易版深度克隆。（仅处理数组、键值对、方法的可克隆）
-   * 
+   *
    * @param data - 克隆对象
-   * @returns 
-  */
+   * @returns
+   */
   export function cloneEasy<T extends [] | Record<any, any> | Function>(data: T): T;
+
+  /**
+   * 监听DOM尺寸变化
+   * @param element - dom元素
+   * @param handler - 变换回调函数
+   * @param type - 监听类型。默认width+height
+   * @param interval - 多久检查一次。默认值：500
+   * @returns 销毁方法
+   *
+   */
+  export function observeDomResize(
+    element: HTMLElement,
+    handler: (element: HTMLElement) => void,
+    type?: 'width' | 'height',
+    interval?: number
+  ): () => void;
+
+  /**
+   * 树形结构map新数据
+   * @param data - 原始树
+   * @param handle - 迭代方法。这里不用返回子节点
+   * @param childKeyTo - 转换的孩子键
+   * @param childKeyFrom - 原始数据的孩子键
+   * @returns 转变后的新数据
+   */
+  export function mapTree<T extends IKvPair, K extends IKvPair, C extends keyof T>(
+    data: K[],
+    childKeyTo: C,
+    handle: (data: K) => Omit<T, C>,
+    childKeyFrom?: keyof K
+  ): T[];
+
+  /**
+   * 树形结构迭代
+   * @param data - 原始树
+   * @param handle - 迭代方法。这里不用返回子节点
+   * @param childKey - 子节点字段。默认值：children
+   */
+  export function forEachTree<T extends IKvPair>(
+    data: T[],
+    handle: (data: T) => void,
+    childKey?: keyof T
+  ): void;
+
+  /**
+   * 事件订阅，可获得TS类型推导支持
+   * @param eventName - 订阅名
+   * @returns 订阅实例
+   * @example
+   * ```typescript
+   * // 初始化
+   * const useUpdateDataBus = defineEventBus<(dataId: number, back: boolean) => void>('UPDATE-DATA')
+   *
+   * // 开启订阅
+   * function busCallback (id: number, isBack: boolean) {}
+   * useUpdateDataBus.on(busCallback)
+   *
+   * // 执行订阅
+   * useUpdateDataBus.emit(12, true)
+   *
+   * // 取消订阅
+   * useUpdateDataBus.off(busCallback)
+   *
+   * // 销毁所有订阅
+   * useUpdateDataBus.dispose()
+   * ```
+   */
+  export function defineEventBus<T extends (...args: any[]) => void>(
+    eventName: string
+  ): {
+    /** 追加订阅 */
+    on: (hander: T) => void;
+    /** 执行所有订阅 */
+    emit: (...args: Parameters<T>) => void;
+    /** 取消一个订阅 */
+    off: (hander: T) => void;
+    /** 销毁所有订阅 */
+    dispose: () => void;
+  };
 }

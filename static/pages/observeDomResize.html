@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>容器尺寸变化</title>
+
+    <style>
+      body,html {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+
+    <script>
+      document.write(
+        `\<script src="../../dist/dev/index.js?t=${new Date().getTime()}"\><\/script\>`
+      );
+    </script>
+  </head>
+  <body>
+    <div id="test2" style="width: 30%;height:30%;background: red;"></div>
+    <script>
+      const aa = bestime.observeDomResize(document.getElementById('test2'), function (el) {
+        console.log("变了")
+      }, 'width')
+
+
+
+
+var data = '<h1 style="font-size:10px;">转为p测试</h1><h2 style="font-size:10px;">转为span测试</h2>'
+
+
+// => <p style="font-size:10px;">转为p测试</p><span style="font-size:10px;">转为span测试</span>
+console.log("转换结果", demo(data))
+
+function demo (html) {
+  const rules = {
+    'h1': 'p',
+    'h2': 'span'
+  }
+
+  for(const tag in rules) {
+    const regStr = `(<)(${tag})(.*?>.*?</)(${tag})(>)`
+    const reg = new RegExp(regStr, 'g')
+    html = html.replace(reg, function (_, $1, $2, $3, $4, $5) {
+      return $1 + rules[tag] + $3 + rules[tag] + $5
+    })
+  }
+  return html
+}
+
+    </script>
+  </body>
+</html>

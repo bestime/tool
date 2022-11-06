@@ -1,9 +1,10 @@
-import isEmptyMap from "../isEmptyMap";
+import hpIsEmptyMap from "../help/hpIsEmptyMap";
 import isFunction from "../isFunction";
 import urlToGet from "../urlToGet";
 import variableHasValue from "../variableHasValue";
 import getfile from "./getfile";
 import { $browserGlobal, $undefinedValue } from '../help/hpConsts'
+import isArray from "../isArray";
 
 type loadCallback = (...data: number[]) => void
 
@@ -123,12 +124,26 @@ function loadJsAndCss(alias: string[], callback?: loadCallback) {
 }
 
 loadJsAndCss.config = function (setting: Record<string, bestime.need.INeedConfigAliasItem>) {
-  if (!isEmptyMap(_setting)) throw "config is already configured";
+  if (!hpIsEmptyMap(_setting)) throw "config is already configured";
   _setting = setting;
 };
 
 loadJsAndCss.getConfig = function () {
   return _setting;
 };
+
+loadJsAndCss.async = function (alias: string[]) {
+  return new Promise(function (resolve) {
+    loadJsAndCss(alias, function () {
+      if(isArray(alias)) {
+        resolve(arguments)
+      } else {
+        resolve(arguments[0])
+      }
+    })
+  })
+}
+
+
 
 export default loadJsAndCss;

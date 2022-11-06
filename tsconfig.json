@@ -11,5 +11,5 @@
     "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules"],
-  "include": ["dist/release/iife/bestime.iife.d.ts","src/**/*.ts", "static/**/*.js"]
+  "include": ["dist/release/iife/index.d.ts","src/**/*.ts", "static/**/*.js"]
 }

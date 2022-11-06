@@ -28,7 +28,7 @@ function getName (type) {
 
 function getBanner (type) {
   return `/**  
- * 个人工具库. ${getName(type)}
+ * 个人工具库 (TS版) ${getName(type)}
  * @QQ 1174295440
  * @author Bestime
  * @see https://github.com/bestime/tool
@@ -37,11 +37,8 @@ function getBanner (type) {
 }
 
 function getDistPath (type) {
-  return 'dist/release/' + type + '/' + getName(type)
+  return 'dist/release/' + type + '/index.min.js'
 }
-
-
-
 
 
 export default {

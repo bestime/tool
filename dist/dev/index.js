@@ -78,24 +78,25 @@ function isArray(data) {
     return getType(data) === $ArrayTypeNameBig;
 }
 
-function isMap(data) {
+function isKvPair(data) {
     return getType(data) === $ObjectTypeNameBig;
 }
 
 function hpJsonParse(data, defualtData) {
+    let res;
     try {
-        data = JSON.parse(data);
+        res = JSON.parse(data);
     }
     catch (e) {
-        data = defualtData;
+        res = defualtData;
     }
-    return defualtData;
+    return res;
 }
 
-function _Map(data) {
-    if (!isMap(data)) {
+function KvPair(data) {
+    if (!isKvPair(data)) {
         data = hpJsonParse(data);
-        if (!isMap(data)) {
+        if (!isKvPair(data)) {
             data = {};
         }
     }
@@ -160,7 +161,7 @@ function param(data) {
 function urlToGet(url, searchString) {
     url = _String(url).replace(/&*$/g, '').replace(/\?*$/, '');
     var str = '';
-    if (isMap(searchString) || isArray(searchString)) {
+    if (isKvPair(searchString) || isArray(searchString)) {
         str = param(searchString);
     }
     else {
@@ -226,12 +227,12 @@ function isEmptyMap(data) {
 function clean(data, removeEmptyStr, removeEmptyObject) {
     var res;
     removeEmptyObject = removeEmptyObject === false ? false : true;
-    if (isMap(data)) {
+    if (isKvPair(data)) {
         res = {};
         var mpItem, key, temp;
         for (key in data) {
             mpItem = data[key];
-            if (isArray(mpItem) || isMap(mpItem)) {
+            if (isArray(mpItem) || isKvPair(mpItem)) {
                 temp = clean(mpItem, removeEmptyStr);
             }
             else {
@@ -273,7 +274,7 @@ function _filterData(data, removeEmptyStr, removeEmptyObject, callback) {
         }
     }
     else if (data != null) {
-        if (removeEmptyObject && isMap(data) && isEmptyMap(data)) {
+        if (removeEmptyObject && isKvPair(data) && isEmptyMap(data)) {
             callback(data);
         }
         else {
@@ -312,6 +313,11 @@ function variableHasValue(handler, callback, sleepTime) {
         }, sleepTime);
     }
 }
+variableHasValue.async = function (handler, sleepTime) {
+    return new Promise(function (resolve) {
+        variableHasValue(handler, resolve, sleepTime);
+    });
+};
 
 const _tmp = {};
 /**
@@ -497,7 +503,7 @@ function handleDeepKey(res, more, originValue) {
         }
         else {
             if (/^\[[\D]+\]/.test(sb[1])) {
-                res[nowKey] = _Map(res[nowKey]);
+                res[nowKey] = KvPair(res[nowKey]);
             }
             else {
                 res[nowKey] = _Array(res[nowKey]);
@@ -511,7 +517,7 @@ function handleDeepKey(res, more, originValue) {
         }
         else {
             if (/^\[[\D]+\]/.test(sb[1])) {
-                res[nowKey] = _Map(res[nowKey]);
+                res[nowKey] = KvPair(res[nowKey]);
             }
             else {
                 res[nowKey] = _Array(res[nowKey]);
@@ -562,7 +568,7 @@ function parseQuery(str) {
                     res[k] = _Array(res[k]);
                 }
                 else {
-                    res[k] = _Map(res[k]);
+                    res[k] = KvPair(res[k]);
                 }
                 handleDeepKey(res[k], m, val);
             });
@@ -580,13 +586,14 @@ function defaultValue(data, value) {
 
 function downloadFileByUrl(url, fileName) {
     var link = document.createElement('a');
-    link.style.display = 'none';
+    // link.style.display = 'none'
     link.download = fileName;
     link.setAttribute('href', url);
+    link.setAttribute('download', fileName);
     document.body.appendChild(link);
-    link.click();
-    link.remove();
-    link = undefined;
+    // link.click()
+    // link.remove()
+    // link = undefined;
 }
 
 const iUrl = $browserGlobal.URL;
@@ -773,7 +780,7 @@ console.log(treeList)
  * @return {Array} treeList
  */
 function flatArrayToTree(list, props) {
-    props = _Map(props);
+    props = KvPair(props);
     var id = props.id || "id";
     var pid = props.pid || "pid";
     var children = props.children || "children";
@@ -815,7 +822,13 @@ function zeroTo2 (data) {
 
 function formatFunc(units, unitIndex, data) {
     const item = units[unitIndex];
-    let res = item === '' ? '' : zeroTo2(data) + item;
+    let res = '';
+    if (units[unitIndex] === undefined || units[unitIndex] === null) {
+        res = '';
+    }
+    else {
+        res = zeroTo2(data) + item;
+    }
     return res;
 }
 function handleOne(startTime, endTime) {
@@ -874,6 +887,7 @@ const KB = Bytes * 1024;
 const MB = KB * 1024;
 const GB = MB * 1024;
 const TB = GB * 1024;
+const minUnit = 0.1;
 /**
  * 转换文件大小
  * @param {Number} value 文件大小
@@ -882,6 +896,7 @@ const TB = GB * 1024;
  */
 function fileSize(value, unit) {
     var bit = value;
+    unit = unit || 'Bytes';
     switch (unit) {
         case 'MB':
             bit = value * MB;
@@ -893,19 +908,25 @@ function fileSize(value, unit) {
             bit = value * Bytes;
             break;
     }
-    var _tb = floorFixed(bit / TB, 2);
-    var _gb = floorFixed(bit / GB, 2);
-    var _mb = floorFixed(bit / MB, 2);
-    var _kb = floorFixed(bit / KB, 2);
-    var _bytes = floorFixed(bit / Bytes, 2);
+    var _tb = bit / TB;
+    var _gb = bit / GB;
+    var _mb = bit / MB;
+    var _kb = bit / KB;
+    console.log("_kb", _kb);
+    var _bytes = bit / Bytes;
+    _tb = floorFixed(_tb.toFixed(8), 2);
+    _gb = floorFixed(_gb.toFixed(8), 2);
+    _mb = floorFixed(_mb.toFixed(8), 2);
+    _kb = floorFixed(_kb.toFixed(8), 2);
+    _bytes = floorFixed(_bytes.toFixed(8), 2);
     var format = '';
-    if (+_tb >= 1) {
+    if (+_tb > minUnit) {
         format = _tb + ' TB';
     }
-    else if (+_gb >= 1) {
+    else if (+_gb > minUnit) {
         format = _gb + ' GB';
     }
-    else if (+_mb >= 1) {
+    else if (+_mb > minUnit) {
         format = _mb + ' MB';
     }
     else {
@@ -1194,10 +1215,111 @@ loadJsAndCss.config = function (setting) {
 loadJsAndCss.getConfig = function () {
     return _setting;
 };
+loadJsAndCss.async = function (alias) {
+    return new Promise(function (resolve) {
+        loadJsAndCss(alias, function () {
+            if (isArray(alias)) {
+                resolve(arguments);
+            }
+            else {
+                resolve(arguments[0]);
+            }
+        });
+    });
+};
+
+const main$1 = function (element, handler, type, interval) {
+    interval = interval || 500;
+    let width = [0, 0, false];
+    let height = [0, 0, false];
+    let timer = setInterval(function () {
+        if (!element.isConnected) {
+            dispose();
+            return;
+        }
+        width[0] = element.offsetWidth;
+        height[0] = element.offsetHeight;
+        width[2] = width[0] !== width[1]; // 宽度变化
+        height[2] = height[0] !== height[1]; // 高度变化
+        if (width[2]) {
+            width[1] = width[0];
+            if (type === 'width') {
+                handler(element);
+            }
+        }
+        if (height[2]) {
+            height[1] = height[0];
+            if (type === 'height') {
+                handler(element);
+            }
+        }
+        if (!type) {
+            if (width[2] || height[2]) {
+                handler(element);
+            }
+        }
+    }, interval);
+    function dispose() {
+        clearInterval(timer);
+    }
+    return dispose;
+};
+
+const main = function (data, childKeyTo, handle, childKeyFrom) {
+    childKeyFrom = childKeyFrom || 'children';
+    const result = [];
+    (function handleOneList(list, newList) {
+        for (let index = 0; index < list.length; index++) {
+            newList[index] = cloneEasy(handle(list[index]));
+            newList[index][childKeyTo] = [];
+            if (list[index][childKeyFrom]) {
+                handleOneList(list[index][childKeyFrom], newList[index][childKeyTo]);
+            }
+        }
+    })(data, result);
+    return result;
+};
+
+const events = {};
+function defineEventBus(eventName) {
+    if (events[eventName])
+        throw `"${eventName}" Has already been registered!`;
+    events[eventName] = events[eventName] || [];
+    function on(hander) {
+        events[eventName].push(hander);
+    }
+    function emit(...args) {
+        for (let a = 0; a < events[eventName].length; a++) {
+            events[eventName][a].apply($undefinedValue, args);
+        }
+    }
+    function off(hander) {
+        if (!hander)
+            throw `the hander of off is required!`;
+        for (let a = 0; a < events[eventName].length; a++) {
+            if (events[eventName][a] === hander) {
+                events[eventName].splice(a--, 1);
+                // break; // 这里不能break，防止多次监听同一函数导致的bug
+            }
+        }
+    }
+    function dispose() {
+        for (let a = 0; a < events[eventName].length; a++) {
+            events[eventName].splice(a--, 1);
+        }
+        delete events[eventName];
+    }
+    return {
+        on,
+        emit,
+        off,
+        dispose
+    };
+}
 
 exports._Array = _Array;
 exports._Boolean = _Boolean;
-exports._Map = _Map;
+exports._KvPair = KvPair;
 exports._Number = _Number;
 exports._String = _String;
 exports.changeIndex = changeIndex;
@@ -1207,6 +1329,7 @@ exports.dataCacheUtil = dataCacheUtil;
 exports.deepFindItem = deepFindItem;
 exports.deepFindTreePath = deepFindTreePath;
 exports.defaultValue = defaultValue;
+exports.defineEventBus = defineEventBus;
 exports.downloadFileByArrayBuffer = downloadFileByArrayBuffer;
 exports.downloadFileByUrl = downloadFileByUrl;
 exports.fileSize = fileSize;
@@ -1220,9 +1343,11 @@ exports.getStorage = getStorage;
 exports.getType = getType;
 exports.isArray = isArray;
 exports.isFunction = isFunction;
-exports.isMap = isMap;
+exports.isKvPair = isKvPair;
 exports.isNull = isNull;
+exports.mapTree = main;
 exports.need = loadJsAndCss;
+exports.observeDomResize = main$1;
 exports.padEnd = padEnd;
 exports.padStart = padStart;
 exports.param = param;

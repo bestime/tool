@@ -1,13 +1,13 @@
 import _String from './_String'
 import isArray from './isArray'
-import isMap from './isMap'
+import isKvPair from './isKvPair'
 import param from './param'
 
 
 export default function urlToGet (url: string, searchString: string | {[key: string]: any}) {
   url = _String(url).replace(/&*$/g, '').replace(/\?*$/, '');
   var str = ''
-  if(isMap(searchString) || isArray(searchString)) {
+  if(isKvPair(searchString) || isArray(searchString)) {
     str = param(searchString as any)
   } else {
     str = _String(searchString).replace(/^&*/, '');

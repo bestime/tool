@@ -1,7 +1,7 @@
 import trim from './trim'
 import isString from './isString'
-import isEmptyMap from './isEmptyMap'
-import isMap from './isMap'
+import hpIsEmptyMap from './help/hpIsEmptyMap'
+import isKvPair from './isKvPair'
 import isArray from './isArray'
 
 
@@ -16,12 +16,12 @@ export default function clean<T extends any[]| {
 ):T {
   var res: any;
   removeEmptyObject = removeEmptyObject === false ? false : true;
-  if(isMap(data)) {
+  if(isKvPair(data)) {
     res = {}
     var mpItem, key: any, temp;
     for(key in data) {
       mpItem = data[key]
-      if(isArray(mpItem) || isMap(mpItem)) {
+      if(isArray(mpItem) || isKvPair(mpItem)) {
         temp = clean(mpItem, removeEmptyStr)
       } else {
         temp = mpItem
@@ -61,7 +61,7 @@ function _filterData (data: any, removeEmptyStr: any, removeEmptyObject: any, ca
       callback(data)
     }
   } else if(data != null){
-    if(removeEmptyObject && isMap(data) && isEmptyMap(data)) {
+    if(removeEmptyObject && isKvPair(data) && hpIsEmptyMap(data)) {
       callback(data)
     } else {
       callback(data)
