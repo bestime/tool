@@ -164,7 +164,7 @@ declare namespace bestime {
    * @param value - 保存的值
    * @param t - 过期时间（毫秒）
    */
-  export function setCookie(key: string, value: any, t: number): void;
+  export function setCookie(key: string, value: any, t?: number): void;
 
   /**
    * 设置localstorage
