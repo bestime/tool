@@ -8,7 +8,7 @@ declare namespace bestime {
   /**
    * 键值对格式的数据
    * */
-  type IKvPair = Record<string, any>;
+  export type IKvPair = Record<string, any>;
 
   /** 数据缓存工具提供的方法 */
   export interface IdataCacheCAllback {
