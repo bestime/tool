@@ -1,6 +1,13 @@
 [
   {
     "type": "field",
+    "outboundTag": "direct",
+    "ip": [
+      "1.71.143.185"
+    ]
+  },
+  {
+    "type": "field",
     "outboundTag": "proxy",
     "domain": [
       "geosite:gfw",
