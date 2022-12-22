@@ -1,0 +1,21 @@
+[
+  {
+    "type": "field",
+    "outboundTag": "proxy",
+    "domain": [
+      "geosite:gfw",
+      "geosite:greatfire",
+      "geosite:tld-!cn"
+    ],
+    "ip": [
+      "geoip:telegram"
+    ]
+  },
+  {
+    "type": "field",
+    "outboundTag": "direct",
+    "domain": [
+      "regexp:.*"
+    ]
+  }
+]

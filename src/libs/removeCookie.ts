@@ -1,8 +1,7 @@
-
-import setCookie from "./setCookie";
-
+import getCookie from './getCookie';
+import setCookie from './setCookie';
 
 //删除cookie
-export default function removeCookie (key: string): void {
-  setCookie(key, '', -1)  
+export default function removeCookie(key: string): void {
+  setCookie(key, '', -1)
 }

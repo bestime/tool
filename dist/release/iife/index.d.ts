@@ -650,4 +650,16 @@ declare namespace bestime {
     /** 销毁所有订阅 */
     dispose: () => void;
   };
+
+  /**
+   * 获取浏览器窗口尺寸
+   */
+  export function getWindowSize(): {
+    width: number
+    height: number
+  };
+  /**
+   * 获取随机颜色
+   */
+  export function randomColor(): string
 }

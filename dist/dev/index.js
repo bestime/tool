@@ -214,7 +214,7 @@ function isString(data) {
     return getType(data) === $stringTypeNameBig;
 }
 
-function isEmptyMap(data) {
+function hpIsEmptyMap(data) {
     var result = true;
     for (var key in data) {
         if (key !== undefined) {
@@ -274,7 +274,7 @@ function _filterData(data, removeEmptyStr, removeEmptyObject, callback) {
         }
     }
     else if (data != null) {
-        if (removeEmptyObject && isKvPair(data) && isEmptyMap(data)) {
+        if (removeEmptyObject && isKvPair(data) && hpIsEmptyMap(data)) {
             callback(data);
         }
         else {
@@ -432,11 +432,13 @@ function setObjectToString (val) {
  */
 function setCookie(key, value, t) {
     value = setObjectToString(value);
+    t = t || 0;
     var oDate = new Date();
     oDate.setTime(oDate.getTime() + t);
-    // 不能这样写[目前知道百度浏览器这样写会有bug，获取cookie【document.cookie】的时候会把cookie删除]，一定要像下面这样写
-    // oDate = oDate.toGMTString(); 
-    document.cookie = key + '=' + encodeURI(value) + ';path=\/;expires=' + oDate.toUTCString();
+    let cook = key + '=' + encodeURI(value);
+    cook += ';path=\/;expires=' + oDate.toUTCString();
+    // console.log("dd", cook)
+    document.cookie = cook;
 }
 
 /**
@@ -586,14 +588,14 @@ function defaultValue(data, value) {
 
 function downloadFileByUrl(url, fileName) {
     var link = document.createElement('a');
-    // link.style.display = 'none'
+    link.style.display = 'none';
     link.download = fileName;
     link.setAttribute('href', url);
     link.setAttribute('download', fileName);
     document.body.appendChild(link);
-    // link.click()
-    // link.remove()
-    // link = undefined;
+    link.click();
+    link.remove();
+    link = undefined;
 }
 
 const iUrl = $browserGlobal.URL;
@@ -807,6 +809,8 @@ function flatArrayToTree(list, props) {
  * @returns 改变后的索引
  */
 function changeIndex(maxIndex, currentIndex, increase) {
+    if (maxIndex < 0)
+        return currentIndex;
     const length = maxIndex + 1;
     currentIndex = (currentIndex + increase) % length;
     // 如果是负数，就加回来
@@ -1208,7 +1212,7 @@ function loadJsAndCss(alias, callback) {
     }
 }
 loadJsAndCss.config = function (setting) {
-    if (!isEmptyMap(_setting))
+    if (!hpIsEmptyMap(_setting))
         throw "config is already configured";
     _setting = setting;
 };
@@ -1228,7 +1232,7 @@ loadJsAndCss.async = function (alias) {
     });
 };
 
-const main$1 = function (element, handler, type, interval) {
+const main$2 = function (element, handler, type, interval) {
     interval = interval || 500;
     let width = [0, 0, false];
     let height = [0, 0, false];
@@ -1265,7 +1269,7 @@ const main$1 = function (element, handler, type, interval) {
     return dispose;
 };
 
-const main = function (data, childKeyTo, handle, childKeyFrom) {
+const main$1 = function (data, childKeyTo, handle, childKeyFrom) {
     childKeyFrom = childKeyFrom || 'children';
     const result = [];
     (function handleOneList(list, newList) {
@@ -1317,6 +1321,32 @@ function defineEventBus(eventName) {
     };
 }
 
+const main = function (data, handle, childKey) {
+    childKey = childKey || 'children';
+    (function handleOneList(list) {
+        for (let index = 0; index < list.length; index++) {
+            handle(list[index]);
+            if (isArray(list[index][childKey])) {
+                handleOneList(list[index][childKey]);
+            }
+        }
+    })(data);
+};
+
+function getWindowSize() {
+    return {
+        width: document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth || 0,
+        height: document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight || 0
+    };
+}
+
+function randomColor() {
+    const r = getRandom(0, 255, true);
+    const g = getRandom(0, 255, true);
+    const b = getRandom(0, 255, true);
+    return `rgba(${r},${g},${b},1)`;
+}
+
 exports._Array = _Array;
 exports._Boolean = _Boolean;
 exports._KvPair = KvPair;
@@ -1335,24 +1365,27 @@ exports.downloadFileByUrl = downloadFileByUrl;
 exports.fileSize = fileSize;
 exports.flatTree = flatTree;
 exports.floorFixed = floorFixed;
+exports.forEachTree = main;
 exports.getCookie = getCookie;
 exports.getJsFileBaseUrl = getJsFileBaseUrl;
 exports.getRandom = getRandom;
 exports.getRelativePos = getRelativePos;
 exports.getStorage = getStorage;
 exports.getType = getType;
+exports.getWindowSize = getWindowSize;
 exports.isArray = isArray;
 exports.isFunction = isFunction;
 exports.isKvPair = isKvPair;
 exports.isNull = isNull;
-exports.mapTree = main;
+exports.mapTree = main$1;
 exports.need = loadJsAndCss;
-exports.observeDomResize = main$1;
+exports.observeDomResize = main$2;
 exports.padEnd = padEnd;
 exports.padStart = padStart;
 exports.param = param;
 exports.parseQuery = parseQuery;
 exports.prevent = prevent;
+exports.randomColor = randomColor;
 exports.removeCookie = removeCookie;
 exports.removeElement = removeElement;
 exports.removeStorage = removeStorage;
@@ -1368,8 +1401,6 @@ exports.trim = trim;
 exports.urlToGet = urlToGet;
 exports.uuid = uuid;
 exports.variableHasValue = variableHasValue;
-
-Object.defineProperty(exports, '__esModule', { value: true });
 
 return exports;
 

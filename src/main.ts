@@ -1,3 +1,6 @@
+// import * as chalk from 'chalk'
+
+// console.log("chalk2", chalk)
 
 export { default as serverConfig } from './libs/serverConfig'
 export { default as _String } from './libs/_String'
@@ -51,3 +54,5 @@ export { default as observeDomResize } from './libs/observeDomResize'
 export { default as mapTree } from './libs/mapTree'
 export { default as defineEventBus } from './libs/defineEventBus'
 export { default as forEachTree } from './libs/forEachTree'
+export { default as getWindowSize } from './libs/getWindowSize'
+export { default as  randomColor } from './libs/randomColor'

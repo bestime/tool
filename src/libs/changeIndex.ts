@@ -10,6 +10,8 @@ export default function changeIndex (
   currentIndex: number,
   increase: number
 ): number {
+  if(maxIndex<0) return currentIndex
+  
   const length = maxIndex + 1;
   currentIndex = (currentIndex + increase) % length;
   

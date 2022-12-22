@@ -2,7 +2,8 @@ import { uglify } from 'rollup-plugin-uglify'
 import babel from '@rollup/plugin-babel';
 import typescript from "typescript"
 import rollupTypescript from "rollup-plugin-typescript2"
-
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 function zeroTo2 (data) {
   if(data < 10) {
     return '0' + data
@@ -43,7 +44,9 @@ function getDistPath (type) {
 
 export default {
   input: './src/main.ts',
-  
+  // external: [
+  //   'chalk'
+  // ],
   output: [
     {
       file:  getDistPath('iife'),
@@ -53,7 +56,7 @@ export default {
       name: 'bestime',
       indent: false,
       sourcemap: false,
-      interop: false,
+      
     },
     {
       file: getDistPath('esm'),
@@ -62,10 +65,13 @@ export default {
       strict: true,
       indent: false,
       sourcemap: false,
-      interop: false,
+      
     }
   ],
+  
   plugins: [
+    // nodeResolve(),
+    // commonjs(),
     rollupTypescript({
       include: "src/**/*.ts",
       exclude: "node_modules/**",

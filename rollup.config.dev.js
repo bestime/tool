@@ -2,6 +2,8 @@ import livereload from 'rollup-plugin-livereload'
 import babel from '@rollup/plugin-babel';
 import typescript from "typescript"
 import rollupTypescript from "rollup-plugin-typescript2"
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 
 export default {
   input: './src/main.ts',
@@ -16,9 +18,12 @@ export default {
     name: 'bestime',
     indent: false,
     sourcemap: true,
-    interop: false,
+    
   },
+
   plugins: [
+    // nodeResolve(),
+    // commonjs(),
     babel({
       babelHelpers: 'bundled',
       exclude: "node_modules/**",
