@@ -1,28 +1,22 @@
 [
   {
     "type": "field",
-    "outboundTag": "direct",
-    "ip": [
-      "1.71.143.185"
-    ]
-  },
-  {
-    "type": "field",
     "outboundTag": "proxy",
+    "ip": [
+      "geoip:telegram"
+    ],
     "domain": [
       "geosite:gfw",
       "geosite:greatfire",
       "geosite:tld-!cn"
     ],
-    "ip": [
-      "geoip:telegram"
-    ]
+    "enabled": true
   },
   {
     "type": "field",
+    "port": "0-65535",
+    "inboundTag": [],
     "outboundTag": "direct",
-    "domain": [
-      "regexp:.*"
-    ]
+    "enabled": true
   }
 ]
