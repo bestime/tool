@@ -6,8 +6,9 @@
     <title>测试页面444</title>
     <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.11.6/dayjs.min.js"></script>
     <!-- <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.11.6/plugin/customParseFormat.min.js"></script> -->
-    
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.2.2/axios.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="../../dist//release//iife//index.min.js"></script>
     <script>
       document.write(
         `\<script src="../../dist/dev/index.js?t=${new Date().getTime()}"\><\/script\>`
@@ -17,72 +18,16 @@
     </script>
   </head>
   <body>
-    <a download="test" href="http://work.bestime.com:7100/static/images/icon-01.png?response-content-type=application/octet-stream">
-      点我下载
-  </a>
-  
-    <style>
-      .test {
-        background-color: red;
-        display: flex;
-        align-items: flex-end;
-      }
-      .test b {
-          font-size: 50px;
-          line-height: 1;
-        }
-      .test span {
-        font-size: 12px;
-        line-height: 1;
-        
-      }
-    </style>
+    <button id="demo">下载</button>
+   
     
-    <div class="test">
-      <span>你好</span>
-      <b>张三</b>
-    </div>
     <script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-      （茶）×1：200
-      （烟）×2： 630 * 2 => 1260
-      （酒）×2： 1050 * 2 => 2100
-      （蜂蜜）×1：138
-      （小朋友玩具）×2：119+128 => 247
-      （水果或牛奶）×1
-
-      
-
-      */
+      document.getElementById('demo').onclick = function () {
+        let url = 'http://127.0.0.1:99/git/demo/images/def-user.png'
+        // url = 'http://127.0.0.1:100/git/qs-t/awisps-front/front-v1/public/static/images/def-user.png?t=3'
+        
+        bestime.downloadFileByUrl(url, '你好.png')
+      }
     </script>
   </body>
 </html>

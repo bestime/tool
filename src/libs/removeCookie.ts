@@ -1,4 +1,4 @@
-import getCookie from './getCookie';
+
 import setCookie from './setCookie';
 
 //删除cookie
