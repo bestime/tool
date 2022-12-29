@@ -541,6 +541,9 @@ declare namespace bestime {
 
       /** 和自身一起加载的库，没有先后顺序 */
       with?: string[];
+
+      /** 设置标签属性 */
+      attribute?: Record<string, string>
     }
 
     /**

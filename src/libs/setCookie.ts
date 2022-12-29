@@ -6,13 +6,14 @@ import setObjectToString from './help/hpSetObjectToString'
  * @parrm {*} value 设置的值
  * @param {Number} t 单位（毫秒）
  */
-export default function setCookie (key: string, value: any, t?: number){
+export default function setCookie (key: string, value: any, expiredTime?: number){
   value = setObjectToString(value)
-  t = t || 0
-  var oDate = new Date();
-  oDate.setTime(oDate.getTime() + t);
-  let cook = key + '=' + encodeURI(value)
-  cook += ';path=\/;expires=' + oDate.toUTCString();
+  let cook = key + '=' + encodeURI(value) + ';path=\/;'
+  if(typeof expiredTime === 'number') {
+    var oDate = new Date();
+    oDate.setTime(oDate.getTime() + expiredTime);
+    cook += 'expires=' + oDate.toUTCString();
+  }
   // console.log("dd", cook)
   document.cookie = cook
 }

@@ -430,13 +430,14 @@ function setObjectToString (val) {
  * @parrm {*} value 设置的值
  * @param {Number} t 单位（毫秒）
  */
-function setCookie(key, value, t) {
+function setCookie(key, value, expiredTime) {
     value = setObjectToString(value);
-    t = t || 0;
-    var oDate = new Date();
-    oDate.setTime(oDate.getTime() + t);
-    let cook = key + '=' + encodeURI(value);
-    cook += ';path=\/;expires=' + oDate.toUTCString();
+    let cook = key + '=' + encodeURI(value) + ';path=\/;';
+    if (typeof expiredTime === 'number') {
+        var oDate = new Date();
+        oDate.setTime(oDate.getTime() + expiredTime);
+        cook += 'expires=' + oDate.toUTCString();
+    }
     // console.log("dd", cook)
     document.cookie = cook;
 }
@@ -1121,7 +1122,7 @@ function getJsFileBaseUrl(tir) {
     return arr[arr.length - 1].src.replace(new RegExp(reg + '$'), '');
 }
 
-function getfile(gid, oHead, type, url, callback) {
+function getfile(gid, oHead, type, url, callback, attrs) {
     let oElement;
     if (type === 'script') {
         oElement = document.createElement('script');
@@ -1134,6 +1135,11 @@ function getfile(gid, oHead, type, url, callback) {
     }
     oElement.setAttribute('level-id', gid);
     oElement.setAttribute('author', 'bestime');
+    if (attrs) {
+        for (let key in attrs) {
+            oElement.setAttribute(key, attrs[key]);
+        }
+    }
     oElement.onload = oElement.onerror = callback;
     oHead.appendChild(oElement);
 }
@@ -1198,7 +1204,7 @@ function getOne(times, id, aliasName, callback) {
         item._count = item._count ? item._count + 1 : 1;
         item._deeps = `${times}.${id}`;
         const fileType = isJsFile ? "script" : "link";
-        getfile(item._deeps, oHead, fileType, item.url, onSuccess);
+        getfile(item._deeps, oHead, fileType, item.url, onSuccess, item.attribute);
     }
 }
 function loadJsAndCss(alias, callback) {

@@ -109,7 +109,7 @@ function getOne(
     const fileType = isJsFile ? "script" : "link";
  
     
-    getfile(item._deeps, oHead, fileType, item.url, onSuccess);
+    getfile(item._deeps, oHead, fileType, item.url, onSuccess, item.attribute);
   }
 }
 

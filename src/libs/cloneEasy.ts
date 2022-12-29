@@ -11,14 +11,14 @@ export default function cloneEasy<T extends [] | Record<any, any> | Function> (d
     
     case $ArrayTypeNameBig:
       ret = [];
-      for(let a = 0; a<(data as []).length; a++) {
-        ret.push(cloneEasy((data as [])[a]))
+      for(let a = 0; a<(data as any[]).length; a++) {
+        ret.push(cloneEasy((data as any[])[a]))
       }
       break;
     case $ObjectTypeNameBig:
       ret = {}
       for (const key in data) {
-        ret[key] = cloneEasy(data[key])
+        ret[key] = cloneEasy(data[key] as T)
       }
       break;
     case $FunctionTypeNameBig:
