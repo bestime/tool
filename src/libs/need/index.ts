@@ -1,21 +1,18 @@
-import hpIsEmptyMap from "../help/hpIsEmptyMap";
-import isFunction from "../isFunction";
-import urlToGet from "../urlToGet";
-import variableHasValue from "../variableHasValue";
-import getfile from "./getfile";
-import { $browserGlobal, $undefinedValue } from '../help/hpConsts'
-import isArray from "../isArray";
+import hpIsEmptyMap from '../help/hpIsEmptyMap';
+import isFunction from '../isFunction';
+import urlToGet from '../urlToGet';
+import variableHasValue from '../variableHasValue';
+import getfile from './getfile';
+import { $browserGlobal, $undefinedValue } from '../help/hpConsts';
+import isArray from '../isArray';
 
-type loadCallback = (...data: number[]) => void
+type loadCallback = (...data: number[]) => void;
 
-function defaultCallback () {}
-
-
-
+function defaultCallback() {}
 
 let _setting: Record<string, bestime.need.INeedConfigAliasItem> = {};
 let times = 0;
-let oHead = document.getElementsByTagName("head")[0];
+let oHead = document.getElementsByTagName('head')[0];
 
 type innterItem = bestime.need.INeedConfigAliasItem & {
   /** 是否请求完毕（无论成功失败） */
@@ -32,16 +29,9 @@ type innterItem = bestime.need.INeedConfigAliasItem & {
 
   /** 内部使用：被请求次数 */
   _count?: number;
-}
+};
 
-
-
-function getMuti(
-  times: number,
-  id: number,
-  alias: string[],
-  callback: (...args: any[]) => void
-) {
+function getMuti(times: number, id: number, alias: string[], callback: (...args: any[]) => void) {
   const result: any[] = [];
   let flag = 0;
   for (let a = 0; a < alias.length; a++) {
@@ -54,22 +44,17 @@ function getMuti(
   }
 }
 
-function getOne(
-  times: number,
-  id: number,
-  aliasName: string,
-  callback: (data?: any) => void
-) {
+function getOne(times: number, id: number, aliasName: string, callback: (data?: any) => void) {
   const item: undefined | innterItem = _setting && _setting[aliasName];
-  
+
   if (!item) {
-    throw `alias \"${aliasName}" is not configured`
-  }  
+    throw `alias \"${aliasName}" is not configured`;
+  }
 
   const isJsFile = /^js/.test(aliasName);
 
   function onSuccess() {
-    if(item) {
+    if (item) {
       item._complete = true;
       if (!isFunction(callback)) return;
       if (isJsFile) {
@@ -77,7 +62,7 @@ function getOne(
       } else {
         callback();
       }
-    }    
+    }
   }
 
   // 如果已经存在，则等待
@@ -87,11 +72,7 @@ function getOne(
     }, onSuccess);
   }
   // 如果存在依赖文件
-  else if (
-    !item._depenIsLoad &&
-    item.dependencies &&
-    item.dependencies.length > 0
-  ) {
+  else if (!item._depenIsLoad && item.dependencies && item.dependencies.length > 0) {
     item._depenIsLoad = true;
     getMuti(times, id + 1, item.dependencies, function () {
       getOne(times, id, aliasName, onSuccess);
@@ -106,17 +87,16 @@ function getOne(
   else {
     item._count = item._count ? item._count + 1 : 1;
     item._deeps = `${times}.${id}`;
-    const fileType = isJsFile ? "script" : "link";
- 
-    
+    const fileType = isJsFile ? 'script' : 'link';
+
     getfile(item._deeps, oHead, fileType, item.url, onSuccess, item.attribute);
   }
 }
 
 function loadJsAndCss(alias: string[], callback?: loadCallback) {
-  callback = callback || defaultCallback
+  callback = callback || defaultCallback;
   times++;
-  if (typeof alias === "object") {
+  if (typeof alias === 'object') {
     getMuti(times, 1, alias, callback);
   } else {
     getOne(times, 1, alias, callback);
@@ -124,8 +104,20 @@ function loadJsAndCss(alias: string[], callback?: loadCallback) {
 }
 
 loadJsAndCss.config = function (setting: Record<string, bestime.need.INeedConfigAliasItem>) {
-  if (!hpIsEmptyMap(_setting)) throw "config is already configured";
-  _setting = setting;
+  const coverNames = [];
+  for (let key in setting) {
+    if (_setting[key]) {
+      coverNames.push(key);
+    }
+
+    _setting[key] = setting[key];    
+  }
+
+  if (coverNames.length) {
+    console.warn(
+      `提示：已存在配置 (${coverNames.join(', ')})，此配置将会覆盖之前配置，请检查配置是否正确`
+    );
+  }
 };
 
 loadJsAndCss.getConfig = function () {
@@ -135,15 +127,13 @@ loadJsAndCss.getConfig = function () {
 loadJsAndCss.async = function (alias: string[]) {
   return new Promise(function (resolve) {
     loadJsAndCss(alias, function () {
-      if(isArray(alias)) {
-        resolve(arguments)
+      if (isArray(alias)) {
+        resolve(arguments);
       } else {
-        resolve(arguments[0])
+        resolve(arguments[0]);
       }
-    })
-  })
-}
-
-
+    });
+  });
+};
 
 export default loadJsAndCss;

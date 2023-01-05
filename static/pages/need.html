@@ -35,13 +35,30 @@
         },
         "js#zepto": {
           url: 'https://cdn.bootcdn.net/ajax/libs/zepto/1.2.0/zepto.min.js',
-          moduleName: '$'
+          moduleName: '$',
+          attribute: {
+            'data-flag': 'yzl',
+            'data-l': 'jcy'
+          }
         }
       });
+
+      // bestime.need.config({
+      //   "js#zepto": {
+      //     url: 'test.js',
+      //     moduleName: 'fsdw'
+      //   },
+      //   "css#test": {
+      //     url: 'test.js',
+      //     moduleName: 'fsdw'
+      //   },
+      // });
 
       bestime.need.async(['js#one']).then(function ([a]) {
         console.log("加载成功：", a)
       })
+
+      
     </script>
   </body>
 </html>

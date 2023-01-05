@@ -428,7 +428,7 @@ function setObjectToString (val) {
  * 设置cookie。默认path="/"
  * @param {String} key 设置的键名
  * @parrm {*} value 设置的值
- * @param {Number} t 单位（毫秒）
+ * @param {Number} expiredTime 单位（毫秒）
  */
 function setCookie(key, value, expiredTime) {
     value = setObjectToString(value);
@@ -438,7 +438,6 @@ function setCookie(key, value, expiredTime) {
         oDate.setTime(oDate.getTime() + expiredTime);
         cook += 'expires=' + oDate.toUTCString();
     }
-    // console.log("dd", cook)
     document.cookie = cook;
 }
 
@@ -1147,7 +1146,7 @@ function getfile(gid, oHead, type, url, callback, attrs) {
 function defaultCallback() { }
 let _setting = {};
 let times = 0;
-let oHead = document.getElementsByTagName("head")[0];
+let oHead = document.getElementsByTagName('head')[0];
 function getMuti(times, id, alias, callback) {
     const result = [];
     let flag = 0;
@@ -1186,9 +1185,7 @@ function getOne(times, id, aliasName, callback) {
         }, onSuccess);
     }
     // 如果存在依赖文件
-    else if (!item._depenIsLoad &&
-        item.dependencies &&
-        item.dependencies.length > 0) {
+    else if (!item._depenIsLoad && item.dependencies && item.dependencies.length > 0) {
         item._depenIsLoad = true;
         getMuti(times, id + 1, item.dependencies, function () {
             getOne(times, id, aliasName, onSuccess);
@@ -1203,14 +1200,14 @@ function getOne(times, id, aliasName, callback) {
     else {
         item._count = item._count ? item._count + 1 : 1;
         item._deeps = `${times}.${id}`;
-        const fileType = isJsFile ? "script" : "link";
+        const fileType = isJsFile ? 'script' : 'link';
         getfile(item._deeps, oHead, fileType, item.url, onSuccess, item.attribute);
     }
 }
 function loadJsAndCss(alias, callback) {
     callback = callback || defaultCallback;
     times++;
-    if (typeof alias === "object") {
+    if (typeof alias === 'object') {
         getMuti(times, 1, alias, callback);
     }
     else {
@@ -1218,9 +1215,16 @@ function loadJsAndCss(alias, callback) {
     }
 }
 loadJsAndCss.config = function (setting) {
-    if (!hpIsEmptyMap(_setting))
-        throw "config is already configured";
-    _setting = setting;
+    const coverNames = [];
+    for (let key in setting) {
+        if (_setting[key]) {
+            coverNames.push(key);
+        }
+        _setting[key] = setting[key];
+    }
+    if (coverNames.length) {
+        console.warn(`提示：已存在配置 (${coverNames.join(', ')})，此配置将会覆盖之前配置，请检查配置是否正确`);
+    }
 };
 loadJsAndCss.getConfig = function () {
     return _setting;
