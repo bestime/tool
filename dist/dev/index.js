@@ -1357,6 +1357,67 @@ function randomColor() {
     return `rgba(${r},${g},${b},1)`;
 }
 
+function emptyFunc(a, b) { }
+class Polling {
+    _timer;
+    _timer_info;
+    _stamp = 0;
+    _passStamp = 0;
+    _option;
+    constructor(setting) {
+        this._option = Object.assign({
+            timeout: 1000 * 6,
+            interval: 1000,
+            handler: emptyFunc
+        }, setting);
+        this._next = this._next.bind(this);
+        this._doOnce = this._doOnce.bind(this);
+        this.done = this.done.bind(this);
+    }
+    _next() {
+        clearInterval(this._timer);
+        this._passStamp = +new Date() - this._stamp;
+        this._timer = setTimeout(this._doOnce, this._option.interval);
+        return this;
+    }
+    _doOnce() {
+        if (this._passStamp > this._option.timeout) {
+            this.done();
+            this._option.onMessage && this._option.onMessage(0);
+            return this;
+        }
+        this._option.handler(this._next, this.done);
+    }
+    start() {
+        this._stamp = +new Date();
+        this._doOnce();
+        let pass = 0;
+        let last = 0;
+        if (this._option.onMessage) {
+            clearInterval(this._timer_info);
+            this._timer_info = setInterval(() => {
+                pass = +new Date() - this._stamp;
+                last = Math.max(this._option.timeout - pass, 0);
+                if (last === 0) {
+                    this.done();
+                }
+                this._option.onMessage(last);
+            }, 100);
+        }
+        return this;
+    }
+    done() {
+        clearTimeout(this._timer);
+        clearTimeout(this._timer_info);
+        return this;
+    }
+    dispose() {
+        this.done();
+        return this;
+    }
+}
+
+exports.Polling = Polling;
 exports._Array = _Array;
 exports._Boolean = _Boolean;
 exports._KvPair = KvPair;

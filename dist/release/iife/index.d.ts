@@ -665,4 +665,54 @@ declare namespace bestime {
    * 获取随机颜色
    */
   export function randomColor(): string
+
+  /**
+   * 轮询
+   * 
+   * @example
+   * ```
+   * let count = 0
+   * const pol = new bestime.Polling({
+   *   interval: 1000,
+   *   timeout: 6 * 1000,
+   *   handler: function (next, done) {
+   *     count++
+   *     if(count>=4) {
+   *       done()
+   *     } else {
+   *       next()
+   *     }
+   *   },
+   *   onMessage: function (remainTime) {
+   *     console.log("剩余", remainTime)
+   *   }
+   * })
+   * 
+   * pol.start()
+   * ```
+   * 
+   * */
+  export class Polling {
+    constructor (setting: {
+      /** 执行时间间隔：默认1000毫秒 */
+      interval?: number,
+      /** 超时自动停止：默认6000毫秒 */
+      timeout?: number,
+      /** 剩余时间回调 */
+      onMessage?: (remainTime: number) => void
+
+      /**
+       * 主处理函数
+       * @param next - 未完成，继续下一次轮询
+       * @param done - 完成，并且停止轮询
+       */
+      handler: (next: () => void, done: () => void) => void
+    })
+    /** 开始 */
+    start (): this
+    /** 手动停止 */
+    done (): this
+    /** 销毁实例 */
+    dispose (): this
+  }
 }

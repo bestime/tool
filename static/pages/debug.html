@@ -22,12 +22,26 @@
    
     
     <script>
-      document.getElementById('demo').onclick = function () {
-        let url = 'http://127.0.0.1:99/git/demo/images/def-user.png'
-        // url = 'http://127.0.0.1:100/git/qs-t/awisps-front/front-v1/public/static/images/def-user.png?t=3'
-        
-        bestime.downloadFileByUrl(url, '你好.png')
-      }
+
+      let count = 0
+      const pol = new bestime.Polling({
+        interval: 1000,
+        timeout: 6 * 1000,
+        handler: function (next, done) {
+          count++
+          if(count>=4) {
+            done()
+          } else {
+            next()
+          }
+        },
+        onMessage: function (remainTime) {
+          console.log("剩余", remainTime)
+        }
+      })
+
+      pol.start()
+      // pol.done()
     </script>
   </body>
 </html>

@@ -70,7 +70,7 @@ export default {
   ],
   
   plugins: [
-    // nodeResolve(),
+    nodeResolve(),
     // commonjs(),
     rollupTypescript({
       include: "src/**/*.ts",
