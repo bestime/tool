@@ -9,6 +9,31 @@
       body,html {
         width: 100%;
         height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: auto;
+      }
+      #red-test {
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        width: 30%;
+        height:30%;
+        background: red;
+        margin: 20px;
+      }
+      #green-test {
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        width: 30%;
+        height:30%;
+        background: green;
+        margin: 20px;
       }
     </style>
 
@@ -19,36 +44,40 @@
     </script>
   </head>
   <body>
-    <div id="test2" style="width: 30%;height:30%;background: red;"></div>
+    <div id="red-test"></div>
+    <div id="green-test"></div>
     <script>
-      const aa = bestime.observeDomResize(document.getElementById('test2'), function (el) {
-        console.log("变了")
+      const redDom = document.getElementById('red-test')
+      const greenDom = document.getElementById('green-test')
+      const aa = bestime.observeDomResize(redDom, function (el) {
+        el.innerText = el.offsetWidth
       }, 'width')
+      
+      const bb = bestime.observeDomResize(greenDom, function (el) {
+        el.innerText = el.offsetWidth
+      }, 'width', 17)
 
-
-
-
-var data = '<h1 style="font-size:10px;">转为p测试</h1><h2 style="font-size:10px;">转为span测试</h2>'
-
-
-// => <p style="font-size:10px;">转为p测试</p><span style="font-size:10px;">转为span测试</span>
-console.log("转换结果", demo(data))
-
-function demo (html) {
-  const rules = {
-    'h1': 'p',
-    'h2': 'span'
-  }
-
-  for(const tag in rules) {
-    const regStr = `(<)(${tag})(.*?>.*?</)(${tag})(>)`
-    const reg = new RegExp(regStr, 'g')
-    html = html.replace(reg, function (_, $1, $2, $3, $4, $5) {
-      return $1 + rules[tag] + $3 + rules[tag] + $5
-    })
-  }
-  return html
+      function assembly (arr, num, handleGroup) {
+  // var count = 0, begin = +new Date();
+  var result = (function toFind(arr, length, start, coll){
+    var res = []
+    // count++
+    for(var index = start; index < arr.length; index++) {
+      if (length > 1)  {
+        res = res.concat(toFind(arr, length - 1, index + 1, coll.concat(arr[index])))
+      } else {
+        res.push(typeof handleGroup === 'function' ? handleGroup(coll.concat(arr[index]), index) : coll.concat(arr[index]))
+      }     
+    }
+    return res
+  })(arr, num, 0, []);
+  // console.log('次数：', count, '用时：', +new Date() - begin)
+  return result;
 }
+
+
+const test = assembly(['a', 'b', 'c', 'd', 'e', 'f','g', 'h', 'i', 'j', 'k', 'l', 'm', 'o', 'p', 'q', 'p', 'q'], 1)
+console.log("test", test)
 
     </script>
   </body>

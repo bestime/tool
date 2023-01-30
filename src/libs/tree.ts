@@ -68,7 +68,7 @@ export default function flatArrayToTree(
 
   for (var a = 0, item: any, father; a < list.length; a++) {
     var item = list[a];
-    item[children] = _Array(item[children]);
+    // item[children] = _Array(item[children]);
     father = deepFindItem(
       list,
       function (c) {

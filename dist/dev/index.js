@@ -219,6 +219,7 @@ function hpIsEmptyMap(data) {
     for (var key in data) {
         if (key !== undefined) {
             result = false;
+            break;
         }
     }
     return result;
@@ -788,7 +789,7 @@ function flatArrayToTree(list, props) {
     var children = props.children || "children";
     for (var a = 0, item, father; a < list.length; a++) {
         var item = list[a];
-        item[children] = _Array(item[children]);
+        // item[children] = _Array(item[children]);
         father = deepFindItem(list, function (c) {
             return c[id] != null && c[id] != item[id] && c[id] === item[pid];
         }, children);
@@ -1242,12 +1243,64 @@ loadJsAndCss.async = function (alias) {
     });
 };
 
+let htivId = 0;
+let idName = '';
+let isStart = false;
+const records = {};
+let timer;
+function stop() {
+    isStart = false;
+    clearInterval(timer);
+    timer = undefined;
+}
+function startRun() {
+    clearInterval(timer);
+    isStart = true;
+    timer = setInterval(function () {
+        for (let key in records) {
+            const item = records[key];
+            item.current = +new Date();
+            if (item.current - item.start >= item.interval) {
+                item.start = item.current;
+                records[key].handler();
+            }
+        }
+    }, 17);
+}
+function add(handler, interval) {
+    idName = 'HI-' + ++htivId;
+    records[idName] = {
+        start: +new Date(),
+        current: 0,
+        handler,
+        interval
+    };
+    if (!isStart) {
+        startRun();
+    }
+    return idName;
+}
+function remove(id) {
+    delete records[id];
+    if (hpIsEmptyMap(records)) {
+        // console.log("停止")
+        stop();
+    }
+}
+/** 自定义timer，用于工具内部方法使用，避免创建多个定时器 */
+var hpInterval = {
+    add,
+    remove
+};
+
 const main$2 = function (element, handler, type, interval) {
     interval = interval || 500;
     let width = [0, 0, false];
     let height = [0, 0, false];
-    let timer = setInterval(function () {
-        if (!element.isConnected) {
+    const timer = hpInterval.add(timerHandler, interval);
+    timerHandler();
+    function timerHandler() {
+        if (!document.body.contains(element)) {
             dispose();
             return;
         }
@@ -1272,9 +1325,11 @@ const main$2 = function (element, handler, type, interval) {
                 handler(element);
             }
         }
-    }, interval);
+    }
     function dispose() {
-        clearInterval(timer);
+        hpInterval.remove(timer);
+        width = undefined;
+        height = undefined;
     }
     return dispose;
 };
@@ -1381,15 +1436,16 @@ class Polling {
         return this;
     }
     _doOnce() {
-        if (this._passStamp > this._option.timeout) {
-            this.done();
+        if (this._passStamp >= this._option.timeout) {
             this._option.onMessage && this._option.onMessage(0);
+            this.done();
             return this;
         }
         this._option.handler(this._next, this.done);
     }
     start() {
         this._stamp = +new Date();
+        this.done();
         this._doOnce();
         let pass = 0;
         let last = 0;

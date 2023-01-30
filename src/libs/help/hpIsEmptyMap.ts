@@ -5,6 +5,7 @@ export default function hpIsEmptyMap (data: {
   for (var key in data) {
     if(key !== undefined) {
       result = false
+      break;
     }
   }
 

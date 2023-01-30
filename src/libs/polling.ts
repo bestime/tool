@@ -45,10 +45,9 @@ export default class Polling  {
   }
 
   private _doOnce () {
-    if(this._passStamp>this._option.timeout) {
-      this.done()
+    if(this._passStamp>=this._option.timeout) {
       this._option.onMessage && this._option.onMessage(0)
-      
+      this.done()
       return this
     }
     this._option.handler(this._next, this.done)
@@ -56,6 +55,7 @@ export default class Polling  {
 
   start () {
     this._stamp = +new Date()
+    this.done()
     this._doOnce()
     let pass = 0
     let last = 0
