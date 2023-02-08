@@ -10,6 +10,17 @@ declare namespace bestime {
    * */
   export type IKvPair = Record<string, any>;
 
+  /**
+   * 递归将所有属性改为可选
+   */
+  export type BTDeepPartial<T=any> = {
+    [P in keyof T]?: T[P] extends Function
+      ? T[P]
+      : T[P] extends object
+      ? BTDeepPartial<T[P]>
+      : T[P];
+  };
+
   /** 数据缓存工具提供的方法 */
   export interface IdataCacheCAllback {
     /** 检查对应url是否已经有缓存标记 */
@@ -111,13 +122,33 @@ declare namespace bestime {
   export function trim(data: string | number, position?: 1 | -1 | '*'): string;
 
   /**
-   * 移除undefined和null数据
+   * 移除无效数据
+   * @deprecated 该方法不完善，推荐使用新方法 `shake`
    *
-   * @param data - 需要处理的数据
+   * @param data - 将数据进行树摇
    * @param needRemoveEmptyString - 是否移除空字符串
-   * @returns string
+   * @returns 树摇后的数据
    */
-  export function clean<T>(data: T, needRemoveEmptyString?: boolean): T;
+  export function clean<T>(data: T, needRemoveEmptyString?: boolean): BTDeepPartial<T>;
+
+  /**
+   * 移除无效数据（`undefined`、`null`、`""`、`[]`、`{}`）
+   * @todo - 不处理数组
+   * @param data - 将数据进行树摇
+   * @param options - 配置参数
+   * @returns 树摇后的数据
+   */
+  export function shake<T>(
+    data: T,
+    options?: {
+      /** 默认true。移除空字符串 */
+      string?: Boolean;
+      /** 默认true。移除数组。（不会处理数组的孩子节点，以免造成索引错误） */
+      array?: Boolean;
+      /** 默认true。移除空键值对 */
+      kvPair?: Boolean;
+    }
+  ): BTDeepPartial<T>;
 
   /**
    * 对相同地址的数据进行缓存
@@ -543,7 +574,7 @@ declare namespace bestime {
       with?: string[];
 
       /** 设置标签属性 */
-      attribute?: Record<string, string>
+      attribute?: Record<string, string>;
     }
 
     /**
@@ -658,17 +689,17 @@ declare namespace bestime {
    * 获取浏览器窗口尺寸
    */
   export function getWindowSize(): {
-    width: number
-    height: number
+    width: number;
+    height: number;
   };
   /**
    * 获取随机颜色
    */
-  export function randomColor(): string
+  export function randomColor(): string;
 
   /**
    * 轮询
-   * 
+   *
    * @example
    * ```
    * let count = 0
@@ -687,32 +718,32 @@ declare namespace bestime {
    *     console.log("剩余", remainTime)
    *   }
    * })
-   * 
+   *
    * pol.start()
    * ```
-   * 
+   *
    * */
   export class Polling {
-    constructor (setting: {
+    constructor(setting: {
       /** 执行时间间隔：默认1000毫秒 */
-      interval?: number,
+      interval?: number;
       /** 超时自动停止：默认6000毫秒 */
-      timeout?: number,
+      timeout?: number;
       /** 剩余时间回调 */
-      onMessage?: (remainTime: number) => void
+      onMessage?: (remainTime: number) => void;
 
       /**
        * 主处理函数
        * @param next - 未完成，继续下一次轮询
        * @param done - 完成，并且停止轮询
        */
-      handler: (next: () => void, done: () => void) => void
-    })
+      handler: (next: () => void, done: () => void) => void;
+    });
     /** 开始 */
-    start (): this
+    start(): this;
     /** 手动停止 */
-    done (): this
+    done(): this;
     /** 销毁实例 */
-    dispose (): this
+    dispose(): this;
   }
 }

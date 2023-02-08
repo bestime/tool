@@ -19,29 +19,31 @@
   </head>
   <body>
     <button id="demo">下载</button>
-   
+    
     
     <script>
-
-      let count = 0
-      const pol = new bestime.Polling({
-        interval: 1000,
-        timeout: 6 * 1000,
-        handler: function (next, done) {
-          count++
-          if(count>=4) {
-            done()
-          } else {
-            next()
-          }
-        },
-        onMessage: function (remainTime) {
-          console.log("剩余", remainTime)
+      const data = {
+        name: 'bestime',
+        job: '',
+        skill: ['', '', ''],
+        time: undefined,
+        dep: [
+          [1],
+          [2, [[[]]]],
+          [4,[[6]]],
+          {}
+        ],
+        emp: [],
+        ext: {},
+        cache: {
+          k6: '',
+          k7: '换行',
+          d: []
         }
-      })
-
-      pol.start()
-      // pol.done()
+      }
+      const cdata = bestime.shake(data)
+      console.log(data, cdata)
+    
     </script>
   </body>
 </html>

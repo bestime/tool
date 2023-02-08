@@ -225,7 +225,7 @@ function hpIsEmptyMap(data) {
     return result;
 }
 
-function clean(data, removeEmptyStr, removeEmptyObject) {
+function clean$1(data, removeEmptyStr, removeEmptyObject) {
     var res;
     removeEmptyObject = removeEmptyObject === false ? false : true;
     if (isKvPair(data)) {
@@ -234,7 +234,7 @@ function clean(data, removeEmptyStr, removeEmptyObject) {
         for (key in data) {
             mpItem = data[key];
             if (isArray(mpItem) || isKvPair(mpItem)) {
-                temp = clean(mpItem, removeEmptyStr);
+                temp = clean$1(mpItem, removeEmptyStr);
             }
             else {
                 temp = mpItem;
@@ -248,7 +248,7 @@ function clean(data, removeEmptyStr, removeEmptyObject) {
     else if (isArray(data)) {
         res = [];
         for (var index = 0, len = data.length; index < len; index++) {
-            _filterData(clean(data[index], removeEmptyStr), removeEmptyStr, removeEmptyObject, function (useValue) {
+            _filterData(clean$1(data[index], removeEmptyStr), removeEmptyStr, removeEmptyObject, function (useValue) {
                 res.push(useValue);
             });
         }
@@ -283,6 +283,97 @@ function _filterData(data, removeEmptyStr, removeEmptyObject, callback) {
         }
     }
 }
+
+function cloneEasy(data) {
+    let ret;
+    switch (getType(data)) {
+        case $ArrayTypeNameBig:
+            ret = [];
+            for (let a = 0; a < data.length; a++) {
+                ret.push(cloneEasy(data[a]));
+            }
+            break;
+        case $ObjectTypeNameBig:
+            ret = {};
+            for (const key in data) {
+                ret[key] = cloneEasy(data[key]);
+            }
+            break;
+        case $FunctionTypeNameBig:
+            function newFun() {
+                data.apply(this, arguments);
+            }
+            for (const key in data.prototype) {
+                newFun.prototype[key] = data.prototype[key];
+            }
+            ret = newFun;
+            break;
+        default:
+            ret = data;
+            break;
+    }
+    return ret;
+}
+
+function isNoData(data, emptyConfig) {
+    let result = false;
+    if (isArray(data) && emptyConfig.array && data.length === 0) {
+        result = true;
+    }
+    else if (isKvPair(data) && emptyConfig.kvPair && hpIsEmptyMap(data)) {
+        result = true;
+    }
+    else if (isString(data) && emptyConfig.string && data === '') {
+        result = true;
+    }
+    else if (isNull(data)) {
+        result = true;
+    }
+    return result;
+}
+function hander(data, options) {
+    if (isKvPair(data)) {
+        for (let key in data) {
+            const item = data[key];
+            if (isArray(item) || isKvPair(item)) {
+                hander(item, options);
+            }
+            if (isNoData(item, options)) {
+                delete data[key];
+            }
+        }
+    }
+}
+function clean(data, options) {
+    const emptyConfig = Object.assign({
+        string: true,
+        array: true,
+        kvPair: true,
+    }, options);
+    data = cloneEasy(data);
+    hander(data, emptyConfig);
+    return data;
+}
+// interface Student {
+//   name: string,
+//   a: [1, 2],
+//   job: {
+//     test: undefined,
+//     submig:() => number,
+//     log: [
+//       number,
+//       {
+//         name: string
+//       }
+//     ],
+//     fornt: {
+//       year: number
+//     }
+//   }
+// }
+// function test (data: bestime.BTDeepPartial<Student>) {
+//   const a = data.job?.test
+// }
 
 function _Array(data) {
     if (!isArray(data)) {
@@ -358,37 +449,6 @@ function dataCacheUtil(url) {
         get: getData,
         logs: _tmp
     };
-}
-
-function cloneEasy(data) {
-    let ret;
-    switch (getType(data)) {
-        case $ArrayTypeNameBig:
-            ret = [];
-            for (let a = 0; a < data.length; a++) {
-                ret.push(cloneEasy(data[a]));
-            }
-            break;
-        case $ObjectTypeNameBig:
-            ret = {};
-            for (const key in data) {
-                ret[key] = cloneEasy(data[key]);
-            }
-            break;
-        case $FunctionTypeNameBig:
-            function newFun() {
-                data.apply(this, arguments);
-            }
-            for (const key in data.prototype) {
-                newFun.prototype[key] = data.prototype[key];
-            }
-            ret = newFun;
-            break;
-        default:
-            ret = data;
-            break;
-    }
-    return ret;
 }
 
 const DEFAULT_CONFIG = {
@@ -1480,7 +1540,7 @@ exports._KvPair = KvPair;
 exports._Number = _Number;
 exports._String = _String;
 exports.changeIndex = changeIndex;
-exports.clean = clean;
+exports.clean = clean$1;
 exports.cloneEasy = cloneEasy;
 exports.dataCacheUtil = dataCacheUtil;
 exports.deepFindItem = deepFindItem;
@@ -1521,6 +1581,7 @@ exports.roundFixed = roundFixed;
 exports.serverConfig = serverConfig;
 exports.setCookie = setCookie;
 exports.setStorage = setStorage;
+exports.shake = clean;
 exports.split = split;
 exports.timeLine = timeLine;
 exports.tree = flatArrayToTree;
