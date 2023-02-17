@@ -1,10 +1,5 @@
-
 type VoidFunc =() => void
-
 function emptyFunc (a: VoidFunc, b: VoidFunc) {}
-
-
-
 
 interface PollingOption {
   interval: number,
@@ -32,14 +27,9 @@ export default class Polling  {
     this.done = this.done.bind(this)
   }
 
-  
-  
-
   private _next () {
     clearInterval(this._timer)
     this._passStamp = +new Date() - this._stamp
-    
-    
     this._timer = setTimeout(this._doOnce, this._option.interval)
     return this
   }
@@ -61,8 +51,7 @@ export default class Polling  {
     let last = 0
     if(this._option.onMessage) {
       clearInterval(this._timer_info)
-      this._timer_info = setInterval(() => {
-        
+      this._timer_info = setInterval(() => {        
         pass = +new Date() - this._stamp
         last = Math.max(this._option.timeout - pass, 0)
         if(last===0) {
