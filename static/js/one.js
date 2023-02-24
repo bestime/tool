@@ -1,4 +1,2 @@
-var one = {
-  name: '第一个js'
-}
+window.one = '我是文件一'
 

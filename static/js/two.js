@@ -1,3 +1,1 @@
-var two = {
-  name: '第二个js'
-}
+window.two = '我是文件二'

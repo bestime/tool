@@ -38,3 +38,5 @@ export const $decodeURIComponent = decodeURIComponent
 
 /** 空白字符串 (已转意) */
 export const $regSpaceStr = '\\s\\uFEFF\\xA0'
+
+export const $headElement = document.getElementsByTagName('head')[0]!;

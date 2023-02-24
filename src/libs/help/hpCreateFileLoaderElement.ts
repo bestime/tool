@@ -1,29 +1,27 @@
-export default function getfile(
-  gid: string,
-  oHead: HTMLHeadElement,
-  type: 'script' | 'link',
+import { $headElement } from './hpConsts';
+
+export default function hpCreateFileLoaderElement(
+  type: 'css' | 'js',
   url: string,
   callback: () => void,
   attrs?: Record<string, string>
 ) {
   let oElement: HTMLLinkElement | HTMLScriptElement;
-  if (type === 'script') {
+  if (type === 'js') {
     oElement = document.createElement('script');
     oElement.src = url;
   } else {
     oElement = document.createElement('link');
-    oElement.href = url;
     oElement.setAttribute('rel', 'stylesheet');
+    oElement.href = url;
   }
-
-  oElement.setAttribute('level-id', gid);
-  oElement.setAttribute('author', 'bestime');
 
   if (attrs) {
     for (let key in attrs) {
       oElement.setAttribute(key, attrs[key]);
     }
   }
+
   oElement.onload = oElement.onerror = callback;
-  oHead.appendChild(oElement);
+  $headElement.appendChild(oElement);
 }

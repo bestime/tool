@@ -27,6 +27,8 @@ function isNoData (data: any, emptyConfig: Options) {
   return result
 }
 
+
+
 function hander<T extends TargetData> (data: T, options: Options): void {
   if(isKvPair(data)) {
     for(let key in data) {
@@ -41,7 +43,7 @@ function hander<T extends TargetData> (data: T, options: Options): void {
   } 
 }
 
-export default function clean<T extends TargetData> (
+export default function shake<T extends TargetData> (
   data: T,
   options?: Options
 ): bestime.BTDeepPartial<T> {
@@ -54,6 +56,8 @@ export default function clean<T extends TargetData> (
   hander(data, emptyConfig)
   return data
 }
+
+
 
 
 

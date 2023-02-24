@@ -551,52 +551,6 @@ declare namespace bestime {
    */
   export function getJsFileBaseUrl(tir?: number): string;
 
-  /**
-   * 按配置别名，异步获取js或css
-   * @param alias - 初始化时配置的别名
-   * @param callback - 加载成功回调
-   */
-  export function need(alias: string | string[], callback?: (...args: any[]) => void): string;
-
-  /** js、css 静态模块加载器 */
-  export namespace need {
-    export interface INeedConfigAliasItem {
-      /** 资源地址 */
-      url: string;
-
-      /** 暴露的全局变量名 */
-      moduleName?: string;
-
-      /** 依赖项优先加载，然后再加载自己 */
-      dependencies?: string[];
-
-      /** 和自身一起加载的库，没有先后顺序 */
-      with?: string[];
-
-      /** 设置标签属性 */
-      attribute?: Record<string, string>;
-    }
-
-    /**
-     * 不支持懒人式的baseUrl，做人还是勤快点好。
-     * @param setting - 配置参数
-     *
-     */
-    export function config(setting: Record<string, INeedConfigAliasItem>): void;
-
-    /**
-     * 查看当前配置
-     * @returns 实时配置
-     */
-    export function getConfig(): Record<string, INeedConfigAliasItem>;
-
-    /**
-     * 获取插件（Promise版）。
-     * @remarks 注意：请保证你的项目支持Promise，此方法不做兼容
-     */
-    export function async(alias: string): Promise<any>;
-    export function async(alias: string[]): Promise<any[]>;
-  }
 
   /**
    * 简易版深度克隆。（仅处理数组、键值对、方法的可克隆）
@@ -746,4 +700,21 @@ declare namespace bestime {
     /** 销毁实例 */
     dispose(): this;
   }
+
+
+  export interface LibraryFileConfig {
+    type: 'js' | 'css';
+    url: string;
+    module: string;
+    dependencies?: LibraryFileConfig[];
+    with?: LibraryFileConfig[];
+    attribute?: Record<string, string>
+  }
+
+  /**
+   * js和css文件加载器
+   * @param files - 文件配置
+   * @param callback - 加载成功回调
+  */
+  export function libraryFile(alias: LibraryFileConfig | LibraryFileConfig[], callback?: (...args: any[]) => void): void;
 }

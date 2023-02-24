@@ -69,6 +69,7 @@ const $encodeURIComponent = encodeURIComponent;
 const $decodeURIComponent = decodeURIComponent;
 /** 空白字符串 (已转意) */
 const $regSpaceStr = '\\s\\uFEFF\\xA0';
+const $headElement = document.getElementsByTagName('head')[0];
 
 function getType(data) {
     return $ObjectTypeNameBigPrototypeToString.call(data).slice(8, -1);
@@ -225,7 +226,7 @@ function hpIsEmptyMap(data) {
     return result;
 }
 
-function clean$1(data, removeEmptyStr, removeEmptyObject) {
+function clean(data, removeEmptyStr, removeEmptyObject) {
     var res;
     removeEmptyObject = removeEmptyObject === false ? false : true;
     if (isKvPair(data)) {
@@ -234,7 +235,7 @@ function clean$1(data, removeEmptyStr, removeEmptyObject) {
         for (key in data) {
             mpItem = data[key];
             if (isArray(mpItem) || isKvPair(mpItem)) {
-                temp = clean$1(mpItem, removeEmptyStr);
+                temp = clean(mpItem, removeEmptyStr);
             }
             else {
                 temp = mpItem;
@@ -248,7 +249,7 @@ function clean$1(data, removeEmptyStr, removeEmptyObject) {
     else if (isArray(data)) {
         res = [];
         for (var index = 0, len = data.length; index < len; index++) {
-            _filterData(clean$1(data[index], removeEmptyStr), removeEmptyStr, removeEmptyObject, function (useValue) {
+            _filterData(clean(data[index], removeEmptyStr), removeEmptyStr, removeEmptyObject, function (useValue) {
                 res.push(useValue);
             });
         }
@@ -344,7 +345,7 @@ function hander(data, options) {
         }
     }
 }
-function clean(data, options) {
+function shake(data, options) {
     const emptyConfig = Object.assign({
         string: true,
         array: true,
@@ -1182,126 +1183,102 @@ function getJsFileBaseUrl(tir) {
     return arr[arr.length - 1].src.replace(new RegExp(reg + '$'), '');
 }
 
-function getfile(gid, oHead, type, url, callback, attrs) {
+function hpCreateFileLoaderElement(type, url, callback, attrs) {
     let oElement;
-    if (type === 'script') {
+    if (type === 'js') {
         oElement = document.createElement('script');
         oElement.src = url;
     }
     else {
         oElement = document.createElement('link');
-        oElement.href = url;
         oElement.setAttribute('rel', 'stylesheet');
+        oElement.href = url;
     }
-    oElement.setAttribute('level-id', gid);
-    oElement.setAttribute('author', 'bestime');
     if (attrs) {
         for (let key in attrs) {
             oElement.setAttribute(key, attrs[key]);
         }
     }
     oElement.onload = oElement.onerror = callback;
-    oHead.appendChild(oElement);
+    $headElement.appendChild(oElement);
 }
 
-function defaultCallback() { }
-let _setting = {};
-let times = 0;
-let oHead = document.getElementsByTagName('head')[0];
-function getMuti(times, id, alias, callback) {
+const cache = {};
+// 批量加载
+function loadMultiple(files, callback) {
     const result = [];
-    let flag = 0;
-    for (let a = 0; a < alias.length; a++) {
-        getOne(times, id, alias[a], function (res) {
+    let count = 0;
+    for (let a = 0; a < files.length; a++) {
+        loadSingle(files[a], function (res) {
             result[a] = res;
-            if (++flag === alias.length) {
+            if (++count === files.length) {
                 callback.apply($undefinedValue, result);
             }
         });
     }
 }
-function getOne(times, id, aliasName, callback) {
-    const item = _setting && _setting[aliasName];
-    if (!item) {
-        throw `alias \"${aliasName}" is not configured`;
+// 单个加载
+function loadSingle(file, callback) {
+    const hasDepends = file.dependencies && file.dependencies.length;
+    const hasWith = file.with && file.with.length;
+    if (!cache[file.url]) {
+        cache[file.url] = {
+            count: 0,
+            dependencies: !hasDepends,
+            with: !hasWith,
+            complete: false,
+            create: false,
+            url: file.url
+        };
     }
-    const isJsFile = /^js/.test(aliasName);
+    const cacheItem = cache[file.url];
+    cacheItem.count++;
     function onSuccess() {
-        if (item) {
-            item._complete = true;
-            if (!isFunction(callback))
-                return;
-            if (isJsFile) {
-                callback(item.moduleName ? $browserGlobal[item.moduleName] : undefined);
+        if (cacheItem.complete && cacheItem.dependencies && cacheItem.with) {
+            if (file.module) {
+                callback($browserGlobal[file.module]);
             }
             else {
                 callback();
             }
         }
     }
-    // 如果已经存在，则等待
-    if (item._count && item._count > 0) {
+    // 有依赖，先加载依赖
+    if (!cacheItem.dependencies && hasDepends) {
+        cacheItem.dependencies = true;
+        loadMultiple(file.dependencies, function () {
+            loadSingle(file, callback);
+        });
+    }
+    // 有需要同步加载的模块
+    else if (!cacheItem.with && hasWith) {
+        cacheItem.with = true;
+        loadMultiple(file.with.concat(file), onSuccess);
+    }
+    // 已经创建，等待完成
+    else if (cacheItem.create) {
         variableHasValue(function () {
-            return item._complete;
-        }, onSuccess);
+            return cacheItem.complete;
+        }, onSuccess, 300);
     }
-    // 如果存在依赖文件
-    else if (!item._depenIsLoad && item.dependencies && item.dependencies.length > 0) {
-        item._depenIsLoad = true;
-        getMuti(times, id + 1, item.dependencies, function () {
-            getOne(times, id, aliasName, onSuccess);
-        });
-    }
-    // 可以同步加载的依赖
-    else if (!item._withIsLoad && item.with && item.with.length > 0) {
-        item._withIsLoad = true;
-        getMuti(times, id, item.with.concat(aliasName), onSuccess);
-    }
-    // 无任何依赖，则创建新请求
+    // 没有创建当前模块加载器，则创建
     else {
-        item._count = item._count ? item._count + 1 : 1;
-        item._deeps = `${times}.${id}`;
-        const fileType = isJsFile ? 'script' : 'link';
-        getfile(item._deeps, oHead, fileType, item.url, onSuccess, item.attribute);
+        cacheItem.create = true;
+        hpCreateFileLoaderElement(file.type, file.url, function () {
+            cacheItem.complete = true;
+            onSuccess();
+        }, file.attribute);
     }
 }
-function loadJsAndCss(alias, callback) {
-    callback = callback || defaultCallback;
-    times++;
-    if (typeof alias === 'object') {
-        getMuti(times, 1, alias, callback);
+function libraryFile(files, callback) {
+    console.log('加载器', files, cache);
+    if (files instanceof Array) {
+        loadMultiple(files, callback);
     }
     else {
-        getOne(times, 1, alias, callback);
+        loadSingle(files, callback);
     }
 }
-loadJsAndCss.config = function (setting) {
-    const coverNames = [];
-    for (let key in setting) {
-        if (_setting[key]) {
-            coverNames.push(key);
-        }
-        _setting[key] = setting[key];
-    }
-    if (coverNames.length) {
-        console.warn(`提示：已存在配置 (${coverNames.join(', ')})，此配置将会覆盖之前配置，请检查配置是否正确`);
-    }
-};
-loadJsAndCss.getConfig = function () {
-    return _setting;
-};
-loadJsAndCss.async = function (alias) {
-    return new Promise(function (resolve) {
-        loadJsAndCss(alias, function () {
-            if (isArray(alias)) {
-                resolve(arguments);
-            }
-            else {
-                resolve(arguments[0]);
-            }
-        });
-    });
-};
 
 let htivId = 0;
 let idName = '';
@@ -1540,7 +1517,7 @@ exports._KvPair = KvPair;
 exports._Number = _Number;
 exports._String = _String;
 exports.changeIndex = changeIndex;
-exports.clean = clean$1;
+exports.clean = clean;
 exports.cloneEasy = cloneEasy;
 exports.dataCacheUtil = dataCacheUtil;
 exports.deepFindItem = deepFindItem;
@@ -1564,8 +1541,8 @@ exports.isArray = isArray;
 exports.isFunction = isFunction;
 exports.isKvPair = isKvPair;
 exports.isNull = isNull;
+exports.libraryFile = libraryFile;
 exports.mapTree = main$1;
-exports.need = loadJsAndCss;
 exports.observeDomResize = main$2;
 exports.padEnd = padEnd;
 exports.padStart = padStart;
@@ -1581,7 +1558,7 @@ exports.roundFixed = roundFixed;
 exports.serverConfig = serverConfig;
 exports.setCookie = setCookie;
 exports.setStorage = setStorage;
-exports.shake = clean;
+exports.shake = shake;
 exports.split = split;
 exports.timeLine = timeLine;
 exports.tree = flatArrayToTree;
