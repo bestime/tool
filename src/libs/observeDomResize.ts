@@ -23,7 +23,7 @@ const main: typeof bestime.observeDomResize = function (element, handler, type, 
       posLeft[0] = bound.left
       posLeft[2] = posLeft[0] !== posLeft[1]
 
-      posTop[0] = posTop[0]
+      posTop[0] = bound.top
       posTop[2] = posTop[0] !== posTop[1]
     }
 
