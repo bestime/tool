@@ -1,6 +1,6 @@
 {
   "name": "@bestime/utils",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/release/esm/index.min.js",
   "types": "dist/release/esm/index.d.ts",
   "description": "个人常用typescript工具库",
