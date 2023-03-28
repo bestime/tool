@@ -6,8 +6,9 @@ const main: typeof bestime.mapTree = function (data, childKeyTo, handle, childKe
   ;(function handleOneList (list, newList) {
     for(let index = 0; index<list.length;index++) {
       newList[index] = cloneEasy(handle(list[index]))
-      newList[index][childKeyTo] = []
+      
       if(list[index][childKeyFrom]) {
+        newList[index][childKeyTo] = []
         handleOneList(list[index][childKeyFrom], newList[index][childKeyTo])
       }
     }

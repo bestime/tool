@@ -13,7 +13,7 @@ declare namespace bestime {
   /**
    * 递归将所有属性改为可选
    */
-  export type BTDeepPartial<T=any> = {
+  export type BTDeepPartial<T = any> = {
     [P in keyof T]?: T[P] extends Function
       ? T[P]
       : T[P] extends object
@@ -122,18 +122,9 @@ declare namespace bestime {
   export function trim(data: string | number, position?: 1 | -1 | '*'): string;
 
   /**
-   * 移除无效数据
-   * @deprecated 该方法不完善，推荐使用新方法 `shake`
-   *
-   * @param data - 将数据进行树摇
-   * @param needRemoveEmptyString - 是否移除空字符串
-   * @returns 树摇后的数据
-   */
-  export function clean<T>(data: T, needRemoveEmptyString?: boolean): BTDeepPartial<T>;
-
-  /**
-   * 移除无效数据（`undefined`、`null`、`""`、`[]`、`{}`）
-   * @todo - 不处理数组
+   * 移除无效数据，包括：空字符串，空对象，空数组。
+   * 注：数组中的值不做处理，会影响数组长度
+   * 
    * @param data - 将数据进行树摇
    * @param options - 配置参数
    * @returns 树摇后的数据
@@ -309,14 +300,6 @@ declare namespace bestime {
    * @returns 真假
    */
   export function isArray(data: any): boolean;
-
-  /**
-   * @deprecated 名字取得不好
-   * 判断是否是 null 或者 undefined
-   * @param data - 值
-   * @returns 真假
-   */
-  export function isNull(data: any): boolean;
 
   /**
    * 下载 url 文件
@@ -551,7 +534,6 @@ declare namespace bestime {
    */
   export function getJsFileBaseUrl(tir?: number): string;
 
-
   /**
    * 简易版深度克隆。（仅处理数组、键值对、方法的可克隆）
    *
@@ -572,7 +554,7 @@ declare namespace bestime {
   export function observeDomResize(
     element: HTMLElement,
     handler: (element: HTMLElement) => void,
-    type?: 'width' | 'height',
+    type?: ('width' | 'height' | 'position')[],
     interval?: number
   ): () => void;
 
@@ -701,20 +683,41 @@ declare namespace bestime {
     dispose(): this;
   }
 
-
   export interface LibraryFileConfig {
     type: 'js' | 'css';
     url: string;
     module: string;
     dependencies?: LibraryFileConfig[];
     with?: LibraryFileConfig[];
-    attribute?: Record<string, string>
+    attribute?: Record<string, string>;
   }
 
   /**
    * js和css文件加载器
    * @param files - 文件配置
    * @param callback - 加载成功回调
-  */
-  export function libraryFile(alias: LibraryFileConfig | LibraryFileConfig[], callback?: (...args: any[]) => void): void;
+   */
+  export function libraryFile(
+    alias: LibraryFileConfig | LibraryFileConfig[],
+    callback?: (...args: any[]) => void
+  ): void;
+
+  /**
+   * 前端将数组进行模拟分页处理
+   * @param data - 所有数据
+   * @param pageSize - 每页多少条
+   * @param pageCurrent - 当前页
+   * @returns 分页数据
+   */
+  export function dataPage<T>(
+    data: T[],
+    pageSize: number,
+    pageCurrent: number
+  ): {
+    current: number;
+    total: number;
+    size: number;
+    pages: number;
+    data: T[];
+  };
 }
