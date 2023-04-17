@@ -1,7 +1,8 @@
-import { $browserGlobal } from './help/hpConsts'
+import { $browserGlobal, $isBroswer } from './help/hpConsts'
 
 //阻止冒泡及默认行为
 export default function prevent (ev: Event, bubble: boolean, stop: boolean) {
+  if(!$isBroswer) return;
     ev = ev || $browserGlobal.event
     bubble = bubble === false ? false : true
     stop = stop === false ? false : true
