@@ -46,23 +46,6 @@ declare namespace bestime {
   export function defaultValue<T>(data: any, value: T): T;
 
   /**
-   * 创建一个url前缀批量转换函数，当前缀代理地址发生变化，方便修改
-   *
-   * @param config - 服务器白名单前缀配置
-   * @returns 配置工具
-   * @example
-   *```javascript
-   * // 初始化配置
-   * const iUrl = serverConfig({
-   *   '@baidu': 'http://www.google.com'
-   * })
-   *
-   * const apiUrl = iUrl('/@baidu/api/user/info')
-   * ```
-   */
-  export function serverConfig(config: Record<string, string | null>): (path: string) => string;
-
-  /**
    * 强制转化数据为字符串
    * @param data - 处理的值
    * @returns 实际值

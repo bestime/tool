@@ -3,15 +3,19 @@
  */
 export default undefined;
 /**
- * 键值对格式的数据
- * */
+   * 键值对格式的数据
+   * */
 export type IKvPair = Record<string, any>;
 
 /**
  * 递归将所有属性改为可选
  */
 export type BTDeepPartial<T = any> = {
-  [P in keyof T]?: T[P] extends Function ? T[P] : T[P] extends object ? BTDeepPartial<T[P]> : T[P];
+  [P in keyof T]?: T[P] extends Function
+    ? T[P]
+    : T[P] extends object
+    ? BTDeepPartial<T[P]>
+    : T[P];
 };
 
 /** 数据缓存工具提供的方法 */
@@ -37,23 +41,6 @@ export interface IdataCacheCAllback {
  * @returns 实际值
  */
 export function defaultValue<T>(data: any, value: T): T;
-
-/**
- * 创建一个url前缀批量转换函数，当前缀代理地址发生变化，方便修改
- *
- * @param config - 服务器白名单前缀配置
- * @returns 配置工具
- * @example
- *```javascript
- * // 初始化配置
- * const iUrl = serverConfig({
- *   '@baidu': 'http://www.google.com'
- * })
- *
- * const apiUrl = iUrl('/@baidu/api/user/info')
- * ```
- */
-export function serverConfig(config: Record<string, string | null>): (path: string) => string;
 
 /**
  * 强制转化数据为字符串
@@ -117,7 +104,7 @@ export function trim(data: string | number, position?: 1 | -1 | '*'): string;
 /**
  * 移除无效数据，包括：空字符串，空对象，空数组。
  * 注：数组中的值不做处理，会影响数组长度
- *
+ * 
  * @param data - 将数据进行树摇
  * @param options - 配置参数
  * @returns 树摇后的数据

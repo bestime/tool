@@ -1,7 +1,7 @@
 import _Array from './_Array'
 import _Number from './_Number'
 import _KvPair from './_KvPair'
-import { $browserGlobal, $decodeURIComponent, $undefinedValue } from './help/hpConsts'
+import { $browserGlobal, $decodeURIComponent, $undefinedValue, $isBroswer } from './help/hpConsts'
 import FN_FORMAT_STRING_VALUE from './help/hpTryToParseStringToBasicType'
 
 
@@ -79,7 +79,11 @@ function isPreLikeArray (data: any): boolean {
 export default function parseQuery (str?: string) {
   var res: any = {}, hasChlid, queryKey;
   if(!str) {
-    str = $browserGlobal.location.href
+    if($isBroswer) {
+      str = $browserGlobal.location.href || ''
+    } else {
+      str = ''
+    }    
   }
 	
   str.replace(/([^=&?/#]*?)=([^=&?/#]*)/g, function (_: any, key: any, val: any): any {

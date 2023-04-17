@@ -2,7 +2,7 @@
 
 // console.log("chalk2", chalk)
 
-export { default as serverConfig } from './libs/serverConfig'
+
 export { default as _String } from './libs/_String'
 export { default as getType } from './libs/getType'
 export { default as isArray } from './libs/isArray'

@@ -20,25 +20,160 @@
   <body>
     
     <script>
+      ;(function () {
+        const timeList = [
+          '2021-12-25 17:00:00',
+          '2021-12-25 17:00:10',
+          '2021-12-25 17:00:20',
+          '2021-12-25 17:10:00',
+          '2021-12-25 18:00:00',
+          '2021-12-25 19:00:00',
+          '2021-12-25 19:20:00',
+          '2021-12-25 19:40:00',
+          '2021-12-26 00:00:00',
+          '2021-12-27 00:00:00',
+          '2022-01-01 00:00:00',
+          '2022-01-02 00:00:00',
+          '2022-01-03 00:00:00',
+          '2022-02-03 00:00:00',
+          '2022-02-03 00:03:00',
+          '2023-01-01 00:00:00',
+        ]
+
+        const padStart = bestime.padStart
+        const cloneEasy = bestime.cloneEasy
+
+        function formatValue (value) {
+          const date = new Date(value)
+          const year = `${padStart(date.getFullYear(), 2,'0')}`
+          const month = `${year}-${padStart(date.getMonth() + 1, 2, '0')}`
+          const day = `${month}-${padStart(date.getDate(), 2, '0')}`
+          const hour = `${day} ${padStart(date.getHours(), 2, '0')}`
+          const minute = `${hour}:${padStart(date.getMinutes(), 2, '0')}`
+          const seconds = `${minute}:${padStart(date.getSeconds(), 2, '0')}`
+          const milliseconds = `${seconds}:${padStart(date.getMilliseconds(), 3, '0')}`
+          return {
+            value,
+            unit: {
+              start: '',
+              end: ''
+            },
+            timestamp: date.getTime(),
+            date,
+            year,
+            month,
+            day,
+            hour,
+            minute,
+            seconds,
+            milliseconds
+          }
+        }
+
+        const units = [
+          'year',
+          'month',
+          'day',
+          'hour',
+          'minute',
+          'seconds',
+          'milliseconds',
+        ]
+
+        
 
 
-      const byteConvert = function(bytes) {
-        if (isNaN(bytes)) {
-            return '';
-        }
-        let symbols = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-        let exp = Math.floor(Math.log(bytes)/Math.log(2));
-        if (exp < 1) {
-            exp = 0;
-        }
-        let i = Math.floor(exp / 10);
-        bytes = bytes / Math.pow(2, 10 * i);
 
-        if (bytes.toString().length > bytes.toFixed(2).toString().length) {
-            bytes = bytes.toFixed(2);
+        function timesTravel (data) {
+          const times = []
+
+          // 预处理数据
+          for(let a = 0,value; a<data.length;a++) {
+            value = data[a]            
+            times.push(formatValue(value))
+          }
+
+          // 排个序
+          times.sort(function (a, b){
+            return a.timestamp - b.timestamp
+          })
+
+          const cache = {}
+          const result = []
+
+
+          function findUnits (timeIdx) {
+            const prev = times[timeIdx-1]
+            const current = times[timeIdx]
+            const next = times[timeIdx+1]
+            let fromName, toName;
+            for(let index = 0, curUnit; index<units.length; index++) {
+         
+              if(fromName != null && toName != null) {
+                break;
+              }
+
+              
+              curUnit =units[index]
+              if(!cache[current[fromName]]) {
+                
+                fromName  = units[Math.max(index-1, 0)]
+                cache[current[fromName]] = current.value
+                
+                
+              }
+
+              
+              if(current[curUnit] !== next?.[curUnit]) {
+                toName = units[Math.max(index-1, 0)]
+                break;
+              }
+
+              
+            }
+
+            // if()
+            
+            current.unit.start = fromName
+            current.unit.end = toName
+            // current._prefix = current[fromName]
+            return [current.value, fromName, toName]
+          }
+
+          // 找到每个时间的起始单位
+          for(let a = 0,value; a<times.length;a++) {
+            value = times[a]
+            let unit;
+            if(a<times.length-1) {
+              unit = findUnits(a)
+            } else {
+              unit = '待做'
+            }
+            
+
+            console.log('value', unit)
+          }
+          
+          
+          
+          
+      
+
+          console.log("times", times, cache)
+          
+
+          return result
         }
-        return bytes + ' ' + symbols[i];
-    };
+
+        const line = bestime.timeLine(timeList)
+        const tt = timesTravel(timeList)
+
+
+        console.log("line", line, tt)
+      })();
+
+
+      
 
 
     </script>

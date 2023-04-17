@@ -6,6 +6,7 @@ export default function hpCreateFileLoaderElement(
   callback: () => void,
   attrs?: Record<string, string>
 ) {
+  if(!$headElement) return;
   let oElement: HTMLLinkElement | HTMLScriptElement;
   if (type === 'js') {
     oElement = document.createElement('script');

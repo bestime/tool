@@ -1,3 +1,4 @@
+
 export const $letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
 /** 数据类型常量：Array */
@@ -24,8 +25,7 @@ export const $falseString = 'false'
 /** true字符串 */
 export const $trueString = 'true'
 
-/** 代理浏览器 window */
-export const $browserGlobal = window
+
 
 /** toString简写 */
 export const $ObjectTypeNameBigPrototypeToString = Object.prototype.toString
@@ -39,4 +39,10 @@ export const $decodeURIComponent = decodeURIComponent
 /** 空白字符串 (已转意) */
 export const $regSpaceStr = '\\s\\uFEFF\\xA0'
 
-export const $headElement = document.getElementsByTagName('head')[0]!;
+/** 判断是否是浏览器环境 */
+export const $isBroswer = typeof document !== 'undefined' && document.getElementById!==undefined
+
+/** 代理浏览器 window */
+export const $browserGlobal = window
+
+export const $headElement = $isBroswer ? document.getElementsByTagName('head')[0] : undefined;
