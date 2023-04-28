@@ -1,9 +1,12 @@
+/// <reference path="../../libs/help.d.ts"/>
+
 import isString from './isString'
 import hpIsEmptyMap from './help/hpIsEmptyMap'
 import isKvPair from './isKvPair'
 import isArray from './isArray'
 import isNull from './isNull'
 import cloneEasy from './cloneEasy'
+
 
 type TargetData = Record<string, any> | any[]
 
@@ -43,10 +46,19 @@ function hander<T extends TargetData> (data: T, options: Options): void {
   } 
 }
 
+
+/**
+   * 移除无效数据，包括：空字符串，空对象，空数组。
+   * 注：数组中的值不做处理，会影响数组长度
+   * 
+   * @param data - 将数据进行树摇
+   * @param options - 配置参数
+   * @returns 树摇后的数据
+   */
 export default function shake<T extends TargetData> (
   data: T,
   options?: Options
-): bestime.BTDeepPartial<T> {
+): BTDeepPartial<T> {
   const emptyConfig: Options = Object.assign({
     string: true,
     array: true,
@@ -80,9 +92,7 @@ export default function shake<T extends TargetData> (
 //   }
 // }
 
-// function test (data: bestime.BTDeepPartial<Student>) {
-//   const a = data.job?.test
-// }
+
 
 
 

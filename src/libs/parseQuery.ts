@@ -1,47 +1,49 @@
-import _Array from './_Array'
-import _Number from './_Number'
-import _KvPair from './_KvPair'
-import { $browserGlobal, $decodeURIComponent, $undefinedValue, $isBroswer } from './help/hpConsts'
-import FN_FORMAT_STRING_VALUE from './help/hpTryToParseStringToBasicType'
+/// <reference path="../../libs/help.d.ts"/>
+
+import _Array from './_Array';
+import _Number from './_Number';
+import _KvPair from './_KvPair';
+import { $browserGlobal, $decodeURIComponent, $undefinedValue, $isBroswer } from './help/hpConsts';
+import FN_FORMAT_STRING_VALUE from './help/hpTryToParseStringToBasicType';
 
 
-const defaultSplitArr = [$undefinedValue, $undefinedValue]
+const defaultSplitArr = [$undefinedValue, $undefinedValue];
 
 /**
  * 处理可能是深层级的数据
- * 
- * @param {String} res 
- * @param {String} more 
- * @param {*} originValue 
+ *
+ * @param {String} res
+ * @param {String} more
+ * @param {*} originValue
  */
-function handleDeepKey (res: any, more: any, originValue: any) {
-	var sb = splitSymbol(more)
-	var nowKey = sb[0]
+function handleDeepKey(res: any, more: any, originValue: any) {
+  var sb = splitSymbol(more);
+  var nowKey = sb[0];
 
-	if(isPreLikeArray(nowKey)) {
-		nowKey = _Number(nowKey)
-		if(sb[1] == $undefinedValue) {
-			res.push(originValue)
-		} else {
-			if(/^\[[\D]+\]/.test(sb[1])) {
-				res[nowKey] = _KvPair(res[nowKey])
-			} else {
-				res[nowKey] = _Array(res[nowKey])
-			}			
-			handleDeepKey(res[nowKey], sb[1], originValue)
-		}
-	} else {
-		if(sb[1] == $undefinedValue) {
-			res[nowKey] = originValue
-		} else {
-			if(/^\[[\D]+\]/.test(sb[1])) {
-				res[nowKey] = _KvPair(res[nowKey])
-			} else {
-				res[nowKey] = _Array(res[nowKey])
-			}
-			handleDeepKey(res[nowKey], sb[1], originValue)
-		}
-	}
+  if (isPreLikeArray(nowKey)) {
+    nowKey = _Number(nowKey);
+    if (sb[1] == $undefinedValue) {
+      res.push(originValue);
+    } else {
+      if (/^\[[\D]+\]/.test(sb[1])) {
+        res[nowKey] = _KvPair(res[nowKey]);
+      } else {
+        res[nowKey] = _Array(res[nowKey]);
+      }
+      handleDeepKey(res[nowKey], sb[1], originValue);
+    }
+  } else {
+    if (sb[1] == $undefinedValue) {
+      res[nowKey] = originValue;
+    } else {
+      if (/^\[[\D]+\]/.test(sb[1])) {
+        res[nowKey] = _KvPair(res[nowKey]);
+      } else {
+        res[nowKey] = _Array(res[nowKey]);
+      }
+      handleDeepKey(res[nowKey], sb[1], originValue);
+    }
+  }
 }
 
 /**
@@ -49,19 +51,20 @@ function handleDeepKey (res: any, more: any, originValue: any) {
  * @param {String} str
  * @return {Array}
  */
-function splitSymbol (str: any) {
-	if(str == $undefinedValue) {
-		return defaultSplitArr
-	}
+function splitSymbol(str: any) {
+  if (str == $undefinedValue) {
+    return defaultSplitArr;
+  }
 
-	var pre = str, next;
-	
-	str.replace(/^\[(.*?)\](.*)?/, function (_: any, a: any, b: any) {
-		pre = a
-		next = b
-		return '';
-	})
-	return [pre, next]
+  var pre = str,
+    next;
+
+  str.replace(/^\[(.*?)\](.*)?/, function (_: any, a: any, b: any) {
+    pre = a;
+    next = b;
+    return '';
+  });
+  return [pre, next];
 }
 
 /**
@@ -69,46 +72,48 @@ function splitSymbol (str: any) {
  * @param {String} data
  * @return {Boolean}
  */
-function isPreLikeArray (data: any): boolean {
-	return data === '' || /^\d+$/.test(data)
+function isPreLikeArray(data: any): boolean {
+  return data === '' || /^\d+$/.test(data);
 }
 
-
-
-
-export default function parseQuery (str?: string) {
-  var res: any = {}, hasChlid, queryKey;
-  if(!str) {
-    if($isBroswer) {
-      str = $browserGlobal.location.href || ''
+/**
+ * 解析序列化字符参数为Map格式数据
+ * @param str - url 查询参数。默认为window.location.href
+ * @returns 键值对
+ */
+export default function parseQuery(str?: string): IKvPair {
+  var res: any = {},
+    hasChlid,
+    queryKey;
+  if (!str) {
+    if ($isBroswer) {
+      str = $browserGlobal.location.href || '';
     } else {
-      str = ''
-    }    
+      str = '';
+    }
   }
-	
+
   str.replace(/([^=&?/#]*?)=([^=&?/#]*)/g, function (_: any, key: any, val: any): any {
-		val = FN_FORMAT_STRING_VALUE($decodeURIComponent(val))
-		queryKey = $decodeURIComponent(key)
-		hasChlid = false
-		if(queryKey!=='') {
-			queryKey.replace(/(.*?)(\[.*)/, function (_: any, k: any, m: any): any {
-				var sb = splitSymbol(m)
-				hasChlid = true
-				if(isPreLikeArray(sb[0])) {
-					res[k] = _Array(res[k])
-				} else {
-					res[k] = _KvPair(res[k])
-				}
-				handleDeepKey(res[k], m, val);
-        
-			});
-	
-			if(!hasChlid) {
-				res[queryKey] = val
-			}
-		}
-    
+    val = FN_FORMAT_STRING_VALUE($decodeURIComponent(val));
+    queryKey = $decodeURIComponent(key);
+    hasChlid = false;
+    if (queryKey !== '') {
+      queryKey.replace(/(.*?)(\[.*)/, function (_: any, k: any, m: any): any {
+        var sb = splitSymbol(m);
+        hasChlid = true;
+        if (isPreLikeArray(sb[0])) {
+          res[k] = _Array(res[k]);
+        } else {
+          res[k] = _KvPair(res[k]);
+        }
+        handleDeepKey(res[k], m, val);
+      });
+
+      if (!hasChlid) {
+        res[queryKey] = val;
+      }
+    }
   });
 
-  return res
+  return res;
 }

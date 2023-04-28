@@ -1,6 +1,5 @@
-import defaultValue from "./defaultValue";
-import isArray from "./isArray";
-
+import defaultValue from './defaultValue';
+import isArray from './isArray';
 
 /*
 
@@ -39,21 +38,25 @@ var treeData = [
 ]
 */
 
-
-export default function flatTree (data: any[], childKey?: string) {
-  const result = []
-  childKey = defaultValue(childKey, 'children')
-
-  ;(function once (list) {
-    if(isArray(list)) {
+/**
+ * 将树形结构转为一维数组
+ * @param data - 树
+ * @param childKey - 子项字段。默认 children
+ * @returns 浅克隆的数组
+ */
+export default function flatTree(data: any[], childKey?: string) {
+  const result = [];
+  childKey = defaultValue(childKey, 'children');
+  (function once(list) {
+    if (isArray(list)) {
       let item: any;
-      for(let index = 0; index<list.length; index++) {
-        item = list[index]
-        result.push(item)
-        once(item[childKey])
+      for (let index = 0; index < list.length; index++) {
+        item = list[index];
+        result.push(item);
+        once(item[childKey]);
       }
     }
   })(data);
 
-  return result
+  return result;
 }

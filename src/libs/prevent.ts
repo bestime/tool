@@ -1,11 +1,18 @@
-import { $browserGlobal, $isBroswer } from './help/hpConsts'
+import { $browserGlobal, $isBroswer } from './help/hpConsts';
 
-//阻止冒泡及默认行为
-export default function prevent (ev: Event, bubble: boolean, stop: boolean) {
-  if(!$isBroswer) return;
-    ev = ev || $browserGlobal.event
-    bubble = bubble === false ? false : true
-    stop = stop === false ? false : true
-    bubble && $browserGlobal.event ? $browserGlobal.event.cancelBubble = true : ev.stopPropagation()
-    stop && $browserGlobal.event ? $browserGlobal.event.returnValue = false : ev.preventDefault()
+/**
+ * 移除Dom节点
+ * @param ev - 事件
+ * @param bubble - 阻止冒泡. 默认 true
+ * @param stop - 阻止穿透. 默认 true
+ */
+export default function prevent(ev: Event, bubble: boolean, stop: boolean) {
+  if (!$isBroswer) return;
+  ev = ev || $browserGlobal.event;
+  bubble = bubble === false ? false : true;
+  stop = stop === false ? false : true;
+  bubble && $browserGlobal.event
+    ? ($browserGlobal.event.cancelBubble = true)
+    : ev.stopPropagation();
+  stop && $browserGlobal.event ? ($browserGlobal.event.returnValue = false) : ev.preventDefault();
 }

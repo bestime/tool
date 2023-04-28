@@ -2,11 +2,11 @@ import setObjectToString from './help/hpSetObjectToString'
 
 /**
  * 设置cookie。默认path="/"
- * @param {String} key 设置的键名
- * @parrm {*} value 设置的值
- * @param {Number} expiredTime 单位（毫秒）
+ * @param key - 设置的键名
+ * @param value - 设置的值
+ * @param expiredTime - 单位（毫秒）
  */
-export default function setCookie (key: string, value: any, expiredTime?: number){
+export default function setCookie (key: string, value: string, expiredTime?: number){
   value = setObjectToString(value)
   let cook = key + '=' + encodeURI(value) + ';path=\/;'
   if(typeof expiredTime === 'number') {

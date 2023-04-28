@@ -4,6 +4,7 @@ import typescript from "typescript"
 import rollupTypescript from "rollup-plugin-typescript2"
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import dts from 'rollup-plugin-dts'
 function zeroTo2 (data) {
   if(data < 10) {
     return '0' + data
@@ -38,67 +39,73 @@ function getBanner (type) {
 }
 
 function getDistPath (type) {
-  return 'dist/release/' + type + '/index.min.js'
+  return 'dist/' + type + '.min.js'
 }
 
 
-export default {
-  input: './src/main.ts',
-  // external: [
-  //   'chalk'
-  // ],
-  output: [
-    {
-      file:  getDistPath('iife'),
-      banner: getBanner('iife'),
-      format: 'iife',    
-      strict: true,
-      name: 'bestime',
-      indent: false,
-      sourcemap: false,
-      
-    },
-    {
-      file: getDistPath('esm'),
-      banner: getBanner('esm'),
-      format: 'esm',
-      strict: true,
-      indent: false,
-      sourcemap: false,
-      
-    }
-  ],
-  
-  plugins: [
-    nodeResolve(),
-    // commonjs(),
-    rollupTypescript({
-      include: "src/**/*.ts",
-      exclude: "node_modules/**",
-      typescript: typescript,
-      useTsconfigDeclarationDir: true,
-      allowNonTsExtensions: false,
-    }),
-
-    babel({
-      babelHelpers: 'bundled',
-      exclude: "node_modules/**",
-      extensions: [
-        '.ts',
-        '.js'
-      ]
-    }),
-
-    uglify({
-      ie8: true,
-      warnings: false,
-      compress: true,
-      output: {
-        beautify: false,
-        comments: function(node, comment) {
-            return /@see/i.test(comment.value);
-        }
+export default [
+  {
+    input: './src/main.ts',
+    // external: [
+    //   'chalk'
+    // ],
+    output: [
+      {
+        file:  getDistPath('iife'),
+        banner: getBanner('iife'),
+        format: 'iife',    
+        strict: true,
+        name: 'bestime',
+        indent: false,
+        sourcemap: false,
+        
+      },
+      {
+        file: getDistPath('esm'),
+        banner: getBanner('esm'),
+        format: 'esm',
+        strict: true,
+        indent: false,
+        sourcemap: false,      
       }
-    }),    
-  ]
-};
+    ],
+    
+    plugins: [
+      nodeResolve(),
+      // commonjs(),
+      rollupTypescript({
+        include: "src/**/*.ts",
+        exclude: "node_modules/**",
+        typescript: typescript,
+        useTsconfigDeclarationDir: true,
+        allowNonTsExtensions: false,
+      }),
+  
+      babel({
+        babelHelpers: 'bundled',
+        exclude: "node_modules/**",
+        extensions: [
+          '.ts',
+          '.js'
+        ]
+      }),
+  
+      uglify({
+        ie8: true,
+        warnings: false,
+        compress: true,
+        output: {
+          beautify: false,
+          comments: function(node, comment) {
+              return /@see/i.test(comment.value);
+          }
+        }
+      }),    
+    ]
+  },
+  {
+    input: "./dist/types/main.d.ts",
+    output: [{ file: "dist/my-library.d.ts", format: "umd" }],
+    plugins: [dts()],
+  }
+];

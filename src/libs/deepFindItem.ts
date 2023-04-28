@@ -1,13 +1,14 @@
 import isNull from "./isNull";
 
 /**
- * 深度查找数组中的匹配项（找到一项就不再继续查找）
- * @param {array} list 需要查找的数组
- * @param {function} handle 回调函数
- * @param {string} [childrenKey=children] 子集的键
-*/
-export default function deepFindItem (list: any[], handle: (data: any) => void, childrenKey?: string): any {
-  childrenKey = isNull(childrenKey) ? 'children' : childrenKey
+   * 查询树接口中的某一项
+   * @param list - 原始数组
+   * @param handle - 遍历的回调函数
+   * @param children - 子项字段
+   * @returns 结果
+   */
+export default function deepFindItem<T> (list: T[], handle: (data: T) => void, children?: string): T | undefined {
+  const childrenKey = isNull(children) ? 'children' : children!
   var res: any, isFind: any;
 
   ;(function doOnce(children) {
@@ -18,7 +19,8 @@ export default function deepFindItem (list: any[], handle: (data: any) => void, 
         res = children[a]
         break;
       } else {
-        doOnce(children[a][childrenKey as any])
+        // @ts-ignore
+        doOnce(children[a][childrenKey])
       }
       if(isFind) {
         break;

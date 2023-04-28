@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "./dist/types",
     "target": "esnext",
     "module": "esnext",
     "lib": ["dom", "esnext"],
-    "moduleResolution": "node",
     "strict": true,
     "noEmit": true,
     "allowUnreachableCode": true,
@@ -12,5 +13,5 @@
     "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules"],
-  "include": ["dist/release/iife/index.d.ts","src/**/*.ts", "static/**/*.js"]
+  "include": ["dist/iife.d.ts","src/**/*.ts", "static/**/*.js"]
 }

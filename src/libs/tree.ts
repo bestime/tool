@@ -1,6 +1,6 @@
-import deepFindItem from "./deepFindItem";
-import _Array from "./_Array";
-import _KvPair from "./_KvPair";
+import deepFindItem from './deepFindItem';
+import _Array from './_Array';
+import _KvPair from './_KvPair';
 
 /*
 
@@ -45,13 +45,15 @@ console.log(treeList)
 
 */
 
+
 /**
- * 一维数组转树形解构 （不限层级）
- * 注：需要输出字段转化的，请提前自行处理，此方法只负责转tree结构
- *
- * @param {Array} list 需要转化的一维数组
- * @param {Object} [props=defaultProps] 配置项。可配置[id, pid, children]
- * @return {Array} treeList
+ * 一维数组转树结构
+ * @param list - 待转数组
+ * @param props - 生成数据的配置项
+ * @param props.id - ID字段
+ * @param props.pid - 父ID字段
+ * @param props.children - 子项字段
+ * @returns 结果
  */
 export default function flatArrayToTree(
   list: any[],
@@ -62,9 +64,9 @@ export default function flatArrayToTree(
   }
 ): any[] {
   props = _KvPair(props);
-  var id = props.id || "id";
-  var pid = props.pid || "pid";
-  var children = props.children || "children";
+  var id = props.id || 'id';
+  var pid = props.pid || 'pid';
+  var children = props.children || 'children';
 
   for (var a = 0, item: any, father; a < list.length; a++) {
     var item = list[a];

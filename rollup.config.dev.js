@@ -12,7 +12,7 @@ export default {
   },
   
   output: {
-    file:  'dist/dev/index.js',
+    file:  '.dev/index.js',
     format: 'iife',    
     strict: true,
     name: 'bestime',

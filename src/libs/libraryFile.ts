@@ -2,6 +2,15 @@ import { $browserGlobal, $undefinedValue } from './help/hpConsts';
 import hpCreateFileLoaderElement from './help/hpCreateFileLoaderElement';
 import variableHasValue from './variableHasValue';
 
+interface LibraryFileConfig {
+  type: 'js' | 'css';
+  url: string;
+  module: string;
+  dependencies?: LibraryFileConfig[];
+  with?: LibraryFileConfig[];
+  attribute?: Record<string, string>;
+}
+
 type SuccessCallback = (...args: any[]) => void;
 
 const cache: Record<
@@ -17,7 +26,7 @@ const cache: Record<
 > = {};
 
 // 批量加载
-function loadMultiple(files: bestime.LibraryFileConfig[], callback: SuccessCallback) {
+function loadMultiple(files: LibraryFileConfig[], callback: SuccessCallback) {
   const result: any[] = [];
   let count = 0;
   for (let a = 0; a < files.length; a++) {
@@ -31,7 +40,7 @@ function loadMultiple(files: bestime.LibraryFileConfig[], callback: SuccessCallb
 }
 
 // 单个加载
-function loadSingle(file: bestime.LibraryFileConfig, callback: SuccessCallback) {
+function loadSingle(file: LibraryFileConfig, callback: SuccessCallback) {
   const hasDepends = file.dependencies && file.dependencies.length;
   const hasWith = file.with && file.with.length;
   if (!cache[file.url]) {
@@ -98,10 +107,16 @@ function loadSingle(file: bestime.LibraryFileConfig, callback: SuccessCallback) 
   }
 }
 
+
+/**
+   * js和css文件加载器
+   * @param files - 文件配置
+   * @param callback - 加载成功回调
+   */
 export default function libraryFile(
-  files: bestime.LibraryFileConfig | bestime.LibraryFileConfig[],
+  files: LibraryFileConfig | LibraryFileConfig[],
   callback: SuccessCallback
-) {
+): void {
   console.log('加载器', files, cache);
   if (files instanceof Array) {
     loadMultiple(files, callback);

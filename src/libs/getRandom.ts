@@ -1,14 +1,14 @@
 /**
- * 生成随机数
- * @param  {Number} min 最小数
- * @param  {Number} max 最大数
- * @param  {Number} [isInt=true] 是否整数
- * @returns
+ * 生成指定范围随机数
+ * @param min - 最小值
+ * @param max - 最大值
+ * @param int - 是否生成整数. 默认true
+ * @returns 随机数
  */
- export default function getRandom (min: number, max: number, isInt?: boolean) {
-  const num = isInt === false ? 0 : 1
-  min = Math.random() * ( max - min + num) + min; // 节省一个变量
-  return num ? Math.floor(min) : min
+export default function getRandom(min: number, max: number, isInt?: boolean) {
+  const num = isInt === false ? 0 : 1;
+  min = Math.random() * (max - min + num) + min; // 节省一个变量
+  return num ? Math.floor(min) : min;
 }
 
 /*

@@ -7,6 +7,14 @@ const DEFAULT_CONFIG = {
   children: "children"
 };
 
+
+/**
+ * 查找某个元素所在树的所有父链
+ * @param tree - 数据
+ * @param handler - 验证回调
+ * @param config - 字段映射配置。
+ * @returns 查找的结果
+ */
 export default function deepFindTreePath (
   tree: any[],
   handler: (item: any) => boolean,
@@ -14,7 +22,7 @@ export default function deepFindTreePath (
     id: string,
     children: string
   }
-) {
+):undefined | any[] {
   config = Object.assign(DEFAULT_CONFIG, config);
   const path = [];
   const list = cloneEasy(tree);
@@ -33,5 +41,5 @@ export default function deepFindTreePath (
       if (handler(node)) return path;
     }
   }
-  return null;
+  return undefined;
 }

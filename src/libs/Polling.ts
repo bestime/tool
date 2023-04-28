@@ -8,6 +8,34 @@ interface PollingOption {
   handler: (next: VoidFunc, done: VoidFunc) => void
 }
 
+
+
+ /**
+   * 轮询
+   *
+   * @example
+   * ```
+   * let count = 0
+   * const pol = new bestime.Polling({
+   *   interval: 1000,
+   *   timeout: 6 * 1000,
+   *   handler: function (next, done) {
+   *     count++
+   *     if(count>=4) {
+   *       done()
+   *     } else {
+   *       next()
+   *     }
+   *   },
+   *   onMessage: function (remainTime) {
+   *     console.log("剩余", remainTime)
+   *   }
+   * })
+   *
+   * pol.start()
+   * ```
+   *
+   * */
 export default class Polling  {
   private _timer: any
   private _timer_info: any
@@ -43,6 +71,7 @@ export default class Polling  {
     this._option.handler(this._next, this.done)
   }
 
+  /** 开始 */
   start () {
     this._stamp = +new Date()
     this.done()
@@ -63,14 +92,17 @@ export default class Polling  {
     return this
   }
 
+  /** 完成 */
   done () {
     clearTimeout(this._timer)
     clearTimeout(this._timer_info)
     return this
   }
 
+  /** 销毁 */
   dispose () {
     this.done()
     return this
   }
 }
+

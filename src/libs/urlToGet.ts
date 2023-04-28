@@ -4,7 +4,13 @@ import isKvPair from './isKvPair'
 import param from './param'
 
 
-export default function urlToGet (url: string, searchString: string | {[key: string]: any}) {
+ /**
+   * 为url链接拼接参数
+   * @param url - url地址
+   * @param searchString - 查询参数
+   * @returns 拼接后的url地址
+   */
+export default function urlToGet (url: string, searchString: string | Record<string, any>) {
   url = _String(url).replace(/&*$/g, '').replace(/\?*$/, '');
   var str = ''
   if(isKvPair(searchString) || isArray(searchString)) {
