@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "declarationDir": "./dist/types",
+    "declaration": false,
+    "verbatimModuleSyntax": true,
     "target": "esnext",
     "module": "esnext",
     "lib": ["dom", "esnext"],

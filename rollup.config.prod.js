@@ -5,6 +5,8 @@ import rollupTypescript from "rollup-plugin-typescript2"
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import dts from 'rollup-plugin-dts'
+import dtsGenerator from 'dts-bundle-generator';
+
 function zeroTo2 (data) {
   if(data < 10) {
     return '0' + data
@@ -104,8 +106,11 @@ export default [
     ]
   },
   {
-    input: "./dist/types/main.d.ts",
+    input: './src/main.ts',
     output: [{ file: "dist/my-library.d.ts", format: "umd" }],
-    plugins: [dts()],
-  }
+    plugins: [
+      dts()
+    ],
+  },
+  
 ];

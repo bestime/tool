@@ -1,4 +1,4 @@
-/// <reference path="../../libs/help.d.ts"/>
+import  type { BTDeepPartial } from './help/type-declare'
 
 import isString from './isString'
 import hpIsEmptyMap from './help/hpIsEmptyMap'

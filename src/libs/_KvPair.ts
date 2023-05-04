@@ -1,5 +1,5 @@
-/// <reference path="../../libs/help.d.ts"/>
 
+import type { IKvPair } from './help/type-declare'
 import isKvPair from "./isKvPair"
 import jsonParse from './help/hpJsonParse'
 

@@ -1,7 +1,7 @@
 /**
    * 递归将所有属性改为可选
    */
-declare type BTDeepPartial<T = any> = {
+export type BTDeepPartial<T = any> = {
   [P in keyof T]?: T[P] extends Function
     ? T[P]
     : T[P] extends object
@@ -12,5 +12,7 @@ declare type BTDeepPartial<T = any> = {
 /**
    * 键值对格式的数据
    * */
-declare type IKvPair = Record<string, any>;
+export type IKvPair = Record<string, any>;
+
+
 

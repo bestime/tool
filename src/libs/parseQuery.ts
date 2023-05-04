@@ -1,4 +1,4 @@
-/// <reference path="../../libs/help.d.ts"/>
+import  type { IKvPair } from './help/type-declare'
 
 import _Array from './_Array';
 import _Number from './_Number';
