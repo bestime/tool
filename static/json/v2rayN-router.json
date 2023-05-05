@@ -8,7 +8,12 @@
     "domain": [
       "geosite:gfw",
       "geosite:greatfire",
-      "geosite:tld-!cn"
+      "geosite:tld-!cn",
+      "regexp:challenges.cloudflare.com",
+      "regexp:openai\\.com",
+      "regexp:openaiapi-site",
+      "regexp:microsoft\\.com",
+      "regexp:googlesyndication"
     ],
     "enabled": true
   },
