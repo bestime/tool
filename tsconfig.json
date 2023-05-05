@@ -13,5 +13,5 @@
     "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules"],
-  "include": ["dist/iife.d.ts","src/**/*.ts", "static/**/*.js"]
+  "include": ["dist/**.d.ts","src/**/*.ts", "static/**/*.js"]
 }

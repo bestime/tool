@@ -5,7 +5,9 @@ import rollupTypescript from "rollup-plugin-typescript2"
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import dts from 'rollup-plugin-dts'
-import dtsGenerator from 'dts-bundle-generator';
+
+import rollupPluginUmdDts from './extends/rollup-plugin-umd-dts.mjs'
+const toolName = 'jcy'
 
 function zeroTo2 (data) {
   if(data < 10) {
@@ -26,13 +28,10 @@ function simpleFromatTime (date) {
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`
 }
 
-function getName (type) {
-  return `bestime.${type}.min.js`;
-}
 
-function getBanner (type) {
+function getBanner () {
   return `/**  
- * 个人工具库 (TS版) ${getName(type)}
+ * 个人工具库 (TS版)
  * @QQ 1174295440
  * @author Bestime
  * @see https://github.com/bestime/tool
@@ -40,8 +39,10 @@ function getBanner (type) {
  */`
 }
 
-function getDistPath (type) {
-  return 'dist/' + type + '.min.js'
+
+
+function getDtsName (type) {
+  return `dist/${type}/index.d.ts`
 }
 
 
@@ -53,9 +54,9 @@ export default [
     // ],
     output: [
       {
-        file:  getDistPath('iife'),
-        banner: getBanner('iife'),
-        format: 'iife',    
+        file:  `dist/umd/index.min.js`,
+        banner: getBanner(),
+        format: 'umd',    
         strict: true,
         name: 'bestime',
         indent: false,
@@ -63,8 +64,8 @@ export default [
         
       },
       {
-        file: getDistPath('esm'),
-        banner: getBanner('esm'),
+        file: `dist/esm/index.min.mjs`,
+        banner: getBanner(),
         format: 'esm',
         strict: true,
         indent: false,
@@ -107,10 +108,18 @@ export default [
   },
   {
     input: './src/main.ts',
-    output: [{ file: "dist/my-library.d.ts", format: "umd" }],
+    output: [
+      { file: getDtsName('esm'), format: "es" },
+      { file: getDtsName('umd'), format: "umd" }
+    ],
     plugins: [
-      dts()
+      dts(),
+      rollupPluginUmdDts({
+        name: toolName,
+        file: getDtsName('umd')
+      })
     ],
   },
+  
   
 ];

@@ -9,7 +9,7 @@
       "geosite:gfw",
       "geosite:greatfire",
       "geosite:tld-!cn",
-      "regexp:challenges.cloudflare.com",
+      "challenges.cloudflare.com",
       "regexp:openai\\.com",
       "regexp:openaiapi-site",
       "regexp:microsoft\\.com",
