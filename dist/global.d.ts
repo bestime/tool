@@ -55,7 +55,7 @@ type IKvPair = Record<string, any>;
  * const data3 = _KvPair({name: 'a'})
  * ```
  */
-declare function KvPair(data: any): IKvPair;
+declare function _KvPair(data: any): IKvPair;
 
 /**
  * 判断数据是否为函数
@@ -677,60 +677,69 @@ declare function getWindowSize(): {
   height: number;
 };
 
-export {
-  Polling,
-  _Array,
-  _Boolean,
-  KvPair as _KvPair,
-  _Number,
-  _String,
-  changeIndex,
-  clean,
-  cloneEasy,
-  dataCacheUtil,
-  dataPage,
-  deepFindItem,
-  deepFindTreePath,
-  defaultValue,
-  defineEventBus,
-  downloadFileByArrayBuffer,
-  downloadFileByUrl,
-  flatTree,
-  floorFixed,
-  forEachTree,
-  getCookie,
-  getJsFileBaseUrl,
-  getRandom,
-  getRelativePos,
-  getStorage,
-  getType,
-  getWindowSize,
-  isArray,
-  isFunction,
-  isKvPair,
-  isNull,
-  libraryFile,
-  main as mapTree,
-  observeDomResize,
-  padEnd,
-  padStart,
-  param,
-  parseQuery,
-  prevent,
-  randomColor,
-  removeCookie,
-  removeElement,
-  removeStorage,
-  repeatString,
-  roundFixed,
-  setCookie,
-  setStorage,
-  shake,
-  split,
-  timeLine,
-  flatArrayToTree as tree,
-  trim,
-  urlToGet,
-  uuid,
-  variableHasValue
-};
+declare global {
+  /**
+   * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
+   */
+  namespace jcy {
+    export {
+      Polling,
+      _Array,
+      _Boolean,
+      _KvPair,
+      _Number,
+      _String,
+      changeIndex,
+      clean,
+      cloneEasy,
+      dataCacheUtil,
+      dataPage,
+      deepFindItem,
+      deepFindTreePath,
+      defaultValue,
+      defineEventBus,
+      downloadFileByArrayBuffer,
+      downloadFileByUrl,
+      flatTree,
+      floorFixed,
+      forEachTree,
+      getCookie,
+      getJsFileBaseUrl,
+      getRandom,
+      getRelativePos,
+      getStorage,
+      getType,
+      getWindowSize,
+      isArray,
+      isFunction,
+      isKvPair,
+      isNull,
+      libraryFile,
+      main as mapTree,
+      observeDomResize,
+      padEnd,
+      padStart,
+      param,
+      parseQuery,
+      prevent,
+      randomColor,
+      removeCookie,
+      removeElement,
+      removeStorage,
+      repeatString,
+      roundFixed,
+      setCookie,
+      setStorage,
+      shake,
+      split,
+      timeLine,
+      flatArrayToTree as tree,
+      trim,
+      urlToGet,
+      uuid,
+      variableHasValue
+    };
+  }
+}
+
+export default undefined;

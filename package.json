@@ -1,14 +1,14 @@
 {
   "name": "@bestime/utils",
   "version": "1.0.7",
-  "main": "./dist/esm/index.min.mjs",
-  "module": "./dist/esm/index.min.mjs",
-  "types": "./dist/esm/index.d.ts",
+  "main": "./dist/esm.min.mjs",
+  "module": "./dist/esm.min.mjs",
+  "types": "./dist/esm.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/esm/index.d.ts",
-      "import": "./dist/esm/index.min.mjs",
-      "require": "./dist/umd/index.min.js"
+      "types": "./dist/esm.d.ts",
+      "import": "./dist/esm.min.mjs",
+      "require": "./dist/umd.min.js"
     }
   },
   "description": "个人常用工具库",

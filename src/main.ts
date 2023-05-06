@@ -1,7 +1,3 @@
-// import * as chalk from 'chalk'
-
-
-
 
 export { default as _String } from './libs/_String'
 export { default as getType } from './libs/getType'
@@ -31,7 +27,6 @@ export { default as deepFindItem } from './libs/deepFindItem'
 export { default as tree } from './libs/tree'
 export { default as changeIndex } from './libs/changeIndex'
 export { default as timeLine } from './libs/timeLine'
-
 export { default as uuid } from './libs/uuid'
 export { default as getRandom } from './libs/getRandom'
 export { default as _Boolean } from './libs/_Boolean'
@@ -62,6 +57,7 @@ export { default as getJsFileBaseUrl } from './libs/getJsFileBaseUrl'
 export { default as libraryFile } from './libs/libraryFile'
 export { default as observeDomResize } from './libs/observeDomResize'
 export { default as getWindowSize } from './libs/getWindowSize'
+
 
 
 

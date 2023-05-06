@@ -22,7 +22,7 @@ import jsonParse from './help/hpJsonParse'
    * const data3 = _KvPair({name: 'a'})
    * ```
    */
-export default function KvPair (data: any): IKvPair {
+export default function _KvPair (data: any): IKvPair {
   if(!isKvPair(data)) {
     data = jsonParse(data)
     if(!isKvPair(data)) {
