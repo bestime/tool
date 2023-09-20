@@ -94,6 +94,7 @@ git clone -b 分支名 仓库地址 本地目录
 - 最新kms服务器，如果提示失效，网上多找几个试试
 ```
 slmgr /ipk W269N-WFGWX-YVC9B-4J6C9-T83GX
-slmgr /skms kms.cangshui.net
+// slmgr /skms kms.cangshui.net 这个已失效
+slmgr /skms kms.lotro.cc // 这个2023-09-20亲测有效
 slmgr /ato
 ```
