@@ -89,13 +89,12 @@ git clone -b 分支名 仓库地址 本地目录
 ## 2020起自己写的插件
  - 圆角环形渐变进度条：[在线demo](./demo/canvas/circle-progress.html)
 
-## window10 专业版激活命令（2021-03-01）
+## window10 专业版激活命令（2023-09-20亲测有效）
 - 依次管理员运行cmd执行一下命令（注意：每一条命令执行后都会有一个弹窗提示）
 - 激活成功后，查看激活期限：`slmgr /xpr`
 - 第二部的kms服务器，如果在第三步提示失效，网上多找几个试试
 
 ```cmd
-// 2023-09-20亲测有效
 slmgr /ipk W269N-WFGWX-YVC9B-4J6C9-T83GX
 slmgr /skms kms.lotro.cc
 slmgr /ato
