@@ -43,7 +43,7 @@ export const $stringTypeNameBig = 'String';
 /** 数据类型常量：Number */
 export const $numberTypeNameBig = 'Number';
 
-export const $undefinedValue = undefined;
+export const $undefinedValue = void 0;
 
 export const $zeroString = '0';
 
@@ -69,7 +69,7 @@ export const $regSpaceStr = '\\s\\uFEFF\\xA0';
 export const $isBroswer = typeof document !== 'undefined' && document.getElementById !== undefined;
 
 /** 代理浏览器 window */
-export const $browserGlobal = window;
+export const $browserGlobal: typeof window = typeof window !== 'undefined' ? window : $undefinedValue!;
 
 export const $headElement = $isBroswer ? document.getElementsByTagName('head')[0] : undefined;
 

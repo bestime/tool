@@ -5,6 +5,7 @@ import rollupTypescript from "rollup-plugin-typescript2"
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import dts from 'rollup-plugin-dts'
+import json from '@rollup/plugin-json'
 
 import rollupPluginUmdDts from './extends/rollup-plugin-umd-dts.mjs'
 const toolName = 'jcy'
@@ -54,7 +55,7 @@ export default [
     // ],
     output: [
       {
-        file:  `dist/umd.min.js`,
+        file:  `dist/umd.min.cjs`,
         banner: getBanner(),
         format: 'umd',    
         strict: true,
@@ -75,7 +76,7 @@ export default [
     
     plugins: [
       nodeResolve(),
-      // commonjs(),
+      
       rollupTypescript({
         include: "src/**/*.ts",
         exclude: "node_modules/**",
@@ -83,6 +84,9 @@ export default [
         useTsconfigDeclarationDir: true,
         allowNonTsExtensions: false,
       }),
+
+      json(),
+      commonjs(),
   
       babel({
         babelHelpers: 'bundled',

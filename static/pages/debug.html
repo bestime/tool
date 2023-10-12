@@ -10,11 +10,23 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <script src="../../dist/umd/index.min.js"></script>
     <script>
-      // document.write(
-      //   `\<script src="../../dist/dev/index.js?t=${new Date().getTime()}"\><\/script\>`
-      // );
+      function makingMoneyPredicting (startMoney, targetIncome) {
+        let principal = startMoney
+        const rate = 0.79 / 100
+        let count = 0
 
-      // dayjs.extend(dayjs_plugin_customParseFormat)
+        ;(function once () {
+          count++
+          const income = principal * rate
+          principal += income
+          if((principal-startMoney) < targetIncome) {
+            once()
+          }
+        })();
+        console.log(`本金${startMoney}预测需要${count}场比赛达到${targetIncome}收益`)
+      }
+
+      makingMoneyPredicting(5000, 5000)
     </script>
   </head>
   <body>
