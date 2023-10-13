@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>按需加载js/css CDN资源</title>
+
+    <script>
+      document.write(
+        `\<script src="../../dist/dev/index.js?t=${new Date().getTime()}"\><\/script\>`
+      );
+    </script>
+  </head>
+  <body>
+    <script>
+      // bestime.need.config({
+      //   "js#one": {
+      //     url: "../../static/js/one.js",
+      //     with: ['js#three', 'css#test'],
+      //     dependencies: ["js#two"],
+      //     moduleName: 'one'
+      //   },
+      //   "js#two": {
+      //     url: "../../static/js/two.js",
+      //     dependencies: ["js#three"],
+      //     moduleName: 'two'
+      //   },
+      //   "js#three": {
+      //     url: "../../static/js/three.js",
+      //     dependencies: ["css#test"],
+      //     moduleName: 'three'
+      //   },
+      //   "css#test": {
+      //     url: "../../static/css/test.css",
+      //   },
+      //   "js#zepto": {
+      //     url: 'https://cdn.bootcdn.net/ajax/libs/zepto/1.2.0/zepto.min.js',
+      //     moduleName: '$',
+      //     attribute: {
+      //       'data-flag': 'yzl',
+      //       'data-l': 'jcy'
+      //     }
+      //   }
+      // });
+
+      // bestime.need.config({
+      //   "js#zepto": {
+      //     url: 'test.js',
+      //     moduleName: 'fsdw'
+      //   },
+      //   "css#test": {
+      //     url: 'test.js',
+      //     moduleName: 'fsdw'
+      //   },
+      // });
+
+      // bestime.need.async(['js#one']).then(function () {
+      //   console.log("加载成功：", arguments)
+      // })
+
+      const plugin02 = {
+        type: 'js',
+        url: '../../static/js/two.js',
+        module: 'two'
+      };
+
+      const plugin03 = {
+        type: 'js',
+        url: '../../static/js/three.js',
+        module: 'three'
+      };
+
+      const pluginCss = {
+        type: 'css',
+        url: '../../static/css/test.css'
+      };
+
+      const config = {
+        type: 'js',
+        url: '../../static/js/one.js',
+        module: 'one',
+        with: [plugin03, pluginCss],
+        dependencies: [plugin02],
+        attribute: {
+          'data-flag': 'yzl',
+          'data-l': 'jcy'
+        }
+      };
+
+      bestime.libraryFile(config, function () {
+        console.log('加载完毕', arguments);
+      });
+
+      // bestime.libraryFile(config, function (one) {
+      //   console.log("加载完毕", arguments)
+      // })
+    </script>
+  </body>
+</html>

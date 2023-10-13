@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "declaration": false,
+    "verbatimModuleSyntax": true,
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["dom", "esnext"],
+    "moduleResolution": "Node",
+    "strict": true,
+    "noEmit": true,
+    "allowUnreachableCode": true,
+    "allowJs": false,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["dist/**/*.d.ts","src/**/*.ts", "static/**/*.js"]
+}

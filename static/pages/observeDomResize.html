@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>容器尺寸变化</title>
+
+    <style>
+      body,html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: auto;
+      }
+      #red-test {
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        width: 30%;
+        height:30%;
+        background: red;
+        margin: 20px;
+      }
+      #green-test {
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        width: 30%;
+        height:30%;
+        background: green;
+        margin: 20px;
+      }
+    </style>
+
+    <script>
+      document.write(
+        `\<script src="../../dist/dev/index.js?t=${new Date().getTime()}"\><\/script\>`
+      );
+    </script>
+  </head>
+  <body>
+    <div id="red-test"></div>
+    <div id="green-test"></div>
+    <script>
+      const redDom = document.getElementById('red-test')
+      const greenDom = document.getElementById('green-test')
+      const aa = bestime.observeDomResize(redDom, function (el) {
+        el.innerText = el.offsetWidth
+      }, 'width')
+      
+      const bb = bestime.observeDomResize(greenDom, function (el) {
+        el.innerText = el.offsetWidth
+      }, 'width', 17)
+
+      function assembly (arr, num, handleGroup) {
+  // var count = 0, begin = +new Date();
+  var result = (function toFind(arr, length, start, coll){
+    var res = []
+    // count++
+    for(var index = start; index < arr.length; index++) {
+      if (length > 1)  {
+        res = res.concat(toFind(arr, length - 1, index + 1, coll.concat(arr[index])))
+      } else {
+        res.push(typeof handleGroup === 'function' ? handleGroup(coll.concat(arr[index]), index) : coll.concat(arr[index]))
+      }     
+    }
+    return res
+  })(arr, num, 0, []);
+  // console.log('次数：', count, '用时：', +new Date() - begin)
+  return result;
+}
+
+
+const test = assembly(['a', 'b', 'c', 'd', 'e', 'f','g', 'h', 'i', 'j', 'k', 'l', 'm', 'o', 'p', 'q', 'p', 'q'], 1)
+console.log("test", test)
+
+    </script>
+  </body>
+</html>

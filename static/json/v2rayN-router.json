@@ -1,0 +1,26 @@
+[
+  {
+    "type": "field",
+    "outboundTag": "proxy",
+    "ip": [
+      "geoip:telegram"
+    ],
+    "domain": [
+      "geosite:gfw",
+      "geosite:greatfire",
+      "geosite:tld-!cn",
+      "challenges.cloudflare.com",
+      "regexp:openai\\.com",
+      "regexp:openaiapi-site",
+      "regexp:microsoft\\.com",
+      "regexp:googlesyndication"
+    ],
+    "enabled": true
+  },
+  {
+    "type": "field",
+    "port": "0-65535",
+    "outboundTag": "direct",
+    "enabled": true
+  }
+]
