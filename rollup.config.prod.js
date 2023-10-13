@@ -8,7 +8,7 @@ import dts from 'rollup-plugin-dts'
 import json from '@rollup/plugin-json'
 
 import rollupPluginUmdDts from './extends/rollup-plugin-umd-dts.mjs'
-const toolName = 'jcy'
+const toolName = 'jUtilsBase'
 
 function zeroTo2 (data) {
   if(data < 10) {
@@ -32,7 +32,7 @@ function simpleFromatTime (date) {
 
 function getBanner () {
   return `/**  
- * 个人工具库 (TS版)
+ * 个人工具库 => ${toolName} 
  * @QQ 1174295440
  * @author Bestime
  * @see https://github.com/bestime/tool
@@ -55,17 +55,17 @@ export default [
     // ],
     output: [
       {
-        file:  `dist/umd.min.cjs`,
+        file:  `dist/${toolName}.umd.min.cjs`,
         banner: getBanner(),
         format: 'umd',    
         strict: true,
-        name: 'bestime',
+        name: toolName,
         indent: false,
         sourcemap: false,
         
       },
       {
-        file: `dist/esm.min.mjs`,
+        file: `dist/${toolName}.esm.min.mjs`,
         banner: getBanner(),
         format: 'esm',
         strict: true,
@@ -113,14 +113,14 @@ export default [
   {
     input: './src/main.ts',
     output: [
-      { file: 'dist/esm.d.ts', format: "es" },
-      { file: 'dist/global.d.ts', format: "iife" }
+      { file: `dist/${toolName}.esm.d.ts`, format: "es" },
+      { file: `dist/${toolName}.global.d.ts`, format: "iife" }
     ],
     plugins: [
       dts(),
       rollupPluginUmdDts({
         name: toolName,
-        file: 'dist/global.d.ts'
+        file: `dist/${toolName}.global.d.ts`
       })
     ],
   },

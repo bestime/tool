@@ -1,16 +1,9 @@
 {
-  "name": "@bestime/utils",
+  "name": "@bestime/utils_base",
   "version": "1.0.7",
-  "main": "./dist/esm.min.mjs",
-  "module": "./dist/esm.min.mjs",
-  "types": "./dist/esm.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/esm.d.ts",
-      "import": "./dist/esm.min.mjs",
-      "require": "./dist/umd.min.cjs"
-    }
-  },
+  "main": "./dist/jUtilsBase.umd.min.cjs",
+  "module": "./dist/jUtilsBase.esm.min.mjs",
+  "types": "./dist/jUtilsBase.esm.d.ts",
   "description": "个人常用工具库",
   "type": "module",
   "files": [
