@@ -1,6 +1,6 @@
 import getType from './getType';
 import { $ArrayTypeNameBig, $ObjectTypeNameBig, $stringTypeNameBig } from './help/hpConsts';
-import { $encodeURIComponent } from './help/hpConsts';
+import { $encodeURI } from './help/hpConsts';
 import isFunction from './isFunction';
 
 /**
@@ -15,7 +15,7 @@ export default function param(data: Record<string | number, any>): string {
     if (key != null && key !== '') {
       value = isFunction(value) ? value() : value;
       value = value == null ? '' : value;
-      res[res.length] = $encodeURIComponent(key) + '=' + $encodeURIComponent(value);
+      res[res.length] = $encodeURI(key) + '=' + $encodeURI(value);
     }
   }
 

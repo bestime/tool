@@ -58,6 +58,7 @@ export const $ObjectTypeNameBigPrototypeToString = Object.prototype.toString;
 
 /** 编码 encodeURIComponent */
 export const $encodeURIComponent = encodeURIComponent;
+export const $encodeURI = encodeURI;
 
 /** 解码 decodeURIComponent */
 export const $decodeURIComponent = decodeURIComponent;
