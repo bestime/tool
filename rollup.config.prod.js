@@ -31,11 +31,11 @@ function simpleFromatTime (date) {
 
 
 function getBanner () {
-  return `/**  
- * 个人工具库 => ${toolName} 
+  return `/**
+ * 纯JS工具库 => ${toolName} 
+ * 可在nodejs和小程序中使用
  * @QQ 1174295440
- * @author Bestime
- * @see https://github.com/bestime/tool
+ * @author IT0909
  * @update ${simpleFromatTime(new Date())}
  */`
 }
@@ -104,7 +104,7 @@ export default [
         output: {
           beautify: false,
           comments: function(node, comment) {
-              return /@see/i.test(comment.value);
+              return /纯JS工具库/i.test(comment.value);
           }
         }
       }),    

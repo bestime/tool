@@ -15,10 +15,10 @@ declare function getType(data: any): string;
 
 /**
  * 判断数据是否为数组
- * @param data - 判断的值
+ * @param arg - 判断的值
  * @returns 真假值
  */
-declare function isArray(data: any): boolean;
+declare function isArray(arg: any): arg is any[];
 
 /**
  * 判断数据是否为对象
@@ -26,6 +26,8 @@ declare function isArray(data: any): boolean;
  * @returns 真假值
  */
 declare function isKvPair(data: any): boolean;
+
+declare function isString(data: any): data is string;
 
 /**
  * 递归将所有属性改为可选
@@ -290,6 +292,13 @@ declare function flatArrayToTree(
 declare function changeIndex(maxIndex: number, currentIndex: number, increase: number): number;
 
 /**
+ * 生成唯一ID
+ * @param length - id长度
+ * @returns 生成的ID字符串
+ */
+declare function uuid(length: number): string;
+
+/**
  * 生成指定范围随机数
  * @param min - 最小值
  * @param max - 最大值
@@ -401,6 +410,11 @@ declare function forEachTree<T extends IKvPair>(
   childKey?: keyof T
 ): void;
 
+declare function forEach<T>(
+  data: T[],
+  callback: (item: T, index: number, array: T[]) => void
+): void;
+
 /**
  * 获取随机颜色
  */
@@ -457,6 +471,25 @@ declare class Polling {
 }
 
 /**
+ * 前端将数组进行模拟分页处理
+ * @param data - 所有数据
+ * @param pageSize - 每页多少条
+ * @param pageCurrent - 当前页
+ * @returns 分页数据
+ */
+declare function dataPage<T>(
+  data: T[],
+  pageSize: number,
+  pageCurrent: number
+): {
+  current: number;
+  total: number;
+  size: number;
+  pages: number;
+  data: T[];
+};
+
+/**
  * 解析序列化字符参数为Map格式数据
  * @param str - url 查询参数。默认为window.location.href
  * @returns 键值对
@@ -478,12 +511,14 @@ declare global {
       changeIndex,
       clean,
       cloneEasy,
+      dataPage,
       deepFindItem,
       deepFindTreePath,
       defaultValue,
       defineEventBus,
       flatTree,
       floorFixed,
+      forEach,
       forEachTree,
       getRandom,
       getType,
@@ -492,6 +527,7 @@ declare global {
       isFunction,
       isKvPair,
       isNull,
+      isString,
       main as mapTree,
       padEnd,
       padStart,
@@ -505,6 +541,7 @@ declare global {
       flatArrayToTree as tree,
       trim,
       urlToGet,
+      uuid,
       variableHasValue
     };
   }
