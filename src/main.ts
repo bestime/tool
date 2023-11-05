@@ -1,6 +1,18 @@
-import { _String } from '@bestime/utils_base'
-export { default as getWindowSize } from './libs/getWindowSize'
 
-export function test (data: number) {
-  return _String(data)
-}
+export { default as getWindowSize } from './libs/getWindowSize'
+export { default as addClass } from './libs/addClass'
+export { default as observeDomResize } from './libs/observeDomResize'
+export { default as downloadFileByUrl } from './libs/downloadFileByUrl'
+export { default as downloadFileByArrayBuffer } from './libs/downloadFileByArrayBuffer'
+export { default as removeElement } from './libs/removeElement'
+export { default as prevent } from './libs/prevent'
+export { default as getStorage } from './libs/getStorage'
+export { default as removeStorage } from './libs/removeStorage'
+export { default as setStorage } from './libs/setStorage'
+export { default as getRelativePos } from './libs/getRelativePos'
+export { default as getJsFileBaseUrl } from './libs/getJsFileBaseUrl'
+export { default as libraryFile } from './libs/libraryFile'
+export { default as setCookie } from './libs/setCookie'
+export { default as getCookie } from './libs/getCookie'
+export { default as removeCookie } from './libs/removeCookie'
+

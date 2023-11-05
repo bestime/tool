@@ -32,7 +32,7 @@ function simpleFromatTime (date) {
 
 function getBanner () {
   return `/**  
- * 个人工具库 => jUtilsBrowser
+ * 浏览器工具库 => jUtilsBrowser
  * @QQ 1174295440
  * @author Bestime
  * @see https://github.com/bestime/tool
@@ -104,7 +104,7 @@ export default [
         output: {
           beautify: false,
           comments: function(node, comment) {
-              return /@see/i.test(comment.value);
+              return /浏览器工具库/i.test(comment.value);
           }
         }
       }),    
