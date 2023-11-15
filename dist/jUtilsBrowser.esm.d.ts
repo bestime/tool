@@ -7,14 +7,6 @@ declare function getWindowSize(): {
 };
 
 /**
- * 给dom元素添加className
- * @param el - DOM
- * @param name - 需要添加的className
- * @returns
- */
-declare function addClass(el: HTMLElement, name: string | string[]): void;
-
-/**
  * 监听DOM尺寸变化
  * @param element - dom元素
  * @param handler - 变换回调函数
@@ -139,23 +131,75 @@ declare function getCookie(key: string, target?: string): string;
  */
 declare function removeCookie(key: string): void;
 
+/**
+ * 给dom元素添加className
+ * @param el - DOM
+ * @param from - 将要被替换的className
+ * @param to - 替换为
+ * @returns
+ */
+declare function replaceClass(
+  el: HTMLElement,
+  from: string | string[],
+  to: string | string[]
+): void;
+
+/**
+ * 给dom元素添加className
+ * @param el - DOM
+ * @param name - 需要添加的className
+ * @returns
+ */
+declare function addClass(el: HTMLElement, name: string | string[]): void;
+
+/**
+ * 给dom元素移除className
+ * @param el - DOM
+ * @param name - 需要移除className
+ * @returns
+ */
+declare function removeClass(el: HTMLElement, name: string | string[]): void;
+
+/**
+ * 给dom元素添加className
+ * @param el - DOM
+ * @param name - 将要被切换的className
+ * @returns
+ */
+declare function toggleClass(el: HTMLElement, name: string | string[]): void;
+
+declare const _default: {
+  isChrome: boolean;
+  isIPhone: boolean;
+};
+
+/**
+ * 获取浏览器缩放比
+ */
+declare function getRatio(): number;
+
 export {
   addClass,
+  _default as browser,
   downloadFileByArrayBuffer,
   downloadFileByUrl,
   getCookie,
   getJsFileBaseUrl,
+  getRatio,
   getRelativePos,
   getStorage,
   getWindowSize,
   libraryFile,
   observeDomResize,
   prevent,
+  removeClass,
   removeCookie,
   removeElement,
   removeStorage,
+  replaceClass,
   setCookie,
-  setStorage
+  setStorage,
+  toggleClass
 };
 
 export default undefined;

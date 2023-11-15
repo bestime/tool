@@ -117,7 +117,6 @@ export default function libraryFile(
   files: LibraryFileConfig | LibraryFileConfig[],
   callback: SuccessCallback
 ): void {
-  console.log('加载器', files, cache);
   if (files instanceof Array) {
     loadMultiple(files, callback);
   } else {

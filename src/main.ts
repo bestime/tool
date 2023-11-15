@@ -1,6 +1,4 @@
-
 export { default as getWindowSize } from './libs/getWindowSize'
-export { default as addClass } from './libs/addClass'
 export { default as observeDomResize } from './libs/observeDomResize'
 export { default as downloadFileByUrl } from './libs/downloadFileByUrl'
 export { default as downloadFileByArrayBuffer } from './libs/downloadFileByArrayBuffer'
@@ -15,4 +13,10 @@ export { default as libraryFile } from './libs/libraryFile'
 export { default as setCookie } from './libs/setCookie'
 export { default as getCookie } from './libs/getCookie'
 export { default as removeCookie } from './libs/removeCookie'
+export { default as replaceClass } from './libs/replaceClass'
+export { default as addClass } from './libs/addClass'
+export { default as removeClass } from './libs/removeClass'
+export { default as toggleClass } from './libs/toggleClass'
+export { default as browser } from './libs/browser'
+export { default as getRatio } from './libs/getRatio'
 

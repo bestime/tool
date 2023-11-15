@@ -1,4 +1,4 @@
-import { $browserGlobal, $isBroswer } from './help/hpConsts';
+import { $browserGlobal} from './help/hpConsts';
 
 /**
  * 移除Dom节点
@@ -7,7 +7,7 @@ import { $browserGlobal, $isBroswer } from './help/hpConsts';
  * @param stop - 阻止穿透. 默认 true
  */
 export default function prevent(ev: Event, bubble: boolean, stop: boolean) {
-  if (!$isBroswer) return;
+
   ev = ev || $browserGlobal.event;
   bubble = bubble === false ? false : true;
   stop = stop === false ? false : true;
