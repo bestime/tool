@@ -3,7 +3,7 @@ import  type { IKvPair } from './help/type-declare'
 import _Array from './_Array';
 import _Number from './_Number';
 import _KvPair from './_KvPair';
-import { $browserGlobal, $decodeURIComponent, $undefinedValue, $isBroswer } from './help/hpConsts';
+import { $decodeURIComponent, $undefinedValue } from './help/hpConsts';
 import FN_FORMAT_STRING_VALUE from './help/hpTryToParseStringToBasicType';
 
 
@@ -81,17 +81,10 @@ function isPreLikeArray(data: any): boolean {
  * @param str - url 查询参数。默认为window.location.href
  * @returns 键值对
  */
-export default function parseQuery(str?: string): IKvPair {
-  var res: any = {},
+export default function parseQuery(str: string): IKvPair {
+  let res: any = {},
     hasChlid,
-    queryKey;
-  if (!str) {
-    if ($isBroswer) {
-      str = $browserGlobal.location.href || '';
-    } else {
-      str = '';
-    }
-  }
+    queryKey
 
   str.replace(/([^=&?/#]*?)=([^=&?/#]*)/g, function (_: any, key: any, val: any): any {
     val = FN_FORMAT_STRING_VALUE($decodeURIComponent(val));

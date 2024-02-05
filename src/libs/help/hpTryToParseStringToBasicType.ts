@@ -1,5 +1,5 @@
 
-import { $falseString, $trueString } from './hpConsts'
+import { $falseString, $trueString, $undefinedValue } from './hpConsts'
 import hpJsonParse from './hpJsonParse';
 import _Number from '../_Number';
 
@@ -18,7 +18,7 @@ export default function hpTryToParseStringToBasicType (data: string): any {
 
   
   if(data == null) {
-    res = undefined
+    res = $undefinedValue
   } else if($falseString === data) {
     res = false
   } else if($trueString === data) {

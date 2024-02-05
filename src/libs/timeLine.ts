@@ -1,11 +1,12 @@
 import trim from './trim';
 import zeroTo2 from './help/hpZeroTo2';
 import cloneEasy from './cloneEasy';
+import { $undefinedValue } from './help/hpConsts';
 type ITimeLineUnints = Partial<[string, string, string, string, string, string, string]>;
 function formatFunc(units: string[], unitIndex: number, data: number) {
   const item = units[unitIndex];
   let res = '';
-  if (units[unitIndex] === undefined || units[unitIndex] === null) {
+  if (units[unitIndex] === $undefinedValue || units[unitIndex] === null) {
     res = '';
   } else {
     res = zeroTo2(data) + item;

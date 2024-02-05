@@ -66,11 +66,8 @@ export const $decodeURIComponent = decodeURIComponent;
 /** 空白字符串 (已转意) */
 export const $regSpaceStr = '\\s\\uFEFF\\xA0';
 
-/** 判断是否是浏览器环境 */
-export const $isBroswer = typeof document !== 'undefined' && document.getElementById !== undefined;
 
-/** 代理浏览器 window */
-export const $browserGlobal: typeof window = typeof window !== 'undefined' ? window : $undefinedValue!;
 
-export const $headElement = $isBroswer ? document.getElementsByTagName('head')[0] : undefined;
+
+
 
