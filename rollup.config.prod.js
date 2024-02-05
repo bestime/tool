@@ -33,9 +33,8 @@ function simpleFromatTime (date) {
 function getBanner () {
   return `/**
  * 纯JS工具库 => ${toolName} 
- * 可在nodejs和小程序中使用
+ * 可在浏览器、nodejs、小程序中使用
  * @QQ 1174295440
- * @author IT0909
  * @update ${simpleFromatTime(new Date())}
  */`
 }
