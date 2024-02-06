@@ -183,6 +183,27 @@ declare function _Number(data: any): number;
 declare function isNull(data: any): boolean;
 
 /**
+ *
+ * @param value 看起来是否像一个数字
+ * @example
+ * ```
+ * isLickNumber(1) => true
+ * isLickNumber('2.36884') => true
+ * isLickNumber(1/0) => false
+ * isLickNumber(0/0) => false
+ * isLickNumber('') => false
+ * isLickNumber() => false
+ * isLickNumber(null) => false
+ * isLickNumber(true) => false
+ * isLickNumber(false) => false
+ * isLickNumber([]) => false
+ * isLickNumber(function () {}) => false
+ * ```
+ * @returns
+ */
+declare function isLikeNumber(value: any): boolean;
+
+/**
  * 默认值处理函数
  * @param data - 需要处理的数据
  * @param value - 如果data为undefined，则返回此值
@@ -494,7 +515,7 @@ declare function dataPage<T>(
  * @param str - url 查询参数。默认为window.location.href
  * @returns 键值对
  */
-declare function parseQuery(str?: string): IKvPair;
+declare function parseQuery(str: string): IKvPair;
 
 export {
   Polling,
@@ -521,6 +542,7 @@ export {
   isEmpty,
   isFunction,
   isKvPair,
+  isLikeNumber,
   isNull,
   isString,
   main as mapTree,
