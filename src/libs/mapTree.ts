@@ -1,5 +1,5 @@
 
-import  type { IKvPair } from './help/type-declare'
+import  type { TKvPair } from './help/type-declare'
 import cloneEasy from "./cloneEasy";
 
 
@@ -11,7 +11,7 @@ import cloneEasy from "./cloneEasy";
  * @param childKeyFrom - 原始数据的孩子键
  * @returns 转变后的新数据
  */
-function main <T extends IKvPair, K extends IKvPair, C extends keyof T>(
+function main <T extends TKvPair, K extends TKvPair, C extends keyof T>(
   data: K[],
     childKeyTo: C,
     handle: (data: K) => Omit<T, C>,

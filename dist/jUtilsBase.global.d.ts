@@ -21,15 +21,6 @@ declare function getType(data: any): string;
 declare function isArray(arg: any): arg is any[];
 
 /**
- * 判断数据是否为对象
- * @param data - 判断的值
- * @returns 真假值
- */
-declare function isKvPair(data: any): boolean;
-
-declare function isString(data: any): data is string;
-
-/**
  * 递归将所有属性改为可选
  */
 type BTDeepPartial<T = any> = {
@@ -38,7 +29,16 @@ type BTDeepPartial<T = any> = {
 /**
  * 键值对格式的数据
  * */
-type IKvPair = Record<string, any>;
+type TKvPair = Record<string | number | symbol, any>;
+
+/**
+ * 判断数据是否为对象
+ * @param data - 判断的值
+ * @returns 真假值
+ */
+declare function isKvPair(arg: any): arg is TKvPair;
+
+declare function isString(data: any): data is string;
 
 /**
  * 强制转换数据为键值对数据，如果是json字符串，会尝试解析，如果失败，则返回一个空Map
@@ -57,7 +57,7 @@ type IKvPair = Record<string, any>;
  * const data3 = _KvPair({name: 'a'})
  * ```
  */
-declare function _KvPair(data: any): IKvPair;
+declare function _KvPair(data: any): TKvPair;
 
 /**
  * 判断是否为空[null, undefined, '']
@@ -78,15 +78,26 @@ declare function isFunction(data: any): boolean;
  * @param data - 需要转化的数据
  * @returns 转换后的字符串
  */
-declare function param(data: Record<string | number, any>): string;
+declare function param(data: TKvPair): string;
 
 /**
  * 为url链接拼接参数
- * @param url - url地址
+ * @param url - url地址。可带查询参数由 ”{{包裹}}”
  * @param searchString - 查询参数
- * @returns 拼接后的url地址
+ * @returns string 拼接后的url地址
+ * @example
+ * ```js
+ * urlToGet('/parent_{{ pid }}/info/{{ uid }}/detail?c=5&', {
+ *   name: '张三',
+ *   skill: [1, 2, 3, 4, 5]
+ * })
+ * urlToGet('1111111111', 'a=0&b=2')
+ * urlToGet('2222222222', 'a=0&b=2')
+ * urlToGet('333333333?c=5&', 'a=0&b=2')
+ * ```
+ *
  */
-declare function urlToGet(url: string, searchString: string | Record<string, any>): string;
+declare function urlToGet(url: string, data: string | TKvPair): string;
 
 /**
  * 移除空字符串
@@ -96,19 +107,19 @@ declare function urlToGet(url: string, searchString: string | Record<string, any
  */
 declare function trim(data: any, pos?: 1 | -1 | '*'): string;
 
-declare function clean<
-  T extends
-    | any[]
-    | {
-        [key: string]: any;
-        [key: number]: any;
-      }
->(data: T, removeEmptyStr?: boolean, removeEmptyObject?: boolean): T;
-
 type TargetData = Record<string, any> | any[];
 interface Options {
+  /**
+   * 是否移除空字符串。默认true
+   */
   string?: Boolean;
+  /**
+   * 是否移除空数组。默认true
+   */
   array?: Boolean;
+  /**
+   * 是否移除空键值对。默认true
+   */
   kvPair?: Boolean;
 }
 /**
@@ -180,7 +191,8 @@ declare function deepFindTreePath(
  */
 declare function _Number(data: any): number;
 
-declare function isNull(data: any): boolean;
+type TNull = undefined | null | '';
+declare function isNull(data: any): data is TNull;
 
 /**
  *
@@ -375,7 +387,7 @@ declare function cloneEasy<T extends [] | Record<any, any> | Function>(data: T):
  * @param childKeyFrom - 原始数据的孩子键
  * @returns 转变后的新数据
  */
-declare function main<T extends IKvPair, K extends IKvPair, C extends keyof T>(
+declare function main<T extends TKvPair, K extends TKvPair, C extends keyof T>(
   data: K[],
   childKeyTo: C,
   handle: (data: K) => Omit<T, C>,
@@ -425,7 +437,7 @@ declare function defineEventBus<T extends EventHander>(
  * @param handle - 迭代方法。这里不用返回子节点
  * @param childKey - 子节点字段。默认值：children
  */
-declare function forEachTree<T extends IKvPair>(
+declare function forEachTree<T extends TKvPair>(
   data: T[],
   handle: (data: T) => void,
   childKey?: keyof T
@@ -512,10 +524,64 @@ declare function dataPage<T>(
 
 /**
  * 解析序列化字符参数为Map格式数据
- * @param str - url 查询参数。默认为window.location.href
+ * @param str - url 查询参数
  * @returns 键值对
  */
-declare function parseQuery(str: string): IKvPair;
+declare function parseQuery(str?: string): TKvPair;
+
+declare const fieldCheck: {
+  /**
+   * 验证传入的数据是否是数字
+   * @param title - 标题
+   * @param value - 值
+   * @param required - 是否必填
+   * @returns
+   */
+  number(title: string, value: any, required?: boolean): number;
+  /**
+   * 验证传入的数据是否是字符串
+   * @param title - 标题
+   * @param value - 值
+   * @param required - 是否必填
+   * @returns
+   */
+  string(title: string, value: any, required?: boolean): string;
+};
+
+type TArrayRowToColumnColumnSort = (a: string, b: string) => number;
+/**
+ * 数字中某个字段由 行转列
+ * @param originData - 原始数组
+ * @param options - 配置项
+ * @returns 转换后的数据
+ */
+declare function arrayRowToColumn<T extends TKvPair>(
+  originData: T[],
+  options: {
+    /** 唯一行的ID生成器 */
+    uniqueRowId: (data: T) => string;
+    /** 将此字段转为列 */
+    colField: string;
+    /** 列的排序方法 */
+    colSort?: TArrayRowToColumnColumnSort;
+    /** 生成列信息 */
+    colCreate: (key: string) => {
+      label: string;
+      field: string;
+    };
+  }
+): {
+  columns: {
+    value: string;
+    label: string;
+    field: string;
+  }[];
+  data: {
+    key: string;
+    value: T;
+    data: Record<string, T[]>;
+  }[];
+};
 
 declare global {
   /**
@@ -529,14 +595,15 @@ declare global {
       _KvPair,
       _Number,
       _String,
+      arrayRowToColumn,
       changeIndex,
-      clean,
       cloneEasy,
       dataPage,
       deepFindItem,
       deepFindTreePath,
       defaultValue,
       defineEventBus,
+      fieldCheck,
       flatTree,
       floorFixed,
       forEach,

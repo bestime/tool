@@ -1,5 +1,5 @@
 
-import type { IKvPair } from './help/type-declare'
+import type { TKvPair } from './help/type-declare'
 import isKvPair from "./isKvPair"
 import jsonParse from './help/hpJsonParse'
 
@@ -22,7 +22,7 @@ import jsonParse from './help/hpJsonParse'
    * const data3 = _KvPair({name: 'a'})
    * ```
    */
-export default function _KvPair (data: any): IKvPair {
+export default function _KvPair (data: any): TKvPair {
   if(!isKvPair(data)) {
     data = jsonParse(data)
     if(!isKvPair(data)) {

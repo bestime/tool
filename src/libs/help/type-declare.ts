@@ -1,6 +1,6 @@
 /**
-   * 递归将所有属性改为可选
-   */
+ * 递归将所有属性改为可选
+ */
 export type BTDeepPartial<T = any> = {
   [P in keyof T]?: T[P] extends Function
     ? T[P]
@@ -10,9 +10,9 @@ export type BTDeepPartial<T = any> = {
 };
 
 /**
-   * 键值对格式的数据
-   * */
-export type IKvPair = Record<string, any>;
+ * 键值对格式的数据
+ * */
+export type TKvPair = Record<string | number | symbol, any>;
 
 
 

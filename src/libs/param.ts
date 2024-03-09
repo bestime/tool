@@ -1,14 +1,14 @@
 import getType from './getType';
 import { $ArrayTypeNameBig, $ObjectTypeNameBig, $stringTypeNameBig } from './help/hpConsts';
 import { $encodeURI } from './help/hpConsts';
+import type { TKvPair } from './help/type-declare';
 import isFunction from './isFunction';
-
 /**
  * 对象序列化为字符串, 用于URL查询字符串或AJAX请求
  * @param data - 需要转化的数据
  * @returns 转换后的字符串
  */
-export default function param(data: Record<string | number, any>): string {
+export default function param(data: TKvPair): string {
   var res: any = [];
   // 当value不为数组或者JSON时，就可创建一条数据
   function addOne(key: string, value: any) {

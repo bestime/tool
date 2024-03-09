@@ -1,4 +1,4 @@
-import  type { IKvPair } from './help/type-declare'
+import  type { TKvPair } from './help/type-declare'
 
 import isArray from './isArray';
 
@@ -10,7 +10,7 @@ import isArray from './isArray';
  * @param childKey - 子节点字段。默认值：children
  */
 
-export default function forEachTree<T extends IKvPair>(
+export default function forEachTree<T extends TKvPair>(
   data: T[],
   handle: (data: T) => void,
   childKey?: keyof T

@@ -11,8 +11,17 @@ import cloneEasy from './cloneEasy'
 type TargetData = Record<string, any> | any[]
 
 interface Options {
+  /**
+   * 是否移除空字符串。默认true
+   */
   string?: Boolean,
+  /**
+   * 是否移除空数组。默认true
+   */
   array?: Boolean,
+  /**
+   * 是否移除空键值对。默认true
+   */
   kvPair?: Boolean,
 }
 

@@ -1,10 +1,12 @@
-import  type { IKvPair } from './help/type-declare'
+import  type { TKvPair } from './help/type-declare'
 
 import _Array from './_Array';
 import _Number from './_Number';
 import _KvPair from './_KvPair';
+import _String from './_String';
 import { $decodeURIComponent, $undefinedValue } from './help/hpConsts';
 import FN_FORMAT_STRING_VALUE from './help/hpTryToParseStringToBasicType';
+import isNull from './isNull';
 
 
 const defaultSplitArr = [$undefinedValue, $undefinedValue];
@@ -78,13 +80,18 @@ function isPreLikeArray(data: any): boolean {
 
 /**
  * 解析序列化字符参数为Map格式数据
- * @param str - url 查询参数。默认为window.location.href
+ * @param str - url 查询参数
  * @returns 键值对
  */
-export default function parseQuery(str: string): IKvPair {
-  let res: any = {},
-    hasChlid,
-    queryKey
+export default function parseQuery(str?: string): TKvPair {
+  let res: any = {};
+  let hasChlid = false;
+  let queryKey = '';
+  if(isNull(str)) {
+    str = ''
+  }
+
+  
 
   str.replace(/([^=&?/#]*?)=([^=&?/#]*)/g, function (_: any, key: any, val: any): any {
     val = FN_FORMAT_STRING_VALUE($decodeURIComponent(val));

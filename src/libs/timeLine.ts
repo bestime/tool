@@ -14,6 +14,7 @@ function formatFunc(units: string[], unitIndex: number, data: number) {
   return res;
 }
 
+
 function handleOne(startTime: any, endTime: any) {
   var refer = startTime.split[0];
   var modify = endTime.split[1];

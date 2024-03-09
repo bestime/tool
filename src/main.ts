@@ -10,7 +10,7 @@ export { default as isFunction } from './libs/isFunction'
 export { default as param } from './libs/param'
 export { default as urlToGet } from './libs/urlToGet'
 export { default as trim } from './libs/trim'
-export { default as clean } from './libs/clean'
+
 export { default as shake } from './libs/shake'
 export { default as _Array } from './libs/_Array'
 // export { default as dataCacheUtil } from './libs/dataCacheUtil'
@@ -43,6 +43,10 @@ export { default as  randomColor } from './libs/randomColor'
 export { default as  Polling } from './libs/Polling'
 export { default as  dataPage } from './libs/dataPage'
 export { default as parseQuery } from './libs/parseQuery'
+export { default as fieldCheck } from './libs/fieldCheck'
+export { default as arrayRowToColumn } from './libs/arrayRowToColumn'
+
+
 
 
 

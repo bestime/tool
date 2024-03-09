@@ -8,30 +8,32 @@
     <!-- <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.11.6/plugin/customParseFormat.min.js"></script> -->
     <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.2.2/axios.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
-    <script src="../../dist/umd/index.min.js"></script>
+    <script src="../../dist/jUtilsBase.umd.min.cjs"></script>
     <script>
-      function makingMoneyPredicting (startMoney, targetIncome) {
-        let principal = startMoney
-        const rate = 0.79 / 100
-        let count = 0
-
-        ;(function once () {
-          count++
-          const income = principal * rate
-          principal += income
-          if((principal-startMoney) < targetIncome) {
-            once()
-          }
-        })();
-        console.log(`本金${startMoney}预测需要${count}场比赛达到${targetIncome}收益`)
-      }
-
-      makingMoneyPredicting(5000, 5000)
+      
     </script>
   </head>
   <body>
     <script>
 
+      function tests (path, data) {
+        const result = jUtilsBase.urlToGet(path, data)
+        console.log("result =>", result, jUtilsBase.parseQuery(result))
+        return result
+      }
+    
+      const url01 = tests('https://www.it0909.com/parent_{{ pid }}/info/{{ uid }}/detail?t=5', {
+        name: '中文',
+        skill: [1,2,3,4],
+        pid: 0,
+        uid: 3568
+      })
+
+      const url02 = tests('https://www.it0909.com?age=10&', {
+        name: '中文',
+        qq: '1174295440'
+      })
+      const url03 = tests('https://www.it0909.com?age=10&', '?&&user=111&age=222')
 
     </script>
   </body>
