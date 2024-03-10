@@ -583,6 +583,18 @@ declare function arrayRowToColumn<T extends TKvPair>(
   }[];
 };
 
+type ISpanTableItem<T extends TKvPair> = T & {
+  $rowSpan: Record<string, number>;
+  $colSpan: Record<number, number>;
+};
+/**
+ * 合并单元格。不改变原数组
+ * @param data - 一维数组
+ * @param fields - 合并的字段
+ * @returns 合并后的数据。会在每一项中添加两个字段 "$rowSpan" "$colSpan"
+ */
+declare function spanTable<T extends TKvPair>(data: T[], fields: string[]): ISpanTableItem<T>[];
+
 export {
   Polling,
   _Array,
@@ -621,6 +633,7 @@ export {
   repeatString,
   roundFixed,
   shake,
+  spanTable,
   split,
   flatArrayToTree as tree,
   trim,
