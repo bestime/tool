@@ -548,6 +548,20 @@ declare const fieldCheck: {
   string(title: string, value: any, required?: boolean): string;
 };
 
+interface ISummary {
+  /** 值 */
+  value: number;
+  /** 增长率 */
+  riseRatio?: number;
+  /** 比重 */
+  proportion: number;
+}
+interface IARTResultItem<T> {
+  name: string;
+  value: T;
+  data: Record<string, T[]>;
+  summary: Record<string, ISummary>;
+}
 type TArrayRowToColumnColumnSort = (a: string, b: string) => number;
 /**
  * 数字中某个字段由 行转列
@@ -555,13 +569,13 @@ type TArrayRowToColumnColumnSort = (a: string, b: string) => number;
  * @param options - 配置项
  * @returns 转换后的数据
  */
-declare function arrayRowToColumn<T extends TKvPair>(
+declare function arrayRowToColumn<T extends Record<string, any>>(
   originData: T[],
   options: {
     /** 唯一行的ID生成器 */
-    uniqueRowId: (data: T) => string;
+    uniqueRowId: Array<keyof T>;
     /** 将此字段转为列 */
-    colField: string;
+    colField: keyof T;
     /** 列的排序方法 */
     colSort?: TArrayRowToColumnColumnSort;
     /** 生成列信息 */
@@ -569,6 +583,7 @@ declare function arrayRowToColumn<T extends TKvPair>(
       label: string;
       field: string;
     };
+    summaryConfig?: IConfig;
   }
 ): {
   columns: {
@@ -576,12 +591,40 @@ declare function arrayRowToColumn<T extends TKvPair>(
     label: string;
     field: string;
   }[];
-  data: {
-    key: string;
-    value: T;
-    data: Record<string, T[]>;
-  }[];
+  data: IARTResultItem<T>[];
+  colSummary: Record<string, Record<string, ISummary>>;
+  getExtRow: <T_1 extends keyof ISummary>(
+    groupName: string,
+    field: T_1,
+    formatter: (data: ISummary[T_1]) => string
+  ) => Record<string, string>;
 };
+type TCalculate = Record<
+  string,
+  {
+    proportionBaseField?: string;
+    count: {
+      field: string;
+      mode: 'length' | 'uniqLength' | 'notZeroValue';
+    };
+    value: {
+      field: string;
+      mode: 'sum' | 'uniqLength';
+    };
+  }
+>;
+interface IConfig {
+  averageField: string;
+  row: TCalculate;
+  column: TColSumaryConfig;
+}
+type TColSumaryConfig = Record<
+  string,
+  {
+    field: string;
+    mode: 'uniqLength';
+  }
+>;
 
 type ISpanTableItem<T extends TKvPair> = T & {
   $rowSpan: Record<string, number>;
