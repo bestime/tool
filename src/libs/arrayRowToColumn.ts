@@ -19,6 +19,7 @@ interface IARTResultItem<T> {
   value: T
   data: Record<string, T[]>;
   summary: Record<string, ISummary>
+  other: Record<string, ISummary>
 }
 
 
@@ -112,7 +113,7 @@ export default function arrayRowToColumn<T extends Record<string, any>> (
       fieldValues[name as string] = item[name]
     })
     
-    // console.log("生成id", rowKey)
+
     
     rowGroup[rowKey.id] = rowGroup[rowKey.id] || {
       value: fieldValues,
@@ -136,7 +137,8 @@ export default function arrayRowToColumn<T extends Record<string, any>> (
       name: rowGroup[id].name,
       value:rowGroup[id].value as T, 
       data: rowGroup[id].data,
-      summary: {}
+      summary: {},
+      other: {}
     });
   }
 
@@ -151,8 +153,15 @@ export default function arrayRowToColumn<T extends Record<string, any>> (
 
   let colSummary: Record<string, Record<string, ISummary>> = {}
   if(options.summaryConfig) {
-    result = mergeRowSummary(result, options.summaryConfig)
-    colSummary = mergeColSummary(result, options.summaryConfig.column, options.summaryConfig.averageField)
+    if(options.summaryConfig.row) {
+      result = mergeRowSummary(result, options.summaryConfig.row, options.summaryConfig.averageField)
+    }
+    
+    if(options.summaryConfig.column) {
+      colSummary = mergeColSummary(result, options.summaryConfig.column, options.summaryConfig.averageField)
+    }
+    
+  
   }
 
   function getColSummaryExtRow<T extends keyof ISummary> (groupName: string, field: T, formatter: (data: ISummary[T]) => string): Record<string, string> {
@@ -199,7 +208,7 @@ export function getRatio (prev: number | undefined, current: number | undefined)
   return (current - prev) / prev
 }
 
-type TCalculate = Record<string, {
+export type TArrayRowToColumnCalculateRow = {
   proportionBaseField?: string,
   count: {
     field: string,
@@ -207,95 +216,22 @@ type TCalculate = Record<string, {
   },
   value: {
     field: string,
-    mode: 'sum' | 'uniqLength'
+    mode: 'sum' | 'uniqLength' | 'avg'
   },
   
-}>
+}
 
 interface IConfig {
   averageField: string,
-  row: TCalculate
-  column: TColSumaryConfig
+  row?: Record<string, TArrayRowToColumnCalculateRow>
+  column?: TColSumaryConfig
 }
 
 type TColSumaryConfig = Record<string, {
   field: string,
-  mode: 'uniqLength'
+  mode: 'uniqLength' | 'avg'
 }>
 
-function mergeColSummary (list: IARTResultItem<TKvPair>[], config: TColSumaryConfig, averageField: string) {
-  // const config: TColSumaryConfig = {
-  //   companyCount: {
-  //     field: 'fxCompanyId',
-  //     mode: 'uniqLength'
-  //   }
-  // }
-
-  const result: Record<string, Record<string, any>> = {}
-  const _mapRes: Record<string, Record<string, ISummary>> = {}
-  
-  for(const cfgKey in config) {
-    
-    _mapRes[cfgKey] = {}
-    result[cfgKey] = {}
-    const cfgItem = config[cfgKey]
-    list.forEach(function (gp) {
-      for(let key in gp.data) {
-        result[cfgKey][key] = result[cfgKey][key] || {
-          data: [],
-        }
-        let innerList: any[] = []
-        // console.log("顶顶顶", result[cfgKey][key])
-        gp.data[key].forEach(function (item) {
-          innerList.push(item[cfgItem.field])
-          switch(cfgItem.mode) {
-            case 'uniqLength':
-              innerList = uniq(innerList)
-              break;
-          }          
-        
-        })
-        result[cfgKey][key].data = result[cfgKey][key].data.concat(innerList)  
-      }
-    })
-
-    list.forEach(function (gp) {
-      let prevGroupKey: string | undefined
-      for(let key in gp.data) {
-        _mapRes[cfgKey][key] = result[cfgKey][key] || 0
-        switch(cfgItem.mode) {
-          case 'uniqLength':
-            const value = result[cfgKey][key].data.length / list.length   
-            _mapRes[cfgKey][key] = {
-              value,
-              proportion: 0,
-              riseRatio: prevGroupKey ? getRatio(_mapRes[cfgKey][prevGroupKey]?.value, value) : void 0
-            }
-            break;
-        }
-        prevGroupKey = key
-      }      
-    })   
-
-    let colSum = 0
-    let length = 0
-    for(let key in _mapRes[cfgKey]) {
-      const cfg = _mapRes[cfgKey][key]
-      colSum += cfg.value
-      length++
-    }
-
-    _mapRes[cfgKey][averageField] = {
-      value: colSum / length,
-      riseRatio: $undefinedValue,
-      proportion: 0,
-    }
-  }
- 
-  
-  // console.log("列合计", result, _mapRes)
-  return _mapRes
-}
 
 
 
@@ -311,21 +247,27 @@ function mergeColSummary (list: IARTResultItem<TKvPair>[], config: TColSumaryCon
 //   }
 // }
 
-function mergeRowSummary (list: IARTResultItem<TKvPair>[], config?: IConfig) {
+function mergeRowSummary (list: IARTResultItem<TKvPair>[], config: Record<string, TArrayRowToColumnCalculateRow>, averageField: string) {
+  
+  
+  
 
-  list.forEach(function (colsDataMap) {
-    const configItem = config?.row?.[colsDataMap.name]
+  list.forEach(function (colsDataMap) {   
+    const configItem = config[colsDataMap.name]
     if(!configItem) return;
+    
+   
     let prevGroupKey: string | undefined;
     let colSum = 0
-
     let length = 0
+
+    
     for(let key in colsDataMap.data) {
       length++
       const countFiledList: any[] = []
       let sum = 0
       let valueList: any[] = []
-      let notZeroList: any[] = []      
+      let notZeroList: any[] = []
 
       colsDataMap.data[key].forEach(function (item) {
         
@@ -338,7 +280,7 @@ function mergeRowSummary (list: IARTResultItem<TKvPair>[], config?: IConfig) {
             sum = sum + valueList.length
             break;
           case 'sum':
-            
+          case 'avg':            
             sum = sum + data
             break;
         }
@@ -360,7 +302,13 @@ function mergeRowSummary (list: IARTResultItem<TKvPair>[], config?: IConfig) {
           count = notZeroList.length
           break;
       }
-      const value = sum / count
+
+      let value = sum
+      switch(configItem.value.mode) {
+        case 'avg':            
+        value = sum / count
+          break;
+      }
       colSum += value
       
       colsDataMap.summary[key] = {
@@ -372,18 +320,19 @@ function mergeRowSummary (list: IARTResultItem<TKvPair>[], config?: IConfig) {
     }
     
     
-    colsDataMap.summary[config.averageField] = {
+    colsDataMap.summary[averageField] = {
       value: colSum / length,
       riseRatio: $undefinedValue,
       proportion: 0,
     }
   })
-
+  
   // 处理比重
   list.forEach(function (colsDataMap) {
-    const configItem = config?.row?.[colsDataMap.name]
-    if(!configItem || !configItem.proportionBaseField) return;
+    const configItem = config[colsDataMap.name]
+    if(!configItem) return;
     const baseItem = list.find(c => c.name === configItem.proportionBaseField)
+    if(!configItem.proportionBaseField) return;
     if(baseItem) {
       // baseItem.
       for(let key in colsDataMap.summary) {
@@ -392,5 +341,110 @@ function mergeRowSummary (list: IARTResultItem<TKvPair>[], config?: IConfig) {
     }
     
   })
+
+  
+  // for(let cfgName in config) {
+    
+    
+    
+  // }
+  
   return list
+}
+
+
+
+function mergeColSummary (list: IARTResultItem<TKvPair>[], config: TColSumaryConfig, averageField: string) {
+
+  // const config: TColSumaryConfig = {
+  //   companyCount: {
+  //     field: 'fxCompanyId',
+  //     mode: 'uniqLength'
+  //   }
+  // }
+
+  const result: Record<string, Record<string, any>> = {}
+  const _mapRes: Record<string, Record<string, ISummary>> = {}
+  
+  for(const cfgKey in config) {    
+    _mapRes[cfgKey] = {}
+    result[cfgKey] = {}
+    const cfgItem = config[cfgKey]
+    
+    
+    list.forEach(function (gp) {     
+      for(let key in gp.data) {
+        result[cfgKey][key] = result[cfgKey][key] || {
+          data: [],
+          sum: 0,
+        }
+        let innerList: any[] = []
+        let innerSum = 0
+   
+        gp.data[key].forEach(function (item) {          
+          innerList.push(item[cfgItem.field])
+          
+          switch(cfgItem.mode) {
+            case 'uniqLength':
+              innerList = uniq(innerList)
+              break;
+            case 'avg':
+              innerSum += item[cfgItem.field]
+              break;
+          }
+        })
+        switch(cfgItem.mode) {
+          case 'uniqLength':
+            innerList = uniq(innerList)
+            break;
+          case 'avg':
+            innerSum = innerSum / gp.data[key].length
+            break;
+        }
+        result[cfgKey][key].data = result[cfgKey][key].data.concat(innerList)  
+        result[cfgKey][key].sum += innerSum
+      }
+    })
+
+
+    let prevGroupKey: string | undefined
+ 
+    for(let key in result[cfgKey]) {
+      
+      let value = 0
+      switch(cfgItem.mode) {
+        case 'avg':
+          value = result[cfgKey][key].sum/list.length
+          // console.log("求平均", value, list.length, result[cfgKey][key].data.length)
+          break;
+        case 'uniqLength':
+          value = result[cfgKey][key].data.length / list.length   
+          
+          break;
+      }
+      _mapRes[cfgKey][key] = {
+        value,
+        proportion: 0,
+        riseRatio: prevGroupKey ? getRatio(_mapRes[cfgKey][prevGroupKey]?.value, value) : void 0
+      }
+      prevGroupKey = key
+    }
+
+
+    let colSum = 0
+    let length = 0
+    for(let key in _mapRes[cfgKey]) {
+      const cfg = _mapRes[cfgKey][key]
+      colSum += cfg.value
+      length++
+    }
+
+    _mapRes[cfgKey][averageField] = {
+      value: colSum / length,
+      riseRatio: $undefinedValue,
+      proportion: 0,
+    }
+  }
+ 
+  return _mapRes
 }

@@ -561,6 +561,7 @@ interface IARTResultItem<T> {
   value: T;
   data: Record<string, T[]>;
   summary: Record<string, ISummary>;
+  other: Record<string, ISummary>;
 }
 type TArrayRowToColumnColumnSort = (a: string, b: string) => number;
 /**
@@ -599,30 +600,27 @@ declare function arrayRowToColumn<T extends Record<string, any>>(
     formatter: (data: ISummary[T_1]) => string
   ) => Record<string, string>;
 };
-type TCalculate = Record<
-  string,
-  {
-    proportionBaseField?: string;
-    count: {
-      field: string;
-      mode: 'length' | 'uniqLength' | 'notZeroValue';
-    };
-    value: {
-      field: string;
-      mode: 'sum' | 'uniqLength';
-    };
-  }
->;
+type TArrayRowToColumnCalculateRow = {
+  proportionBaseField?: string;
+  count: {
+    field: string;
+    mode: 'length' | 'uniqLength' | 'notZeroValue';
+  };
+  value: {
+    field: string;
+    mode: 'sum' | 'uniqLength' | 'avg';
+  };
+};
 interface IConfig {
   averageField: string;
-  row: TCalculate;
-  column: TColSumaryConfig;
+  row?: Record<string, TArrayRowToColumnCalculateRow>;
+  column?: TColSumaryConfig;
 }
 type TColSumaryConfig = Record<
   string,
   {
     field: string;
-    mode: 'uniqLength';
+    mode: 'uniqLength' | 'avg';
   }
 >;
 
@@ -640,6 +638,7 @@ declare function spanTable<T extends TKvPair>(data: T[], fields: string[]): ISpa
 
 export {
   Polling,
+  TArrayRowToColumnCalculateRow,
   _Array,
   _Boolean,
   _KvPair,

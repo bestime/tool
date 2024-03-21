@@ -11,10 +11,11 @@ function sameRowCellCount (startIndex: number, key: string, value: any,data: any
   let count = 1
   startIndex++
   for(startIndex; startIndex<data.length; startIndex++) {
-    if(data[startIndex][key] !== value) {
-      break;
-    } else {
+    const targetValue = data[startIndex][key]
+    if(targetValue === value || isEmpty(targetValue)) {
       count++
+    } else {
+      break;
     }
   }
 

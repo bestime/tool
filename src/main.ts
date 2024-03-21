@@ -45,7 +45,9 @@ export { default as  dataPage } from './libs/dataPage'
 export { default as parseQuery } from './libs/parseQuery'
 export { default as fieldCheck } from './libs/fieldCheck'
 export { default as arrayRowToColumn } from './libs/arrayRowToColumn'
+export type { TArrayRowToColumnCalculateRow } from './libs/arrayRowToColumn'
 export { default as spanTable } from './libs/spanTable'
+
 
 
 
