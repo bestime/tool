@@ -636,6 +636,15 @@ type ISpanTableItem<T extends TKvPair> = T & {
  */
 declare function spanTable<T extends TKvPair>(data: T[], fields: string[]): ISpanTableItem<T>[];
 
+/**
+ * 正则千分位转换，支持小数（任意字符串按位数相隔）
+ *
+ * @param data 需要转换的字符
+ * @param len 按多少位分隔一次，默认3
+ * @param symbol 千分位替换符号，默认逗号
+ */
+declare function thousands(data: number, len?: number, symbol?: string): string;
+
 export {
   Polling,
   TArrayRowToColumnCalculateRow,
@@ -677,6 +686,7 @@ export {
   shake,
   spanTable,
   split,
+  thousands,
   flatArrayToTree as tree,
   trim,
   urlToGet,
