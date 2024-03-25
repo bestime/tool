@@ -14,5 +14,7 @@ export type BTDeepPartial<T = any> = {
  * */
 export type TKvPair = Record<string | number | symbol, any>;
 
+export type TValueOf<T> = T[keyof T]
+
 
 

@@ -19,7 +19,6 @@ interface IARTResultItem<T> {
   value: T
   data: Record<string, T[]>;
   summary: Record<string, ISummary>
-  other: Record<string, ISummary>
 }
 
 
@@ -138,7 +137,6 @@ export default function arrayRowToColumn<T extends Record<string, any>> (
       value:rowGroup[id].value as T, 
       data: rowGroup[id].data,
       summary: {},
-      other: {}
     });
   }
 
@@ -229,7 +227,7 @@ interface IConfig {
 
 type TColSumaryConfig = Record<string, {
   field: string,
-  mode: 'uniqLength' | 'avg'
+  mode: 'uniqLength' | 'avg' | 'notZeroLength'
 }>
 
 
@@ -391,6 +389,12 @@ function mergeColSummary (list: IARTResultItem<TKvPair>[], config: TColSumaryCon
             case 'avg':
               innerSum += item[cfgItem.field]
               break;
+            case 'notZeroLength':
+              if(_Number(item[cfgItem.field])!==0) {
+                innerSum++
+              }
+              
+              break;
           }
         })
         switch(cfgItem.mode) {
@@ -420,6 +424,9 @@ function mergeColSummary (list: IARTResultItem<TKvPair>[], config: TColSumaryCon
         case 'uniqLength':
           value = result[cfgKey][key].data.length / list.length   
           
+          break;
+        case 'notZeroLength':
+          value = result[cfgKey][key].sum
           break;
       }
       _mapRes[cfgKey][key] = {

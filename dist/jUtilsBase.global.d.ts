@@ -30,6 +30,7 @@ type BTDeepPartial<T = any> = {
  * 键值对格式的数据
  * */
 type TKvPair = Record<string | number | symbol, any>;
+type TValueOf<T> = T[keyof T];
 
 /**
  * 判断数据是否为对象
@@ -561,7 +562,6 @@ interface IARTResultItem<T> {
   value: T;
   data: Record<string, T[]>;
   summary: Record<string, ISummary>;
-  other: Record<string, ISummary>;
 }
 type TArrayRowToColumnColumnSort = (a: string, b: string) => number;
 /**
@@ -620,7 +620,7 @@ type TColSumaryConfig = Record<
   string,
   {
     field: string;
-    mode: 'uniqLength' | 'avg';
+    mode: 'uniqLength' | 'avg' | 'notZeroLength';
   }
 >;
 
@@ -644,6 +644,17 @@ declare function spanTable<T extends TKvPair>(data: T[], fields: string[]): ISpa
  * @param symbol 千分位替换符号，默认逗号
  */
 declare function thousands(data: number, len?: number, symbol?: string): string;
+
+/**
+ * 键值对的map实现方法
+ * @param data - 元数据
+ * @param handler - 自定义处理函数
+ * @returns
+ */
+declare function mapKvPair<T extends TKvPair, U>(
+  data: T,
+  handler: (data: TValueOf<T>, key: string) => U
+): Record<string | number | symbol, U>;
 
 declare global {
   /**
@@ -680,6 +691,7 @@ declare global {
       isLikeNumber,
       isNull,
       isString,
+      mapKvPair,
       main as mapTree,
       padEnd,
       padStart,
