@@ -49,6 +49,7 @@ export type { TArrayRowToColumnCalculateRow } from './libs/arrayRowToColumn'
 export { default as spanTable } from './libs/spanTable'
 export { default as thousands } from './libs/thousands'
 export { default as mapKvPair } from './libs/mapKvPair'
+export { default as isFuzzyMatch } from './libs/isFuzzyMatch'
 
 
 

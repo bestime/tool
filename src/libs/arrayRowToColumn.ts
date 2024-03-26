@@ -275,7 +275,7 @@ function mergeRowSummary (list: IARTResultItem<TKvPair>[], config: Record<string
           case 'uniqLength':
             valueList.push(item[configItem.value.field])
             valueList = uniq(valueList)
-            sum = sum + valueList.length
+            sum = valueList.length
             break;
           case 'sum':
           case 'avg':            
@@ -304,7 +304,7 @@ function mergeRowSummary (list: IARTResultItem<TKvPair>[], config: Record<string
       let value = sum
       switch(configItem.value.mode) {
         case 'avg':            
-        value = sum / count
+          value = sum / count
           break;
       }
       colSum += value
