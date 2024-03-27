@@ -50,6 +50,7 @@ export { default as spanTable } from './libs/spanTable'
 export { default as thousands } from './libs/thousands'
 export { default as mapKvPair } from './libs/mapKvPair'
 export { default as isFuzzyMatch } from './libs/isFuzzyMatch'
+export { default as mixInZeroWidthUnicode } from './libs/mixInZeroWidthUnicode'
 
 
 

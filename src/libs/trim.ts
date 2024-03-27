@@ -3,7 +3,7 @@ import { $stringTypeNameBig, $numberTypeNameBig, $regSpaceStr } from './help/hpC
 const baseReg = `[${$regSpaceStr}]+`
 
 /**
-   * 移除空字符串
+   * 移除空字符串。不清空 "\u200e"
    * @param data - 需要处理的数据
    * @param pos - 移除位置。默认：两侧，1：左侧，-1右侧，* 所有
    * @returns 字符串

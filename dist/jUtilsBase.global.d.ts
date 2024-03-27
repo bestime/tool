@@ -665,6 +665,13 @@ declare function mapKvPair<T extends TKvPair, U>(
  */
 declare function isFuzzyMatch(search: string, data: string, regFlags?: string): boolean;
 
+/**
+ * 向字符串中添加零宽字符。（暂时用于排除同名表格单元格合并）
+ * @param data - 需要处理的数据
+ * @returns
+ */
+declare function mixInZeroWidthUnicode(data: string): string;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -703,6 +710,7 @@ declare global {
       isString,
       mapKvPair,
       main as mapTree,
+      mixInZeroWidthUnicode,
       padEnd,
       padStart,
       param,

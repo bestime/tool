@@ -43,7 +43,7 @@ function sameColSellCount (startIndex: number, value: any,data: any, keys: strin
   startIndex++
   for(startIndex;startIndex<keys.length;startIndex++) {
     const targetKey = keys[startIndex]
-    const targetValue = trim(data[targetKey], '*')
+    const targetValue = trim(data[targetKey])
     if(targetValue === value || isEmpty(targetValue)) {
       count++
     } else {
