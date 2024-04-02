@@ -1,3 +1,4 @@
+import cloneEasy from './cloneEasy';
 import  type { TKvPair } from './help/type-declare'
 
 import isArray from './isArray';
@@ -12,17 +13,19 @@ import isArray from './isArray';
 
 export default function forEachTree<T extends TKvPair>(
   data: T[],
-  handle: (data: T) => void,
+  handle: (data: T, parents: T[]) => void,
   childKey?: keyof T
 ): void{
   childKey = childKey || 'children';
-  (function handleOneList(list) {
+  (function handleOneList(list, parents: T[]) {
     for (let index = 0; index < list.length; index++) {
-      handle(list[index]);
+      const iParaents = cloneEasy(parents)
+      handle(list[index], iParaents);
       if (isArray(list[index][childKey])) {
-        handleOneList(list[index][childKey]);
+        iParaents.push(list[index])
+        handleOneList(list[index][childKey], iParaents);
       }
     }
-  })(data);
+  })(data, []);
 };
 

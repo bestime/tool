@@ -101,7 +101,7 @@ declare function param(data: TKvPair): string;
 declare function urlToGet(url: string, data: string | TKvPair): string;
 
 /**
- * 移除空字符串
+ * 移除空字符串。不清空 "\u200e"
  * @param data - 需要处理的数据
  * @param pos - 移除位置。默认：两侧，1：左侧，-1右侧，* 所有
  * @returns 字符串
@@ -440,7 +440,7 @@ declare function defineEventBus<T extends EventHander>(
  */
 declare function forEachTree<T extends TKvPair>(
   data: T[],
-  handle: (data: T) => void,
+  handle: (data: T, parents: T[]) => void,
   childKey?: keyof T
 ): void;
 
