@@ -620,7 +620,7 @@ type TColSumaryConfig = Record<
   string,
   {
     field: string;
-    mode: 'uniqLength' | 'avg' | 'notZeroLength';
+    mode: 'uniqLength' | 'avg' | 'notZeroLength' | 'sum';
   }
 >;
 

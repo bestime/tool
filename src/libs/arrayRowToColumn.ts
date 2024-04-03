@@ -227,7 +227,7 @@ interface IConfig {
 
 type TColSumaryConfig = Record<string, {
   field: string,
-  mode: 'uniqLength' | 'avg' | 'notZeroLength'
+  mode: 'uniqLength' | 'avg' | 'notZeroLength' | 'sum'
 }>
 
 
@@ -387,6 +387,7 @@ function mergeColSummary (list: IARTResultItem<TKvPair>[], config: TColSumaryCon
               innerList = uniq(innerList)
               break;
             case 'avg':
+            case 'sum':
               innerSum += item[cfgItem.field]
               break;
             case 'notZeroLength':
@@ -426,6 +427,9 @@ function mergeColSummary (list: IARTResultItem<TKvPair>[], config: TColSumaryCon
           
           break;
         case 'notZeroLength':
+          value = result[cfgKey][key].sum
+          break;
+        case 'sum':
           value = result[cfgKey][key].sum
           break;
       }
