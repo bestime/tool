@@ -33,9 +33,6 @@ function simpleFromatTime (date) {
 function getBanner () {
   return `/**  
  * 浏览器工具库 => jUtilsBrowser
- * @QQ 1174295440
- * @author Bestime
- * @see https://github.com/bestime/tool
  * @update ${simpleFromatTime(new Date())}
  */`
 }
