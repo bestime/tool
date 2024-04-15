@@ -32,10 +32,7 @@ function simpleFromatTime (date) {
 
 function getBanner () {
   return `/**
- * 纯JS工具库 => ${toolName} 
- * 可在浏览器、nodejs、小程序中使用
- * @QQ 1174295440
- * @see https://github.com/bestime/tool 分支：base
+ * 纯JS工具库 => ${toolName}
  * @update ${simpleFromatTime(new Date())}
  */`
 }

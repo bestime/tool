@@ -672,6 +672,22 @@ declare function isFuzzyMatch(search: string, data: string, regFlags?: string): 
  */
 declare function mixInZeroWidthUnicode(data: string): string;
 
+/**
+ * 获取排序后的索引列表。如 [2,1,3] 排序为 [1,2,3] 索引为 [1,0,2]
+ * @param data - 原始数据
+ * @param sortHandler 排序处理函数，与原生排序使用方式一致
+ * @returns 索引列表
+ */
+declare function getSortIndex<T>(data: T[], sortHandler?: (a: T, b: T) => number): number[];
+
+/**
+ * 按索引顺序对数组进行排序
+ * @param data 需要排序的数据
+ * @param index 索引列表
+ * @returns 新数据
+ */
+declare function sortWithIndex<T>(data: T[], index: ReturnType<typeof getSortIndex>): T[];
+
 export {
   Polling,
   TArrayRowToColumnCalculateRow,
@@ -694,6 +710,7 @@ export {
   forEach,
   forEachTree,
   getRandom,
+  getSortIndex,
   getType,
   isArray,
   isEmpty,
@@ -714,6 +731,7 @@ export {
   repeatString,
   roundFixed,
   shake,
+  sortWithIndex,
   spanTable,
   split,
   thousands,

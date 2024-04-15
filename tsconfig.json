@@ -2,9 +2,9 @@
   "compilerOptions": {
     "declaration": false,
     "verbatimModuleSyntax": true,
-    "target": "esnext",
-    "module": "esnext",
-    "lib": ["dom", "esnext"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["dom", "ESNext"],
     "strict": true,
     "noEmit": true,
     "allowUnreachableCode": true,

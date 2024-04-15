@@ -51,6 +51,8 @@ export { default as thousands } from './libs/thousands'
 export { default as mapKvPair } from './libs/mapKvPair'
 export { default as isFuzzyMatch } from './libs/isFuzzyMatch'
 export { default as mixInZeroWidthUnicode } from './libs/mixInZeroWidthUnicode'
+export { default as getSortIndex } from './libs/getSortIndex'
+export { default as sortWithIndex } from './libs/sortWithIndex'
 
 
 
