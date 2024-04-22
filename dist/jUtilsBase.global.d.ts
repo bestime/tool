@@ -688,6 +688,25 @@ declare function getSortIndex<T>(data: T[], sortHandler?: (a: T, b: T) => number
  */
 declare function sortWithIndex<T>(data: T[], index: ReturnType<typeof getSortIndex>): T[];
 
+interface IListGroupKeys {
+  fields: string[];
+  child?: IListGroupKeys;
+}
+interface IListGroupOption {
+  keys: IListGroupKeys;
+}
+type TInnerGroupListItem<T extends TKvPair> = {
+  name: string;
+  data: T[];
+  columns: Record<string, T[]>;
+  isLeaf: boolean;
+  children: TInnerGroupListItem<T>[];
+};
+declare function listGroup<T extends TKvPair>(
+  data: T[],
+  options: IListGroupOption
+): TInnerGroupListItem<T>[];
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -725,6 +744,7 @@ declare global {
       isLikeNumber,
       isNull,
       isString,
+      listGroup,
       mapKvPair,
       main as mapTree,
       mixInZeroWidthUnicode,

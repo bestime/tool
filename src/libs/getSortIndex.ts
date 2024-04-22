@@ -9,6 +9,7 @@ import cloneEasy from "./cloneEasy"
 export default function getSortIndex<T> (data: T[], sortHandler?: (a: T, b: T) => number) {
   
   const sorted = cloneEasy(data).sort(sortHandler)
+  
   const idx = sorted.map(function (c) {
     return data.findIndex(function (o) {
       return c === o
