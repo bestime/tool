@@ -643,7 +643,7 @@ declare function spanTable<T extends TKvPair>(data: T[], fields: string[]): ISpa
  * @param len 按多少位分隔一次，默认3
  * @param symbol 千分位替换符号，默认逗号
  */
-declare function thousands(data: number, len?: number, symbol?: string): string;
+declare function thousands(data: number | string, len?: number, symbol?: string): string;
 
 /**
  * 键值对的map实现方法
@@ -673,6 +673,17 @@ declare function isFuzzyMatch(search: string, data: string, regFlags?: string): 
 declare function mixInZeroWidthUnicode(data: string): string;
 
 /**
+ * 键值对的forEach实现方法
+ * @param data - 元数据
+ * @param handler - 自定义处理函数
+ * @returns
+ */
+declare function forEachKvPair<T extends TKvPair, U>(
+  data: T,
+  handler: (data: TValueOf<T>, key: string) => U
+): Record<string | number | symbol, U>;
+
+/**
  * 获取排序后的索引列表。如 [2,1,3] 排序为 [1,2,3] 索引为 [1,0,2]
  * @param data - 原始数据
  * @param sortHandler 排序处理函数，与原生排序使用方式一致
@@ -688,24 +699,93 @@ declare function getSortIndex<T>(data: T[], sortHandler?: (a: T, b: T) => number
  */
 declare function sortWithIndex<T>(data: T[], index: ReturnType<typeof getSortIndex>): T[];
 
-interface IListGroupKeys {
-  fields: string[];
-  child?: IListGroupKeys;
+type TListGroupKey<T extends TKvPair> = {
+  field: string | string[];
+  sort?: (a: TInnerGroupListItem<T>, b: TInnerGroupListItem<T>) => number;
+};
+type TGetValueField = 'row-avg' | string;
+interface ICellSummary {
+  denominator?: [string, 'length' | 'uniqLength'];
+  /**
+   * sum 求和
+   * length 长度
+   * uniqLength 去重长度
+   */
+  numerator: [string, 'sum' | 'length' | 'uniqLength'];
 }
-interface IListGroupOption {
-  keys: IListGroupKeys;
+interface IListGroupOption<T extends TKvPair> {
+  path: TListGroupKey<T>[];
+  /** 将此字段转为列 */
+  colField?: keyof T;
+  cellSummary?: ICellSummary;
+  rowSummary?: Record<string, ICellSummary>;
+}
+interface TInnerColumnsSummaryItem<T> extends TKvPair {
+  data: T[];
+  summary: number;
+  _collect: any[];
 }
 type TInnerGroupListItem<T extends TKvPair> = {
-  name: string;
+  uid: string;
+  uidPath: string[];
   data: T[];
-  columns: Record<string, T[]>;
+  _columns: Record<string, TInnerColumnsSummaryItem<T>>;
+  _columnRiseRatio: Record<string, number>;
+  _columnTotal: Record<string, number>;
+  _columnProportion: Record<string, number>;
   isLeaf: boolean;
   children: TInnerGroupListItem<T>[];
 };
 declare function listGroup<T extends TKvPair>(
   data: T[],
-  options: IListGroupOption
-): TInnerGroupListItem<T>[];
+  options: IListGroupOption<T>
+): {
+  data: TInnerGroupListItem<T>[];
+  getCell: (
+    uidPath: string[],
+    field: TGetValueField,
+    formatter: (value: number) => string,
+    defaultValue?: string
+  ) => string;
+  getCellVerticalRiseRatio: (
+    uidPath: string[],
+    field: TGetValueField,
+    formatter: (value: number) => string,
+    defaultValue?: string
+  ) => string;
+  getCellVerticalTotal: (
+    uidPath: string[] | '*',
+    field: TGetValueField,
+    formatter: (value: number) => string,
+    defaultValue?: string
+  ) => string;
+  getCellVerticalProportion: (
+    uidPath: string[],
+    field: TGetValueField,
+    formatter: (value: number) => string,
+    defaultValue?: string
+  ) => string;
+  getHorizontalRecord: (
+    uidPath: string[],
+    fieldList: {
+      id: string;
+      field: TGetValueField;
+    }[],
+    formatter: (value: number) => string,
+    defaultValue?: string
+  ) => Record<string, string>;
+  getHorizontalProportion: (
+    uidPath: string[],
+    fieldList: {
+      id: string;
+      field: TGetValueField;
+    }[],
+    formatter: (value: number) => string,
+    defaultValue?: string
+  ) => Record<string, string>;
+};
+
+declare function union<T extends TKvPair>(...args: T[]): T[];
 
 declare global {
   /**
@@ -732,6 +812,7 @@ declare global {
       flatTree,
       floorFixed,
       forEach,
+      forEachKvPair,
       forEachTree,
       getRandom,
       getSortIndex,
@@ -762,6 +843,7 @@ declare global {
       thousands,
       flatArrayToTree as tree,
       trim,
+      union,
       urlToGet,
       uuid,
       variableHasValue
