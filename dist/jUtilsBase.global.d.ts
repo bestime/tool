@@ -718,7 +718,14 @@ interface IListGroupOption<T extends TKvPair> {
   /** 将此字段转为列 */
   colField?: keyof T;
   cellSummary?: ICellSummary;
-  rowSummary?: Record<string, ICellSummary>;
+  cellProportion?: Record<
+    string,
+    {
+      denominator: string;
+      numerator: string;
+    }
+  >;
+  cellHorizontalSummary?: Record<string, ICellSummary>;
 }
 interface TInnerColumnsSummaryItem<T> extends TKvPair {
   data: T[];
@@ -740,32 +747,38 @@ declare function listGroup<T extends TKvPair>(
   data: T[],
   options: IListGroupOption<T>
 ): {
+  /** 树形分组数据 */
   data: TInnerGroupListItem<T>[];
-  getCell: (
+  /** 获取单元格：值 */
+  getCellValue: (
     uidPath: string[],
     field: TGetValueField,
     formatter: (value: number) => string,
     defaultValue?: string
   ) => string;
+  /** 获取单元格：纵向增长率 */
   getCellVerticalRiseRatio: (
     uidPath: string[],
     field: TGetValueField,
     formatter: (value: number) => string,
     defaultValue?: string
   ) => string;
+  /** 获取单元格：纵向累计 */
   getCellVerticalTotal: (
     uidPath: string[] | '*',
     field: TGetValueField,
     formatter: (value: number) => string,
     defaultValue?: string
   ) => string;
+  /** 获取单元格：纵向比重 */
   getCellVerticalProportion: (
     uidPath: string[],
     field: TGetValueField,
     formatter: (value: number) => string,
     defaultValue?: string
   ) => string;
-  getHorizontalRecord: (
+  /** 获取一行：值 */
+  getRowCellValue: (
     uidPath: string[],
     fieldList: {
       id: string;
@@ -774,7 +787,8 @@ declare function listGroup<T extends TKvPair>(
     formatter: (value: number) => string,
     defaultValue?: string
   ) => Record<string, string>;
-  getHorizontalProportion: (
+  /** 获取一行：纵向比重 */
+  getRowVerticalProportion: (
     uidPath: string[],
     fieldList: {
       id: string;

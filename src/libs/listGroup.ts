@@ -1,3 +1,4 @@
+import getRatio from "./getRatio"
 import cloneEasy from "./cloneEasy"
 import deepFindItem from "./deepFindItem"
 import difference from "./difference"
@@ -32,7 +33,11 @@ interface IListGroupOption<T extends TKvPair> {
   /** 将此字段转为列 */
   colField?: keyof T;
   cellSummary?: ICellSummary,
-  rowSummary?: Record<string, ICellSummary>
+  cellProportion?: Record<string, {
+    denominator: string,
+    numerator: string,
+  }>,
+  cellHorizontalSummary?: Record<string, ICellSummary>
 }
 
 type TInnerGroup<T> = Record<string, {
@@ -147,10 +152,10 @@ function _rowToColumn <T extends TKvPair>(data: T[], options: IListGroupOption<T
     })();
 
     // 行计算（自定义列）
-    if(options.rowSummary) {
-      forEachKvPair(options.rowSummary, function (v, k) {
+    if(options.cellHorizontalSummary) {
+      forEachKvPair(options.cellHorizontalSummary, function (v, k) {
         let tt = 0
-    
+        
         switch(v.numerator[1]) {
           case 'length':
             tt = data.map(c=>c[v.numerator[0]]).length
@@ -164,6 +169,17 @@ function _rowToColumn <T extends TKvPair>(data: T[], options: IListGroupOption<T
           data: data,
           summary: tt,
           _collect: data
+        }
+      })
+    }
+
+    // 计算横向的比重
+    if(options.cellProportion) {
+      forEachKvPair(options.cellProportion, function (v, k) {
+        _map[k] = {
+          data: [],
+          summary: getRatio(_map[v.numerator].summary, _map[v.denominator].summary),
+          _collect: []
         }
       })
     }
@@ -239,9 +255,10 @@ function deepGroup<T extends TKvPair> (data: T[], options: IListGroupOption<T>) 
   handler(result, data, [])
  
 
+  // 将分组映射转为数组
   const resp = _groupToList(result, deps, 0, options)
 
-  // 先排序
+  // 转换为数组后先排序，以免计算增长率等项出问题
   ;(function sortHandler (children: TInnerGroupListItem<T>[], deps: number) {
     children.sort(options.path[deps]?.sort)
     children.forEach(function (i) {
@@ -275,12 +292,17 @@ function deepGroup<T extends TKvPair> (data: T[], options: IListGroupOption<T>) 
     })
   })
 
-  // 再算增长率
+  // 再算纵向增长率
   ;(function riseRatioHandler (children: TInnerGroupListItem<T>[]) {
     const _prev: Record<string, number> = {}
     const _res: Record<string, number> = {}
     children.forEach(function (k, v) {      
       forEachKvPair(k._columns, function (m, n) {
+        
+        if(options.cellProportion && Object.keys(options.cellProportion).includes(n)) {
+          // 不处理比重的纵向增长率
+          return;
+        }
         if(v > 0) {
           const ow = m.summary
           _res[n] = (ow - _prev[n]) / _prev[n]
@@ -296,19 +318,10 @@ function deepGroup<T extends TKvPair> (data: T[], options: IListGroupOption<T>) 
 
   // 再算比重
   ;(function proportionHandler (children: TInnerGroupListItem<T>[], parentTotal: Record<string, number>) {
-    
-    
     children.forEach(function (k, v) {
       const _res: Record<string, number> = {}  
       forEachKvPair(k._columns, function (m, n) {
-        const base = parentTotal[n]
-        if(m.summary === 0) {
-          _res[n] = 0
-        } else if(base === 0) {
-          _res[n] = 1
-        } else {
-          _res[n] = m.summary / parentTotal[n]
-        }
+        _res[n] = getRatio(m.summary, parentTotal[n])
       })
       k._columnProportion = _res
       proportionHandler(k.children, k._columnTotal)
@@ -357,7 +370,7 @@ export default function listGroup<T extends TKvPair> (data: T[], options: IListG
 
 
 
-  function getCell (uidPath: string[], field: TGetValueField, formatter: (value: number) => string, defaultValue = '') {
+  function getCellValue (uidPath: string[], field: TGetValueField, formatter: (value: number) => string, defaultValue = '') {
     return getValue('_columns', uidPath, field, formatter, defaultValue)
   }
 
@@ -373,13 +386,13 @@ export default function listGroup<T extends TKvPair> (data: T[], options: IListG
     }
   }
 
-  function getHorizontalRecord (uidPath: string[], fieldList: {
+  function getRowCellValue (uidPath: string[], fieldList: {
     id: string,
     field: TGetValueField
   }[], formatter: (value: number) => string, defaultValue = '') {
     const result: Record<string, string> = {}
     fieldList.forEach(function (field) {
-      result[field.id] = getCell(uidPath, field.field, formatter, defaultValue)
+      result[field.id] = getCellValue(uidPath, field.field, formatter, defaultValue)
     })
     return result
   }
@@ -388,7 +401,7 @@ export default function listGroup<T extends TKvPair> (data: T[], options: IListG
     return getValue('_columnProportion', uidPath, field, formatter, defaultValue)
   }
 
-  function getHorizontalProportion (uidPath: string[], fieldList: {
+  function getRowVerticalProportion (uidPath: string[], fieldList: {
     id: string,
     field: TGetValueField
   }[], formatter: (value: number) => string, defaultValue = '') {
@@ -400,16 +413,21 @@ export default function listGroup<T extends TKvPair> (data: T[], options: IListG
   }
 
   return {
+    /** 树形分组数据 */
     data: dgp.data,
 
-    // 以下获取单个
-    getCell,
+    /** 获取单元格：值 */
+    getCellValue,
+    /** 获取单元格：纵向增长率 */
     getCellVerticalRiseRatio,
+    /** 获取单元格：纵向累计 */
     getCellVerticalTotal,
+    /** 获取单元格：纵向比重 */
     getCellVerticalProportion,
     
-    // 以下获取整行
-    getHorizontalRecord,
-    getHorizontalProportion
+    /** 获取一行：值 */
+    getRowCellValue,
+    /** 获取一行：纵向比重 */
+    getRowVerticalProportion
   }
 }
