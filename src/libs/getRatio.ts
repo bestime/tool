@@ -1,7 +1,9 @@
-export default function getRatio (value: number, base: number) {
+import isNull from "./isNull"
+
+export default function getRatio (value: number | undefined, base: number) {
   if(base === 0) {
     return 1
-  } else if(value === 0) {
+  } else if(value === 0 || isNull(value)) {
     return 0
   } else {
     return value / base

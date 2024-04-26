@@ -391,7 +391,7 @@ declare function cloneEasy<T extends [] | Record<any, any> | Function>(data: T):
 declare function main<T extends TKvPair, K extends TKvPair, C extends keyof T>(
   data: K[],
   childKeyTo: C,
-  handle: (data: K) => Omit<T, C>,
+  handle: (data: K) => Omit<T, C> | undefined,
   childKeyFrom?: keyof K
 ): T[];
 
@@ -703,7 +703,7 @@ type TListGroupKey<T extends TKvPair> = {
   field: string | string[];
   sort?: (a: TInnerGroupListItem<T>, b: TInnerGroupListItem<T>) => number;
 };
-type TGetValueField = 'row-avg' | string;
+type TGetValueField = string;
 interface ICellSummary {
   denominator?: [string, 'length' | 'uniqLength'];
   /**
@@ -713,23 +713,44 @@ interface ICellSummary {
    */
   numerator: [string, 'sum' | 'length' | 'uniqLength'];
 }
+type TColCustomWay = {
+  /** 计算方式 */
+  0: 'sum' | 'max';
+  /** 参与计算的列（就是被转为列的那些值） */
+  1: string[] | '*';
+  /** 获取值的方式 */
+  2?: 'value' | 'length';
+  /** 原始数据中的字段 */
+  3?: string;
+};
 interface IListGroupOption<T extends TKvPair> {
+  /**
+   * 按字段值组装树形结构数据
+   */
   path: TListGroupKey<T>[];
-  /** 将此字段转为列 */
+  /**
+   * 将此字段转为列，并做一些基础统计
+   */
   colField?: keyof T;
+  /**
+   * 组装后数据的计算方法
+   */
   cellSummary?: ICellSummary;
-  cellProportion?: Record<
+  /**
+   * 自定义列。分子➗分母
+   */
+  colCustom?: Record<
     string,
     {
-      denominator: string;
-      numerator: string;
+      numerator: TColCustomWay;
+      denominator?: TColCustomWay;
+      riseRatio?: boolean;
     }
   >;
-  cellHorizontalSummary?: Record<string, ICellSummary>;
 }
 interface TInnerColumnsSummaryItem<T> extends TKvPair {
   data: T[];
-  summary: number;
+  summary: number | undefined;
   _collect: any[];
 }
 type TInnerGroupListItem<T extends TKvPair> = {
@@ -737,7 +758,7 @@ type TInnerGroupListItem<T extends TKvPair> = {
   uidPath: string[];
   data: T[];
   _columns: Record<string, TInnerColumnsSummaryItem<T>>;
-  _columnRiseRatio: Record<string, number>;
+  _columnRiseRatio: Record<string, number | undefined>;
   _columnTotal: Record<string, number>;
   _columnProportion: Record<string, number>;
   isLeaf: boolean;
@@ -754,28 +775,28 @@ declare function listGroup<T extends TKvPair>(
     uidPath: string[],
     field: TGetValueField,
     formatter: (value: number) => string,
-    defaultValue?: string
+    defaultData?: string
   ) => string;
   /** 获取单元格：纵向增长率 */
   getCellVerticalRiseRatio: (
     uidPath: string[],
     field: TGetValueField,
     formatter: (value: number) => string,
-    defaultValue?: string
+    defaultData?: string
   ) => string;
   /** 获取单元格：纵向累计 */
   getCellVerticalTotal: (
     uidPath: string[] | '*',
     field: TGetValueField,
     formatter: (value: number) => string,
-    defaultValue?: string
+    defaultData?: string
   ) => string;
   /** 获取单元格：纵向比重 */
   getCellVerticalProportion: (
     uidPath: string[],
     field: TGetValueField,
     formatter: (value: number) => string,
-    defaultValue?: string
+    defaultData?: string
   ) => string;
   /** 获取一行：值 */
   getRowCellValue: (
@@ -785,7 +806,7 @@ declare function listGroup<T extends TKvPair>(
       field: TGetValueField;
     }[],
     formatter: (value: number) => string,
-    defaultValue?: string
+    defaultData?: string
   ) => Record<string, string>;
   /** 获取一行：纵向比重 */
   getRowVerticalProportion: (
@@ -795,7 +816,7 @@ declare function listGroup<T extends TKvPair>(
       field: TGetValueField;
     }[],
     formatter: (value: number) => string,
-    defaultValue?: string
+    defaultData?: string
   ) => Record<string, string>;
 };
 

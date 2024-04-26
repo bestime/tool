@@ -1,6 +1,7 @@
 
 import  type { TKvPair } from './help/type-declare'
 import cloneEasy from "./cloneEasy";
+import isNull from './isNull';
 
 
 /**
@@ -14,14 +15,18 @@ import cloneEasy from "./cloneEasy";
 function main <T extends TKvPair, K extends TKvPair, C extends keyof T>(
   data: K[],
     childKeyTo: C,
-    handle: (data: K) => Omit<T, C>,
+    handle: (data: K) => Omit<T, C> | undefined,
     childKeyFrom?: keyof K
 ): T[] {
   childKeyFrom = childKeyFrom || 'children'
   const result: any[] = []
   ;(function handleOneList (list, newList) {
     for(let index = 0; index<list.length;index++) {
-      newList[index] = cloneEasy(handle(list[index]))
+      const v = handle(list[index])
+      if(!isNull(v)) {
+        newList[index] = cloneEasy(v)
+      }
+      
       
       if(list[index][childKeyFrom]) {
         newList[index][childKeyTo] = []

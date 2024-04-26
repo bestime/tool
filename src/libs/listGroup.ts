@@ -9,6 +9,9 @@ import isArray from "./isArray"
 import isNull from "./isNull"
 import mapKvPair from "./mapKvPair"
 import uniq from "./uniq"
+import { $undefinedValue } from "./help/hpConsts"
+import defaultValue from "./defaultValue"
+const AVG_FIELD = 'sys-row-avg'
 
 
 type TListGroupKey<T extends TKvPair> = {
@@ -16,7 +19,9 @@ type TListGroupKey<T extends TKvPair> = {
   sort?: (a: TInnerGroupListItem<T>, b: TInnerGroupListItem<T>) => number
 }
 
-type TGetValueField = 'row-avg' | string
+type TGetValueField = string
+
+
 
 interface ICellSummary {
   denominator?: [string, 'length' | 'uniqLength'],
@@ -28,16 +33,40 @@ interface ICellSummary {
   numerator: [string, 'sum' | 'length' | 'uniqLength']
 }
 
+
+type TColCustomWay = {
+  /** 计算方式 */
+  0: 'sum' | 'max',
+  /** 参与计算的列（就是被转为列的那些值） */
+  1: string[] | '*',
+  /** 获取值的方式 */
+  2?: 'value' | 'length',
+  /** 原始数据中的字段 */
+  3?: string
+}
+
+
 interface IListGroupOption<T extends TKvPair> {
+  /**
+   * 按字段值组装树形结构数据
+   */
   path: TListGroupKey<T>[],
-  /** 将此字段转为列 */
+  /**
+   * 将此字段转为列，并做一些基础统计
+  */
   colField?: keyof T;
+  /**
+   * 组装后数据的计算方法
+   */
   cellSummary?: ICellSummary,
-  cellProportion?: Record<string, {
-    denominator: string,
-    numerator: string,
-  }>,
-  cellHorizontalSummary?: Record<string, ICellSummary>
+  /**
+   * 自定义列。分子➗分母
+   */
+  colCustom?: Record<string, {
+    numerator: TColCustomWay,
+    denominator?: TColCustomWay,
+    riseRatio?: boolean
+  }>
 }
 
 type TInnerGroup<T> = Record<string, {
@@ -62,7 +91,7 @@ function getUniqId (fields: string | string[], item: TKvPair) {
 
 interface TInnerColumnsSummaryItem<T> extends TKvPair {
   data: T[],
-  summary: number,
+  summary: number | undefined,
   _collect: any[]
 }
 
@@ -71,7 +100,7 @@ type TInnerGroupListItem<T extends TKvPair> = {
   uidPath: string[],
   data: T[],
   _columns: Record<string, TInnerColumnsSummaryItem<T>>,
-  _columnRiseRatio: Record<string, number>,
+  _columnRiseRatio: Record<string, number | undefined>,
   _columnTotal: Record<string, number>,
   _columnProportion: Record<string, number>,
   isLeaf: boolean
@@ -125,7 +154,9 @@ function _rowToColumn <T extends TKvPair>(data: T[], options: IListGroupOption<T
       // 被除数
       switch(cellSummary.numerator[1]) {
         case 'sum': 
-          item.summary = item.summary / base
+          if(!isNull(item.summary)) {
+            item.summary = item.summary / base
+          }
           break;
         case 'length':
           item.summary = item._collect.length / base
@@ -142,43 +173,51 @@ function _rowToColumn <T extends TKvPair>(data: T[], options: IListGroupOption<T
       let sum = 0
       forEachKvPair(_map, function (v) {
         count++
-        sum += v.summary
+        const _vp = isNull(v.summary) ? 0 : v.summary
+        sum += _vp
       })
-      _map['row-avg'] = {
-        data,
+      _map[AVG_FIELD] = {
+        data: [],
         summary: sum / count,
-        _collect: data
+        _collect: []
       }
     })();
 
-    // 行计算（自定义列）
-    if(options.cellHorizontalSummary) {
-      forEachKvPair(options.cellHorizontalSummary, function (v, k) {
-        let tt = 0
-        
-        switch(v.numerator[1]) {
-          case 'length':
-            tt = data.map(c=>c[v.numerator[0]]).length
-            break;
-          case 'uniqLength':
-            const a1 = data.map(c=>c[v.numerator[0]])
-            tt = uniq(a1).length
-            break;
-        }
-        _map[k] = {
-          data: data,
-          summary: tt,
-          _collect: data
+
+    function getCustomValue(way: TColCustomWay){
+      let value = 0
+      forEachKvPair(_map, function (v, k) {
+        if([AVG_FIELD].includes(k)) return;
+        if(way[1] === '*' || way[1].includes(k)) {
+          let innerVal = 0
+          if(isNull(way[2]) ||  way[2] === 'value') {
+            innerVal = isNull(v.summary) ? 0 : v.summary
+          } else if(way[2] === 'length') {
+            const fld = way[3]
+            if(fld) {
+              innerVal = v.data.map(c => c[fld]).length
+            }
+          }
+
+          if(way[0] === 'sum') {
+            value += innerVal
+          } else if(way[0] === 'max') {
+            value = Math.max(value, innerVal)
+          }
         }
       })
+      return value
     }
 
-    // 计算横向的比重
-    if(options.cellProportion) {
-      forEachKvPair(options.cellProportion, function (v, k) {
+    // 计算横向的自定义列
+    if(options.colCustom) {
+      forEachKvPair(options.colCustom, function (v, k) {
+        
+        const b = getCustomValue(v.numerator)
+        const a = v.denominator ? getCustomValue(v.denominator) : 1
         _map[k] = {
           data: [],
-          summary: getRatio(_map[v.numerator].summary, _map[v.denominator].summary),
+          summary: getRatio(b, a),
           _collect: []
         }
       })
@@ -274,9 +313,10 @@ function deepGroup<T extends TKvPair> (data: T[], options: IListGroupOption<T>) 
     children.forEach(function (k) {      
       const _res: Record<string, number> = {}
       forEachKvPair(k._columns, function (m, n) {
+        const _vp = isNull(m.summary) ? 0 : m.summary
         _res[n] = _res[n] || 0
         
-        _res[n] += m.summary
+        _res[n] += _vp
         
       })
   
@@ -293,21 +333,36 @@ function deepGroup<T extends TKvPair> (data: T[], options: IListGroupOption<T>) 
   })
 
   // 再算纵向增长率
+  // 不处理比重的纵向增长率黑名单
+  const blackList: string[] = []
+  if(options.colCustom) {      
+    forEachKvPair(options.colCustom, function (v, k) {
+      if(!v.riseRatio) {
+        blackList.push(k)
+      }
+    })
+  }
   ;(function riseRatioHandler (children: TInnerGroupListItem<T>[]) {
-    const _prev: Record<string, number> = {}
-    const _res: Record<string, number> = {}
-    children.forEach(function (k, v) {      
-      forEachKvPair(k._columns, function (m, n) {
-        
-        if(options.cellProportion && Object.keys(options.cellProportion).includes(n)) {
+    const _prev: Record<string, number | undefined> = {}
+    const _res: Record<string, number | undefined> = {}
+
+    children.forEach(function (k, vi) {      
+      forEachKvPair(k._columns, function (m, n) {        
+        if(blackList.includes(n)) {
           // 不处理比重的纵向增长率
           return;
         }
-        if(v > 0) {
+        if(vi > 0) {
           const ow = m.summary
-          _res[n] = (ow - _prev[n]) / _prev[n]
+          if(isNull(ow)) {
+            _res[n] = $undefinedValue
+          } else {
+            const tv = _prev[n] ?? 0
+            _res[n] = getRatio(ow - tv, tv)
+          }
+          
         } else {
-          _res[n] = 0
+          _res[n] = void 0
         }
         _prev[n] = m.summary
       })
@@ -341,73 +396,79 @@ function deepGroup<T extends TKvPair> (data: T[], options: IListGroupOption<T>) 
 
 export default function listGroup<T extends TKvPair> (data: T[], options: IListGroupOption<T>) {
   const dgp = deepGroup(data, options);
+  
 
-  function getValue (mode: '_columnRiseRatio' | '_columns'|'_columnTotal'|'_columnProportion',uidPath: string[], field: TGetValueField, formatter: (value: number) => string, defaultValue = '') {
+  function getValue (mode: '_columnRiseRatio' | '_columns'|'_columnTotal'|'_columnProportion',uidPath: string[], field: TGetValueField, formatter: (value: number) => string, defaultData?: string) {
     const res = deepFindItem(dgp.data, function (item) {
       return difference(item.uidPath, uidPath, function (a, b) {
         return a === b
       }).length === 0
     })
+    const errorValue = defaultValue(defaultData, '')
     if(res) {
       try {
+
         switch(mode) {
           case '_columnRiseRatio':
           case '_columnTotal':
           case '_columnProportion':
-            return formatter(res[mode][field])
+            const d = res[mode][field]
+            return isNull(d) ? errorValue : formatter(d)
             break;
           default: 
-            return formatter(res[mode][field].summary)
+            const _vp = res[mode][field].summary
+            return isNull(_vp) ? errorValue : formatter(_vp)
             break;
         }
         
       } catch(err) {
-        return defaultValue
+        return errorValue
       }
     }
-    return defaultValue
+    return errorValue
   }
 
 
 
-  function getCellValue (uidPath: string[], field: TGetValueField, formatter: (value: number) => string, defaultValue = '') {
-    return getValue('_columns', uidPath, field, formatter, defaultValue)
+  function getCellValue (uidPath: string[], field: TGetValueField, formatter: (value: number) => string, defaultData?: string) {
+    return getValue('_columns', uidPath, field, formatter, defaultData)
   }
 
-  function getCellVerticalRiseRatio (uidPath: string[], field: TGetValueField, formatter: (value: number) => string, defaultValue = '') {
-    return getValue('_columnRiseRatio', uidPath, field, formatter, defaultValue)
+  function getCellVerticalRiseRatio (uidPath: string[], field: TGetValueField, formatter: (value: number) => string, defaultData?: string) {
+    return getValue('_columnRiseRatio', uidPath, field, formatter, defaultData)
   }
-  function getCellVerticalTotal (uidPath: string[] | '*', field: TGetValueField, formatter: (value: number) => string, defaultValue = '') {
+  function getCellVerticalTotal (uidPath: string[] | '*', field: TGetValueField, formatter: (value: number) => string, defaultData?: string) {
     if(uidPath === '*') {
       const v = dgp.total[field]
-      return isNull(v) ? defaultValue : formatter(v)
+      return isNull(v) ? defaultValue(defaultData, '') : formatter(v)
     } else {
-      return getValue('_columnTotal', uidPath, field, formatter, defaultValue)
+      return getValue('_columnTotal', uidPath, field, formatter, defaultData)
     }
   }
 
   function getRowCellValue (uidPath: string[], fieldList: {
     id: string,
     field: TGetValueField
-  }[], formatter: (value: number) => string, defaultValue = '') {
+  }[], formatter: (value: number) => string, defaultData?: string) {
     const result: Record<string, string> = {}
     fieldList.forEach(function (field) {
-      result[field.id] = getCellValue(uidPath, field.field, formatter, defaultValue)
+      
+      result[field.id] = getCellValue(uidPath, field.field, formatter, defaultData)
     })
     return result
   }
 
-  function getCellVerticalProportion (uidPath: string[], field: TGetValueField, formatter: (value: number) => string, defaultValue = '') {
-    return getValue('_columnProportion', uidPath, field, formatter, defaultValue)
+  function getCellVerticalProportion (uidPath: string[], field: TGetValueField, formatter: (value: number) => string, defaultData?: string) {
+    return getValue('_columnProportion', uidPath, field, formatter, defaultData)
   }
 
   function getRowVerticalProportion (uidPath: string[], fieldList: {
     id: string,
     field: TGetValueField
-  }[], formatter: (value: number) => string, defaultValue = '') {
+  }[], formatter: (value: number) => string, defaultData?: string) {
     const result: Record<string, string> = {}
     fieldList.forEach(function (field) {
-      result[field.id] = getCellVerticalProportion(uidPath, field.field, formatter, defaultValue)
+      result[field.id] = getCellVerticalProportion(uidPath, field.field, formatter, defaultData)
     })
     return result
   }
