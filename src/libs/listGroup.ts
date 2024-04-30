@@ -269,8 +269,6 @@ function deepGroup<T extends TKvPair> (data: T[], options: IListGroupOption<T>) 
     for(let index = 0; index<children.length; index++) {
       const item = children[index]
       const uid = getUniqId(options.path[deps].field, item)
- 
-      
    
       gp[uid] = gp[uid] || {
         uidPath: parentPath.concat(uid),
