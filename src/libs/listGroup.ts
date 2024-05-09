@@ -36,11 +36,11 @@ interface ICellSummary {
 
 type TColCustomWay = {
   /** 计算方式 */
-  0: 'sum' | 'max',
+  0: 'sum' | 'max' | 'diff',
   /** 参与计算的列（就是被转为列的那些值） */
   1: string[] | '*',
   /** 获取值的方式 */
-  2?: 'value' | 'length',
+  2?: 'value' | 'length' | 'uniqLength',
   /** 原始数据中的字段 */
   3?: string
 }
@@ -185,24 +185,38 @@ function _rowToColumn <T extends TKvPair>(data: T[], options: IListGroupOption<T
 
 
     function getCustomValue(way: TColCustomWay){
-      let value = 0
+      let value = 0 
+      let index = -1;
       forEachKvPair(_map, function (v, k) {
-        if([AVG_FIELD].includes(k)) return;
-        if(way[1] === '*' || way[1].includes(k)) {
-          let innerVal = 0
-          if(isNull(way[2]) ||  way[2] === 'value') {
-            innerVal = isNull(v.summary) ? 0 : v.summary
-          } else if(way[2] === 'length') {
-            const fld = way[3]
-            if(fld) {
-              innerVal = v.data.map(c => c[fld]).length
-            }
+        if([AVG_FIELD].includes(k)) return;   
+        const canNext = way[1] === '*' || way[1].includes(k)
+        if(!canNext) return;
+        let innerVal = 0
+        index++
+        if(isNull(way[2]) ||  way[2] === 'value') {
+          innerVal = isNull(v.summary) ? 0 : v.summary
+        } else if(way[2] === 'length') {
+          const fld = way[3]
+          if(fld) {
+            innerVal = v.data.map(c => c[fld]).length
           }
+        } else if(way[2] === 'uniqLength') {
+          const fld = way[3]
+          if(fld) {
+            const lv = v.data.map(c => c[fld])
+            innerVal = uniq(lv).length
+          }
+        }
 
-          if(way[0] === 'sum') {
-            value += innerVal
-          } else if(way[0] === 'max') {
-            value = Math.max(value, innerVal)
+        if(way[0] === 'sum') {
+          value += innerVal
+        } else if(way[0] === 'max') {
+          value = Math.max(value, innerVal)
+        } else if(way[0] === 'diff') {
+          if(index === 0) {
+            value = innerVal
+          }else {
+            value -= innerVal
           }
         }
       })

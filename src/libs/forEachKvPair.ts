@@ -7,10 +7,12 @@ import type { TKvPair, TValueOf } from "./help/type-declare";
  * @param handler - 自定义处理函数
  * @returns 
  */
-export default function forEachKvPair<T extends TKvPair, U> (data: T, handler: (data: TValueOf<T>, key: string) => U) {  
+export default function forEachKvPair<T extends TKvPair, U> (data: T, handler: (data: TValueOf<T>, key: string, index: number) => U) {  
   const result: Record<keyof TKvPair, U> = {}
+  let index = -1
   for(let key in data) {
-    result[key] = handler(data[key], key)
+    index++
+    result[key] = handler(data[key], key, index)
   }
   return result
 }

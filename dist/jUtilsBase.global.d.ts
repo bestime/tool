@@ -680,7 +680,7 @@ declare function mixInZeroWidthUnicode(data: string): string;
  */
 declare function forEachKvPair<T extends TKvPair, U>(
   data: T,
-  handler: (data: TValueOf<T>, key: string) => U
+  handler: (data: TValueOf<T>, key: string, index: number) => U
 ): Record<string | number | symbol, U>;
 
 /**
@@ -715,11 +715,11 @@ interface ICellSummary {
 }
 type TColCustomWay = {
   /** 计算方式 */
-  0: 'sum' | 'max';
+  0: 'sum' | 'max' | 'diff';
   /** 参与计算的列（就是被转为列的那些值） */
   1: string[] | '*';
   /** 获取值的方式 */
-  2?: 'value' | 'length';
+  2?: 'value' | 'length' | 'uniqLength';
   /** 原始数据中的字段 */
   3?: string;
 };
