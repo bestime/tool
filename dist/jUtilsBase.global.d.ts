@@ -627,12 +627,13 @@ type TColSumaryConfig = Record<
 type ISpanTableItem<T extends TKvPair> = T & {
   $rowSpan: Record<string, number>;
   $colSpan: Record<number, number>;
+  $colField: Record<string | number, number>;
 };
 /**
  * 合并单元格。不改变原数组
  * @param data - 一维数组
  * @param fields - 合并的字段
- * @returns 合并后的数据。会在每一项中添加两个字段 "$rowSpan" "$colSpan"
+ * @returns 合并后的数据。会在每一项中添加两个字段 "$rowSpan" "$colSpan" "$colField"
  */
 declare function spanTable<T extends TKvPair>(data: T[], fields: string[]): ISpanTableItem<T>[];
 
@@ -822,6 +823,8 @@ declare function listGroup<T extends TKvPair>(
 
 declare function union<T extends TKvPair>(...args: T[]): T[];
 
+declare function getRatio(value: number | undefined, base: number | undefined): number;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -850,6 +853,7 @@ declare global {
       forEachKvPair,
       forEachTree,
       getRandom,
+      getRatio,
       getSortIndex,
       getType,
       isArray,

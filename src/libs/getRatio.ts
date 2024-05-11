@@ -1,11 +1,11 @@
 import isNull from "./isNull"
 
-export default function getRatio (value: number | undefined, base: number) {
-  if(base === 0) {
-    return 1
-  } else if(value === 0 || isNull(value)) {
+export default function getRatio (value: number | undefined, base: number | undefined) {
+  if(value === 0 || isNull(value)) {
     return 0
-  } else {
+  } else if(base === 0 || isNull(base)) {
+    return 1
+  }  else {
     return value / base
   }
 }

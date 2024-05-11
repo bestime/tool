@@ -23,11 +23,8 @@ function main <T extends TKvPair, K extends TKvPair, C extends keyof T>(
   ;(function handleOneList (list, newList) {
     for(let index = 0; index<list.length;index++) {
       const v = handle(list[index])
-      if(!isNull(v)) {
-        newList[index] = cloneEasy(v)
-      }
-      
-      
+      if(isNull(v)) continue;
+      newList[index] = cloneEasy(v)
       if(list[index][childKeyFrom]) {
         newList[index][childKeyTo] = []
         handleOneList(list[index][childKeyFrom], newList[index][childKeyTo])
