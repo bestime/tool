@@ -775,7 +775,7 @@ declare function listGroup<T extends TKvPair>(
   getCellValue: (
     uidPath: string[],
     field: TGetValueField,
-    formatter: (value: number) => string,
+    formatter: (value: number, list: T[]) => string,
     defaultData?: string
   ) => string;
   /** 获取单元格：纵向增长率 */
