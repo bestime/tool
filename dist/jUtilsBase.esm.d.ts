@@ -827,6 +827,17 @@ declare function union<T extends TKvPair>(...args: T[]): T[];
 
 declare function getRatio(value: number | undefined, base: number | undefined): number;
 
+/**
+ * 筛选并从原始数组移除符合条件的数据
+ * @param data - 原始数据
+ * @param predicate - 迭代回调
+ * @returns 筛选的结果
+ */
+declare function filterWithMove<T, S extends T>(
+  data: T[],
+  predicate: (value: T, index: number, array: T[]) => value is S
+): S[];
+
 export {
   Polling,
   TArrayRowToColumnCalculateRow,
@@ -844,6 +855,7 @@ export {
   defaultValue,
   defineEventBus,
   fieldCheck,
+  filterWithMove,
   flatTree,
   floorFixed,
   forEach,
