@@ -178,6 +178,27 @@ declare const _default: {
  */
 declare function getRatio(): number;
 
+type TCallbackHandler = (next: () => void) => void;
+interface IOptions {
+  onBottom?: TCallbackHandler;
+  onTop?: TCallbackHandler;
+  offetY?: number;
+}
+/**
+ * 监听dom滚动到顶部或头部
+ * @param el
+ * @param config
+ */
+declare function export_default(
+  el: HTMLElement,
+  config?: IOptions
+): {
+  /**
+   * 销毁
+   */
+  dispose: () => void;
+};
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -196,6 +217,7 @@ declare global {
       getWindowSize,
       libraryFile,
       observeDomResize,
+      export_default as observeDomScroll,
       prevent,
       removeClass,
       removeCookie,

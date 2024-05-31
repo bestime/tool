@@ -19,4 +19,5 @@ export { default as removeClass } from './libs/removeClass'
 export { default as toggleClass } from './libs/toggleClass'
 export { default as browser } from './libs/browser'
 export { default as getRatio } from './libs/getRatio'
+export { default as observeDomScroll } from './libs/observeDomScroll'
 
