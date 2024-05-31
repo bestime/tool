@@ -58,6 +58,7 @@ export { default as listGroup } from './libs/listGroup'
 export { default as union } from './libs/union'
 export { default as getRatio } from './libs/getRatio'
 export { default as filterWithMove } from './libs/filterWithMove'
+export { default as shortNumber } from './libs/shortNumber'
 
 
 

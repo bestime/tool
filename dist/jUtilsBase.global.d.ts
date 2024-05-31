@@ -821,6 +821,8 @@ declare function listGroup<T extends TKvPair>(
     formatter: (value: number) => string,
     defaultData?: string
   ) => Record<string, string>;
+  /** 获取一个分组的所有原始数据，用于使用者自行计算 */
+  getOriginData: (uidPath: string[], field: TGetValueField) => T[];
 };
 
 declare function union<T extends TKvPair>(...args: T[]): T[];
@@ -837,6 +839,24 @@ declare function filterWithMove<T, S extends T>(
   data: T[],
   predicate: (value: T, index: number, array: T[]) => value is S
 ): S[];
+
+type TUnits = [number, string];
+/**
+ * 数字格式化为简称
+ * @param data - 数字
+ * @param formatter - 格式化数字（不包括单位）
+ * @param units - 格式化规则，可自定义
+ * @returns 数字简写
+ */
+declare function export_default(
+  data: number,
+  formatter: (data: number) => string,
+  units?: TUnits[]
+): {
+  value: number;
+  fmtValue: string;
+  unit: string;
+};
 
 declare global {
   /**
@@ -890,6 +910,7 @@ declare global {
       repeatString,
       roundFixed,
       shake,
+      export_default as shortNumber,
       sortWithIndex,
       spanTable,
       split,

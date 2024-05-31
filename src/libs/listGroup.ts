@@ -400,6 +400,21 @@ function deepGroup<T extends TKvPair>(data: T[], options: IListGroupOption<T>) {
 export default function listGroup<T extends TKvPair>(data: T[], options: IListGroupOption<T>) {
   const dgp = deepGroup(data, options);
 
+  function getOriginData (uidPath: string[], field: TGetValueField,) {
+    const res = deepFindItem(dgp.data, function (item) {
+      return (
+        difference(item.uidPath, uidPath, function (a, b) {
+          return a === b;
+        }).length === 0
+      );
+    });
+    if(res) {
+      return res['_columns'][field]?.data ?? []
+    } else {
+      return []
+    }
+  }
+
   function getValue(
     mode: '_columnRiseRatio' | '_columns' | '_columnTotal' | '_columnProportion',
     uidPath: string[],
@@ -530,6 +545,9 @@ export default function listGroup<T extends TKvPair>(data: T[], options: IListGr
     /** 获取一行：值 */
     getRowCellValue,
     /** 获取一行：纵向比重 */
-    getRowVerticalProportion
+    getRowVerticalProportion,
+
+    /** 获取一个分组的所有原始数据，用于使用者自行计算 */
+    getOriginData
   };
 }
