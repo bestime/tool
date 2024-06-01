@@ -1,10 +1,11 @@
-import { _KvPair, _Number, isNull } from "@bestime/utils_base"
+import { _KvPair, _Number } from "@bestime/utils_base"
 
 type TCallbackHandler = (next: () => void) => void
 
 interface IOptions {
   onBottom?: TCallbackHandler,
   onTop?: TCallbackHandler,
+  /** Y轴触底、触顶的差值 */
   offetY?: number
 }
 
@@ -17,22 +18,33 @@ export default function (el: HTMLElement, config?: IOptions) {
   const options: IOptions = _KvPair(config)
   const offetY = _Number(options.offetY)
   let doing = false
+  let prev_y = 0
 
   function onScroll () {
     if(doing) return;
-    if(options.onTop && el.scrollTop<=0) {
-      doing = true
-      options.onTop(function () {
-        doing = false;
-      })
-    }else if(options.onBottom && el.scrollTop >= el.scrollHeight - el.offsetHeight - offetY) {
-      doing = true;
-      options.onBottom(function () {
+    const currentTop = el.scrollTop
+    const isScrollY = currentTop !== prev_y
+    const isScrollX = false
+    prev_y = currentTop
+
+    if(isScrollY) {
+      if(options.onTop && currentTop<=(0+offetY)) {
+        doing = true
+        options.onTop(function () {
+          doing = false;
+        })
+      } else if(options.onBottom && currentTop >= el.scrollHeight - el.offsetHeight - offetY) {
+        doing = true;
+        options.onBottom(function () {
+          doing = false
+        })
+      } else {
         doing = false
-      })
-    } else {
-      doing = false
+      }
+    } else if(isScrollX){
+      // todo：横向滚动
     }
+    
   }
   el.addEventListener('scroll', onScroll)
 
