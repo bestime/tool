@@ -178,10 +178,27 @@ declare const _default: {
  */
 declare function getRatio(): number;
 
+type Direction = 1 | -1;
+/**
+ *
+ * @param el DOM元素
+ * @param callback 滚动回调
+ * @param isPrevent 是否阻止原生滚动，仅用来获取滚动方向
+ * @returns
+ */
+declare function export_default$1(
+  el: HTMLElement,
+  callback: (direction: Direction) => void,
+  isPrevent: boolean
+): {
+  dispose: () => void;
+};
+
 type TCallbackHandler = (next: () => void) => void;
 interface IOptions {
   onBottom?: TCallbackHandler;
   onTop?: TCallbackHandler;
+  /** Y轴触底、触顶的差值 */
   offetY?: number;
 }
 /**
@@ -213,6 +230,7 @@ export {
   libraryFile,
   observeDomResize,
   export_default as observeDomScroll,
+  export_default$1 as observeMouseWheel,
   prevent,
   removeClass,
   removeCookie,

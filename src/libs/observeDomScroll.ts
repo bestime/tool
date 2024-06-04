@@ -20,8 +20,8 @@ export default function (el: HTMLElement, config?: IOptions) {
   let doing = false
   let prev_y = 0
 
-  function onScroll () {
-    if(doing) return;
+  function onScroll () {    
+    if(doing) return;   
     const currentTop = el.scrollTop
     const isScrollY = currentTop !== prev_y
     const isScrollX = false
@@ -42,6 +42,7 @@ export default function (el: HTMLElement, config?: IOptions) {
         doing = false
       }
     } else if(isScrollX){
+      doing = false
       // todo：横向滚动
     }
     
