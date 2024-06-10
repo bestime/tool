@@ -400,7 +400,7 @@ function deepGroup<T extends TKvPair>(data: T[], options: IListGroupOption<T>) {
 export default function listGroup<T extends TKvPair>(data: T[], options: IListGroupOption<T>) {
   const dgp = deepGroup(data, options);
 
-  function getOriginData (uidPath: string[], field: TGetValueField,) {
+  function getOriginGroupData (uidPath: string[], field: TGetValueField) {
     const res = deepFindItem(dgp.data, function (item) {
       return (
         difference(item.uidPath, uidPath, function (a, b) {
@@ -548,6 +548,10 @@ export default function listGroup<T extends TKvPair>(data: T[], options: IListGr
     getRowVerticalProportion,
 
     /** 获取一个分组的所有原始数据，用于使用者自行计算 */
-    getOriginData
+    getOriginGroupData,
+
+    getOriginAllData: function () {
+      return data
+    }
   };
 }

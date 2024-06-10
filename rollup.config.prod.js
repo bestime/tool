@@ -62,7 +62,7 @@ export default [
         
       },
       {
-        file: `dist/${toolName}.esm.min.mjs`,
+        file: `dist/${toolName}.esm.min.js`,
         banner: getBanner(),
         format: 'esm',
         strict: true,
@@ -110,14 +110,14 @@ export default [
   {
     input: './src/main.ts',
     output: [
-      { file: `dist/${toolName}.esm.d.ts`, format: "es" },
-      { file: `dist/${toolName}.global.d.ts`, format: "iife" }
+      { file: `dist/${toolName}.esm.min.d.ts`, format: "es" },
+      { file: `dist/${toolName}.umd.min.d.ts`, format: "iife" }
     ],
     plugins: [
       dts(),
       rollupPluginUmdDts({
         name: toolName,
-        file: `dist/${toolName}.global.d.ts`
+        file: `dist/${toolName}.umd.min.d.ts`
       })
     ],
   },

@@ -822,7 +822,8 @@ declare function listGroup<T extends TKvPair>(
     defaultData?: string
   ) => Record<string, string>;
   /** 获取一个分组的所有原始数据，用于使用者自行计算 */
-  getOriginData: (uidPath: string[], field: TGetValueField) => T[];
+  getOriginGroupData: (uidPath: string[], field: TGetValueField) => T[];
+  getOriginAllData: () => T[];
 };
 
 declare function union<T extends TKvPair>(...args: T[]): T[];
