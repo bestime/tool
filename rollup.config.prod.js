@@ -50,7 +50,7 @@ export default [
     external: ['@bestime/utils_base'],
     output: [
       {
-        file:  `dist/jUtilsBrowser.umd.min.cjs`,
+        file:  `dist/umd/index.min.cjs`,
         banner: getBanner(),
         format: 'umd',    
         strict: true,
@@ -62,7 +62,7 @@ export default [
         }
       },
       {
-        file: `dist/jUtilsBrowser.esm.min.mjs`,
+        file: `dist/esm/index.min.mjs`,
         banner: getBanner(),
         format: 'esm',
         strict: true,
@@ -110,14 +110,14 @@ export default [
   {
     input: './src/main.ts',
     output: [
-      { file: 'dist/jUtilsBrowser.esm.d.ts', format: "es" },
-      { file: 'dist/jUtilsBrowser.global.d.ts', format: "iife" }
+      { file: 'dist/esm/index.d.ts', format: "es" },
+      { file: 'dist/umd/index.d.ts', format: "iife" }
     ],
     plugins: [
       dts(),
       rollupPluginUmdDts({
         name: toolName,
-        file: 'dist/jUtilsBrowser.global.d.ts'
+        file: 'dist/umd/index.d.ts'
       })
     ],
   },

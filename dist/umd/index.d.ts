@@ -216,6 +216,19 @@ declare function export_default(
   dispose: () => void;
 };
 
+type TElementFullCallback = () => void;
+type TFullScreenActionCallback = (isSuccess: boolean) => void;
+type TElement = HTMLElement & {
+  webkitRequestFullScreen?: TElementFullCallback;
+  mozRequestFullScreen?: TElementFullCallback;
+  msRequestFullscreen?: TElementFullCallback;
+};
+declare function fullScreen(
+  element: TElement,
+  value: boolean,
+  callabck?: TFullScreenActionCallback
+): void;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -226,6 +239,7 @@ declare global {
       _default as browser,
       downloadFileByArrayBuffer,
       downloadFileByUrl,
+      fullScreen,
       getCookie,
       getJsFileBaseUrl,
       getRatio,
