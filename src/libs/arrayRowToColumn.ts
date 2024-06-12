@@ -420,10 +420,9 @@ function mergeColSummary (list: IARTResultItem<TKvPair>[], config: TColSumaryCon
       switch(cfgItem.mode) {
         case 'avg':
           value = result[cfgKey][key].sum/list.length
-          // console.log("求平均", value, list.length, result[cfgKey][key].data.length)
           break;
         case 'uniqLength':
-          value = result[cfgKey][key].data.length
+          value = uniq(result[cfgKey][key].data).length
           
           break;
         case 'notZeroLength':
