@@ -1,9 +1,9 @@
 {
   "name": "@bestime/utils_base",
-  "version": "1.0.3",
-  "main": "./dist/jUtilsBase.umd.min.cjs",
-  "module": "./dist/jUtilsBase.esm.min.mjs",
-  "types": "./dist/jUtilsBase.esm.d.ts",
+  "version": "1.0.7",
+  "main": "./dist/jUtilsBase/esm/index.min.mjs",
+  "module": "./dist/jUtilsBase/esm/index.min.mjs",
+  "typings": "./dist/jUtilsBase/esm/index.min.d.ts",
   "description": "个人常用工具库",
   "type": "module",
   "files": [
