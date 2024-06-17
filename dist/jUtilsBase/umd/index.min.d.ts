@@ -708,7 +708,7 @@ type TListGroupKey<T extends TKvPair> = {
 };
 type TGetValueField = string;
 interface ICellSummary {
-  denominator?: [string, 'length' | 'uniqLength'];
+  denominator?: number | [string, 'length' | 'uniqLength'];
   /**
    * sum 求和
    * length 长度

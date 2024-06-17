@@ -12,6 +12,7 @@ import uniq from './uniq';
 import { $undefinedValue } from './help/hpConsts';
 import defaultValue from './defaultValue';
 import hpObjectKeys from './help/hpObjectKeys';
+import isNumber from './isNumber';
 const AVG_FIELD = 'sys-row-avg';
 
 type TListGroupKey<T extends TKvPair> = {
@@ -22,7 +23,7 @@ type TListGroupKey<T extends TKvPair> = {
 type TGetValueField = string;
 
 interface ICellSummary {
-  denominator?: [string, 'length' | 'uniqLength'];
+  denominator?: number | [string, 'length' | 'uniqLength'];
   /**
    * sum 求和
    * length 长度
@@ -140,13 +141,17 @@ function _rowToColumn<T extends TKvPair>(data: T[], options: IListGroupOption<T>
     // 除数
     const denominator = cellSummary.denominator;
     if (denominator) {
-      switch (denominator[1]) {
-        case 'length':
-          base = item.data.map(c => c[denominator[0]]).length;
-          break;
-        case 'uniqLength':
-          base = uniq(item.data.map(c => c[denominator[0]])).length;
-          break;
+      if(isNumber(denominator)) {
+        base = denominator
+      } else {
+        switch (denominator[1]) {
+          case 'length':
+            base = item.data.map(c => c[denominator[0]]).length;
+            break;
+          case 'uniqLength':
+            base = uniq(item.data.map(c => c[denominator[0]])).length;
+            break;
+        }
       }
     }
 
