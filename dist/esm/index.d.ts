@@ -97,6 +97,7 @@ interface LibraryFileConfig {
   dependencies?: LibraryFileConfig[];
   with?: LibraryFileConfig[];
   attribute?: Record<string, string>;
+  interceptor?: (libInstence: any) => void;
 }
 type SuccessCallback = (...args: any[]) => void;
 /**

@@ -9,6 +9,7 @@ interface LibraryFileConfig {
   dependencies?: LibraryFileConfig[];
   with?: LibraryFileConfig[];
   attribute?: Record<string, string>;
+  interceptor?: (libInstence: any) => void
 }
 
 type SuccessCallback = (...args: any[]) => void;
@@ -57,10 +58,14 @@ function loadSingle(file: LibraryFileConfig, callback: SuccessCallback) {
   const cacheItem = cache[file.url];
   cacheItem.count++;
 
+  function getInstence () {
+    return $browserGlobal[file.module as any]
+  }
+
   function onSuccess() {
     if (cacheItem.complete && cacheItem.dependencies && cacheItem.with) {
       if (file.module) {
-        callback($browserGlobal[file.module as any]);
+        callback(getInstence());
       } else {
         callback();
       }
@@ -100,6 +105,9 @@ function loadSingle(file: LibraryFileConfig, callback: SuccessCallback) {
       file.url,
       function () {
         cacheItem.complete = true;
+        if(file.interceptor) {
+          file.interceptor(getInstence())
+        }
         onSuccess();
       },
       file.attribute
