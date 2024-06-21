@@ -9,3 +9,4 @@ export default function getRatio (value: number | undefined, base: number | unde
     return value / base
   }
 }
+

@@ -859,6 +859,8 @@ declare function export_default(
   unit: string;
 };
 
+declare function formatTime(millisecond: number): string;
+
 export {
   Polling,
   TArrayRowToColumnCalculateRow,
@@ -882,6 +884,7 @@ export {
   forEach,
   forEachKvPair,
   forEachTree,
+  formatTime,
   getRandom,
   getRatio,
   getSortIndex,

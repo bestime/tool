@@ -859,6 +859,8 @@ declare function export_default(
   unit: string;
 };
 
+declare function formatTime(millisecond: number): string;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -887,6 +889,7 @@ declare global {
       forEach,
       forEachKvPair,
       forEachTree,
+      formatTime,
       getRandom,
       getRatio,
       getSortIndex,
