@@ -37,6 +37,8 @@ function defineEventBus<T extends EventHander>(eventName: string):{
   off: (hander: T) => void;
   /** 销毁所有订阅 */
   dispose: () => void;
+
+  eventList: () => EventHander[]
 } {
   if (events[eventName]) throw `"${eventName}" Has already been registered!`;
   events[eventName] = events[eventName] || [];
@@ -68,11 +70,16 @@ function defineEventBus<T extends EventHander>(eventName: string):{
     delete events[eventName];
   }
 
+  function eventList () {
+    return events[eventName]
+  }
+
   return {
     on,
     emit,
     off,
-    dispose
+    dispose,
+    eventList
   };
 }
 

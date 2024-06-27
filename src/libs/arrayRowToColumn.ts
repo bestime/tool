@@ -2,6 +2,7 @@ import _Number from "./_Number";
 import cloneEasy from "./cloneEasy";
 import { $undefinedValue } from "./help/hpConsts";
 import type { TKvPair } from "./help/type-declare";
+import isNumber from "./isNumber";
 import uniq from "./uniq";
 
 
@@ -208,7 +209,7 @@ export function getRatio (prev: number | undefined, current: number | undefined)
 
 export type TArrayRowToColumnCalculateRow = {
   proportionBaseField?: string,
-  count: {
+  count: number | {
     field: string,
     mode: 'length' | 'uniqLength' | 'notZeroValue'
   },
@@ -269,7 +270,10 @@ function mergeRowSummary (list: IARTResultItem<TKvPair>[], config: Record<string
 
       colsDataMap.data[key].forEach(function (item) {
         
-        countFiledList.push(item[configItem.count.field])        
+        if(!isNumber(configItem.count)) {
+          countFiledList.push(item[configItem.count.field])
+        }
+        
         const data = _Number(item[configItem.value.field])
         switch(configItem.value.mode) {
           case 'uniqLength':
@@ -289,17 +293,22 @@ function mergeRowSummary (list: IARTResultItem<TKvPair>[], config: Record<string
       })
       let count = 0
       
-      switch(configItem.count.mode) {
-        case 'length':
-          count = countFiledList.length
-          break;
-        case 'uniqLength':
-          count = uniq(countFiledList).length
-          break;
-        case 'notZeroValue':
-          count = notZeroList.length
-          break;
+      if(isNumber(configItem.count)) {
+        count = configItem.count
+      } else {
+        switch(configItem.count.mode) {
+          case 'length':
+            count = countFiledList.length
+            break;
+          case 'uniqLength':
+            count = uniq(countFiledList).length
+            break;
+          case 'notZeroValue':
+            count = notZeroList.length
+            break;
+        }
       }
+      
 
       let value = sum
       switch(configItem.value.mode) {

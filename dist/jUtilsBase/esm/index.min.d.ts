@@ -430,6 +430,7 @@ declare function defineEventBus<T extends EventHander>(
   off: (hander: T) => void;
   /** 销毁所有订阅 */
   dispose: () => void;
+  eventList: () => EventHander[];
 };
 
 /**
@@ -602,10 +603,12 @@ declare function arrayRowToColumn<T extends Record<string, any>>(
 };
 type TArrayRowToColumnCalculateRow = {
   proportionBaseField?: string;
-  count: {
-    field: string;
-    mode: 'length' | 'uniqLength' | 'notZeroValue';
-  };
+  count:
+    | number
+    | {
+        field: string;
+        mode: 'length' | 'uniqLength' | 'notZeroValue';
+      };
   value: {
     field: string;
     mode: 'sum' | 'uniqLength' | 'avg';
