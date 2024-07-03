@@ -204,7 +204,7 @@ export function getRatio (prev: number | undefined, current: number | undefined)
   if(prev === $undefinedValue || current === $undefinedValue) {
     return $undefinedValue
   }
-  return (current - prev) / prev
+  return (current - prev) / Math.abs(prev)
 }
 
 export type TArrayRowToColumnCalculateRow = {
