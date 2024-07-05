@@ -10,7 +10,7 @@ import { $decodeURIComponent } from './help/hpConsts'
 export default function getCookie (key: string, target?: string): string {
   target = target || document.cookie
   let res: string = ''
-  target.replace(new RegExp('(^|;\\s)' + key + '=(.*?)($|(;\\s))'), function (g,prefix, value):any {
+  target.replace(new RegExp('(^|;\\s?)' + key + '=(.*?)($|(;\\s?))'), function (g,prefix, value):any {
     res = $decodeURIComponent(value)
   })
 
