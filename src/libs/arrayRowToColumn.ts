@@ -200,7 +200,7 @@ export default function arrayRowToColumn<T extends Record<string, any>> (
 }
 
 
-export function getRatio (prev: number | undefined, current: number | undefined) {
+export function getZengzhngl (prev: number | undefined, current: number | undefined) {
   if(prev === $undefinedValue || current === $undefinedValue) {
     return $undefinedValue
   }
@@ -321,7 +321,7 @@ function mergeRowSummary (list: IARTResultItem<TKvPair>[], config: Record<string
       colsDataMap.summary[key] = {
         value,
         proportion: 0,
-        riseRatio: prevGroupKey ? getRatio(colsDataMap.summary[prevGroupKey]?.value, value) : void 0
+        riseRatio: prevGroupKey ? getZengzhngl(colsDataMap.summary[prevGroupKey]?.value, value) : void 0
       }
       prevGroupKey = key
     }
@@ -444,7 +444,7 @@ function mergeColSummary (list: IARTResultItem<TKvPair>[], config: TColSumaryCon
       _mapRes[cfgKey][key] = {
         value,
         proportion: 0,
-        riseRatio: prevGroupKey ? getRatio(_mapRes[cfgKey][prevGroupKey]?.value, value) : void 0
+        riseRatio: prevGroupKey ? getZengzhngl(_mapRes[cfgKey][prevGroupKey]?.value, value) : void 0
       }
       prevGroupKey = key
     }

@@ -629,14 +629,13 @@ type TColSumaryConfig = Record<
 
 type ISpanTableItem<T extends TKvPair> = T & {
   $rowSpan: Record<string, number>;
-  $colSpan: Record<number, number>;
   $colField: Record<string | number, number>;
 };
 /**
  * 合并单元格。不改变原数组
  * @param data - 一维数组
  * @param fields - 合并的字段
- * @returns 合并后的数据。会在每一项中添加两个字段 "$rowSpan" "$colSpan" "$colField"
+ * @returns 合并后的数据。会在每一项中添加两个字段 "$rowSpan" "$colField"
  */
 declare function spanTable<T extends TKvPair>(data: T[], fields: string[]): ISpanTableItem<T>[];
 
@@ -834,6 +833,14 @@ declare function union<T extends TKvPair>(...args: T[]): T[];
 declare function getRatio(value: number | undefined, base: number | undefined): number;
 
 /**
+ * 计算一个数据变化的增长率
+ * @param from
+ * @param to
+ * @returns
+ */
+declare function getRiseRatio(from?: number, to?: number): number;
+
+/**
  * 筛选并从原始数组移除符合条件的数据
  * @param data - 原始数据
  * @param predicate - 迭代回调
@@ -895,6 +902,7 @@ declare global {
       formatTime,
       getRandom,
       getRatio,
+      getRiseRatio,
       getSortIndex,
       getType,
       isArray,

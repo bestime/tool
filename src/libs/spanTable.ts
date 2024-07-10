@@ -4,7 +4,6 @@ import isEmpty from "./isEmpty"
 import trim from "./trim"
 type ISpanTableItem<T extends TKvPair> = T & {
   $rowSpan: Record<string, number>
-  $colSpan: Record<number, number>
   $colField: Record<string | number, number>
 }
 
@@ -58,7 +57,7 @@ function sameColSellCount (startIndex: number, value: any,data: any, keys: strin
  * 合并单元格。不改变原数组
  * @param data - 一维数组
  * @param fields - 合并的字段
- * @returns 合并后的数据。会在每一项中添加两个字段 "$rowSpan" "$colSpan" "$colField"
+ * @returns 合并后的数据。会在每一项中添加两个字段 "$rowSpan" "$colField"
  */
 
 export default function spanTable<T extends TKvPair> (data: T[], fields: string[]): ISpanTableItem<T>[] {
@@ -109,19 +108,19 @@ export default function spanTable<T extends TKvPair> (data: T[], fields: string[
 
   // 处理横向合并
   result.forEach(function (row) {    
-    row.$colSpan = {}
+    
     row.$colField = {}
     
     let colCount = 0
     fields.forEach(function (fieldName, idx) {
       const colValue = row[fieldName]
       if(colCount>1) {
-        row.$colSpan[idx] = 0
+        
         row.$colField[fieldName] = 0
         colCount--        
       } else {
         colCount = sameColSellCount(idx, colValue, row, fields)
-        row.$colSpan[idx] = colCount
+        
         row.$colField[fieldName] = colCount
       }
     })
