@@ -237,14 +237,14 @@ interface IXLSXTableHeaderItem {
   colSpan?: number;
   children?: IXLSXTableHeaderItem[];
 }
-interface IXLSXTableBodyItem {
-  field: string;
-  value: string | number;
-}
 declare function createXLSX(options: {
   pluginUrl: string;
   header: IXLSXTableHeaderItem[];
-  body: IXLSXTableBodyItem[];
+  body: {
+    $rowSpan?: Record<string, number>;
+    $colField?: Record<string, number>;
+    [key: string]: any;
+  }[];
 }): Promise<HTMLTableElement>;
 
 declare global {

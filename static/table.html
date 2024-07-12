@@ -15,17 +15,17 @@
       "header": [
         {
           "title": "姓名",
-          "field": "data_00",
+          "field": "data_01",
           "colSpan": 2
         },
         {
           "title": "姓名",
-          "field": "data_01",
+          "field": "data_02",
           "colSpan": 0
         },
         {
           "title": "科目",
-          "field": "data_02"
+          "field": "data_03"
         },
         {
           "title": "合计",
@@ -33,23 +33,23 @@
           "children": [
             {
               "title": "数量",
-              "field": "data_03"
-            },
-            {
-              "title": "占比",
               "field": "data_04"
             },
             {
+              "title": "占比",
+              "field": "data_05"
+            },
+            {
               "title": "增长率",
-              "field": "asdf",
+              "field": "jkjdlks",
               "children": [
                 {
                   "title": "下标题",
-                  "field": "bcklw",
+                  "field": "data_06",
                 },
                 {
                   "title": "上标题",
-                  "field": "你好呀",
+                  "field": "data_07",
                 }
               ]
             }
@@ -57,27 +57,39 @@
         },
         {
           "title": "综合",
-          "field": "data_05"
+          "field": "data_08"
         }
       ],
       "body": [
         {
           "data_01":"张三",
-          "data_02":"数学",
-          "data_03":"120",
-          "data_04":"40%"
+          "data_02":"小三子",
+          "data_03":"数学",
+          "data_04":"1",
+          "data_05":"2",
+          "data_06":"3",
+          "data_07":"4",
+          "data_08":"5"
         },
         {
           "data_01":"张三",
-          "data_02":"语文",
-          "data_03":"80",
-          "data_04":"20%"
+          "data_02":"别名",
+          "data_03":"英语",
+          "data_04":"a",
+          "data_05":"b",
+          "data_06":"c",
+          "data_07":"d",
+          "data_08":"e"
         },
         {
-          "data_01":"李四",
-          "data_02":"语文",
-          "data_03":"127",
-          "data_04":"70%"
+          "data_01":"里斯",
+          "data_02":"里斯",
+          "data_03":"语文",
+          "data_04":"7",
+          "data_05":"8",
+          "data_06":"9",
+          "data_07":"10",
+          "data_08":"11"
         }
       ]
     }
@@ -87,9 +99,9 @@
 
 
     jUtilsBrowser.createXLSX({
-      pluginUrl: '',
+      pluginUrl: 'https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js',
       header: resp.header,
-      body: resp.body
+      body: jUtilsBase.spanTable(resp.body, ['data_01', 'data_02'])
     }).then(function (tabledom) {
       console.log("tabledom", tabledom)
       

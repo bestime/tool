@@ -1,4 +1,5 @@
 import { cloneEasy, isNull } from "@bestime/utils_base"
+import libraryFile from './libraryFile'
 
 
 interface ITreeItem {
@@ -34,10 +35,7 @@ interface IXLSXTableHeaderItem {
   colSpan?: number
   children?: IXLSXTableHeaderItem[]
 }
-interface IXLSXTableBodyItem {
-  field: string,
-  value: string | number
-}
+
 
 type IUseHeaderItem = IXLSXTableHeaderItem & {
   colStart: number,
@@ -56,7 +54,11 @@ interface ICreateHeaderItem {
 export default async function createXLSX (options: {
   pluginUrl: string,
   header: IXLSXTableHeaderItem[],
-  body: IXLSXTableBodyItem[]
+  body: {
+    $rowSpan?: Record<string, number>,
+    $colField?: Record<string, number>,
+    [key: string]: any
+  }[]
   
 }) {
   const headerList: IUseHeaderItem[] = cloneEasy<any>(options.header)
@@ -116,12 +118,12 @@ export default async function createXLSX (options: {
     return res
   }
 
-  const headerHtml:Array<Array<ICreateHeaderItem | undefined>> = []
+  const headerRows:Array<Array<ICreateHeaderItem | undefined>> = []
 
   ;(function deepCreateHeaderRow (depth: number, parent?: ICreateHeaderItem[]) {
     if(depth <= headerDepth) {
       const item = createHeaderRowData(depth, parent)
-      headerHtml.push(item)
+      headerRows.push(item)
       deepCreateHeaderRow(depth + 1, item)
     }
   })(1);
@@ -129,13 +131,13 @@ export default async function createXLSX (options: {
   ;(function setHeaderRowSpan() {
     function countEmptyRowCell (rowIndex: number, colIndex: number) {
       let count = 0
-      for(rowIndex;rowIndex<headerHtml.length;rowIndex++) {
-        if(headerHtml?.[rowIndex]?.[colIndex]) break;
+      for(rowIndex;rowIndex<headerRows.length;rowIndex++) {
+        if(headerRows?.[rowIndex]?.[colIndex]) break;
         count++
       }
       return count
     }
-    headerHtml.forEach(function (rowList, rowIindex) {
+    headerRows.forEach(function (rowList, rowIindex) {
       rowList.forEach(function (item, colIndex) {
         if(item) {
           item.rowSpan = countEmptyRowCell(rowIindex+1, colIndex) + 1
@@ -144,8 +146,20 @@ export default async function createXLSX (options: {
     })
   })();
 
+  function getColumnFields () {
+    const fields: string[] = []
+    for(let a = headerRows.length-1;a>=0;a--) {
+      headerRows[a].forEach(function (item, colIndex) {
+        if(item && item.field && isNull(fields[colIndex])) {
+          fields[colIndex] = item.field
+        }
+      })
+    }
+    return fields
+  }
+
   
-  const oHeadList = headerHtml.map(function (row) {
+  const oHeadList = headerRows.map(function (row) {
     const oTdList = row.map(function (item) {
       if(!item || item.colSpan===0) return ;
       
@@ -155,12 +169,39 @@ export default async function createXLSX (options: {
     return `<tr>${oTdList}</tr>`
   }).join('')
 
-  oTable.innerHTML = `<thead>${oHeadList}</thead>`
+  const fileList = getColumnFields()
+  const oBodyList = options.body.map(function (item) {
+    const oTdList = fileList.map(function (fd) {
+      const colSpan = item.$colField?.[fd] ?? 1
+      const rowSpan = item.$rowSpan?.[fd] ?? 1
+      if(colSpan === 0 || rowSpan === 0) return void 0
+      return `<td colSpan="${colSpan}" rowSpan="${rowSpan}">${item[fd]}</td>`
+    }).filter(function (c) {
+      return  !isNull(c)
+    }).join('')
+    return `<tr>${oTdList}</tr>`
+  }).join('')
+
+
+  oTable.innerHTML = `<thead>${oHeadList}</thead><tbody>${oBodyList}</tbody>`
   oTable.setAttribute('border', '1')
   oTable.setAttribute('cellspacing', '0')
   oTable.setAttribute('cellpadding', '0')
 
-  console.log("headFeilds", headerHtml)
 
+  libraryFile({
+    type: 'js',
+    url: options.pluginUrl,
+    module: 'XLSX',
+    attribute: {
+      type: 'module'
+    }
+  }, function (XLSX) {
+    console.log("headFeilds", headerRows, fileList, options.body)
+    var workbook = XLSX.utils.table_to_book(oTable);
+    XLSX.writeFile(workbook, "Report.xlsx");
+  })
+
+  
   return oTable
 }
