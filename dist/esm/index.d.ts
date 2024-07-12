@@ -230,9 +230,27 @@ declare function fullScreen(
   callabck?: TFullScreenActionCallback
 ): void;
 
+interface IXLSXTableHeaderItem {
+  title: string;
+  field: string;
+  align?: 'center' | 'left' | 'right';
+  colSpan?: number;
+  children?: IXLSXTableHeaderItem[];
+}
+interface IXLSXTableBodyItem {
+  field: string;
+  value: string | number;
+}
+declare function createXLSX(options: {
+  pluginUrl: string;
+  header: IXLSXTableHeaderItem[];
+  body: IXLSXTableBodyItem[];
+}): Promise<HTMLTableElement>;
+
 export {
   addClass,
   _default as browser,
+  createXLSX,
   downloadFileByArrayBuffer,
   downloadFileByUrl,
   fullScreen,

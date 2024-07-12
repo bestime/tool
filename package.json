@@ -15,7 +15,7 @@
   },
   
   "dependencies": {
-    "@bestime/utils_base": "^1.0.3"
+    "@bestime/utils_base": "1.0.7"
   },
   "devDependencies": {
     "@babel/core": "7.18.6",

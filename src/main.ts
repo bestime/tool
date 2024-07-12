@@ -22,4 +22,5 @@ export { default as getRatio } from './libs/getRatio'
 export { default as observeMouseWheel } from './libs/observeMouseWheel'
 export { default as observeDomScroll } from './libs/observeDomScroll'
 export { default as fullScreen } from './libs/fullScreen'
+export { default as createXLSX } from './libs/createXLSX'
 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表格导出</title>
+  <script src="../../base/dist/jUtilsBase/umd/index.min.cjs"></script>
+  <script src="../dist/umd/index.min.cjs"></script>
+  
+</head>
+<body>
+  <div id="test-demo"></div>
+  <script>
+    const resp = {
+      "header": [
+        {
+          "title": "姓名",
+          "field": "data_00",
+          "colSpan": 2
+        },
+        {
+          "title": "姓名",
+          "field": "data_01",
+          "colSpan": 0
+        },
+        {
+          "title": "科目",
+          "field": "data_02"
+        },
+        {
+          "title": "合计",
+          "field": "p_1",
+          "children": [
+            {
+              "title": "数量",
+              "field": "data_03"
+            },
+            {
+              "title": "占比",
+              "field": "data_04"
+            },
+            {
+              "title": "增长率",
+              "field": "asdf",
+              "children": [
+                {
+                  "title": "下标题",
+                  "field": "bcklw",
+                },
+                {
+                  "title": "上标题",
+                  "field": "你好呀",
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "综合",
+          "field": "data_05"
+        }
+      ],
+      "body": [
+        {
+          "data_01":"张三",
+          "data_02":"数学",
+          "data_03":"120",
+          "data_04":"40%"
+        },
+        {
+          "data_01":"张三",
+          "data_02":"语文",
+          "data_03":"80",
+          "data_04":"20%"
+        },
+        {
+          "data_01":"李四",
+          "data_02":"语文",
+          "data_03":"127",
+          "data_04":"70%"
+        }
+      ]
+    }
+
+
+
+
+
+    jUtilsBrowser.createXLSX({
+      pluginUrl: '',
+      header: resp.header,
+      body: resp.body
+    }).then(function (tabledom) {
+      console.log("tabledom", tabledom)
+      
+      document.getElementById('test-demo').appendChild(tabledom)
+    })
+    
+  </script>
+</body>
+</html>

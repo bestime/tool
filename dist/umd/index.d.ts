@@ -230,6 +230,23 @@ declare function fullScreen(
   callabck?: TFullScreenActionCallback
 ): void;
 
+interface IXLSXTableHeaderItem {
+  title: string;
+  field: string;
+  align?: 'center' | 'left' | 'right';
+  colSpan?: number;
+  children?: IXLSXTableHeaderItem[];
+}
+interface IXLSXTableBodyItem {
+  field: string;
+  value: string | number;
+}
+declare function createXLSX(options: {
+  pluginUrl: string;
+  header: IXLSXTableHeaderItem[];
+  body: IXLSXTableBodyItem[];
+}): Promise<HTMLTableElement>;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -238,6 +255,7 @@ declare global {
     export {
       addClass,
       _default as browser,
+      createXLSX,
       downloadFileByArrayBuffer,
       downloadFileByUrl,
       fullScreen,
