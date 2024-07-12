@@ -33,7 +33,7 @@ export { default as changeIndex } from './libs/changeIndex'
 export { default as uuid } from './libs/uuid'
 export { default as getRandom } from './libs/getRandom'
 export { default as _Boolean } from './libs/_Boolean'
-export { default as flatTree } from './libs/flatTree'
+
 export { default as cloneEasy } from './libs/cloneEasy'
 export { default as mapTree } from './libs/mapTree'
 export { default as defineEventBus } from './libs/defineEventBus'
