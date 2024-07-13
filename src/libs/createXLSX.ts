@@ -164,7 +164,7 @@ export default async function createXLSX (options: {
       if(!item || item.colSpan===0) return ;
       
       // const colSpan
-      return `<td align="center" rowSpan="${item.rowSpan}" colSpan="${item.colSpan}">${item?.title}</td>`
+      return `<td rowSpan="${item.rowSpan}" colSpan="${item.colSpan}">${item?.title}</td>`
     }).join('')
     return `<tr>${oTdList}</tr>`
   }).join('')
@@ -185,8 +185,8 @@ export default async function createXLSX (options: {
 
   oTable.innerHTML = `<thead>${oHeadList}</thead><tbody>${oBodyList}</tbody>`
   oTable.setAttribute('border', '1')
-  oTable.setAttribute('cellspacing', '0')
-  oTable.setAttribute('cellpadding', '0')
+  // oTable.setAttribute('cellspacing', '0')
+  // oTable.setAttribute('cellpadding', '0')
 
 
   libraryFile({
