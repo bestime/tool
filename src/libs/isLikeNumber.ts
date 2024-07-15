@@ -1,4 +1,5 @@
 import isArray from "./isArray";
+import trim from "./trim";
 
 /**
  * 
@@ -20,16 +21,8 @@ import isArray from "./isArray";
  * @returns 
  */
 export default function isLikeNumber (value: any) {
-  let result = false, data;
-    if(typeof value !== 'boolean' && !isArray(value) && value !== void 0 && value !== null && value !== '') {
-      data = Number(value)
-      if(isNaN(data) || Infinity == Math.abs(data)) {
-        result = false
-      } else {
-        result = true  
-      }
-    }
-
-  return result
+  const str = trim(value)
+  
+  return /^(-|\+)?\d+(\.?\d+)?$/.test(str)
 }
 

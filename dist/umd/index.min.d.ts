@@ -365,14 +365,6 @@ declare function getRandom(min: number, max: number, isInt?: boolean): number;
 declare function _Boolean(data: any): boolean;
 
 /**
- * 将树形结构转为一维数组
- * @param data - 树
- * @param childKey - 子项字段。默认 children
- * @returns 浅克隆的数组
- */
-declare function flatTree(data: any[], childKey?: string): any[];
-
-/**
  * 简易版深度克隆。（仅处理数组、键值对、方法的可克隆）
  *
  * @param data - 克隆对象
@@ -871,66 +863,98 @@ declare function export_default(
 
 declare function formatTime(millisecond: number): string;
 
-export {
-  Polling,
-  TArrayRowToColumnCalculateRow,
-  _Array,
-  _Boolean,
-  _KvPair,
-  _Number,
-  _String,
-  arrayRowToColumn,
-  changeIndex,
-  cloneEasy,
-  dataPage,
-  deepFindItem,
-  deepFindTreePath,
-  defaultValue,
-  defineEventBus,
-  fieldCheck,
-  filterWithMove,
-  flatTree,
-  floorFixed,
-  forEach,
-  forEachKvPair,
-  forEachTree,
-  formatTime,
-  getRandom,
-  getRatio,
-  getRiseRatio,
-  getSortIndex,
-  getType,
-  isArray,
-  isEmpty,
-  isFunction,
-  isFuzzyMatch,
-  isKvPair,
-  isLikeNumber,
-  isNull,
-  isString,
-  listGroup,
-  mapKvPair,
-  main as mapTree,
-  mixInZeroWidthUnicode,
-  padEnd,
-  padStart,
-  param,
-  parseQuery,
-  randomColor,
-  repeatString,
-  roundFixed,
-  shake,
-  export_default as shortNumber,
-  sortWithIndex,
-  spanTable,
-  split,
-  thousands,
-  flatArrayToTree as tree,
-  trim,
-  union,
-  urlToGet,
-  uuid,
-  variableHasValue
+interface IXLSXTableHeaderItem {
+  [key: string]: any;
+  colSpan?: number;
+  children?: IXLSXTableHeaderItem[];
+}
+interface ICreateHeaderItem {
+  title: string;
+  field: string;
+  colStart: number;
+  colEnd: number;
+  rowSpan?: number;
+  colSpan: number;
+}
+interface IFeildMap {
+  title: string;
+  field: string;
+}
+declare function parseTreeToTableHeader(
+  header: IXLSXTableHeaderItem[],
+  config?: IFeildMap
+): {
+  columns: string[];
+  data: (ICreateHeaderItem | undefined)[][];
 };
+
+declare global {
+  /**
+   * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
+   */
+  namespace jUtilsBase {
+    export {
+      Polling,
+      TArrayRowToColumnCalculateRow,
+      _Array,
+      _Boolean,
+      _KvPair,
+      _Number,
+      _String,
+      arrayRowToColumn,
+      changeIndex,
+      cloneEasy,
+      dataPage,
+      deepFindItem,
+      deepFindTreePath,
+      defaultValue,
+      defineEventBus,
+      fieldCheck,
+      filterWithMove,
+      floorFixed,
+      forEach,
+      forEachKvPair,
+      forEachTree,
+      formatTime,
+      getRandom,
+      getRatio,
+      getRiseRatio,
+      getSortIndex,
+      getType,
+      isArray,
+      isEmpty,
+      isFunction,
+      isFuzzyMatch,
+      isKvPair,
+      isLikeNumber,
+      isNull,
+      isString,
+      listGroup,
+      mapKvPair,
+      main as mapTree,
+      mixInZeroWidthUnicode,
+      padEnd,
+      padStart,
+      param,
+      parseQuery,
+      parseTreeToTableHeader,
+      randomColor,
+      repeatString,
+      roundFixed,
+      shake,
+      export_default as shortNumber,
+      sortWithIndex,
+      spanTable,
+      split,
+      thousands,
+      flatArrayToTree as tree,
+      trim,
+      union,
+      urlToGet,
+      uuid,
+      variableHasValue
+    };
+  }
+}
 
 export default undefined;
