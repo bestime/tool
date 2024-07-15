@@ -230,21 +230,10 @@ declare function fullScreen(
   callabck?: TFullScreenActionCallback
 ): void;
 
-interface IXLSXTableHeaderItem {
-  title: string;
-  field: string;
-  align?: 'center' | 'left' | 'right';
-  colSpan?: number;
-  children?: IXLSXTableHeaderItem[];
-}
 declare function createXLSX(options: {
   pluginUrl: string;
-  header: IXLSXTableHeaderItem[];
-  body: {
-    $rowSpan?: Record<string, number>;
-    $colField?: Record<string, number>;
-    [key: string]: any;
-  }[];
+  header: any[];
+  body: any[];
 }): Promise<HTMLTableElement>;
 
 declare global {
