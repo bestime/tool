@@ -888,6 +888,25 @@ declare function parseTreeToTableHeader(
   data: (ICreateHeaderItem | undefined)[][];
 };
 
+type TEcharts = Record<string, any>;
+interface IConnectConfigItem {
+  onXAxisCtegoryClick?: (xAxisData: any[], tickIndex: number, chart: TEcharts) => void;
+}
+interface IListItem {
+  config?: IConnectConfigItem;
+  instence: TEcharts;
+  onAxxisCategoryClick?: (ev: any) => void;
+}
+declare class ConnectEcharts {
+  _list: Record<string, IListItem[]>;
+  constructor();
+  _resetGroupClickXAxisCategory(chartList: IListItem[]): void;
+  clickXAsisCategory(chart: TEcharts, index: number): void;
+  add(i: TEcharts, config: IConnectConfigItem): this;
+  remove(chart?: TEcharts): void;
+}
+declare const _default: ConnectEcharts;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -904,6 +923,7 @@ declare global {
       arrayRowToColumn,
       changeIndex,
       cloneEasy,
+      _default as connectEcharts,
       dataPage,
       deepFindItem,
       deepFindTreePath,

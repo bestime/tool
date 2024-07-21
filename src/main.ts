@@ -62,6 +62,7 @@ export { default as filterWithMove } from './libs/filterWithMove'
 export { default as shortNumber } from './libs/shortNumber'
 export { default as formatTime } from './libs/formatTime'
 export { default as parseTreeToTableHeader } from './libs/parseTreeToTableHeader'
+export { default as connectEcharts } from './libs/connectEcharts'
 
 
 
