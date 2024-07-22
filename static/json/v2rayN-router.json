@@ -13,7 +13,11 @@
       "regexp:openai\\.com",
       "regexp:openaiapi-site",
       "regexp:microsoft\\.com",
-      "regexp:googlesyndication"
+      "regexp:googlesyndication",
+      "91porny.com",
+      "echarts.apache.org",
+      "regexp:qiniuyun10.xyz",
+      "regexp:mwbbiz.com"
     ],
     "enabled": true
   },

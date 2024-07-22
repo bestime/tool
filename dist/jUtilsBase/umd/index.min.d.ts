@@ -365,14 +365,6 @@ declare function getRandom(min: number, max: number, isInt?: boolean): number;
 declare function _Boolean(data: any): boolean;
 
 /**
- * 将树形结构转为一维数组
- * @param data - 树
- * @param childKey - 子项字段。默认 children
- * @returns 浅克隆的数组
- */
-declare function flatTree(data: any[], childKey?: string): any[];
-
-/**
  * 简易版深度克隆。（仅处理数组、键值对、方法的可克隆）
  *
  * @param data - 克隆对象
@@ -894,7 +886,6 @@ declare global {
       defineEventBus,
       fieldCheck,
       filterWithMove,
-      flatTree,
       floorFixed,
       forEach,
       forEachKvPair,
