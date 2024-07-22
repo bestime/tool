@@ -863,72 +863,111 @@ declare function export_default(
 
 declare function formatTime(millisecond: number): string;
 
-declare global {
-  /**
-   * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
-   */
-  namespace jUtilsBase {
-    export {
-      Polling,
-      TArrayRowToColumnCalculateRow,
-      _Array,
-      _Boolean,
-      _KvPair,
-      _Number,
-      _String,
-      arrayRowToColumn,
-      changeIndex,
-      cloneEasy,
-      dataPage,
-      deepFindItem,
-      deepFindTreePath,
-      defaultValue,
-      defineEventBus,
-      fieldCheck,
-      filterWithMove,
-      floorFixed,
-      forEach,
-      forEachKvPair,
-      forEachTree,
-      formatTime,
-      getRandom,
-      getRatio,
-      getRiseRatio,
-      getSortIndex,
-      getType,
-      isArray,
-      isEmpty,
-      isFunction,
-      isFuzzyMatch,
-      isKvPair,
-      isLikeNumber,
-      isNull,
-      isString,
-      listGroup,
-      mapKvPair,
-      main as mapTree,
-      mixInZeroWidthUnicode,
-      padEnd,
-      padStart,
-      param,
-      parseQuery,
-      randomColor,
-      repeatString,
-      roundFixed,
-      shake,
-      export_default as shortNumber,
-      sortWithIndex,
-      spanTable,
-      split,
-      thousands,
-      flatArrayToTree as tree,
-      trim,
-      union,
-      urlToGet,
-      uuid,
-      variableHasValue
-    };
-  }
+interface IXLSXTableHeaderItem {
+  [key: string]: any;
+  colSpan?: number;
+  children?: IXLSXTableHeaderItem[];
 }
+interface ICreateHeaderItem {
+  title: string;
+  field: string;
+  colStart: number;
+  colEnd: number;
+  rowSpan?: number;
+  colSpan: number;
+}
+interface IFeildMap {
+  title: string;
+  field: string;
+}
+declare function parseTreeToTableHeader(
+  header: IXLSXTableHeaderItem[],
+  config?: IFeildMap
+): {
+  columns: string[];
+  data: (ICreateHeaderItem | undefined)[][];
+};
+
+type TEcharts = Record<string, any>;
+interface IConnectConfigItem {
+  onXAxisCtegoryClick?: (xAxisData: any[], tickIndex: number, chart: TEcharts) => void;
+}
+interface IListItem {
+  config?: IConnectConfigItem;
+  instence: TEcharts;
+  onAxxisCategoryClick?: (ev: any) => void;
+}
+declare class ConnectEcharts {
+  _list: Record<string, IListItem[]>;
+  constructor();
+  _resetGroupClickXAxisCategory(chartList: IListItem[]): void;
+  clickXAsisCategory(chart: TEcharts, index: number): void;
+  add(i: TEcharts, config: IConnectConfigItem): this;
+  remove(chart?: TEcharts): void;
+}
+declare const _default: ConnectEcharts;
+
+export {
+  Polling,
+  TArrayRowToColumnCalculateRow,
+  _Array,
+  _Boolean,
+  _KvPair,
+  _Number,
+  _String,
+  arrayRowToColumn,
+  changeIndex,
+  cloneEasy,
+  _default as connectEcharts,
+  dataPage,
+  deepFindItem,
+  deepFindTreePath,
+  defaultValue,
+  defineEventBus,
+  fieldCheck,
+  filterWithMove,
+  floorFixed,
+  forEach,
+  forEachKvPair,
+  forEachTree,
+  formatTime,
+  getRandom,
+  getRatio,
+  getRiseRatio,
+  getSortIndex,
+  getType,
+  isArray,
+  isEmpty,
+  isFunction,
+  isFuzzyMatch,
+  isKvPair,
+  isLikeNumber,
+  isNull,
+  isString,
+  listGroup,
+  mapKvPair,
+  main as mapTree,
+  mixInZeroWidthUnicode,
+  padEnd,
+  padStart,
+  param,
+  parseQuery,
+  parseTreeToTableHeader,
+  randomColor,
+  repeatString,
+  roundFixed,
+  shake,
+  export_default as shortNumber,
+  sortWithIndex,
+  spanTable,
+  split,
+  thousands,
+  flatArrayToTree as tree,
+  trim,
+  union,
+  urlToGet,
+  uuid,
+  variableHasValue
+};
 
 export default undefined;
