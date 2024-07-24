@@ -51,7 +51,12 @@ function _templateAxxisCategoryClick (iChart: TEcharts, tickIndex: number): Arra
 interface IListItem {
   config?: IConnectConfigItem
   instence: TEcharts,
-  onAxxisCategoryClick?:(ev: any) => void
+  onAxxisCategoryClick?:(ev: {
+    tickIndex: number
+    needEmit?: boolean,
+  }) => void,
+  onAxxisSeriesClick?:(ev: any) => void,
+  timer_01: any
 }
 
 class ConnectEcharts {
@@ -63,26 +68,46 @@ class ConnectEcharts {
 
   _resetGroupClickXAxisCategory (chartList: IListItem[]) {
     chartList.forEach(item => {
+      clearTimeout(item.timer_01)
+      item.instence.off('click', item.onAxxisSeriesClick)
       item.instence.off('click', item.onAxxisCategoryClick)
-      item.onAxxisCategoryClick = (ev: any) => {
-        const tickIndex = ev.tickIndex as number
-        chartList.forEach(function (c) {
-          const d = _templateAxxisCategoryClick(c.instence, tickIndex)
-          d && c.config && c.config.onXAxisCtegoryClick && c.config.onXAxisCtegoryClick(d.map(c=>c.data), tickIndex, c.instence)
-        })
+      
+      item.onAxxisCategoryClick = (ev) => {
+        const tickIndex = ev.tickIndex
+        const needEmit = ev.needEmit !== false
+        clearTimeout(item.timer_01)
+        item.timer_01 = setTimeout(() => {
+          chartList.forEach(function (c) {
+            const d = _templateAxxisCategoryClick(c.instence, tickIndex)
+            needEmit && d && c.config && c.config.onXAxisCtegoryClick && c.config.onXAxisCtegoryClick(d.map(c=>c.data), tickIndex, c.instence)
+          })
+        }, 30)
       }
+
+      item.onAxxisSeriesClick = (ev: any) => {
+        if(ev.componentType !== 'markLine' && item?.onAxxisCategoryClick) {
+          item.onAxxisCategoryClick({
+            tickIndex: ev.dataIndex
+          })
+        }
+      }
+
+      item.instence.on('click', 'series', item.onAxxisSeriesClick)
       item.instence.on('click', 'xAxis.category', item.onAxxisCategoryClick)
       
     })
   }
 
-  clickXAsisCategory (chart: TEcharts, index: number) {
+  clickXAsisCategory (chart: TEcharts, index: number, notEmit?: boolean) {
+    const needEmit = notEmit !== true
+    // console.log("needEmit", needEmit)
     for(let key in this._list) {
       for(let i =0;i<this._list[key].length;i++) {
         const item = this._list[key][i]
         if(item.instence === chart) {
           item.onAxxisCategoryClick && item.onAxxisCategoryClick({
-            tickIndex: index
+            tickIndex: index,
+            needEmit
           })
         }
       }
@@ -95,7 +120,8 @@ class ConnectEcharts {
     this._list[gid] = this._list[gid] || []
     this._list[gid].push({
       config,
-      instence: i
+      instence: i,
+      timer_01: -1
     })
     this._resetGroupClickXAxisCategory(this._list[gid])
     return this
@@ -106,6 +132,7 @@ class ConnectEcharts {
     for(let key in this._list) {
       for(let i =0;i<this._list[key].length;i++) {
         const item = this._list[key][i]
+        clearTimeout(item.timer_01)
         if(item.instence === chart) {
           item.instence.off('click', item.onAxxisCategoryClick)
           this._list[key].splice(i--, 1)

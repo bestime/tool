@@ -895,17 +895,37 @@ interface IConnectConfigItem {
 interface IListItem {
   config?: IConnectConfigItem;
   instence: TEcharts;
-  onAxxisCategoryClick?: (ev: any) => void;
+  onAxxisCategoryClick?: (ev: { tickIndex: number; needEmit?: boolean }) => void;
+  onAxxisSeriesClick?: (ev: any) => void;
+  timer_01: any;
 }
 declare class ConnectEcharts {
   _list: Record<string, IListItem[]>;
   constructor();
   _resetGroupClickXAxisCategory(chartList: IListItem[]): void;
-  clickXAsisCategory(chart: TEcharts, index: number): void;
+  clickXAsisCategory(chart: TEcharts, index: number, notEmit?: boolean): void;
   add(i: TEcharts, config: IConnectConfigItem): this;
   remove(chart?: TEcharts): void;
 }
 declare const _default: ConnectEcharts;
+
+interface IRuleItem {
+  min: number;
+  max: number;
+  color: string;
+}
+interface IResItem {
+  gte: number;
+  lt: number;
+  color: string;
+}
+/**
+ * 对数据进行分段处理
+ * @param list
+ * @param rules
+ * @returns
+ */
+declare function getPiecesWithIndex(list: number[], rules: IRuleItem[]): IResItem[];
 
 export {
   Polling,
@@ -931,6 +951,7 @@ export {
   forEachKvPair,
   forEachTree,
   formatTime,
+  getPiecesWithIndex,
   getRandom,
   getRatio,
   getRiseRatio,
