@@ -927,6 +927,12 @@ interface IResItem {
  */
 declare function getPiecesWithIndex(list: number[], rules: IRuleItem[]): IResItem[];
 
+declare function difference<T extends TKvPair | string | number | Date>(
+  a: T[],
+  b: T[],
+  compareFn: (a: T, b: T) => boolean
+): T[];
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -949,6 +955,7 @@ declare global {
       deepFindTreePath,
       defaultValue,
       defineEventBus,
+      difference,
       fieldCheck,
       filterWithMove,
       floorFixed,

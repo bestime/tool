@@ -927,6 +927,12 @@ interface IResItem {
  */
 declare function getPiecesWithIndex(list: number[], rules: IRuleItem[]): IResItem[];
 
+declare function difference<T extends TKvPair | string | number | Date>(
+  a: T[],
+  b: T[],
+  compareFn: (a: T, b: T) => boolean
+): T[];
+
 export {
   Polling,
   TArrayRowToColumnCalculateRow,
@@ -944,6 +950,7 @@ export {
   deepFindTreePath,
   defaultValue,
   defineEventBus,
+  difference,
   fieldCheck,
   filterWithMove,
   floorFixed,
