@@ -236,6 +236,16 @@ declare function createXLSX(options: {
   body: any[];
 }): Promise<HTMLTableElement>;
 
+interface IPluginSrc {
+  index: string;
+  worker: string;
+}
+declare function pdfToImage(
+  url: string,
+  canvas: HTMLCanvasElement,
+  src?: IPluginSrc
+): Promise<unknown>;
+
 export {
   addClass,
   _default as browser,
@@ -253,6 +263,7 @@ export {
   observeDomResize,
   export_default as observeDomScroll,
   export_default$1 as observeMouseWheel,
+  pdfToImage,
   prevent,
   removeClass,
   removeCookie,

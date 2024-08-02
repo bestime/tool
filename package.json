@@ -1,9 +1,9 @@
 {
   "name": "@bestime/utils_browser",
   "version": "1.0.6",
-  "main": "./dist/jUtilsBrowser.esm.min.mjs",
-  "module": "./dist/jUtilsBrowser.esm.min.mjs",
-  "types": "./dist/jUtilsBrowser.esm.d.ts",
+  "main": "./dist/esm/index.min.mjs",
+  "module": "./dist/esm/index.min.mjs",
+  "types": "./dist/esm/index.d.ts",
   "description": "个人常用工具库，浏览器使用",
   "type": "module",
   "files": [

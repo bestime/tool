@@ -21,7 +21,7 @@ export default function (el: HTMLElement, config?: IOptions) {
   let prev_y = 0
 
   function onScroll () {    
-    if(doing) return console.log("滚动中", doing);   
+    if(doing) return ;
     const currentTop = el.scrollTop
     const directionY = currentTop - prev_y
     const isScrollX = false

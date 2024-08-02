@@ -236,6 +236,16 @@ declare function createXLSX(options: {
   body: any[];
 }): Promise<HTMLTableElement>;
 
+interface IPluginSrc {
+  index: string;
+  worker: string;
+}
+declare function pdfToImage(
+  url: string,
+  canvas: HTMLCanvasElement,
+  src?: IPluginSrc
+): Promise<unknown>;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -258,6 +268,7 @@ declare global {
       observeDomResize,
       export_default as observeDomScroll,
       export_default$1 as observeMouseWheel,
+      pdfToImage,
       prevent,
       removeClass,
       removeCookie,
