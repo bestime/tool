@@ -9,6 +9,7 @@ export default async function createXLSX (options: {
 }) {
   const oTable = document.createElement('table')
   const header = parseTreeToTableHeader(options.header)
+  console.log("header", header)
 
   const oHeadList = header.data.map(function (row) {
     const oTdList = row.map(function (item) {
@@ -38,20 +39,20 @@ export default async function createXLSX (options: {
   oTable.setAttribute('border', '1')
 
 
-  libraryFile({
-    type: 'js',
-    url: options.pluginUrl,
-    module: 'XLSX',
-    attribute: {
-      type: 'module'
-    }
-  }, function (XLSX) {
-    console.log("headFeilds", header, options.body)
-    var workbook = XLSX.utils.table_to_book(oTable);
-  XLSX.utils.book_append_sheet(workbook, workbook.Sheets['Sheet1'], "Sheet2", true); 
-    console.log("workbook", workbook)
-    XLSX.writeFile(workbook, "Report.xlsx");
-  })
+  // libraryFile({
+  //   type: 'js',
+  //   url: options.pluginUrl,
+  //   module: 'XLSX',
+  //   attribute: {
+  //     type: 'module'
+  //   }
+  // }, function (XLSX) {
+  //   console.log("headFeilds", header, options.body)
+  //   var workbook = XLSX.utils.table_to_book(oTable);
+  // XLSX.utils.book_append_sheet(workbook, workbook.Sheets['Sheet1'], "Sheet2", true); 
+  //   console.log("workbook", workbook)
+  //   XLSX.writeFile(workbook, "Report.xlsx");
+  // })
 
   
   return oTable
