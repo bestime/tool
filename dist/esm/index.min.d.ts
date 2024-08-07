@@ -186,20 +186,22 @@ declare function deepFindTreePath(
 ): undefined | any[];
 
 /**
- * 强制转换数据为字符串
+ * 强制转换数据为字符串。支持百分号、千分位
  * @param data - 值
  * @returns 数字
  */
-declare function _Number(data: any): number;
+declare function _Number(data?: any): number;
 
 type TNull = undefined | null | '';
 declare function isNull(data: any): data is TNull;
 
 /**
  *
- * @param value 看起来是否像一个数字
+ * @param value 看起来是否像一个数字。可识别百分号、千分位
  * @example
  * ```
+ * isLikeNumber('-123,456,789') => true
+ * isLikeNumber('1,4,5.912%') => true
  * isLickNumber(1) => true
  * isLickNumber('2.36884') => true
  * isLickNumber(1/0) => false
@@ -871,6 +873,7 @@ interface IXLSXTableHeaderItem {
 interface ICreateHeaderItem {
   title: string;
   field: string;
+  isLeaf: boolean;
   colStart: number;
   colEnd: number;
   rowSpan?: number;
@@ -933,6 +936,16 @@ declare function difference<T extends TKvPair | string | number | Date>(
   compareFn: (a: T, b: T) => boolean
 ): T[];
 
+type TreeItem<T extends TKvPair> = T & {
+  children?: TreeItem<T>[];
+};
+/**
+ * 获取树形结构的叶子节点
+ * @param list - 树形结构数据
+ * @returns 叶子节点组装的一维数组
+ */
+declare function treeLeafs<T extends TKvPair>(list: TreeItem<T>[]): TreeItem<T>[];
+
 export {
   Polling,
   TArrayRowToColumnCalculateRow,
@@ -991,6 +1004,7 @@ export {
   split,
   thousands,
   flatArrayToTree as tree,
+  treeLeafs,
   trim,
   union,
   urlToGet,

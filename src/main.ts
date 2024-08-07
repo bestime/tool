@@ -65,6 +65,7 @@ export { default as parseTreeToTableHeader } from './libs/parseTreeToTableHeader
 export { default as connectEcharts } from './libs/connectEcharts'
 export { default as getPiecesWithIndex } from './libs/getPiecesWithIndex'
 export { default as difference } from './libs/difference'
+export { default as treeLeafs } from './libs/treeLeafs'
 
 
 

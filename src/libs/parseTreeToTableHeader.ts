@@ -1,6 +1,9 @@
 import cloneEasy from "./cloneEasy"
+import deepFindItem from "./deepFindItem"
 import getTreeDepth from "./getTreeDepth"
+import isArray from "./isArray"
 import isNull from "./isNull"
+import treeLeafs from "./treeLeafs"
 
 function getColSpan (item:IUseHeaderItem, startIndex: number, endIndex: number) {
   if(!isNull(item.colSpan)) return item.colSpan
@@ -24,6 +27,7 @@ type IUseHeaderItem = IXLSXTableHeaderItem & {
 interface ICreateHeaderItem {
   title: string,
   field: string,
+  isLeaf: boolean
   colStart: number
   colEnd: number
   rowSpan?: number
@@ -40,10 +44,19 @@ const defaultConfig: IFeildMap = {
   field: 'field'
 }
 
+/**
+ * @deprecated 某些情况下有bug，已弃用
+ * @param header 
+ * @param config 
+ * @returns 
+ */
 export default function parseTreeToTableHeader (header: IXLSXTableHeaderItem[], config?: IFeildMap) {
   const useConfig = isNull(config) ? defaultConfig : config
   const headerList: IUseHeaderItem[] = cloneEasy<any>(header)
   const headerDepth = getTreeDepth(header)
+
+  const leaftList = treeLeafs(header)
+  console.log("叶子", leaftList)
   
   function deepGetColEnd (colEnd: number, children?: IUseHeaderItem[]) {
     if(children) {
@@ -59,31 +72,69 @@ export default function parseTreeToTableHeader (header: IXLSXTableHeaderItem[], 
 
   function createHeaderRowData (rowDip: number, parentRow?: ICreateHeaderItem[]) {
     const res: ICreateHeaderItem[] = []
+    
     ;(function deepChildrenFloor(cDip: number, lastHeaderList: IUseHeaderItem[], prefixIndex: number) {
-      for(let a=0;a<lastHeaderList.length;a++) {
-        const cdl = lastHeaderList[a].children
+      let lastIndex = prefixIndex
+      let nextIndex = -1
+      for(let uoe=0;uoe<lastHeaderList.length;uoe++) {
+        const item = lastHeaderList[uoe]
+        const cdl = lastHeaderList[uoe].children
         if(cDip === rowDip) {
-          let lastIndex = prefixIndex
-          lastHeaderList.forEach(function (item) {
-            const colStart = lastIndex
-            lastIndex = deepGetColEnd(lastIndex, item.children as IUseHeaderItem[])
-            const colEnd = lastIndex
-            lastIndex++
+          
+          const colStart = lastIndex
+          lastIndex = deepGetColEnd(lastIndex, item.children as IUseHeaderItem[])
+          const colEnd = lastIndex
+          lastIndex++
+          
+          for(let a=0;a<=colEnd-colStart;a++) {
+            const startIdx = a+colStart
             
-            for(let a=0;a<=colEnd-colStart;a++) {
-              const startIdx = a+colStart
-              const endIdx = a === 0 ? colEnd : startIdx
-              res[startIdx] = {
-                title: item[useConfig.title],
-                field: item[useConfig.field],
-                colStart: startIdx,
-                colEnd: endIdx,
-                colSpan: getColSpan(item, startIdx, endIdx)
+            const endIdx = a === 0 ? colEnd : startIdx
+            res[startIdx] = {
+              title: item[useConfig.title],
+              field: item[useConfig.field],
+              colStart: startIdx,
+              colEnd: endIdx,
+              isLeaf: !item.children,
+              colSpan: getColSpan(item, startIdx, endIdx)
+            }
+          }
+        } else if(cdl && cDip<rowDip) {
+          if(nextIndex === -1) {
+            nextIndex = uoe + prefixIndex
+          }
+          const start = nextIndex
+
+          const cfd = parentRow?.[start]?.field
+          // const cfd = lastHeaderList[uoe].
+
+          // console.log("执行--------------=>", start, nextIndex,uoe,prefixIndex,cloneEasy(parentRow as any), uoe + prefixIndex,cfd, cdl, item[useConfig.field])
+
+          
+          function findHasChildIndex (formIndex: number) {
+            if(isArray(parentRow)) {
+              for(formIndex;formIndex<parentRow.length; formIndex++) {
+                 if(parentRow[formIndex]?.isLeaf === false) {
+                  return parentRow[formIndex]?.colStart
+                 }
               }
             }
-          })
-        } else if(cdl && cDip<rowDip) {
-          const start = parentRow?.[a+prefixIndex]?.colStart ?? 0
+            
+          }
+
+          if(cfd && parentRow) {
+            for(let lt=parentRow.length-1; lt>=0;lt--) {
+              if(parentRow[lt]?.field === cfd) {
+                const st = findHasChildIndex(lt+1)
+                if(!isNull(st)) {
+                  // console.log("多个地点",st)
+                  nextIndex = st
+                }
+                break;
+              }
+            }
+          }
+
           deepChildrenFloor(cDip + 1, cdl as any[], start)
         }
       }
@@ -93,13 +144,17 @@ export default function parseTreeToTableHeader (header: IXLSXTableHeaderItem[], 
 
   const headerRows:Array<Array<ICreateHeaderItem | undefined>> = []
 
+  
   ;(function deepCreateHeaderRow (depth: number, parent?: ICreateHeaderItem[]) {
     if(depth <= headerDepth) {
       const item = createHeaderRowData(depth, parent)
+      console.log("深度", depth, cloneEasy(item))
       headerRows.push(item)
       deepCreateHeaderRow(depth + 1, item)
     }
   })(1);
+
+  // console.log("表头数组", cloneEasy(headerRows))
 
   ;(function setHeaderRowSpan() {
     function countEmptyRowCell (rowIndex: number, colIndex: number) {
@@ -121,6 +176,7 @@ export default function parseTreeToTableHeader (header: IXLSXTableHeaderItem[], 
 
   function getColumnFields () {
     const fields: string[] = []
+    
     for(let a = headerRows.length-1;a>=0;a--) {
       headerRows[a].forEach(function (item, colIndex) {
         if(item && item.field && isNull(fields[colIndex])) {

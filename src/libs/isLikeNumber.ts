@@ -1,11 +1,16 @@
-import isArray from "./isArray";
 import trim from "./trim";
+
+  // const decimalReg = '(\\d+\\.?\\d+)'
+  // const thousandsReg = '((\\d,?)+\\d+\\.?\\d+)'
+  // const regStr = `^(-|+)?${decimalReg}|${thousandsReg}%?$`
 
 /**
  * 
- * @param value 看起来是否像一个数字
+ * @param value 看起来是否像一个数字。可识别百分号、千分位
  * @example
  * ```
+ * isLikeNumber('-123,456,789') => true
+ * isLikeNumber('1,4,5.912%') => true
  * isLickNumber(1) => true
  * isLickNumber('2.36884') => true
  * isLickNumber(1/0) => false
@@ -22,7 +27,6 @@ import trim from "./trim";
  */
 export default function isLikeNumber (value: any) {
   const str = trim(value)
-  
-  return /^(-|\+)?\d+(\.?\d+)?$/.test(str)
+  return /^(-|\+)?((\d+)|((\d,?)+\d+))(\.?\d+)?%?$/.test(str)
 }
 
