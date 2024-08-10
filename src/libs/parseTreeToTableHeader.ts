@@ -1,196 +1,147 @@
-import cloneEasy from "./cloneEasy"
-import deepFindItem from "./deepFindItem"
-import getTreeDepth from "./getTreeDepth"
 import isArray from "./isArray"
 import isNull from "./isNull"
-import treeLeafs from "./treeLeafs"
+import type { TKvPair } from "./help/type-declare"
+import mapTree from "./mapTree"
 
-function getColSpan (item:IUseHeaderItem, startIndex: number, endIndex: number) {
-  if(!isNull(item.colSpan)) return item.colSpan
-  if(!item.children || item.children.length <=1) return 1
-  const diff = endIndex - startIndex
-  return diff === 0 ? diff : diff + 1
+
+interface IInputHeaderItem {
+  field: string
+  title: string
+  children: IInputHeaderItem[],
 }
 
-interface IXLSXTableHeaderItem {
-  [key: string]: any
-  colSpan?: number
-  children?: IXLSXTableHeaderItem[]
+interface IParsedHeaderInfoItem extends IInputHeaderItem{
+  count: number
+  children: IParsedHeaderInfoItem[]
 }
 
-
-type IUseHeaderItem = IXLSXTableHeaderItem & {
+interface IParsedHeaderDataItem extends Omit<IParsedHeaderInfoItem, 'children'>{
   colStart: number,
   colEnd: number
-}
-
-interface ICreateHeaderItem {
-  title: string,
-  field: string,
-  isLeaf: boolean
-  colStart: number
-  colEnd: number
-  rowSpan?: number
   colSpan: number
+  rowSpan: number
 }
 
-interface IFeildMap {
-  title: string,
-  field: string
+
+
+
+function countCol (item: TKvPair) {
+  let total = 0
+  if(isArray(item.children)) {
+    item.children.forEach(function (cd: any) {
+      total += countCol(cd)
+    })
+  } else {
+    total = 1
+  }
+
+  return total
 }
 
-const defaultConfig: IFeildMap = {
-  title: 'title',
-  field: 'field'
+
+
+function deepParseInfo(list: IInputHeaderItem[]) {
+  const pList: IParsedHeaderInfoItem[] = mapTree(list, 'children', function (c) {
+    return {
+      field: c.field,
+      title: c.title,
+      count: countCol(c)
+    }
+  })
+  return pList
+}
+
+function createHeaderRowData (list: IParsedHeaderInfoItem[], result: Array<Array<IParsedHeaderDataItem|undefined>>, rowIndex: number, colEnd: number) {
+  if(!result[rowIndex]) {
+    result[rowIndex] = []
+  }
+  colEnd = colEnd -1
+  list.forEach(function (item) {
+    let colStart = colEnd + 1
+    colEnd = colStart + item.count - 1
+    const colSpan = colEnd - colStart + 1
+    
+    const parent:IParsedHeaderDataItem = {
+      colStart,
+      colEnd,
+      colSpan,
+      count: item.count,
+      field: item.field,
+      title: item.title,
+      rowSpan: 1
+    }
+    
+    result[rowIndex][colStart]= parent
+
+    // 补充空值
+    for(let a=1;a<item.count;a++) {
+      result[rowIndex][colStart+a] = void 0
+    }
+    if(isArray(item.children) && item.children.length > 0) {
+      createHeaderRowData(item.children, result, rowIndex+1, colStart)
+    }
+  })
+
+  // 补充空值
+  result.forEach(function (row) {
+    for(let a = 0; a<result[0].length; a++) {
+      if(!row[a]) {
+        row[a] = void 0
+      }
+    }
+  })
+   
+  return result
+}
+
+function getColumnFields (data: Array<Array<IParsedHeaderDataItem|undefined>>) {
+  const fields: string[] = []
+  
+  for(let a = data.length-1;a>=0;a--) {
+    data[a].forEach(function (item, colIndex) {
+      if(item && item.field && isNull(fields[colIndex])) {
+        fields[colIndex] = item.field
+      }
+    })
+  }
+  return fields
+}
+
+function setRowSpan (data: Array<Array<IParsedHeaderDataItem|undefined>>) {
+  function countEmptyRowCell (rowIndex: number, colIndex: number) {
+    let count = 0
+    for(rowIndex;rowIndex<data.length;rowIndex++) {
+      if(data?.[rowIndex]?.[colIndex]) break;
+      count++
+    }
+    return count
+  }
+  data.forEach(function (rowList, rowIindex) {
+    rowList.forEach(function (item, colIndex) {
+      if(item) {
+        item.rowSpan = countEmptyRowCell(rowIindex+1, colIndex) + 1
+      }
+    })
+  })
 }
 
 /**
- * @deprecated 某些情况下有bug，已弃用
- * @param header 
- * @param config 
+ * 将树形数据转换为二维数组，并包含合并行列信息
+ * @param header 树形列表
  * @returns 
  */
-export default function parseTreeToTableHeader (header: IXLSXTableHeaderItem[], config?: IFeildMap) {
-  const useConfig = isNull(config) ? defaultConfig : config
-  const headerList: IUseHeaderItem[] = cloneEasy<any>(header)
-  const headerDepth = getTreeDepth(header)
-
-  const leaftList = treeLeafs(header)
-  console.log("叶子", leaftList)
+export default function parseTreeToTableHeader (header: IInputHeaderItem[]) {
   
-  function deepGetColEnd (colEnd: number, children?: IUseHeaderItem[]) {
-    if(children) {
-      colEnd += children.length - 1
-      children.forEach(function (cd) {
-        colEnd = deepGetColEnd(colEnd, cd.children as IUseHeaderItem[])
-      })
-      return colEnd
-    } else {
-      return colEnd
-    }
-  }
+  // 计算每个表头向右有几个子集
+  const pHeaderList = deepParseInfo(header)
 
-  function createHeaderRowData (rowDip: number, parentRow?: ICreateHeaderItem[]) {
-    const res: ICreateHeaderItem[] = []
-    
-    ;(function deepChildrenFloor(cDip: number, lastHeaderList: IUseHeaderItem[], prefixIndex: number) {
-      let lastIndex = prefixIndex
-      let nextIndex = -1
-      for(let uoe=0;uoe<lastHeaderList.length;uoe++) {
-        const item = lastHeaderList[uoe]
-        const cdl = lastHeaderList[uoe].children
-        if(cDip === rowDip) {
-          
-          const colStart = lastIndex
-          lastIndex = deepGetColEnd(lastIndex, item.children as IUseHeaderItem[])
-          const colEnd = lastIndex
-          lastIndex++
-          
-          for(let a=0;a<=colEnd-colStart;a++) {
-            const startIdx = a+colStart
-            
-            const endIdx = a === 0 ? colEnd : startIdx
-            res[startIdx] = {
-              title: item[useConfig.title],
-              field: item[useConfig.field],
-              colStart: startIdx,
-              colEnd: endIdx,
-              isLeaf: !item.children,
-              colSpan: getColSpan(item, startIdx, endIdx)
-            }
-          }
-        } else if(cdl && cDip<rowDip) {
-          if(nextIndex === -1) {
-            nextIndex = uoe + prefixIndex
-          }
-          const start = nextIndex
-
-          const cfd = parentRow?.[start]?.field
-          // const cfd = lastHeaderList[uoe].
-
-          // console.log("执行--------------=>", start, nextIndex,uoe,prefixIndex,cloneEasy(parentRow as any), uoe + prefixIndex,cfd, cdl, item[useConfig.field])
-
-          
-          function findHasChildIndex (formIndex: number) {
-            if(isArray(parentRow)) {
-              for(formIndex;formIndex<parentRow.length; formIndex++) {
-                 if(parentRow[formIndex]?.isLeaf === false) {
-                  return parentRow[formIndex]?.colStart
-                 }
-              }
-            }
-            
-          }
-
-          if(cfd && parentRow) {
-            for(let lt=parentRow.length-1; lt>=0;lt--) {
-              if(parentRow[lt]?.field === cfd) {
-                const st = findHasChildIndex(lt+1)
-                if(!isNull(st)) {
-                  // console.log("多个地点",st)
-                  nextIndex = st
-                }
-                break;
-              }
-            }
-          }
-
-          deepChildrenFloor(cDip + 1, cdl as any[], start)
-        }
-      }
-    })(1, headerList, 0);
-    return res
-  }
-
-  const headerRows:Array<Array<ICreateHeaderItem | undefined>> = []
-
-  
-  ;(function deepCreateHeaderRow (depth: number, parent?: ICreateHeaderItem[]) {
-    if(depth <= headerDepth) {
-      const item = createHeaderRowData(depth, parent)
-      console.log("深度", depth, cloneEasy(item))
-      headerRows.push(item)
-      deepCreateHeaderRow(depth + 1, item)
-    }
-  })(1);
-
-  // console.log("表头数组", cloneEasy(headerRows))
-
-  ;(function setHeaderRowSpan() {
-    function countEmptyRowCell (rowIndex: number, colIndex: number) {
-      let count = 0
-      for(rowIndex;rowIndex<headerRows.length;rowIndex++) {
-        if(headerRows?.[rowIndex]?.[colIndex]) break;
-        count++
-      }
-      return count
-    }
-    headerRows.forEach(function (rowList, rowIindex) {
-      rowList.forEach(function (item, colIndex) {
-        if(item) {
-          item.rowSpan = countEmptyRowCell(rowIindex+1, colIndex) + 1
-        }
-      })
-    })
-  })();
-
-  function getColumnFields () {
-    const fields: string[] = []
-    
-    for(let a = headerRows.length-1;a>=0;a--) {
-      headerRows[a].forEach(function (item, colIndex) {
-        if(item && item.field && isNull(fields[colIndex])) {
-          fields[colIndex] = item.field
-        }
-      })
-    }
-    return fields
-  }
-
-  const fileList = getColumnFields()
+  // 组装为二位数组
+  const headerList = createHeaderRowData(pHeaderList, [], 0, 0)
+  // 设置纵向合并
+  setRowSpan(headerList)
 
   return {
-    columns: fileList,
-    data: headerRows,
+    columns: getColumnFields(headerList),
+    data: headerList,
   }
 }

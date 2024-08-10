@@ -865,30 +865,30 @@ declare function export_default(
 
 declare function formatTime(millisecond: number): string;
 
-interface IXLSXTableHeaderItem {
-  [key: string]: any;
-  colSpan?: number;
-  children?: IXLSXTableHeaderItem[];
-}
-interface ICreateHeaderItem {
-  title: string;
+interface IInputHeaderItem {
   field: string;
-  isLeaf: boolean;
+  title: string;
+  children: IInputHeaderItem[];
+}
+interface IParsedHeaderInfoItem extends IInputHeaderItem {
+  count: number;
+  children: IParsedHeaderInfoItem[];
+}
+interface IParsedHeaderDataItem extends Omit<IParsedHeaderInfoItem, 'children'> {
   colStart: number;
   colEnd: number;
-  rowSpan?: number;
   colSpan: number;
+  rowSpan: number;
 }
-interface IFeildMap {
-  title: string;
-  field: string;
-}
-declare function parseTreeToTableHeader(
-  header: IXLSXTableHeaderItem[],
-  config?: IFeildMap
-): {
+/**
+ 
+ * @param header
+ * @param config
+ * @returns
+ */
+declare function parseTreeToTableHeader(header: IInputHeaderItem[]): {
   columns: string[];
-  data: (ICreateHeaderItem | undefined)[][];
+  data: (IParsedHeaderDataItem | undefined)[][];
 };
 
 type TEcharts = Record<string, any>;
