@@ -9,14 +9,14 @@ export default async function createXLSX (options: {
 }) {
   const oTable = document.createElement('table')
   const header = parseTreeToTableHeader(options.header)
-  console.log("header", header)
+  
 
   const oHeadList = header.data.map(function (row) {
     const oTdList = row.map(function (item) {
       if(!item || item.colSpan===0) return ;
       
       // const colSpan
-      return `<td rowSpan="${item.rowSpan}" colSpan="${item.colSpan}">${item?.title}</td>`
+      return `<td align="center" rowSpan="${item.rowSpan}" colSpan="${item.colSpan}">${item?.title}</td>`
     }).join('')
     return `<tr>${oTdList}</tr>`
   }).join('')
@@ -27,7 +27,7 @@ export default async function createXLSX (options: {
       const colSpan = item.$colField?.[fd] ?? 1
       const rowSpan = item.$rowSpan?.[fd] ?? 1
       if(colSpan === 0 || rowSpan === 0) return void 0
-      return `<td colSpan="${colSpan}" rowSpan="${rowSpan}">${item[fd]}</td>`
+      return `<td align="center" colSpan="${colSpan}" rowSpan="${rowSpan}">${item[fd] ?? ''}</td>`
     }).filter(function (c) {
       return  !isNull(c)
     }).join('')

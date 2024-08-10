@@ -4,24 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>表格导出</title>
+  <link rel="stylesheet" href="./element-ui.css">
+  <!-- import Vue before Element -->
+  <script src="./vue.js"></script>
+  <!-- import JavaScript -->
+  <script src="./elemetn-ui.js"></script>
+
   <script src="../../base/dist/umd/index.min.cjs"></script>
-  <script src="../dist/umd/index.min.cjs"></script>
   
-</head>
-<body>
-  <div id="test-demo"></div>
+
   <script>
-    const resp = {
+    document.write(`<script src="../dist/umd/index.min.cjs?t=${new Date().getTime()}"><\/script>`)
+    var resp = {
       "header": [
         {
           "title": "姓名",
-          "field": "data_01",
-          "colSpan": 2
+          "field": "data_01"
         },
         {
-          "title": "姓名",
+          "title": "年龄",
           "field": "data_02",
-          "colSpan": 0
+          children: [
+            {
+              "title": "中年",
+              "field": "djkljckl",
+              children: [
+                {
+                  "title": "什么",
+                  "field": "djkdw",
+                }
+              ]
+            },
+            {
+              "title": "老年",
+              "field": "cfiowl",
+            },
+          ]
         },
         {
           "title": "科目",
@@ -45,11 +63,17 @@
                   children: [
                     {
                       "title": "c",
-                      "field": "qqqqqqqqqq"
+                      "field": "qqqqqqqqc78w4qq"
                     },
                     {
                       "title": "d",
-                      "field": "wwwwww"
+                      "field": "wwwwwc4ww",
+                      children: [
+                        {
+                          "title": "进出口",
+                          "field": "mv54548w",
+                        }
+                      ]
                     }
                   ]
                 }
@@ -113,19 +137,67 @@
         }
       ]
     }
+  </script>
+  
+</head>
+<body>
+  <div id="app">
+    <el-table :data="tableData" style="width: 100%">
+      <deep-header v-for="item in headerList" :key="item.field" :item="item"></deep-header>
+    </el-table>
+    
+  </div>
+  <div id="test-table"></div>
+  <script>
+    
+    Vue.component('deep-header', {
+      
+      props: {
+        item: {
+          type:Object,
+          default: function () {
+            return []
+          }
+        }
+      },
+      mounted () {
+        // console.log("来了", this.data)
+      },
+      template: `
+        <el-table-column :prop="item.field" :label="item.title" :key="item.field">
+          
+          <deep-header :key="cd.field" :item="cd" v-for="cd in item.children" v-if="item.children"></deep-header>
+        </el-table-column>
+      `
+    })
 
-
-
+    const uHeader = jUtilsBase.parseTreeToTableHeader(resp.header)
+    // console.log("uHeader", uHeader.data)
+    const app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          headerList: resp.header,
+          tableData: resp.body
+        };
+      },
+      methods: {
+        
+      }
+    });
+    
+    
+    
+    
 
 
     jUtilsBrowser.createXLSX({
       pluginUrl: 'https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js',
       header: resp.header,
-      body: jUtilsBase.spanTable(resp.body, ['data_01', 'data_02'])
+      body: resp.body
     }).then(function (tabledom) {
       console.log("tabledom", tabledom)
-      
-      document.getElementById('test-demo').appendChild(tabledom)
+      document.getElementById('test-table').appendChild(tabledom)
     })
     
   </script>
