@@ -10,7 +10,7 @@ import isNull from './isNull';
 import mapKvPair from './mapKvPair';
 import uniq from './uniq';
 import { $undefinedValue } from './help/hpConsts';
-import defaultValue from './defaultValue';
+import defualtFormatter from './defualtFormatter'
 import hpObjectKeys from './help/hpObjectKeys';
 import isNumber from './isNumber';
 const AVG_FIELD = 'sys-row-avg';
@@ -434,7 +434,7 @@ export default function listGroup<T extends TKvPair>(data: T[], options: IListGr
         }).length === 0
       );
     });
-    const errorValue = defaultValue(defaultData, '');
+    const errorValue = defualtFormatter('', defaultData);
     if (res) {
       try {
         switch (mode) {
@@ -487,7 +487,7 @@ export default function listGroup<T extends TKvPair>(data: T[], options: IListGr
   ) {
     if (uidPath === '*') {
       const v = dgp.total[field];
-      return isNull(v) ? defaultValue(defaultData, '') : formatter(v);
+      return isNull(v) ? defualtFormatter('', defaultData) : formatter(v);
     } else {
       return getValue('_columnTotal', uidPath, field, formatter, defaultData);
     }

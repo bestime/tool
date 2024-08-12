@@ -219,14 +219,6 @@ declare function isNull(data: any): data is TNull;
 declare function isLikeNumber(value: any): boolean;
 
 /**
- * 默认值处理函数
- * @param data - 需要处理的数据
- * @param value - 如果data为undefined，则返回此值
- * @returns 实际值
- */
-declare function defaultValue<T>(data: any, value: T): T;
-
-/**
  * 循环复制字符串
  * @param data - 复制目标
  * @param count - 复制几次
@@ -881,9 +873,8 @@ interface IParsedHeaderDataItem extends Omit<IParsedHeaderInfoItem, 'children'> 
   rowSpan: number;
 }
 /**
- 
- * @param header
- * @param config
+ * 将树形数据转换为二维数组，并包含合并行列信息
+ * @param header 树形列表
  * @returns
  */
 declare function parseTreeToTableHeader(header: IInputHeaderItem[]): {
@@ -946,6 +937,19 @@ type TreeItem<T extends TKvPair> = T & {
  */
 declare function treeLeafs<T extends TKvPair>(list: TreeItem<T>[]): TreeItem<T>[];
 
+/**
+ * 默认数据处理
+ * @param placeValue - 无值时返回什么数据
+ * @param value - 需要处理的数据
+ * @param formatter - 数据格式化
+ * @returns
+ */
+declare function defualtFormatter<T, R>(
+  placeValue: R,
+  value: T,
+  formatter?: (value: NonNullable<T>) => R
+): R;
+
 export {
   Polling,
   TArrayRowToColumnCalculateRow,
@@ -961,8 +965,8 @@ export {
   dataPage,
   deepFindItem,
   deepFindTreePath,
-  defaultValue,
   defineEventBus,
+  defualtFormatter,
   difference,
   fieldCheck,
   filterWithMove,
