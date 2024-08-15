@@ -1,4 +1,4 @@
-import { defaultValue } from '@bestime/utils_base'
+import { defualtFormatter } from '@bestime/utils_base'
 
 
 
@@ -8,5 +8,5 @@ import { defaultValue } from '@bestime/utils_base'
    */
 export default function getStorage (key: string): string {
   const res = localStorage.getItem(key)
-  return defaultValue<string>(res, '')
+  return defualtFormatter('', res)
 }
