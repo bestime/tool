@@ -24,4 +24,5 @@ export { default as observeDomScroll } from './libs/observeDomScroll'
 export { default as fullScreen } from './libs/fullScreen'
 export { default as createXLSX } from './libs/createXLSX'
 export { default as pdfToImage } from './libs/pdfToImage'
+export { default as infoContainerPosition } from './libs/infoContainerPosition'
 

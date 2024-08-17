@@ -246,6 +246,32 @@ declare function pdfToImage(
   src?: IPluginSrc
 ): Promise<unknown>;
 
+/**
+ * 动态计算弹出框位置，使之保持在可是范围内。多用于跟随鼠标移动的菜单或信息框
+ * @param options - 配置项
+ * @returns - 计算后的位置
+ */
+declare function infoContainerPosition(options: {
+  /** 需要将容器设置到：坐标X */
+  x: number;
+  /** 需要将容器设置到：坐标Y */
+  y: number;
+  /** 容器宽度 */
+  width: number;
+  /** 容器高度 */
+  height: number;
+  /** 与目标位置X偏移量。默认 10 */
+  offsetX?: number;
+  /** 与目标位置Y偏移量。默认 10 */
+  offsetY?: number;
+  /** 距离视口多少时表示超出可视范围。默认 10*/
+  padding?: number;
+  mode?: 'top-right';
+}): {
+  x: number;
+  y: number;
+};
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -264,6 +290,7 @@ declare global {
       getRelativePos,
       getStorage,
       getWindowSize,
+      infoContainerPosition,
       libraryFile,
       observeDomResize,
       export_default as observeDomScroll,

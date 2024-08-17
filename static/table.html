@@ -148,6 +148,7 @@
     
   </div>
   <div id="test-table"></div>
+  <div id="text-infowindo" style="width: 200px;height:300px;background:red;position:fixed;left: 0;top: 0;z-index:5;"></div>
   <script>
     
     Vue.component('deep-header', {
@@ -200,6 +201,23 @@
       document.getElementById('test-table').appendChild(tabledom)
     })
     
+    const oInfoWindow = document.getElementById('text-infowindo')
+    document.addEventListener('mousemove', function (ev) {
+
+      const pos = jUtilsBrowser.infoContainerPosition({
+        x:ev.pageX,
+        y:ev.pageY,
+        width: oInfoWindow.offsetWidth,
+        height: oInfoWindow.offsetHeight,
+        offsetX: 10,
+        offsetY: 10,
+        padding: 10
+      })
+      
+      oInfoWindow.style.left = pos.x + 'px' 
+      oInfoWindow.style.top = pos.y + 'px'
+      // console.log(pos, oInfoWindow.style)
+    })
   </script>
 </body>
 </html>
