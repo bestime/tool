@@ -196,6 +196,11 @@ type TNull = undefined | null | '';
 declare function isNull(data: any): data is TNull;
 
 /**
+ * 匹配数字的正则
+ * @returns
+ */
+declare function getLikeNumberRegExp(): string;
+/**
  *
  * @param value 看起来是否像一个数字。可识别百分号、千分位
  * @example
@@ -980,6 +985,7 @@ declare global {
       forEachKvPair,
       forEachTree,
       formatTime,
+      getLikeNumberRegExp,
       getPiecesWithIndex,
       getRandom,
       getRatio,

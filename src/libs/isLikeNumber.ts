@@ -1,5 +1,18 @@
 import trim from "./trim";
 
+const regStr = /(-|\+)?((\d+)|((\d,?)+\d+))(\.?\d+)?%?/.toString().replace(/(^\/)|(\/$)/g, '')
+
+/**
+ * 匹配数字的正则
+ * @returns 
+ */
+export function getLikeNumberRegExp () {
+  return regStr
+}
+
+
+
+
   // const decimalReg = '(\\d+\\.?\\d+)'
   // const thousandsReg = '((\\d,?)+\\d+\\.?\\d+)'
   // const regStr = `^(-|+)?${decimalReg}|${thousandsReg}%?$`
@@ -27,6 +40,13 @@ import trim from "./trim";
  */
 export default function isLikeNumber (value: any) {
   const str = trim(value)
-  return /^(-|\+)?((\d+)|((\d,?)+\d+))(\.?\d+)?%?$/.test(str)
+  const reg = new RegExp('^' + regStr + '$')
+  
+  return reg.test(str)
 }
+
+
+
+
+
 

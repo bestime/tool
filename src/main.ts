@@ -18,8 +18,7 @@ export { default as variableHasValue } from './libs/variableHasValue'
 export { default as deepFindTreePath } from './libs/deepFindTreePath'
 export { default as _Number } from './libs/_Number'
 export { default as isNull } from './libs/isNull'
-export { default as isLikeNumber } from './libs/isLikeNumber'
-
+export { default as isLikeNumber, getLikeNumberRegExp } from './libs/isLikeNumber'
 export { default as repeatString } from './libs/repeatString'
 export { default as padStart } from './libs/padStart'
 export { default as padEnd } from './libs/padEnd'
@@ -67,6 +66,7 @@ export { default as getPiecesWithIndex } from './libs/getPiecesWithIndex'
 export { default as difference } from './libs/difference'
 export { default as treeLeafs } from './libs/treeLeafs'
 export { default as defualtFormatter } from './libs/defualtFormatter'
+
 
 
 
