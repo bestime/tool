@@ -66,6 +66,7 @@ export { default as getPiecesWithIndex } from './libs/getPiecesWithIndex'
 export { default as difference } from './libs/difference'
 export { default as treeLeafs } from './libs/treeLeafs'
 export { default as defualtFormatter } from './libs/defualtFormatter'
+export { default as Animate } from './libs/Animate'
 
 
 

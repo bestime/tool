@@ -955,12 +955,44 @@ declare function defualtFormatter<T, R>(
   formatter?: (value: NonNullable<T>) => R
 ): R;
 
+type TAnimateDataInputItem = Record<string, number | undefined>;
+type TAnimateDataOutputItem = Record<string, number>;
+type TEasingHandler = (
+  passTime: number,
+  fromValue: number,
+  changeValue: number,
+  duration: number
+) => number;
+type TChangeCallack = (data: TAnimateDataOutputItem, progress: number) => void;
+interface IAnimateOptions {
+  /** 原始值 */
+  from: TAnimateDataInputItem;
+  /** 最终值 */
+  to: TAnimateDataInputItem;
+  /** 缓动函数 */
+  easing: TEasingHandler;
+  /** 持续时间：毫秒 */
+  duration: number;
+  /** 每次值更新的回调 */
+  onChange: TChangeCallack;
+}
+declare class Animate {
+  _timer: any;
+  _passTime: number;
+  _options: IAnimateOptions;
+  constructor(options: IAnimateOptions);
+  start(): this;
+  stop(): this;
+  dispose(): void;
+}
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
    */
   namespace jUtilsBase {
     export {
+      Animate,
       Polling,
       TArrayRowToColumnCalculateRow,
       _Array,

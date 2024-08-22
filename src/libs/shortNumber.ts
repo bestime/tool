@@ -28,7 +28,7 @@ export default function (data: number, formatter: (data: number) => string, unit
     const item = ruleList[a]
     
     const value = data / item[0]
-    if(value >=1) {
+    if(Math.abs(value) >=1) {
       realData = value
       realUnit = item[1]
       break;

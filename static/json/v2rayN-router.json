@@ -19,7 +19,8 @@
       "regexp:qiniuyun10.xyz",
       "regexp:mwbbiz.com",
       "int.mwbbiz.com",
-      "chatgpt.com"
+      "chatgpt.com",
+      "npmjs.com"
     ],
     "enabled": true
   },
