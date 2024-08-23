@@ -196,7 +196,7 @@ declare function export_default$1(
 };
 
 type TCallbackHandler = (next: () => void) => void;
-interface IOptions {
+interface IOptions$1 {
   onBottom?: TCallbackHandler;
   onTop?: TCallbackHandler;
   /** Y轴触底、触顶的差值 */
@@ -209,7 +209,7 @@ interface IOptions {
  */
 declare function export_default(
   el: HTMLElement,
-  config?: IOptions
+  config?: IOptions$1
 ): {
   /**
    * 销毁
@@ -272,7 +272,56 @@ declare function infoContainerPosition(options: {
   y: number;
 };
 
+interface IOptions {
+  text?: string;
+  fontSize?: number;
+  color?: string;
+  reverse?: boolean;
+  interval?: number;
+}
+interface IPointItem {
+  text: string;
+  x: number;
+  y: number;
+  speed: number;
+}
+declare class TextRainCanvas {
+  text: string;
+  fontSize: number;
+  color: number[];
+  reverse: boolean;
+  isStop: boolean;
+  interval: number;
+  width: number;
+  height: number;
+  textLineHeight: number;
+  count: number;
+  oCanvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  timer: any;
+  pointList: {
+    currentIndex: number;
+    list: IPointItem[];
+  }[];
+  constructor(oCanvas: HTMLCanvasElement, option?: IOptions);
+  draw(): void;
+  createColumn(
+    x: number,
+    y: number
+  ): {
+    currentIndex: number;
+    list: IPointItem[];
+  };
+  dispose(): void;
+  start(): void;
+  getPointList(): {
+    currentIndex: number;
+    list: IPointItem[];
+  }[];
+}
+
 export {
+  TextRainCanvas,
   addClass,
   _default as browser,
   createXLSX,
