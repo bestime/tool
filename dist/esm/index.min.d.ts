@@ -72,7 +72,7 @@ declare function isEmpty(data: any): boolean;
  * @param data - 判断的值
  * @returns 真假值
  */
-declare function isFunction(data: any): boolean;
+declare function isFunction(data: any): data is Function;
 
 /**
  * 对象序列化为字符串, 用于URL查询字符串或AJAX请求
@@ -955,32 +955,31 @@ declare function defualtFormatter<T, R>(
   formatter?: (value: NonNullable<T>) => R
 ): R;
 
-type TAnimateDataInputItem = Record<string, number | undefined>;
-type TAnimateDataOutputItem = Record<string, number>;
 type TEasingHandler = (
   passTime: number,
   fromValue: number,
   changeValue: number,
   duration: number
 ) => number;
-type TChangeCallack = (data: TAnimateDataOutputItem, progress: number) => void;
-interface IAnimateOptions {
+type TChangeCallack<T> = (data: T, progress: number) => void;
+interface IAnimateOptions<T> {
   /** 原始值 */
-  from: TAnimateDataInputItem;
+  from: T;
   /** 最终值 */
-  to: TAnimateDataInputItem;
+  to: T;
   /** 缓动函数 */
   easing: TEasingHandler;
   /** 持续时间：毫秒 */
   duration: number;
   /** 每次值更新的回调 */
-  onChange: TChangeCallack;
+  onChange: TChangeCallack<T>;
 }
-declare class Animate {
+declare class Animate<T extends TKvPair> {
   _timer: any;
   _passTime: number;
-  _options: IAnimateOptions;
-  constructor(options: IAnimateOptions);
+  _options: IAnimateOptions<T>;
+  _middleData: T;
+  constructor(options: IAnimateOptions<T>);
   start(): this;
   stop(): this;
   dispose(): void;

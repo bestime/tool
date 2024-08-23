@@ -32,6 +32,8 @@ export const $letters = [
 /** 数据类型常量：Array */
 export const $ArrayTypeNameBig = 'Array';
 
+export const $ClassTypeNameBig = 'Class';
+
 export const $FunctionTypeNameBig = 'Function';
 
 /** 数据类型常量：Object */

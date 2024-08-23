@@ -48,8 +48,5 @@
   "homepage": "https://github.com/bestime/tool",
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "lodash-es": "^4.17.21"
   }
 }

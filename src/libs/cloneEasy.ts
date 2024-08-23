@@ -1,5 +1,7 @@
-import { $ArrayTypeNameBig, $ObjectTypeNameBig, $FunctionTypeNameBig } from './help/hpConsts';
+import { $ArrayTypeNameBig, $ObjectTypeNameBig, $FunctionTypeNameBig, $ClassTypeNameBig } from './help/hpConsts';
 import getType from './getType';
+import forEach from './forEach';
+
 
 /**
  * 简易版深度克隆。（仅处理数组、键值对、方法的可克隆）
@@ -9,8 +11,13 @@ import getType from './getType';
  */
 export default function cloneEasy<T extends [] | Record<any, any> | Function>(data: T): T {
   let ret: any;
+  const ty = getType(data)
+  
 
-  switch (getType(data)) {
+  switch (ty) {
+    case $ClassTypeNameBig:
+      ret = Object.assign(Object.create(Object.getPrototypeOf(data)), data);
+      break;
     case $ArrayTypeNameBig:
       ret = [];
       for (let a = 0; a < (data as any[]).length; a++) {
@@ -19,9 +26,11 @@ export default function cloneEasy<T extends [] | Record<any, any> | Function>(da
       break;
     case $ObjectTypeNameBig:
       ret = {};
-      for (const key in data) {
+      forEach(Object.keys(data), function (key) {
+        // @ts-ignore
         ret[key] = cloneEasy(data[key] as T);
-      }
+      })
+      
       break;
     case $FunctionTypeNameBig:
       function newFun(this: any) {

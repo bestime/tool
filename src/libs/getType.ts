@@ -1,4 +1,5 @@
-import { $ObjectTypeNameBigPrototypeToString} from './help/hpConsts'
+import isClass from './isClass'
+import { $ClassTypeNameBig, $ObjectTypeNameBigPrototypeToString} from './help/hpConsts'
 
 
 /**
@@ -8,6 +9,9 @@ import { $ObjectTypeNameBigPrototypeToString} from './help/hpConsts'
  * @return 数据类型字符串
  */
 export default function getType (data: any): string {
+  if(isClass(data)) {
+    return $ClassTypeNameBig
+  }
   return $ObjectTypeNameBigPrototypeToString.call(data).slice(8, -1)
 }
 
