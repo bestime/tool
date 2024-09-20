@@ -67,6 +67,8 @@ export { default as difference } from './libs/difference'
 export { default as treeLeafs } from './libs/treeLeafs'
 export { default as defualtFormatter } from './libs/defualtFormatter'
 export { default as Animate } from './libs/Animate'
+export { default as debounce } from './libs/debounce'
+export { default as throttle } from './libs/throttle'
 
 
 

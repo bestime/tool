@@ -271,7 +271,7 @@ declare function floorFixed(
  * @returns 结果
  */
 declare function roundFixed(
-  data: number | string,
+  data: number | string | null | undefined,
   fractionDigits: number,
   rejection?: boolean
 ): string;
@@ -386,7 +386,7 @@ declare function main<T extends TKvPair, K extends TKvPair, C extends keyof T>(
   childKeyFrom?: keyof K
 ): T[];
 
-type EventHander = (...args: any[]) => void;
+type EventHander$2 = (...args: any[]) => void;
 /**
  * 事件订阅，可获得TS类型推导支持
  * @param eventName - 订阅名
@@ -410,7 +410,7 @@ type EventHander = (...args: any[]) => void;
  * useUpdateDataBus.dispose()
  * ```
  */
-declare function defineEventBus<T extends EventHander>(
+declare function defineEventBus<T extends EventHander$2>(
   eventName: string
 ): {
   /** 追加订阅 */
@@ -421,7 +421,7 @@ declare function defineEventBus<T extends EventHander>(
   off: (hander: T) => void;
   /** 销毁所有订阅 */
   dispose: () => void;
-  eventList: () => EventHander[];
+  eventList: () => EventHander$2[];
 };
 
 /**
@@ -985,6 +985,43 @@ declare class Animate<T extends TKvPair> {
   dispose(): void;
 }
 
+type EventHander$1 = (...args: any[]) => void;
+/**
+ * 防抖函数。默认执行条件范围内最后一次
+ * @param handler - 处理回调
+ * @param interval - 频率（毫秒）
+ * @param options - 配置项
+ * @param options.leading - 立即执行
+ * @param options.trailing - 延后执行
+ * @returns
+ */
+declare function debounce<T extends EventHander$1>(
+  handler: T,
+  interval?: number,
+  options?: {
+    leading?: boolean;
+    trailing?: boolean;
+  }
+): {
+  (this: any, ...v: Parameters<T>): void;
+  cancel(): void;
+  dispose(): void;
+};
+
+type EventHander = (...args: any[]) => void;
+declare function throttle<T extends EventHander>(
+  handler: T,
+  interval?: number,
+  options?: {
+    leading?: boolean;
+    trailing?: boolean;
+  }
+): {
+  (this: any, ...v: Parameters<T>): void;
+  cancel(): void;
+  dispose(): void;
+};
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -1004,6 +1041,7 @@ declare global {
       cloneEasy,
       _default as connectEcharts,
       dataPage,
+      debounce,
       deepFindItem,
       deepFindTreePath,
       defineEventBus,
@@ -1049,6 +1087,7 @@ declare global {
       spanTable,
       split,
       thousands,
+      throttle,
       flatArrayToTree as tree,
       treeLeafs,
       trim,

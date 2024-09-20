@@ -8,7 +8,9 @@ import isNull from "./isNull";
  * @returns 
  */
 export default function defualtFormatter<T, R> (placeValue: R, value: T, formatter?: (value: NonNullable<T>) => R): R {
-  if(isNull(value)) {
+  if(placeValue as any === value as any) {
+    return placeValue;
+  } else if(isNull(value)) {
     return placeValue
   } else {
     const lv = value as NonNullable<T>

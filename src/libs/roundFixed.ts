@@ -13,7 +13,7 @@ import { $zeroString } from './help/hpConsts'
  * @param rejection - 是否删除末尾所有的 "0"
  * @returns 结果
  */
-export default function roundFixed (data: number|string, fractionDigits: number, rejection?: boolean) {
+export default function roundFixed (data: number|string|null|undefined, fractionDigits: number, rejection?: boolean) {
   
   data = _Number(data)
   
