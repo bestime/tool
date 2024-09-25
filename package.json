@@ -7,7 +7,7 @@
   "description": "maptalks通用工具封装",
   "type": "module",
   "files": [
-    "dist"
+    "dist/esm"
   ],
   "scripts": {
     "build": "rollup --config rollup.config.prod.js"
@@ -35,6 +35,7 @@
     "rollup-plugin-livereload": "2.0.5",
     "rollup-plugin-typescript2": "0.34.1",
     "rollup-plugin-uglify": "6.0.4",
+    "prettier": "^3.3.3",
     "typescript": "^5.0.4"
   },
   "author": "bestime1020@gmail.com",
@@ -43,7 +44,6 @@
     "access": "public"
   },
   "dependencies": {
-    "maptalks": "^1.0.0-rc.37",
-    "prettier": "^3.3.3"
+    "maptalks": "^1.0.0-rc.37"
   }
 }
