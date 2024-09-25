@@ -32,7 +32,7 @@ const _tmp: {
    * @param url - 请求地址
    * @returns 处理工具
    */
-export default function dataCacheUtil (url: string):IdataCacheCAllback {
+export default function dataCache (url: string):IdataCacheCAllback {
   
   
   _tmp[url] = _tmp[url] || {

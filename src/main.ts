@@ -13,7 +13,7 @@ export { default as trim } from './libs/trim'
 
 export { default as shake } from './libs/shake'
 export { default as _Array } from './libs/_Array'
-// export { default as dataCacheUtil } from './libs/dataCacheUtil'
+export { default as dataCache } from './libs/dataCache'
 export { default as variableHasValue } from './libs/variableHasValue'
 export { default as deepFindTreePath } from './libs/deepFindTreePath'
 export { default as _Number } from './libs/_Number'

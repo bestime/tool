@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>图层开发示例 - BorderLayer</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:600px;height:600px;margin: 40px auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
+  <body>
+
+    <div id="map" class="container"></div>
+
+    <script>
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ['a','b','c','d'],
+          attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+        })
+      });
+
+
+      class BorderLayer extends maptalks.Layer {
+        _config;
+        // 构造函数
+        constructor(id, config, options) {
+          super(id, options);
+          this._config = config
+        }
+
+        getConfig() {
+          return this._config;
+        }
+      }
+
+      class BorderLayerRenderer extends maptalks.renderer.CanvasRenderer {
+        checkResources() {
+          return [];
+        }
+
+        draw() {          
+          this._drawData();
+          this.completeRender();
+        }
+
+        drawOnInteracting(evtParam) {
+          this.draw();
+        }
+
+        /**
+        * 绘制数据
+        */
+        _drawData() {          
+          const config = this.layer.getConfig()
+          const map = this.getMap();
+          const size = map.getSize()
+          this.prepareCanvas();
+          const ctx = this.context;
+
+          ctx.fillStyle = config.backgroundColor;
+          ctx.fillRect(0,0,size.width,size.height);
+          ctx.lineWidth=config.borderWidth;
+          ctx.strokeStyle=config.borderColor;
+          ctx.strokeRect(0,0,size.width,size.height);
+        }
+      }
+
+      BorderLayer.registerRenderer('canvas', BorderLayerRenderer);
+
+      const layer = new BorderLayer('hello', {
+        borderColor: 'red',
+        borderWidth: 10,
+        backgroundColor: 'transparent',
+      }, {
+        zIndex: 5,
+        forceRenderOnMoving: true,
+        forceRenderOnZooming: true,
+        forceRenderOnRotating: true
+      }).addTo(map);
+
+    </script>
+  </body>
+</html>

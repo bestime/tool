@@ -1,15 +1,2 @@
-### 不同git项目，使用不同用户名和邮箱
-
-修改配置文件 ~/.gitconfig
-
-```cmd
-[core]
-	autocrlf = false
-[includeIf "gitdir:D:/bestime/git/"]
-	path = D:/bestime/config/.gitconfig
-[includeIf "gitdir:D:/work-qssoft/git/qs-t/"]
-	path = D:/bestime/config/qssoft.gitconfig
-[includeIf "gitdir:D:/work-qssoft/git/rdc-cq/"]
-	path = D:/bestime/config/sitian.gitconfig
-
-```
+### 常用工具库
+  纯js工具，无任何依赖，支持 JS、TS 项目，可在nodejs、浏览器、小程序运行
