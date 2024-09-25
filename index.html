@@ -1,74 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>测试页面999</title>
-
-    <script>
-      document.write(
-        `\<script src="./dist/umd/index.min.cjs?t=${new Date().getTime()}"\><\/script\>`
-      );
-    </script>
-    <style>
-      .tree-item {
-        line-height: normal;
-        margin: 0;
-        padding: 0 0 0 10px;
-        line-height: 32px;
-        background: #f9f9f9;
-      }
-  
-      .tree-item a {
-        display: block;
-        font-style: normal;
-      }
-    </style>
-  </head>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>图层开发示例 - BorderLayer</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:600px;height:600px;margin: 40px auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css">
+  <script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
+  <script type="text/javascript" src="./dist/umd/index.min.cjs"></script>
   <body>
 
-    
+    <div id="map" class="container"></div>
 
-    <script type="text/javascript">
+    <script>
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ['a','b','c','d'],
+          attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+        })
+      });
 
-      
-    
-      ;(function (treeList) {
-        const oWrapper = document.createElement('div')
-        var _html = ''
-        
-        ;(function renderTree (children, level) {
-          
-          for(var a = 0; a < children.length; a++) {
-            var item = children[a]
-            _html += `
-              <div class="tree-item lv-${level}">
-                <a href="${item.url}">${item.name}</a>  
-            `
-            if(item.children) {
-              renderTree(item.children, level + 1)
-            }
-            _html += '</div>'
-          }
-          
-        })(treeList, 0);
-  
-        oWrapper.innerHTML = _html
-        document.body.appendChild(oWrapper)
-      })([
-        {
-          name: '临时调试页面',
-          url: './static/pages/debug.html'
-        },
-        {
-          name: '按需加载js/css 的cdn资源',
-          url: './static/pages/need.html'
-        },
-        {
-          name: '监听DOM尺寸变化',
-          url: './static/pages/observeDomResize.html'
-        }
-      ]);
+
+
+      new jUtilsMaptalks.BorderLayer('hello', {
+        borderColor: 'red',
+        borderWidth: 10,
+        backgroundColor: 'transparent',
+      }, {
+        zIndex: 5,
+        forceRenderOnMoving: true,
+        forceRenderOnZooming: true,
+        forceRenderOnRotating: true
+      }).addTo(map);
+     
+
     </script>
   </body>
 </html>

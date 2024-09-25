@@ -8,7 +8,7 @@ import dts from 'rollup-plugin-dts'
 import json from '@rollup/plugin-json'
 
 import rollupPluginUmdDts from './extends/rollup-plugin-umd-dts.mjs'
-const toolName = 'jUtilsBase'
+const toolName = 'jUtilsMaptalks'
 
 function zeroTo2 (data) {
   if(data < 10) {
@@ -32,7 +32,7 @@ function simpleFromatTime (date) {
 
 function getBanner () {
   return `/**
- * 纯JS工具库 => ${toolName}
+ * maptalks通用工具封装 => ${toolName}
  * @update ${simpleFromatTime(new Date())}
  */`
 }
@@ -47,9 +47,9 @@ function getDtsName (type) {
 export default [
   {
     input: './src/main.ts',
-    // external: [
-    //   'chalk'
-    // ],
+    external: [
+      'maptalks'
+    ],
     output: [
       {
         file:  `dist/umd/index.min.cjs`,
@@ -101,7 +101,7 @@ export default [
         output: {
           beautify: false,
           comments: function(node, comment) {
-              return /纯JS工具库/i.test(comment.value);
+              return /maptalks通用工具封装/i.test(comment.value);
           }
         }
       }),    
