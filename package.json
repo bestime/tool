@@ -7,7 +7,7 @@
   "description": "个人常用工具库",
   "type": "module",
   "files": [
-    "dist"
+    "dist/esm"
   ],
   "scripts": {
     "build": "rollup --config rollup.config.prod.js",
