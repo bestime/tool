@@ -267,6 +267,11 @@ declare function infoContainerPosition(options: {
   /** 距离视口多少时表示超出可视范围。默认 10*/
   padding?: number;
   mode?: 'top-right';
+  /** 在什么区域活动 */
+  targetSize?: {
+    width: number;
+    height: number;
+  };
 }): {
   x: number;
   y: number;

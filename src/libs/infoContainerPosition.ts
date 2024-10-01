@@ -21,7 +21,12 @@ export default function infoContainerPosition (options: {
   offsetY?: number
   /** 距离视口多少时表示超出可视范围。默认 10*/
   padding?: number
-  mode?: 'top-right'
+  mode?: 'top-right',
+  /** 在什么区域活动 */
+  targetSize?: {
+    width: number,
+    height: number
+  }
 }) {
 
   const realMode = options.mode || 'top-right'
@@ -33,7 +38,7 @@ export default function infoContainerPosition (options: {
   let x = options.x
 
   let y = options.y
-  const winSize = getWindowSize()
+  const winSize = options.targetSize || getWindowSize()
   const limitX = [padding, winSize.width - width - padding]
   const limieY = [padding, winSize.height - height - padding]
 
@@ -41,6 +46,7 @@ export default function infoContainerPosition (options: {
   if(realMode === 'top-right') {
     x = x + offsetX
     y = y - height - offsetY
+    
     if(x<limitX[0]) {
       x = limitX[0]
       
@@ -67,6 +73,16 @@ export default function infoContainerPosition (options: {
   } else if(realMode === 'bottom-right') {
     x = x + offsetX
     y = y + offsetY
+    if(y>limieY[1]) {
+      const tryY = y - height - offsetY * 2
+      y = tryY<limieY[0] ? limieY[1] : tryY
+      
+    }
+    if(x>limitX[1]) {
+      const tryX = x - width - offsetX *2
+      x = tryX<limitX[0] ? limitX[1] : tryX
+      
+    }
   } else if(realMode === 'top-left') {
     x = x - width - offsetX
     y = y - height - offsetY
