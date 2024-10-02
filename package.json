@@ -1,6 +1,6 @@
 {
   "name": "@bestime/utils_browser",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "main": "./dist/esm/index.min.mjs",
   "module": "./dist/esm/index.min.mjs",
   "types": "./dist/esm/index.d.ts",
@@ -15,7 +15,7 @@
   },
   
   "dependencies": {
-    "@bestime/utils_base": "1.0.9"
+    "@bestime/utils_base": "^1.0.10"
   },
   "devDependencies": {
     "@babel/core": "7.18.6",
