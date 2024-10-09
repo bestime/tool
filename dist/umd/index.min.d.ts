@@ -1045,6 +1045,20 @@ declare function throttle<T extends EventHander>(
   dispose(): void;
 };
 
+/**
+ * 将一堆数字中的极值按差值的比例进行扩大。多用于echarts坐标轴的极值限制
+ * @param ratio 扩大倍数
+ * @param data 数据
+ * @returns
+ */
+declare function padMinMax(
+  ratio: number,
+  ...data: Array<Array<number | undefined>>
+): {
+  min: number | undefined;
+  max: number | undefined;
+};
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -1098,6 +1112,7 @@ declare global {
       main as mapTree,
       mixInZeroWidthUnicode,
       padEnd,
+      padMinMax,
       padStart,
       param,
       parseQuery,

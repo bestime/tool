@@ -69,6 +69,7 @@ export { default as defualtFormatter } from './libs/defualtFormatter'
 export { default as Animate } from './libs/Animate'
 export { default as debounce } from './libs/debounce'
 export { default as throttle } from './libs/throttle'
+export { default as padMinMax } from './libs/padMinMax'
 
 
 
