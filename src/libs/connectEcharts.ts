@@ -35,6 +35,7 @@ class ConnectEcharts {
           chartList.forEach(function (c) {
             const newOption = cloneEasy(c.instence.getOption())
             if(
+              newOption &&
               isArray(newOption.xAxis)
               && newOption.xAxis.length
               && needEmit

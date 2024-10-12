@@ -955,15 +955,15 @@ declare function difference<T extends TKvPair | string | number | Date>(
   compareFn: (a: T, b: T) => boolean
 ): T[];
 
-type TreeItem<T extends TKvPair> = T & {
-  children?: TreeItem<T>[];
+type TreeItem$1<T extends TKvPair> = T & {
+  children?: TreeItem$1<T>[];
 };
 /**
  * 获取树形结构的叶子节点
  * @param list - 树形结构数据
  * @returns 叶子节点组装的一维数组
  */
-declare function treeLeafs<T extends TKvPair>(list: TreeItem<T>[]): TreeItem<T>[];
+declare function treeLeafs<T extends TKvPair>(list: TreeItem$1<T>[]): TreeItem$1<T>[];
 
 /**
  * 默认数据处理
@@ -1059,6 +1059,15 @@ declare function padMinMax(
   max: number | undefined;
 };
 
+type TreeItem<T extends TKvPair> = T & {
+  children?: TreeItem<T>[];
+};
+type TreeFilterHandler<T extends TKvPair> = (item: TreeItem<T>) => boolean;
+declare function treeFilter<T extends TKvPair>(
+  treeList: TreeItem<T>[],
+  handler: TreeFilterHandler<T>
+): TreeItem<T>[];
+
 export {
   Animate,
   Polling,
@@ -1123,6 +1132,7 @@ export {
   thousands,
   throttle,
   flatArrayToTree as tree,
+  treeFilter,
   treeLeafs,
   trim,
   union,
