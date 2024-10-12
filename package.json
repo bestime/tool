@@ -43,7 +43,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
+  "peerDependencies": {
     "maptalks": "^1.0.0-rc.37"
   }
 }
