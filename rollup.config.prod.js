@@ -1,4 +1,4 @@
-import { uglify } from 'rollup-plugin-uglify'
+import terser from '@rollup/plugin-terser';
 import babel from '@rollup/plugin-babel';
 import typescript from "typescript"
 import rollupTypescript from "rollup-plugin-typescript2"
@@ -31,8 +31,9 @@ function simpleFromatTime (date) {
 
 
 function getBanner () {
-  return `/**
- * 构建同工具使用工具集 => ${toolName}
+  return `/*!
+ * 构建工具（vite、webpack）使用工具集
+ * @author bestime
  * @update ${simpleFromatTime(new Date())}
  */`
 }
@@ -45,26 +46,14 @@ export default [
       '@types/node',
       'vite'
     ],
-    output: [
-      {
-        file:  `dist/umd/index.min.cjs`,
-        banner: getBanner(),
-        format: 'umd',    
-        strict: true,
-        name: toolName,
-        indent: false,
-        sourcemap: false,
-        
-      },
-      {
-        file: `dist/esm/index.min.mjs`,
-        banner: getBanner(),
-        format: 'esm',
-        strict: true,
-        indent: false,
-        sourcemap: false,      
-      }
-    ],
+    output: {
+      file: `dist/esm/index.min.mjs`,
+      banner: getBanner(),
+      format: 'esm',
+      strict: true,
+      indent: false,
+      sourcemap: false,      
+    },
     
     plugins: [
       nodeResolve(),
@@ -89,25 +78,12 @@ export default [
         ]
       }),
   
-      uglify({
-        ie8: true,
-        warnings: false,
-        compress: true,
-        output: {
-          beautify: false,
-          comments: function(node, comment) {
-              return /构建同工具使用工具集/i.test(comment.value);
-          }
-        }
-      }),    
+      terser(),    
     ]
   },
   {
     input: './src/main.ts',
-    output: [
-      { file: `dist/esm/index.min.d.ts`, format: "es" },
-      { file: `dist/umd/index.min.d.ts`, format: "iife" }
-    ],
+    output: { file: `dist/esm/index.min.d.ts`, format: "es" },
     plugins: [
       dts(),
       rollupPluginUmdDts({

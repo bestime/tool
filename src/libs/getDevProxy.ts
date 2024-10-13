@@ -8,8 +8,10 @@ import type { CommonServerOptions } from 'vite'
 export default function getDevProxy (list: {
   name: string,
   target: string,
+  changeOrigin?: boolean,
   ssl?: any
   timeout?: number
+  ws?: boolean
 }[]) {
   const proxy: CommonServerOptions['proxy'] = {}
 
@@ -17,8 +19,8 @@ export default function getDevProxy (list: {
     if(!item.target) return;
     proxy[item.name] = {
       target: item.target,
-      changeOrigin: true,
-      ws: true,
+      changeOrigin: item.changeOrigin,
+      ws: item.ws,
       ssl: item.ssl,
       timeout: item.timeout,
       rewrite: function (path) {
