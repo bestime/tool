@@ -47,7 +47,7 @@ console.log(treeList)
 
 
 /**
- * 一维数组转树结构
+ * 一维数组转树结构。（会改变源数组，如有需要，请提前clone）
  * @param list - 待转数组
  * @param props - 生成数据的配置项
  * @param props.id - ID字段
