@@ -48,7 +48,10 @@ export default [
   {
     input: './src/main.ts',
     external: [
-      'maptalks'
+      'maptalks',
+      'lodash-es',
+      'axios',
+      '@bestime/utils_base'
     ],
     output: [
       {

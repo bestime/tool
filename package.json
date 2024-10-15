@@ -30,12 +30,16 @@
     "@rollup/plugin-commonjs": "24.0.0",
     "@rollup/plugin-json": "^6.0.1",
     "@rollup/plugin-node-resolve": "15.0.1",
+    "@types/lodash-es": "^4.17.12",
+    "axios": "^1.7.7",
+    
+    "maptalks": "^1.0.0-rc.37",
+    "prettier": "^3.3.3",
     "rollup": "^3.21.4",
     "rollup-plugin-dts": "^5.3.0",
     "rollup-plugin-livereload": "2.0.5",
     "rollup-plugin-typescript2": "0.34.1",
     "rollup-plugin-uglify": "6.0.4",
-    "prettier": "^3.3.3",
     "typescript": "^5.0.4"
   },
   "author": "bestime1020@gmail.com",
@@ -44,6 +48,11 @@
     "access": "public"
   },
   "peerDependencies": {
+    "axios": "^1.7.7",
     "maptalks": "^1.0.0-rc.37"
+  },
+  "dependencies": {
+    "@bestime/utils_base": "^1.0.12",
+    "lodash-es": "^4.17.21"
   }
 }

@@ -1,4 +1,13 @@
-import { Layer } from 'maptalks';
+import {
+  Layer,
+  VectorLayer,
+  Map,
+  VectorLayerOptionsType,
+  Geometry,
+  LineString,
+  LineStringCoordinatesType,
+  LineStringOptionsType
+} from 'maptalks';
 
 interface IBorderLayerConfig {
   borderColor: string;
@@ -14,6 +23,32 @@ declare class BorderLayer extends Layer {
   getConfig(): IBorderLayerConfig;
 }
 
-export { BorderLayer };
+interface IOptions {
+  zIndex: number;
+}
+declare class CityBoundry {
+  _layer: VectorLayer;
+  constructor(id: string, options?: Partial<IOptions>);
+  setAreaCode(code: string): Promise<void>;
+  addTo(map: Map): void;
+  clear(): void;
+  dispose(): void;
+}
+
+declare class OffsetLayer extends VectorLayer {
+  constructor(
+    id: string,
+    geometries: VectorLayerOptionsType | Array<Geometry>,
+    options?: VectorLayerOptionsType
+  );
+}
+
+declare class HeartbeatLineString extends LineString {
+  constructor(coordinates: LineStringCoordinatesType, options?: LineStringOptionsType);
+}
+
+declare function export_default(staticBaseUrl: string): void;
+
+export { BorderLayer, CityBoundry, HeartbeatLineString, OffsetLayer, export_default as default };
 
 export default undefined;

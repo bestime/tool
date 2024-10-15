@@ -1,4 +1,13 @@
-import { Layer } from 'maptalks';
+import {
+  Layer,
+  VectorLayer,
+  Map,
+  VectorLayerOptionsType,
+  Geometry,
+  LineString,
+  LineStringCoordinatesType,
+  LineStringOptionsType
+} from 'maptalks';
 
 interface IBorderLayerConfig {
   borderColor: string;
@@ -14,12 +23,44 @@ declare class BorderLayer extends Layer {
   getConfig(): IBorderLayerConfig;
 }
 
+interface IOptions {
+  zIndex: number;
+}
+declare class CityBoundry {
+  _layer: VectorLayer;
+  constructor(id: string, options?: Partial<IOptions>);
+  setAreaCode(code: string): Promise<void>;
+  addTo(map: Map): void;
+  clear(): void;
+  dispose(): void;
+}
+
+declare class OffsetLayer extends VectorLayer {
+  constructor(
+    id: string,
+    geometries: VectorLayerOptionsType | Array<Geometry>,
+    options?: VectorLayerOptionsType
+  );
+}
+
+declare class HeartbeatLineString extends LineString {
+  constructor(coordinates: LineStringCoordinatesType, options?: LineStringOptionsType);
+}
+
+declare function export_default(staticBaseUrl: string): void;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
    */
   namespace jUtilsMaptalks {
-    export { BorderLayer };
+    export {
+      BorderLayer,
+      CityBoundry,
+      HeartbeatLineString,
+      OffsetLayer,
+      export_default as default
+    };
   }
 }
 
