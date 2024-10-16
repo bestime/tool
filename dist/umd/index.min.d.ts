@@ -4,6 +4,7 @@ import {
   Map,
   VectorLayerOptionsType,
   Geometry,
+  addGeometryFitViewOptions,
   LineString,
   LineStringCoordinatesType,
   LineStringOptionsType
@@ -35,12 +36,49 @@ declare class CityBoundry {
   dispose(): void;
 }
 
+interface TOffsetStyleMemberItem {
+  zoom: number;
+  textOpacity?: number;
+  textOffset?: [number, number];
+  textSize?: number;
+  iconSize?: number;
+  iconOpacity?: number;
+}
+type TOffsetStyleMap = {
+  /** 分组配置，（此配置的显示隐藏优先级大于member） */
+  group: Record<string, TOffsetStyleMemberItem[]>;
+  /** 成员精细配置 */
+  memember: Record<string, TOffsetStyleMemberItem[]>;
+};
+/**
+ * 缩放时，根据配置调整元素的位移、是否显示、大小等操作
+ * 轻微绘制在此图层的元素，配置两个属性
+ * properties.offsetMemberId {boolean}用于精确定位到此元素（请保证此ID在此图层唯一）
+ * properties.offsetMemberGroupId {?string}数据那个分组，自身的显示隐藏低于分组中的设置
+ */
 declare class OffsetLayer extends VectorLayer {
+  _offsetStyle: TOffsetStyleMap | undefined;
+  _showIds: string[];
   constructor(
     id: string,
     geometries: VectorLayerOptionsType | Array<Geometry>,
     options?: VectorLayerOptionsType
   );
+  _onResize(): void;
+  setActiveMememberIds(data: string[]): void;
+  /**
+   * 键值对数据
+   * 键表示元素：properties.offsetMemberId
+   */
+  setOffsetStyle(data: TOffsetStyleMap): this;
+  addGeometry(
+    geometries: Geometry | Array<Geometry>,
+    fitView?: boolean | addGeometryFitViewOptions
+  ): void;
+  onAdd(): void;
+  addTo(map: Map): this;
+  clear(): this;
+  remove(): this;
 }
 
 declare class HeartbeatLineString extends LineString {
