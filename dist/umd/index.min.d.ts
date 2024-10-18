@@ -3,6 +3,7 @@ import {
   VectorLayer,
   VectorLayerOptionsType,
   Map,
+  Marker,
   Geometry,
   addGeometryFitViewOptions,
   LineString,
@@ -84,6 +85,8 @@ declare class OffsetLayer extends VectorLayer {
   _showIds: string[];
   _config: IOffsetLayerExtConfig;
   _timer01: any;
+  _editMarker: Marker | undefined;
+  _editorContainer: HTMLDivElement | undefined;
   constructor(
     id: string,
     geometries: VectorLayerOptionsType | Array<Geometry>,
@@ -92,6 +95,29 @@ declare class OffsetLayer extends VectorLayer {
   );
   _debHandlerResize(): void;
   _onZoomed(): void;
+  _getConfig(
+    Ogeometry: Geometry,
+    currentZoom: number,
+    showGroupIds: string[]
+  ):
+    | {
+        parent: {
+          id: string;
+          hasRule: boolean;
+          style: TOffsetStyleMemberItem | undefined;
+        };
+        self: {
+          id: string;
+          hasRule: boolean;
+          style: TOffsetStyleMemberItem | undefined;
+        };
+        current: {
+          id: string;
+          hasRule: boolean;
+          style: TOffsetStyleMemberItem | undefined;
+        };
+      }
+    | undefined;
   _onReszie(): void;
   setActiveMememberIds(data: string[]): void;
   /**
@@ -99,6 +125,7 @@ declare class OffsetLayer extends VectorLayer {
    * 键表示元素：properties.offsetMemberId
    */
   setOffsetStyle(data?: TOffsetStyleMap): this;
+  editOffset(marker: Marker): void;
   addGeometry(
     geometries: Geometry | Array<Geometry>,
     fitView?: boolean | addGeometryFitViewOptions
