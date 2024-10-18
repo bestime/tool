@@ -1,8 +1,8 @@
 import {
   Layer,
   VectorLayer,
-  Map,
   VectorLayerOptionsType,
+  Map,
   Geometry,
   addGeometryFitViewOptions,
   LineString,
@@ -24,13 +24,32 @@ declare class BorderLayer extends Layer {
   getConfig(): IBorderLayerConfig;
 }
 
-interface IOptions {
-  zIndex: number;
+interface ILayerBasicStyle {
+  backgroundColor: string;
+  lineColor: string;
+  lineWidth: number;
+  fontColor: string;
+  fontSize: number;
+  fontHaloFill: string;
+  fontHaloRadius: number;
 }
 declare class CityBoundry {
-  _layer: VectorLayer;
-  constructor(id: string, options?: Partial<IOptions>);
+  _layer_01: VectorLayer;
+  _layer_02: VectorLayer;
+  _config: {
+    backgroundLayerStyle: ILayerBasicStyle;
+    frontLayerStyle: ILayerBasicStyle;
+  };
+  constructor(
+    id: string,
+    options: VectorLayerOptionsType,
+    style: {
+      backgroundLayerStyle: Partial<ILayerBasicStyle>;
+      frontLayerStyle: Partial<ILayerBasicStyle>;
+    }
+  );
   setAreaCode(code: string): Promise<void>;
+  setBackgroundAreaCode(code: string): Promise<void>;
   addTo(map: Map): void;
   clear(): void;
   dispose(): void;
@@ -50,27 +69,36 @@ type TOffsetStyleMap = {
   /** 成员精细配置 */
   memember: Record<string, TOffsetStyleMemberItem[]>;
 };
+interface IOffsetLayerExtConfig {
+  onGroupVisibleChange: (ids: string[]) => void;
+}
 /**
  * 缩放时，根据配置调整元素的位移、是否显示、大小等操作
  * 轻微绘制在此图层的元素，配置两个属性
+ * 请使用这个图层的开发者，不要直接操作其中元素的show()、hide()
  * properties.offsetMemberId {boolean}用于精确定位到此元素（请保证此ID在此图层唯一）
  * properties.offsetMemberGroupId {?string}数据那个分组，自身的显示隐藏低于分组中的设置
  */
 declare class OffsetLayer extends VectorLayer {
   _offsetStyle: TOffsetStyleMap | undefined;
   _showIds: string[];
+  _config: IOffsetLayerExtConfig;
+  _timer01: any;
   constructor(
     id: string,
     geometries: VectorLayerOptionsType | Array<Geometry>,
-    options?: VectorLayerOptionsType
+    options: VectorLayerOptionsType,
+    config: IOffsetLayerExtConfig
   );
-  _onResize(): void;
+  _debHandlerResize(): void;
+  _onZoomed(): void;
+  _onReszie(): void;
   setActiveMememberIds(data: string[]): void;
   /**
    * 键值对数据
    * 键表示元素：properties.offsetMemberId
    */
-  setOffsetStyle(data: TOffsetStyleMap): this;
+  setOffsetStyle(data?: TOffsetStyleMap): this;
   addGeometry(
     geometries: Geometry | Array<Geometry>,
     fitView?: boolean | addGeometryFitViewOptions
@@ -81,8 +109,40 @@ declare class OffsetLayer extends VectorLayer {
   remove(): this;
 }
 
+/**
+ * 心跳线条（循环放大缩小效果）
+ */
 declare class HeartbeatLineString extends LineString {
-  constructor(coordinates: LineStringCoordinatesType, options?: LineStringOptionsType);
+  _testCount: number;
+  _heartbeatConfig: {
+    duration: number;
+    isRestore: boolean;
+    isMouseIn: boolean;
+    originZindx: number;
+    targetZindex: number;
+    looping: boolean;
+    originStyle: Record<string, any>;
+    targetStyle: Record<string, any>;
+  };
+  _player: ReturnType<typeof this$1.animate> | undefined;
+  constructor(
+    coordinates: LineStringCoordinatesType,
+    options: LineStringOptionsType & {
+      targetWidth: number;
+      duration: number;
+    }
+  );
+  updateSymbol(symbol: any): this;
+  _onMouseenter(): void;
+  _onMouseout(): void;
+  play(): this;
+  playLoop(): void;
+  playActive(): Promise<unknown>;
+  playRestore(isMouse?: boolean): Promise<unknown>;
+  remove(): this;
+  /** maptalks的bug，需要清空this._animPlayer，不然有缓存 */
+  _clearPlayer(): void;
+  stopLoop(): this;
 }
 
 declare function export_default(staticBaseUrl: string): void;

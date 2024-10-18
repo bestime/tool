@@ -76,7 +76,7 @@ function updateIconSymbol (symbol: any, ext: TOffsetStyleMemberItem) {
     symbol.markerOpacity = ext.iconOpacity  
   }
 
-  console.log("图标", symbol, symbol._cache.iconSize, ext.iconSize)
+  
     
 }
 
@@ -103,6 +103,10 @@ function getOneConfig (config: Record<string, TOffsetStyleMemberItem[]>, id: str
 
 
 
+interface IOffsetLayerExtConfig {
+  onGroupVisibleChange: (ids: string[]) => void
+}
+
 /**
  * 缩放时，根据配置调整元素的位移、是否显示、大小等操作
  * 轻微绘制在此图层的元素，配置两个属性
@@ -113,40 +117,59 @@ function getOneConfig (config: Record<string, TOffsetStyleMemberItem[]>, id: str
 export default class OffsetLayer extends VectorLayer {
   _offsetStyle: TOffsetStyleMap | undefined
   _showIds: string[] = []
-  constructor (id: string, geometries: VectorLayerOptionsType | Array<Geometry>, options?: VectorLayerOptionsType) {
+  _config: IOffsetLayerExtConfig
+  _timer01:any
+  
+  constructor (id: string, geometries: VectorLayerOptionsType | Array<Geometry>, options: VectorLayerOptionsType, config: IOffsetLayerExtConfig) {
     super(id, geometries, options)
-    this._onResize = this._onResize.bind(this)  
+    this._config = config
+    this._onZoomed = this._onZoomed.bind(this)
   }
 
-  
 
-  _onResize () {
+  _debHandlerResize () {
+    clearTimeout(this._timer01)
+    this._timer01 = setTimeout(() => {
+      this._onReszie()
+    }, 100)
+  }
+
+  _onZoomed () {
+    this._debHandlerResize()
+  }
+
+  _onReszie () {
+    // console.log("重新计算显示隐藏", this._offsetStyle, this)
     if(!this._offsetStyle) return;
     const currentZoom = this.getMap().getZoom()
+    const showGroupIds: string[] = []
     this.forEach((Ogeometry) => {
-      const mode = Ogeometry.properties?.offsetMemberId
-      
-      const groupId = Ogeometry.properties?.offsetMemberGroupId
-      
+      const mode = Ogeometry.properties?.offsetMemberId      
+      const groupId = Ogeometry.properties?.offsetMemberGroupId      
       if(isNull(mode)) return;
-
-      if(!this._showIds.includes(mode)) {
-        console.log("直接隐藏")
-        return Ogeometry.hide();
-      } else {
-        console.log("++++++++++++")
-        Ogeometry.show()
-      }
-      
 
       const cfgItem = getOneConfig(this._offsetStyle!.memember, mode as string, currentZoom)
       const gpConfig = getOneConfig(this._offsetStyle!.group, groupId as string, currentZoom)
 
+      const isGroupSelected = !gpConfig.hasRule || (gpConfig.hasRule && gpConfig.style)
+      if(isGroupSelected && !showGroupIds.includes(groupId)) {
+        showGroupIds.push(groupId)
+      }
+      if(!this._showIds.includes(mode)) {        
+        return Ogeometry.hide();
+      } else {        
+        Ogeometry.show()
+      }   
       const realConfig = cloneDeep(cfgItem)
       if(gpConfig.hasRule) {
         realConfig.hasRule = gpConfig.hasRule
         if(gpConfig.style) {
-          realConfig.style = merge({}, gpConfig.style, cfgItem.style)
+          // 子集
+          if(cfgItem.hasRule && !cfgItem.style) {
+            realConfig.style = void 0
+          } else {
+            realConfig.style = merge({}, gpConfig.style, cfgItem.style)
+          }
         } else {
           realConfig.style = void 0
         }        
@@ -155,16 +178,14 @@ export default class OffsetLayer extends VectorLayer {
       if(!realConfig.hasRule) return;
       
       const oldSymbol = Ogeometry.getSymbol()
-      console.log("找到配置",groupId, mode, gpConfig, cfgItem, realConfig)
+      // console.log("找到配置",groupId, mode, gpConfig, cfgItem, realConfig)
       if(!realConfig.style) {
         return Ogeometry.hide();
       }
 
       if(!realConfig.style) {
         return Ogeometry.hide();
-      }
-
-      
+      }      
 
       if(oldSymbol) {
         if(isArray(oldSymbol)) {
@@ -184,58 +205,62 @@ export default class OffsetLayer extends VectorLayer {
         }
         Ogeometry.updateSymbol(oldSymbol)
       }
-
       Ogeometry.show()
     })
+
+    this._config.onGroupVisibleChange(showGroupIds)
   }
 
   setActiveMememberIds (data: string[]) {
     this._showIds = data
-    console.log("显示的成员", data)
-    this._onResize()
+    this._debHandlerResize()
   }
 
   /**
    * 键值对数据
    * 键表示元素：properties.offsetMemberId
    */
-  setOffsetStyle (data: TOffsetStyleMap) {
+  setOffsetStyle (data?: TOffsetStyleMap) {
     // 按层级倒序
-    for(let key in data.memember) {
-      data.memember[key].sort(function (a, b) {
-        return b.zoom - a.zoom
-      })
+    if(data) {
+      for(let key in data.memember) {
+        data.memember[key].sort(function (a, b) {
+          return b.zoom - a.zoom
+        })
+      }
     }
+    
     this._offsetStyle = data
-    this._onResize()
+    this._debHandlerResize()
     return this;
   }
 
   addGeometry(geometries: Geometry | Array<Geometry>, fitView?: boolean | addGeometryFitViewOptions) {
     super.addGeometry(geometries, fitView)
-    console.log("被添加了元素")
-    this._onResize()
+    this._debHandlerResize()
   }
 
   onAdd(): void {
     super.onAdd()
-    this._onResize()
+    this._debHandlerResize()
   }
 
   addTo(map: Map) {
     super.addTo(map)
-    map.on('zoomend', this._onResize)
+    map.on('zoomend', this._onZoomed)
     return this;
   }
 
   clear(): this {
+    clearTimeout(this._timer01)
     super.clear()
     return this;
   }
 
   remove() {
+    clearTimeout(this._timer01)
     super.remove()
-    this.getMap()?.off('zoomend', this._onResize);
+    this.getMap()?.off('zoomend', this._onZoomed);
     return this;
   }
   
