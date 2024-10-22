@@ -5,5 +5,5 @@ export function setBaseUrl (data: string) {
 }
 
 export default function resolveBaseUrl (path: string) {
-  return `${staticBase}/readonly-utils_maptalks-static${path}`
+  return `${staticBase}/readonly-npm-utils-maptalks${path}`
 }

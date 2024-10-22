@@ -1,4 +1,5 @@
-import { uglify } from 'rollup-plugin-uglify'
+import postcss from 'rollup-plugin-postcss'
+import cssnano from 'cssnano'
 import babel from '@rollup/plugin-babel';
 import typescript from "typescript"
 import rollupTypescript from "rollup-plugin-typescript2"
@@ -6,7 +7,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import dts from 'rollup-plugin-dts'
 import json from '@rollup/plugin-json'
-
+import terser from '@rollup/plugin-terser'
 import rollupPluginUmdDts from './extends/rollup-plugin-umd-dts.mjs'
 const toolName = 'jUtilsMaptalks'
 
@@ -53,26 +54,14 @@ export default [
       'axios',
       '@bestime/utils_base'
     ],
-    output: [
-      {
-        file:  `dist/umd/index.min.cjs`,
-        banner: getBanner(),
-        format: 'umd',    
-        strict: true,
-        name: toolName,
-        indent: false,
-        sourcemap: false,
-        
-      },
-      {
-        file: `dist/esm/index.min.mjs`,
-        banner: getBanner(),
-        format: 'esm',
-        strict: true,
-        indent: false,
-        sourcemap: false,      
-      }
-    ],
+    output: {
+      file: `dist/index.min.mjs`,
+      banner: getBanner(),
+      format: 'esm',
+      strict: true,
+      indent: false,
+      sourcemap: false,      
+    },
     
     plugins: [
       nodeResolve(),
@@ -97,31 +86,30 @@ export default [
         ]
       }),
   
-      uglify({
-        ie8: true,
-        warnings: false,
-        compress: true,
-        output: {
-          beautify: false,
-          comments: function(node, comment) {
-              return /maptalks通用工具封装/i.test(comment.value);
-          }
+      postcss({
+        extract: 'index.min.css'
+      }),
+      
+      terser({
+        format: {
+          beautify: false
         }
-      }),    
+      })
     ]
   },
   {
     input: './src/main.ts',
     output: [
-      { file: `dist/esm/index.min.d.ts`, format: "es" },
-      { file: `dist/umd/index.min.d.ts`, format: "iife" }
+      { file: `dist/index.min.d.ts`, format: "es" }
     ],
     plugins: [
       dts(),
-      rollupPluginUmdDts({
-        name: toolName,
-        file: `dist/umd/index.min.d.ts`
-      })
+      postcss({
+        extract: 'index.min.css',
+        plugins: [
+          cssnano()
+        ]
+      }), 
     ],
   },
   

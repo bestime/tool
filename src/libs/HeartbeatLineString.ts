@@ -1,7 +1,7 @@
 import { LineString, Coordinate } from "maptalks";
 import type { LineStringCoordinatesType, LineStringOptionsType } from "maptalks";
 import { cloneDeep } from "lodash";
-import { defualtFormatter, isNull } from "@bestime/utils_base";
+import { Animate, defualtFormatter, isNull } from "@bestime/utils_base";
 
 
 
@@ -9,8 +9,10 @@ import { defualtFormatter, isNull } from "@bestime/utils_base";
  * 心跳线条（循环放大缩小效果）
  */
 class HeartbeatLineString extends LineString {  
-  _testCount = 0
+  
   _heartbeatConfig = {
+    /** 未销毁前，不让其再次飞行 */
+    flying: false,
     duration: 200 as number,
     isRestore: true,
     isMouseIn: false,
@@ -21,7 +23,8 @@ class HeartbeatLineString extends LineString {
     targetStyle: {} as Record<string, any>,
   }
 
-  _player: ReturnType<typeof this.animate> | undefined
+  _player: any|undefined
+  _flyAnma: Animate<any> | undefined
   
   constructor(coordinates: LineStringCoordinatesType, options: LineStringOptionsType & {
     targetWidth: number
@@ -72,7 +75,11 @@ class HeartbeatLineString extends LineString {
     return this;
   }
 
-  playLoop() {
+  /**
+   * 
+   * @param needFly 动画过渡到视觉容器大小
+   */
+  playLoop(needFly?: boolean) {
     this._heartbeatConfig.looping = true    
     this._clearPlayer()
     const doOnce = async () => {
@@ -88,8 +95,43 @@ class HeartbeatLineString extends LineString {
     };
 
     doOnce();
+    if(needFly) {
+      this._flyToFit()
+    }
   }
   
+
+  _flyToFit () {
+    if(this._heartbeatConfig.flying) return;
+    this._heartbeatConfig.flying = true
+    const map = this.getLayer().getMap()
+    const currentCenter = map.getCenter()
+    const fromCenter = [currentCenter.x, currentCenter.y, currentCenter.z]
+    const extent = this.getExtent();
+    const toZoom = map.getFitZoom(extent, true) - 0.3;
+    const tc = extent.getCenter()
+    const toCenter = [tc.x, tc.y, tc.z]
+
+    this._flyAnma?.dispose()
+    this._flyAnma = new Animate({
+      from: {
+        zoom: map.getZoom(),
+        center: fromCenter
+      },
+      to: {
+        zoom: toZoom,
+        center: toCenter
+      },
+      duration: 700,
+      easing: function(t, b, c, d) {
+        if ((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
+        return c / 2*((t -= 2) * t * t * t * t + 2) + b;
+      },
+      onChange: (newPrpo: any) => {
+        map.setCenterAndZoom(newPrpo.center, newPrpo.zoom)
+      }
+    }).start()
+  }
 
   async playActive () {
     this._clearPlayer()
@@ -142,6 +184,8 @@ class HeartbeatLineString extends LineString {
   }
 
   remove() {
+    this._flyAnma?.dispose()
+    
     this.stopLoop()
     this._player?.finish();
     this._clearPlayer()
@@ -150,6 +194,7 @@ class HeartbeatLineString extends LineString {
     // @ts-ignore 
     this?._clearAllListeners?.()
     
+    this._flyAnma = void 0
     super.remove()
     return this;
   }
@@ -162,6 +207,9 @@ class HeartbeatLineString extends LineString {
   }
 
   stopLoop () {
+    this._heartbeatConfig.flying = false
+    this._flyAnma?.dispose()
+    this._flyAnma = void 0
     this._heartbeatConfig.looping = false
     return this;
   }

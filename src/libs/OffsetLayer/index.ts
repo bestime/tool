@@ -1,5 +1,5 @@
 import { _Number, isArray, isNull, roundFixed, trim } from "@bestime/utils_base";
-import { cloneDeep, curry, merge } from "lodash-es";
+import { cloneDeep, merge } from "lodash-es";
 import { VectorLayer } from "maptalks";
 import type { VectorLayerOptionsType, Geometry, Map, addGeometryFitViewOptions, Marker } from "maptalks";
 
@@ -18,7 +18,6 @@ function sortOneGroupAndClear (data: Record<string, TOffsetStyleMemberItem[]>) {
 function hasSetV (data: string) {
   data = trim(data)
   if(data !== 'undefined' && data !== '') {
-    // console.log("水灵灵滚", data, typeof data)
     return _Number(data)
   } else {
     return ;
@@ -29,13 +28,16 @@ function getEditStyle (list: TOffsetStyleMemberItem[],data: TOffsetStyleMergeIte
   
   const zoom = hasSetV(data.zoom)
   const textOpacity = hasSetV(data.textOpacity)
+  
   const textOffset: any = [hasSetV(data.textOffset[0]), hasSetV(data.textOffset[1])]
+  
   const textSize = hasSetV(data.textSize)
   const iconSize = hasSetV(data.iconSize)
   const iconOpacity = hasSetV(data.iconOpacity)
  
   if(
-    isNull(textOpacity)
+    isNull(zoom)
+    && isNull(textOpacity)
     && isNull(textOffset[0])
     && isNull(textOffset[1])
     && isNull(textSize)
@@ -44,7 +46,7 @@ function getEditStyle (list: TOffsetStyleMemberItem[],data: TOffsetStyleMergeIte
   ) {
     // 删除原有的
     for(let a = 0;a<list.length;a++) {
-      if(list[a]?.zoom === zoom) {
+      if(list[a]?.zoom === data.oldZoom) {
         list.splice(a--, 1)
       }
     }
@@ -52,13 +54,13 @@ function getEditStyle (list: TOffsetStyleMemberItem[],data: TOffsetStyleMergeIte
     const old = list.find(function (c) {
       return c.zoom === zoom
     })
-    console.log("非空", zoom, textOpacity, textOffset, textSize,iconSize,iconOpacity)
+    const pxKong =isNull(textOffset[0]) && isNull(textOffset[1] )
     const x:TOffsetStyleMemberItem = {
       zoom: zoom,
       textOpacity,
-      textOffset: !isNull(textOffset[0]) || !textOffset[1] ? textOffset.map(function (v: any) {
+      textOffset: pxKong ? void 0 : textOffset.map(function (v: any) {
         return _Number(v)
-      }) : void 0,
+      }),
       textSize,
       iconSize,
       iconOpacity
@@ -71,103 +73,159 @@ function getEditStyle (list: TOffsetStyleMemberItem[],data: TOffsetStyleMergeIte
   } 
 }
 
-function createEditorHTML (currentZoom: number,el: HTMLDivElement, config: {
+function toInputValue (data?: string | number) {
+  if(data === 'undefined' || isNull(data)) {
+    return ''
+  } else {
+    return data
+  }
+}
+
+function createEditorHTML (instance:OffsetLayer, currentZoom: number,el: HTMLDivElement, config: {
   parent: ReturnType<typeof getOneConfig>,
   self: ReturnType<typeof getOneConfig>,
 }, onSave: (memember: TOffsetStyleMergeItem, group: TOffsetStyleMergeItem) => void) {
 
-  const { parent,self } = config
+  const { parent,self } = cloneDeep(config)
+  let oldSelfZoom = self.style?.zoom
+  let oldParentZoom = self.style?.zoom 
+  const editHtml = document.createElement('div')
+  editHtml.className="ckckljkjls"
+
+
+  
   el.innerHTML = `
-    <div>当前等级：${currentZoom}</div>
-    <ul>
-      <li>
-        <b>所属分组</b>
-        <input value="${parent.id}"/>
-      </li>
-      <li>
-        <b>配置等级</b>
-        <input value="${parent.style?.zoom}"/>
-      </li>
-      <li>
-        <b>字体大小</b>
-        <input value="${parent.style?.textSize}"/>
-      </li>
-      
-      <li>
-        <b>字体偏移</b>
-        <input value="${parent.style?.textOffset?.[0]}"/>
-        <input value="${parent.style?.textOffset?.[1]}"/>
-      </li>
-      <li>
-        <b>字体透明度</b>
-        <input value="${parent.style?.textOpacity}"/>
-      </li>
-      <li>
-        <b>图标尺寸</b>
-        <input value="${parent.style?.iconSize}"/>
-      </li>
-      <li>
-        <b>图标透明度</b>
-        <input value="${parent.style?.iconOpacity}"/>
-      </li>
-    </ul>
-    <ul>
-      <li>
-        <b>所属分组</b>
-        <input value="${self.id}"/>
-      </li>
-      <li>
-        <b>配置等级</b>
-        <input value="${self.style?.zoom}"/>
-      </li>
-      <li>
-        <b>字体大小</b>
-        <input value="${self.style?.textSize}"/>
-      </li>
-      <li>
-        <b>字体偏移</b>
-        <input value="${self.style?.textOffset?.[0]}"/>
-        <input value="${self.style?.textOffset?.[1]}"/>
-      </li>
-      <li>
-        <b>字体透明度</b>
-        <input value="${self.style?.textOpacity}"/>
-      </li>
-      <li>
-        <b>图标尺寸</b>
-        <input value="${self.style?.iconSize}"/>
-      </li>
-      <li>
-        <b>图标透明度</b>
-        <input value="${self.style?.iconOpacity}"/>
-      </li>
-    </ul>
-    <button class="save">保存</button>
+    <div class="current-zoom">
+      <b>当前等级：${currentZoom}</b>
+      <span>注：如果文字颜色的透明度只有颜色为</span>
+      <span>十六进制时有效 #dd4215</span>
+    </div>
+    <div class="form"></div>
+    <div class="btn-list">
+      <button class="save">保存</button>
+      <button class="back">还原</button>
+      <button class="exportConfig">导出配置</button>
+    </div>
   `
   
-  const oList = el.querySelectorAll('input')
-  el.querySelector<HTMLDivElement>('.save')!.onclick = function () {
+  function restForm () {
+    el.querySelector('.form')!.innerHTML = `
+      <ul>
+        <li is-disable>
+          <b>所属分组</b>
+          <span>${parent.id}</span>
+        </li>
+        <li is-disable>
+          <b>操作等级</b>
+          <span class="opz01">${toInputValue(oldParentZoom)}</span>
+        </li>
+        <li>
+          <b>配置等级</b>
+          <input value="${toInputValue(parent.style?.zoom)}"/>
+        </li>
+        <li>
+          <b>字体大小</b>
+          <input value="${toInputValue(parent.style?.textSize)}"/>
+        </li>
+        
+        <li>
+          <b>字体偏移</b>
+          <input value="${toInputValue(parent.style?.textOffset?.[0])}"/>
+          <input value="${toInputValue(parent.style?.textOffset?.[1])}"/>
+        </li>
+        <li>
+          <b>字体透明度</b>
+          <input value="${toInputValue(parent.style?.textOpacity)}"/>
+        </li>
+        <li>
+          <b>图标尺寸</b>
+          <input value="${toInputValue(parent.style?.iconSize)}"/>
+        </li>
+        <li>
+          <b>图标透明度</b>
+          <input value="${toInputValue(parent.style?.iconOpacity)}"/>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <b>所属分组</b>
+          <span>${self.id}</span>
+        </li>
+        <li is-disable>
+          <b>操作等级</b>
+          <span class="opz02">${toInputValue(oldSelfZoom)}</span>
+        </li>
+        <li>
+          <b>配置等级</b>
+          <input value="${toInputValue(self.style?.zoom)}"/>
+        </li>
+        <li>
+          <b>字体大小</b>
+          <input value="${toInputValue(self.style?.textSize)}"/>
+        </li>
+        <li>
+          <b>字体偏移</b>
+          <input value="${toInputValue(self.style?.textOffset?.[0])}"/>
+          <input value="${toInputValue(self.style?.textOffset?.[1])}"/>
+        </li>
+        <li>
+          <b>字体透明度</b>
+          <input value="${toInputValue(self.style?.textOpacity)}"/>
+        </li>
+        <li>
+          <b>图标尺寸</b>
+          <input value="${toInputValue(self.style?.iconSize)}"/>
+        </li>
+        <li>
+          <b>图标透明度</b>
+          <input value="${toInputValue(self.style?.iconOpacity)}"/>
+        </li>
+      </ul>
+    `
+  }
+
+
+  restForm()
+
+  function save () {
+    const oList = el.querySelectorAll('input')
     const parentStyle:TOffsetStyleMergeItem = {
-      zoom: oList[1].value,
-      textSize: oList[2].value,
-      textOffset: [oList[3].value, oList[4].value],
-      textOpacity: oList[5].value,
-      iconSize: oList[6].value,
-      iconOpacity: oList[7].value,
+      oldZoom: oldParentZoom,
+      zoom: oList[0].value,
+      textSize: oList[1].value,
+      textOffset: [oList[2].value, oList[3].value],
+      textOpacity: oList[4].value,
+      iconSize: oList[5].value,
+      iconOpacity: oList[6].value,
     }
     const selfStyle:TOffsetStyleMergeItem = {
-      zoom: oList[9].value,
-      textSize: oList[10].value,
-      textOffset: [oList[11].value, oList[12].value],
-      textOpacity: oList[13].value,
-      iconSize: oList[14].value,
-      iconOpacity: oList[15].value,
+      oldZoom: oldSelfZoom,
+      zoom: oList[7].value,
+      textSize: oList[8].value,
+      textOffset: [oList[9].value, oList[10].value],
+      textOpacity: oList[11].value,
+      iconSize: oList[12].value,
+      iconOpacity: oList[13].value,
     }
+    oldSelfZoom = +selfStyle.zoom || void 0
+    oldParentZoom = +parentStyle.zoom || void 0
+    el.querySelector('.opz01')!.innerHTML = `${oldParentZoom ?? ''}`
+    el.querySelector('.opz02')!.innerHTML = `${oldSelfZoom ?? ''}`
     onSave(selfStyle, parentStyle)
+  }
+  
+  el.querySelector<HTMLDivElement>('.back')!.onclick = function () {
     
+    restForm()
+    save()
+  }
+  el.querySelector<HTMLDivElement>('.save')!.onclick = save
+  el.querySelector<HTMLDivElement>('.exportConfig')!.onclick = function () {
+    console.log("复制此配置保存", JSON.stringify(instance._offsetStyle))
   }
 }
 interface TOffsetStyleMergeItem {
+  oldZoom?: number
   zoom: string,
   textOpacity: string
   textOffset: [string, string]
@@ -224,7 +282,6 @@ function updateTextSymbol (symbol: any, ext: TOffsetStyleMemberItem) {
   
 }
 
-function openEditPannel (oMarker:Marker) {}
 
 function updateIconSymbol (symbol: any, ext: TOffsetStyleMemberItem) {
   if(!symbol._cache) {
@@ -299,7 +356,6 @@ export default class OffsetLayer extends VectorLayer {
   constructor (id: string, geometries: VectorLayerOptionsType | Array<Geometry>, options: VectorLayerOptionsType, config: IOffsetLayerExtConfig) {
     super(id, geometries, options)
     this._config = config
-    // console.log("新版", 111)
     this._onZoomed = this._onZoomed.bind(this)
   }
 
@@ -323,6 +379,8 @@ export default class OffsetLayer extends VectorLayer {
       const groupId = Ogeometry.properties?.offsetMemberGroupId      
       if(isNull(mememberId)) return;
 
+      
+
       const cfgItem = getOneConfig(this._offsetStyle!.memember, mememberId as string, currentZoom)
       const gpConfig = getOneConfig(this._offsetStyle!.group, groupId as string, currentZoom)
 
@@ -330,10 +388,7 @@ export default class OffsetLayer extends VectorLayer {
       if(isGroupSelected && !showGroupIds.includes(groupId)) {
         showGroupIds.push(groupId)
       }
-      if(!this._showIds.includes(mememberId)) {        
-        Ogeometry.hide();
-        return 
-      }  
+       
       const realConfig = cloneDeep(cfgItem)
       if(gpConfig.hasRule) {
         realConfig.hasRule = gpConfig.hasRule
@@ -358,11 +413,15 @@ export default class OffsetLayer extends VectorLayer {
   }
 
   _onReszie () {
-    // console.log("重新计算显示隐藏", this._offsetStyle, this)
     if(!this._offsetStyle) return;
     const currentZoom = this.getMap().getZoom()
     const showGroupIds: string[] = []
     this.forEach((Ogeometry) => {
+      const mememberId = Ogeometry.properties?.offsetMemberId     
+      if(!this._showIds.includes(mememberId)) {        
+        Ogeometry.hide();
+        return 
+      } 
       
       const realConfig = this._getConfig(Ogeometry, currentZoom,showGroupIds)
       // 无配置
@@ -414,7 +473,6 @@ export default class OffsetLayer extends VectorLayer {
       sortOneGroupAndClear(data.group)
       sortOneGroupAndClear(data.memember)
     }
-    console.log("新配置", data)
     this._offsetStyle = data
     this._debHandlerResize()
     return this;
@@ -437,28 +495,21 @@ export default class OffsetLayer extends VectorLayer {
     }
     if(!this._editorContainer) {
       this._editorContainer = document.createElement('div')
-      this._editorContainer.style['position'] = 'absolute'
-      this._editorContainer.style['top'] = '20px'
-      this._editorContainer.style['right'] = '20px'
-      this._editorContainer.style['zIndex'] = '200'
-      this._editorContainer.style['color'] = 'white'
-      this._editorContainer.style['backgroundColor'] = 'black'
-      const rongqi = this.getMap().getContainer() as HTMLDivElement
-      rongqi.appendChild(this._editorContainer)
+      this._editorContainer.className = 'maptalks-offset-layer-tool'
+      
+      document.body.appendChild(this._editorContainer)
     }
     this._editMarker = marker
-    // console.log("哈哈哈哈", config)
-    createEditorHTML(zoom, this._editorContainer, config as any, (a, b) => {
-      // console.log("保存开始",a,b, this)
+    createEditorHTML(this, zoom, this._editorContainer, config as any, (a, b) => {
       if(!this._offsetStyle) return;
       
       this._offsetStyle.group[groupId] = this._offsetStyle.group[groupId] ?? []
       this._offsetStyle.memember[selfId] = this._offsetStyle.memember[selfId] ?? []
-      // console.log("编辑ssssssss", this._offsetStyle.group[groupId], this._offsetStyle.memember[selfId])
+      
       
       getEditStyle(this._offsetStyle.group[groupId], b)
       getEditStyle(this._offsetStyle.memember[selfId], a)
-      console.log("给你更新", this._offsetStyle)
+      
       this.setOffsetStyle(this._offsetStyle)
     })
   }
@@ -486,6 +537,7 @@ export default class OffsetLayer extends VectorLayer {
   }
 
   remove() {
+    this._editorContainer?.remove()
     clearTimeout(this._timer01)
     super.remove()
     this.getMap()?.off('zoomend', this._onZoomed);
