@@ -1,15 +1,23 @@
 import { isArray } from "@bestime/utils_base"
 import { Marker, MultiPolygon } from 'maptalks'
 
-export function getPolygonLilst (geojson: any, cfg: {
+export interface ILayerBasicStyle {
   backgroundColor: string,
-  lineWidth: number,
   lineColor: string,
+  lineWidth: number,
+  fontColor: string,
   fontSize: number,
-  fontColor: string
-  fontHaloFill?: string
-  fontHaloRadius?: number
-}) {
+  fontHaloFill: string,
+  fontHaloRadius:number,
+  icon?: {
+    url: string,
+    width: number
+    height: number
+    offsetY: number
+  }
+}
+
+export function getPolygonLilst (groupName: string, geojson: any, cfg: ILayerBasicStyle) {
   const res: MultiPolygon[] = []
   const markrs: Marker[] = []
   geojson?.features?.forEach(function (item: any) {
@@ -23,8 +31,8 @@ export function getPolygonLilst (geojson: any, cfg: {
         }
       })
       if(isArray(item.properties.center)) {
-        const oMarker = new Marker(item.properties.center, {
-          symbol: {
+        const symbol = [
+          {
             'textFaceName' : 'Microsoft YaHei',
             'textName' : item.properties.name,
             'textWeight'        : 'normal',
@@ -40,6 +48,26 @@ export function getPolygonLilst (geojson: any, cfg: {
             'textVerticalAlignment'   : 'middle',
             'textAlign'               : 'center'
           } as any
+        ]
+
+        if(cfg.icon) {
+          symbol.push({
+            markerFile: cfg.icon.url,
+            markerWidth: cfg.icon.width,
+            markerHeight: cfg.icon.height,
+            markerOpacity: 1,
+            markerHorizontalAlignment: 'middle',
+            markerVerticalAlignment: 'middle',
+            markerDx: 0,
+            markerDy: cfg.icon.offsetY,
+          } as any)
+        }
+
+        const oMarker = new Marker(item.properties.center, {
+          properties: {
+            groupName
+          },
+          symbol
         })
         markrs.push(oMarker)
       }

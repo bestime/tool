@@ -1,4 +1,4 @@
-import { Layer, VectorLayer, VectorLayerOptionsType, Map, Marker, Geometry, addGeometryFitViewOptions, LineString, LineStringCoordinatesType, LineStringOptionsType } from 'maptalks';
+import { Layer, VectorLayer, Map, VectorLayerOptionsType, Marker, Geometry, addGeometryFitViewOptions, MultiLineString, LineStringCoordinatesType, LineStringOptionsType } from 'maptalks';
 import { Animate } from '@bestime/utils_base';
 
 interface IBorderLayerConfig {
@@ -23,20 +23,31 @@ interface ILayerBasicStyle {
     fontSize: number;
     fontHaloFill: string;
     fontHaloRadius: number;
+    icon?: {
+        url: string;
+        width: number;
+        height: number;
+        offsetY: number;
+    };
 }
+
 declare class CityBoundry {
     _layer_01: VectorLayer;
     _layer_02: VectorLayer;
+    map: Map | undefined;
     _config: {
         backgroundLayerStyle: ILayerBasicStyle;
         frontLayerStyle: ILayerBasicStyle;
     };
+    _onZoomedHandler?: (data: any) => void;
     constructor(id: string, options: VectorLayerOptionsType, style: {
         backgroundLayerStyle: Partial<ILayerBasicStyle>;
         frontLayerStyle: Partial<ILayerBasicStyle>;
     });
     setAreaCode(code: string): Promise<void>;
     setBackgroundAreaCode(code: string): Promise<void>;
+    _deferDrawSubCity(parentGeoJson: Record<string, any>): Promise<void>;
+    _toggleShowSubCity(zoom?: number): void;
     addTo(map: Map): void;
     clear(): void;
     dispose(): void;
@@ -111,7 +122,7 @@ declare class OffsetLayer extends VectorLayer {
 /**
  * 心跳线条（循环放大缩小效果）
  */
-declare class HeartbeatLineString extends LineString {
+declare class HeartbeatMultiLineString extends MultiLineString {
     _heartbeatConfig: {
         /** 未销毁前，不让其再次飞行 */
         flying: boolean;
@@ -126,7 +137,7 @@ declare class HeartbeatLineString extends LineString {
     };
     _player: any | undefined;
     _flyAnma: Animate<any> | undefined;
-    constructor(coordinates: LineStringCoordinatesType, options: LineStringOptionsType & {
+    constructor(coordinates: LineStringCoordinatesType[], options: LineStringOptionsType & {
         targetWidth: number;
         duration: number;
     });
@@ -150,4 +161,4 @@ declare class HeartbeatLineString extends LineString {
 
 declare function export_default(staticBaseUrl: string): void;
 
-export { BorderLayer, CityBoundry, HeartbeatLineString, OffsetLayer, export_default as default };
+export { BorderLayer, CityBoundry, HeartbeatMultiLineString, OffsetLayer, export_default as default };

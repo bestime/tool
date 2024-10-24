@@ -1,4 +1,4 @@
-import { LineString, Coordinate } from "maptalks";
+import { LineString, Coordinate, MultiLineString } from "maptalks";
 import type { LineStringCoordinatesType, LineStringOptionsType } from "maptalks";
 import { cloneDeep } from "lodash";
 import { Animate, defualtFormatter, isNull } from "@bestime/utils_base";
@@ -8,7 +8,7 @@ import { Animate, defualtFormatter, isNull } from "@bestime/utils_base";
 /**
  * 心跳线条（循环放大缩小效果）
  */
-class HeartbeatLineString extends LineString {  
+class HeartbeatMultiLineString extends MultiLineString {  
   
   _heartbeatConfig = {
     /** 未销毁前，不让其再次飞行 */
@@ -26,7 +26,7 @@ class HeartbeatLineString extends LineString {
   _player: any|undefined
   _flyAnma: Animate<any> | undefined
   
-  constructor(coordinates: LineStringCoordinatesType, options: LineStringOptionsType & {
+  constructor(coordinates: LineStringCoordinatesType[], options: LineStringOptionsType & {
     targetWidth: number
     duration: number
   }) {
@@ -215,6 +215,6 @@ class HeartbeatLineString extends LineString {
   }
 }
 
-HeartbeatLineString.registerJSONType("HeartbeatLineString");
+HeartbeatMultiLineString.registerJSONType("HeartbeatMultiLineString");
 
-export default HeartbeatLineString;
+export default HeartbeatMultiLineString;
