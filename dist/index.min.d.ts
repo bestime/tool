@@ -17,6 +17,7 @@ declare class BorderLayer extends Layer {
 
 interface ILayerBasicStyle {
     backgroundColor: string;
+    hoverBackgroundColor: string;
     lineColor: string;
     lineWidth: number;
     fontColor: string;
@@ -36,11 +37,13 @@ declare class CityBoundry {
     _layer_02: VectorLayer;
     map: Map | undefined;
     _config: {
+        subAreaShowZoom: number;
         backgroundLayerStyle: ILayerBasicStyle;
         frontLayerStyle: ILayerBasicStyle;
     };
     _onZoomedHandler?: (data: any) => void;
-    constructor(id: string, options: VectorLayerOptionsType, style: {
+    constructor(id: string, options: VectorLayerOptionsType, ext: {
+        subAreaShowZoom?: number;
         backgroundLayerStyle: Partial<ILayerBasicStyle>;
         frontLayerStyle: Partial<ILayerBasicStyle>;
     });

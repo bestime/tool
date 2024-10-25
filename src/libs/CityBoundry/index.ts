@@ -5,6 +5,7 @@ import requestStaticFile from '../requestStaticFile'
 import { getPolygonLilst } from './libs'
 
 import type { ILayerBasicStyle } from './libs'
+import { isNull } from '@bestime/utils_base'
 
 
 
@@ -14,34 +15,39 @@ export default class CityBoundry {
   _layer_02: VectorLayer
   map: Map | undefined
   _config: {
+    subAreaShowZoom: number
     backgroundLayerStyle: ILayerBasicStyle,
     frontLayerStyle: ILayerBasicStyle
   }
   _onZoomedHandler?: (data: any) => void
 
-  constructor (id: string, options: VectorLayerOptionsType, style: {
+  constructor (id: string, options: VectorLayerOptionsType, ext: {
+    subAreaShowZoom?: number
     backgroundLayerStyle: Partial<ILayerBasicStyle>,
     frontLayerStyle: Partial<ILayerBasicStyle>
   }) {
     this._config = {
+      subAreaShowZoom: ext.subAreaShowZoom ?? 5,
       backgroundLayerStyle: merge({
         backgroundColor: 'rgba(0,0,0,0.1)',
+        hoverBackgroundColor: 'red',
         lineColor: '#1a504e',
         lineWidth: 1,
         fontSize: 12,
         fontColor: '#66a1a3',
         fontHaloFill: 'black',
         fontHaloRadius:1
-      }, style.backgroundLayerStyle),
+      }, ext.backgroundLayerStyle),
       frontLayerStyle: merge({
         backgroundColor: '#013733',
+        hoverBackgroundColor: 'red',
         lineColor: '#1a504e',
         lineWidth: 1,
         fontColor: 'white',
         fontSize: 12,
         fontHaloFill: 'black',
         fontHaloRadius:1
-      }, style.frontLayerStyle),
+      }, ext.frontLayerStyle),
     }
     const cfg = merge({
       zIndex: 2,
@@ -78,7 +84,6 @@ export default class CityBoundry {
   }
 
   async _deferDrawSubCity (parentGeoJson: Record<string, any>) {
-    console.log("绘制", parentGeoJson)
     let item: any;
 
     this._layer_01.forEach(function (oGemotry) {
@@ -90,18 +95,25 @@ export default class CityBoundry {
     for(let index=0;index<parentGeoJson.features.length;index++) {
       item = parentGeoJson.features[index]
       const path = `/geos/${item.properties.adcode}_full.json`
+      const zoom = this.map?.getZoom()
       const { data } = await requestStaticFile(path)
-      console.log("子集", data)
-      const res = getPolygonLilst('subFront',data, this._config.frontLayerStyle)
+      const res = getPolygonLilst('subFront',data, this._config.frontLayerStyle, true)
       this._layer_01.addGeometry(res.polygons)
       this._layer_01.addGeometry(res.markers)
     }
-
   }
 
 
   _toggleShowSubCity (zoom?: number) {
-    this._layer_01.forEach(function (item) {})
+    this._layer_01.forEach((oGemotry) =>{
+      if(oGemotry.properties.groupName === 'subFront') {
+        if(zoom && zoom > this._config.subAreaShowZoom) {
+          oGemotry.show()
+        } else {
+          oGemotry.hide()
+        }
+      }
+    })
   }
 
   addTo (map: Map) {

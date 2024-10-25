@@ -1,6 +1,6 @@
 {
   "name": "@bestime/utils_maptalks",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "./dist/index.min.mjs",
   "module": "./dist/index.min.mjs",
   "typings": "./dist/index.min.d.ts",

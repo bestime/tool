@@ -3,6 +3,7 @@ import { Marker, MultiPolygon } from 'maptalks'
 
 export interface ILayerBasicStyle {
   backgroundColor: string,
+  hoverBackgroundColor: string
   lineColor: string,
   lineWidth: number,
   fontColor: string,
@@ -17,19 +18,34 @@ export interface ILayerBasicStyle {
   }
 }
 
-export function getPolygonLilst (groupName: string, geojson: any, cfg: ILayerBasicStyle) {
+export function getPolygonLilst (groupName: string, geojson: any, cfg: ILayerBasicStyle, isHidden?: boolean) {
   const res: MultiPolygon[] = []
   const markrs: Marker[] = []
   geojson?.features?.forEach(function (item: any) {
     if(item.geometry.type === 'MultiPolygon') {
       const oPl = new MultiPolygon(item.geometry.coordinates,  {
-        properties: item.properties,
+        properties: {
+          groupName
+        },
         symbol: {
           polygonFill: cfg.backgroundColor,
           lineWidth: cfg.lineWidth,
           lineColor: cfg.lineColor
         }
       })
+
+      oPl.on('mouseenter', function () {
+        oPl.updateSymbol({
+          polygonFill: cfg.hoverBackgroundColor,
+        })
+      })
+      oPl.on('mouseout', function () {
+        oPl.updateSymbol({
+          polygonFill: cfg.backgroundColor,
+        })
+      })
+
+
       if(isArray(item.properties.center)) {
         const symbol = [
           {
@@ -64,12 +80,23 @@ export function getPolygonLilst (groupName: string, geojson: any, cfg: ILayerBas
         }
 
         const oMarker = new Marker(item.properties.center, {
+          interactive: false,
+          draggable: false,
+          editable: false,
+          cursor: 'default',
           properties: {
             groupName
           },
           symbol
         })
+        if(isHidden) {
+          oMarker.hide()
+        }
         markrs.push(oMarker)
+      }
+
+      if(isHidden) {
+        oPl.hide()
       }
       
       res.push(oPl)
