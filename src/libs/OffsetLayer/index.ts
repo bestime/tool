@@ -221,7 +221,7 @@ function createEditorHTML (instance:OffsetLayer, currentZoom: number,el: HTMLDiv
   }
   el.querySelector<HTMLDivElement>('.save')!.onclick = save
   el.querySelector<HTMLDivElement>('.exportConfig')!.onclick = function () {
-    console.log("复制此配置保存", JSON.stringify(instance._offsetStyle))
+    console.log("复制此配置保存 => ", JSON.stringify(instance._offsetStyle))
   }
 }
 interface TOffsetStyleMergeItem {
@@ -276,8 +276,8 @@ function updateTextSymbol (symbol: any, ext: TOffsetStyleMemberItem) {
     symbol.textDx = symbol._cache.textDx
     symbol.textDy = symbol._cache.textDy
   } else {
-    symbol.textDx = symbol._cache.textDx + ext.textOffset[0]
-    symbol.textDy = symbol._cache.textDy + ext.textOffset[1]
+    symbol.textDx = ext.textOffset[0]
+    symbol.textDy = ext.textOffset[1]
   }
   
 }
