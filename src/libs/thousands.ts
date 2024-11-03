@@ -1,4 +1,6 @@
+import _Number from './_Number'
 import _String from './_String'
+import isLikeNumber from './isLikeNumber'
 import isString from './isString'
 
 /**
@@ -11,9 +13,21 @@ import isString from './isString'
 export default function thousands (data: number | string, len?: number, symbol?: string) {
   len = len || 3
   symbol = symbol || ','
-  const target = isString(data) ? data : _String(data)
-  return target.replace(/([^.]*)?(\.)?(.*)?/, function(_, pre, dot, next) {
+  let target = isString(data) ? data : _String(data)
+  // 是否是负数
+  let isMinus = false
+  if(isLikeNumber(target)) {
+    const v =_Number(target) 
+    isMinus = v < 0
+    target = Math.abs(v).toString()
+  }
+  let res = target.replace(/([^.]*)?(\.)?(.*)?/, function(_, pre, dot, next) {
     return _String(pre).replace(new RegExp('(.(?=(.{'+ len +'})+$))', 'g'), '$1' + symbol) + _String(dot) + _String(next)
   }) 
-  // return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, symbol || ',');
+
+  if(isMinus) {
+    res = '-' + res
+  }
+  
+  return res
 }
