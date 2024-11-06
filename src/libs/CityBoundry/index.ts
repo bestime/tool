@@ -1,20 +1,27 @@
 
 import { Map, VectorLayer, type VectorLayerOptionsType } from 'maptalks'
-import { cloneDeep, debounce, merge } from 'lodash-es'
+import { cloneDeep, debounce, get, merge } from 'lodash-es'
 import requestStaticFile from '../requestStaticFile'
 import { getPolygonLilst } from './libs'
 
 import type { ILayerBasicStyle } from './libs'
 import { isNull } from '@bestime/utils_base'
 
-
+type TAreaClickHandler = (data: {
+  adcode?: number,
+  name?: string
+}) => void
 
 
 export default class CityBoundry {
   _layer_01: VectorLayer
   _layer_02: VectorLayer
   map: Map | undefined
+  _activeAreaCode = ''
+  _activeHoverCode = ''
+  
   _config: {
+    onAreaClick?: TAreaClickHandler
     subAreaShowZoom: number
     backgroundLayerStyle: ILayerBasicStyle,
     frontLayerStyle: ILayerBasicStyle
@@ -23,10 +30,12 @@ export default class CityBoundry {
 
   constructor (id: string, options: VectorLayerOptionsType, ext: {
     subAreaShowZoom?: number
+    onAreaClick: TAreaClickHandler,
     backgroundLayerStyle: Partial<ILayerBasicStyle>,
     frontLayerStyle: Partial<ILayerBasicStyle>
   }) {
     this._config = {
+      onAreaClick: ext.onAreaClick,
       subAreaShowZoom: ext.subAreaShowZoom ?? 5,
       backgroundLayerStyle: merge({
         backgroundColor: 'rgba(0,0,0,0.1)',
@@ -65,11 +74,87 @@ export default class CityBoundry {
   async setAreaCode (code: string) {
     const path = `/geos/${code}_full.json`
     await requestStaticFile(path).then(({ data }) => {
-      const res = getPolygonLilst('front',data, this._config.frontLayerStyle)
+      const sty = this._config.frontLayerStyle
+      const res = getPolygonLilst('front',data, sty)
       this._layer_01.clear()
+      if(this._config.frontLayerStyle.clickBackgroundColor) {
+        
+        res.polygons.forEach((oPl) => {
+          oPl.on('mouseenter', () => {
+            if(oPl.properties.isActive) return;
+            this._setHoverAreaCode(oPl.properties.adcode, true)
+          })
+          oPl.on('mouseout', () => {
+            if(oPl.properties.isActive) return;
+            this._setHoverAreaCode(oPl.properties.adcode, false)
+          })
+          oPl.on('click', () => {
+            if(oPl.properties.adcode === this._activeAreaCode) {
+              this.setActiveFrontArecode('')
+              this._config.onAreaClick?.({
+                adcode: void 0,
+                name: void 0,
+              })
+            } else {
+              this.setActiveFrontArecode(oPl.properties.adcode)
+              this._config.onAreaClick?.({
+                adcode: oPl.properties.adcode,
+                name: oPl.properties.name,
+              })
+            }
+          })
+        })
+      }
+      
       this._layer_01.addGeometry(res.polygons)
       this._layer_01.addGeometry(res.markers)
       this._deferDrawSubCity(data)
+    })
+    this._setHoverAreaCode(this._activeHoverCode, true)
+    this.setActiveFrontArecode(this._activeAreaCode)
+  }
+
+  _setHoverAreaCode (code: string, isEnter: boolean) {
+    const hoverColor = this._config.frontLayerStyle.hoverBackgroundColor
+    if(!hoverColor) return;
+    this._activeHoverCode = isEnter ? code : ''
+    this._layer_01.forEach((oPoy) => {
+      if(oPoy.type !== 'MultiPolygon') return;
+      
+      const isTarget = oPoy.properties.adcode === code || oPoy.properties.acroutes.includes(code)
+      if(!isTarget) return;
+      if(isEnter) {
+        oPoy.properties.isHover = true
+        oPoy.updateSymbol({
+          polygonFill: hoverColor,
+        })
+      } else {
+        oPoy.properties.isHover = false
+        oPoy.updateSymbol({
+          polygonFill: this._config.frontLayerStyle.backgroundColor,
+        })
+      }
+    })
+  }
+  setActiveFrontArecode (code: string) {
+    const clickColor = this._config.frontLayerStyle.clickBackgroundColor
+    if(!clickColor) return;
+    this._activeAreaCode = code
+    this._layer_01.forEach((oPoy) => {
+      if(oPoy.type !== 'MultiPolygon') return;
+      
+      const isActive = oPoy.properties.adcode === code || oPoy.properties.acroutes.includes(code)
+      if(isActive) {
+        oPoy.properties.isActive = true
+        oPoy.updateSymbol({
+          polygonFill: clickColor,
+        })
+      } else {
+        oPoy.properties.isActive = false
+        oPoy.updateSymbol({
+          polygonFill: this._config.frontLayerStyle.backgroundColor,
+        })
+      }
     })
   }
 
@@ -95,7 +180,6 @@ export default class CityBoundry {
     for(let index=0;index<parentGeoJson.features.length;index++) {
       item = parentGeoJson.features[index]
       const path = `/geos/${item.properties.adcode}_full.json`
-      const zoom = this.map?.getZoom()
       const { data } = await requestStaticFile(path)
       const res = getPolygonLilst('subFront',data, this._config.frontLayerStyle, true)
       this._layer_01.addGeometry(res.polygons)

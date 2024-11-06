@@ -17,7 +17,8 @@ declare class BorderLayer extends Layer {
 
 interface ILayerBasicStyle {
     backgroundColor: string;
-    hoverBackgroundColor: string;
+    hoverBackgroundColor?: string;
+    clickBackgroundColor?: string;
     lineColor: string;
     lineWidth: number;
     fontColor: string;
@@ -32,11 +33,18 @@ interface ILayerBasicStyle {
     };
 }
 
+type TAreaClickHandler = (data: {
+    adcode?: number;
+    name?: string;
+}) => void;
 declare class CityBoundry {
     _layer_01: VectorLayer;
     _layer_02: VectorLayer;
     map: Map | undefined;
+    _activeAreaCode: string;
+    _activeHoverCode: string;
     _config: {
+        onAreaClick?: TAreaClickHandler;
         subAreaShowZoom: number;
         backgroundLayerStyle: ILayerBasicStyle;
         frontLayerStyle: ILayerBasicStyle;
@@ -44,10 +52,13 @@ declare class CityBoundry {
     _onZoomedHandler?: (data: any) => void;
     constructor(id: string, options: VectorLayerOptionsType, ext: {
         subAreaShowZoom?: number;
+        onAreaClick: TAreaClickHandler;
         backgroundLayerStyle: Partial<ILayerBasicStyle>;
         frontLayerStyle: Partial<ILayerBasicStyle>;
     });
     setAreaCode(code: string): Promise<void>;
+    _setHoverAreaCode(code: string, isEnter: boolean): void;
+    setActiveFrontArecode(code: string): void;
     setBackgroundAreaCode(code: string): Promise<void>;
     _deferDrawSubCity(parentGeoJson: Record<string, any>): Promise<void>;
     _toggleShowSubCity(zoom?: number): void;

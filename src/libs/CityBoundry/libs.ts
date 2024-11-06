@@ -3,7 +3,8 @@ import { Marker, MultiPolygon } from 'maptalks'
 
 export interface ILayerBasicStyle {
   backgroundColor: string,
-  hoverBackgroundColor: string
+  hoverBackgroundColor?: string
+  clickBackgroundColor?: string
   lineColor: string,
   lineWidth: number,
   fontColor: string,
@@ -21,11 +22,17 @@ export interface ILayerBasicStyle {
 export function getPolygonLilst (groupName: string, geojson: any, cfg: ILayerBasicStyle, isHidden?: boolean) {
   const res: MultiPolygon[] = []
   const markrs: Marker[] = []
+  const isFront = groupName === 'front'
   geojson?.features?.forEach(function (item: any) {
     if(item.geometry.type === 'MultiPolygon') {
       const oPl = new MultiPolygon(item.geometry.coordinates,  {
+        interactive: isFront,
         properties: {
-          groupName
+          groupName,
+          isActive: false,
+          acroutes: item.properties.acroutes,
+          adcode: item.properties.adcode,
+          name: item.properties.name,
         },
         symbol: {
           polygonFill: cfg.backgroundColor,
@@ -33,18 +40,6 @@ export function getPolygonLilst (groupName: string, geojson: any, cfg: ILayerBas
           lineColor: cfg.lineColor
         }
       })
-
-      oPl.on('mouseenter', function () {
-        oPl.updateSymbol({
-          polygonFill: cfg.hoverBackgroundColor,
-        })
-      })
-      oPl.on('mouseout', function () {
-        oPl.updateSymbol({
-          polygonFill: cfg.backgroundColor,
-        })
-      })
-
 
       if(isArray(item.properties.center)) {
         const symbol = [
