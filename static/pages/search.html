@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custom Search</title>
+<style>
+  /* 高亮搜索结果的样式 */
+  .highlight {
+    background-color: yellow;
+  }
+</style>
+</head>
+<body>
+
+<input type="text" id="searchInput" placeholder="输入搜索内容">
+<button onclick="findAndHighlight()">搜索</button>
+<p>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sit amet accumsan arcu. Curabitur at augue in quam sollicitudin tincidunt.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. 张三 lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+<p>
+  Pellentesque ac posuere leo. Proin ut fermentum leo. Vivamus lacinia, mauris vitae pharetra fermentum, eros elit condimentum elit, vitae pulvinar risus nisl a ex.
+</p>
+
+<script>
+function findAndHighlight() {
+  // 获取搜索词
+  const searchTerm = document.getElementById('searchInput').value;
+  if (!searchTerm) return;
+
+  // 清除上次的高亮效果
+  clearHighlights();
+
+  // 创建正则表达式，查找所有匹配的项
+  const regex = new RegExp(searchTerm, 'gi');
+
+  // 查找所有文本节点并高亮显示匹配项
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+  let node;
+  let found = false;
+
+  while (node = walker.nextNode()) {
+    const parent = node.parentNode;
+
+    // 跳过非元素节点
+    if (parent.nodeType !== 1) continue;
+
+    const text = node.nodeValue;
+    if (regex.test(text)) {
+      found = true;
+      const highlightedHTML = text.replace(regex, `<span class="highlight">${searchTerm}</span>`);
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = highlightedHTML;
+
+      // 将匹配的内容插入文档
+      while (tempDiv.firstChild) {
+        parent.insertBefore(tempDiv.firstChild, node);
+      }
+      parent.removeChild(node);
+    }
+  }
+
+  // 滚动到第一个高亮匹配项
+  const firstMatch = document.querySelector('.highlight');
+  if (firstMatch) {
+    firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else if (!found) {
+    alert("未找到匹配内容");
+  }
+}
+
+// 清除上次的高亮显示
+function clearHighlights() {
+  const highlights = document.querySelectorAll('.highlight');
+  highlights.forEach(span => {
+    const parent = span.parentNode;
+    parent.replaceChild(document.createTextNode(span.textContent), span);
+    parent.normalize(); // 合并相邻文本节点
+  });
+}
+</script>
+
+</body>
+</html>

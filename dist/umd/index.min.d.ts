@@ -681,6 +681,7 @@ declare function mapKvPair<T extends TKvPair, U>(
  * @return
  */
 declare function isFuzzyMatch(search: string, data: string, regFlags?: string): boolean;
+declare function fuzzyReplace(search: string, data: string, regFlags?: string): string;
 
 /**
  * 向字符串中添加零宽字符。（暂时用于排除同名表格单元格合并）
@@ -1101,6 +1102,7 @@ declare global {
       forEachKvPair,
       forEachTree,
       formatTime,
+      fuzzyReplace,
       getLikeNumberRegExp,
       getPiecesWithIndex,
       getRandom,
