@@ -71,6 +71,7 @@ export { default as debounce } from './libs/debounce'
 export { default as throttle } from './libs/throttle'
 export { default as padMinMax } from './libs/padMinMax'
 export { default as treeFilter } from './libs/treeFilter'
+export { default as findLast } from './libs/findLast'
 
 
 

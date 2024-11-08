@@ -39,10 +39,6 @@ function getBanner () {
 
 
 
-function getDtsName (type) {
-  return `dist/${type}/index.d.ts`
-}
-
 
 export default [
   {
@@ -110,14 +106,14 @@ export default [
   {
     input: './src/main.ts',
     output: [
-      { file: `dist/esm/index.min.d.ts`, format: "es" },
-      { file: `dist/umd/index.min.d.ts`, format: "iife" }
+      { file: `dist/esm/index.d.ts`, format: "es" },
+      { file: `dist/umd/index.d.ts`, format: "iife" }
     ],
     plugins: [
       dts(),
       rollupPluginUmdDts({
         name: toolName,
-        file: `dist/umd/index.min.d.ts`
+        file: `dist/umd/index.d.ts`
       })
     ],
   },
