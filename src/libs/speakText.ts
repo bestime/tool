@@ -46,6 +46,7 @@ async function readyLanguage (item: SpeechSynthesisVoice) {
 
     function tryOnce () {
       console.log("v3尝试次数：", count++)
+      utterance.voice = item; // 获取第一个声音
       utterance.text = count.toString();  
       synth.speak(utterance);
       clearTimeout(timer)      
@@ -96,7 +97,7 @@ export default async function speakText (message: string, options: {
   const vod = voidList.find(c => trim(c.name, '*') === trim(options.language, '*')) || voidList[0]
   utterance.lang = vod.lang
   // 可选：设置朗读声音
-  utterance.voice = vod; // 获取第一个声音
+  
   console.log("语言加载", options.language, vod)
   await readyLanguage(vod)
   console.log("开始播放", message)
