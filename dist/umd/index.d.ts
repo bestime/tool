@@ -325,6 +325,21 @@ declare class TextRainCanvas {
   }[];
 }
 
+type Tlanguage =
+  | 'Microsoft Huihui - Chinese (Simplified, PRC)'
+  | 'Microsoft Kangkang - Chinese (Simplified, PRC)'
+  | 'Microsoft Kangkang - Chinese (Simplified, PRC)'
+  | 'Microsoft Yaoyao - Chinese (Simplified, PRC)'
+  | 'Google 한국의'
+  | 'Google 日本語'
+  | 'Google 粤語（香港）';
+declare function speakText(
+  message: string,
+  options: {
+    language?: Tlanguage;
+  }
+): Promise<void>;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -358,6 +373,7 @@ declare global {
       replaceClass,
       setCookie,
       setStorage,
+      speakText,
       toggleClass
     };
   }

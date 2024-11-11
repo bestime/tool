@@ -325,6 +325,21 @@ declare class TextRainCanvas {
   }[];
 }
 
+type Tlanguage =
+  | 'Microsoft Huihui - Chinese (Simplified, PRC)'
+  | 'Microsoft Kangkang - Chinese (Simplified, PRC)'
+  | 'Microsoft Kangkang - Chinese (Simplified, PRC)'
+  | 'Microsoft Yaoyao - Chinese (Simplified, PRC)'
+  | 'Google 한국의'
+  | 'Google 日本語'
+  | 'Google 粤語（香港）';
+declare function speakText(
+  message: string,
+  options: {
+    language?: Tlanguage;
+  }
+): Promise<void>;
+
 export {
   TextRainCanvas,
   addClass,
@@ -353,6 +368,7 @@ export {
   replaceClass,
   setCookie,
   setStorage,
+  speakText,
   toggleClass
 };
 

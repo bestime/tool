@@ -26,4 +26,5 @@ export { default as createXLSX } from './libs/createXLSX'
 export { default as pdfToImage } from './libs/pdfToImage'
 export { default as infoContainerPosition } from './libs/infoContainerPosition'
 export { default as TextRainCanvas } from './libs/TextRainCanvas'
+export { default as speakText } from './libs/speakText'
 
