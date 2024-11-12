@@ -418,12 +418,14 @@ export default class OffsetLayer extends VectorLayer {
     const showGroupIds: string[] = []
     this.forEach((Ogeometry) => {
       const mememberId = Ogeometry.properties?.offsetMemberId     
+      
+      
+      const realConfig = this._getConfig(Ogeometry, currentZoom,showGroupIds)
+
       if(!this._showIds.includes(mememberId)) {        
         Ogeometry.hide();
         return 
       } 
-      
-      const realConfig = this._getConfig(Ogeometry, currentZoom,showGroupIds)
       // 无配置
       if(!realConfig) return Ogeometry.show();
       
