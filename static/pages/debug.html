@@ -4,37 +4,79 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>测试页面444</title>
-    <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.11.6/dayjs.min.js"></script>
-    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.11.6/plugin/customParseFormat.min.js"></script> -->
-    <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.2.2/axios.min.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
-    <script src="../../dist/jUtilsBase.umd.min.cjs"></script>
-    <script>
-      
-    </script>
+    <script src="../../dist/umd/index.min.cjs"></script>
+    <script src="../js/pacong/main.js"></script>
+    <script src="../js/pacong/1.js"></script>
+    <script src="../js/pacong/2.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script> -->
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/query-string/9.0.0/index.js"></script> -->
+    <!-- <script src="../js/rukou.js"></script>
+    <script src="../js/test.js"></script>
+    <script src="../js/test03.js"></script>
+    <script src="../js/verdar.js"></script> -->
   </head>
   <body>
     <script>
+      window.tid = '56abe0080cfd5607bcf333c41ff93ab3'
 
-      function tests (path, data) {
-        const result = jUtilsBase.urlToGet(path, data)
-        console.log("result =>", result, jUtilsBase.parseQuery(result))
-        return result
+      const n = loadPlugin
+      // 36321
+      const u = n(630501)
+      const o = u(n(36321))
+      const r = u(n(328323))
+      const s = u(n(389592))
+
+      const utl = '/api/user/getusercompany?keyno=919457c59d6fab32f03c5bcabb0e7ca7'
+      console.log("s.default()", s.default, s.default())
+      console.log("loadPlugin(630501)", o.default(utl), r.default(utl, undefined, s.default()))
+      // const aa_01 = webpackChunkpc_web[2][1][630501]
+      // const aa_02 = webpackChunkpc_web[1][1][912554]
+      // const aa_03 = webpackChunkpc_web[1][1][503560]
+
+      // const aa = getPlugin(630501)
+      // const bb  = aa_01(['/api/order/paycountdownstrategy?ignorepromotion=', aa_02,aa_03])
+      // console.log("bb", aa_01.default, getPlug(630501))
+
+
+      
+
+      function one (o) {
+        const e = {
+          url: '/api/order/paycountdownstrategy',
+          params: {
+            ignorepromotion: ""
+          }
+        }
+
+        const a = {
+          default: {
+            stringify: function(e) {
+              return jUtilsBase.test.stringify(e, {
+                allowDots: true,
+                allowPrototypes: true,
+                arrayFormat: "brackets",
+                encodeValuesOnly: true,
+                sort: function(e, t) {
+                  return e.localeCompare(t)
+                }
+              })
+            }
+          }
+        }
+        var t = e.url.replace(e.baseURL, "")
+            , n = a.default.stringify(e.params || {});
+          n && (t += (-1 === t.indexOf("?") ? "?" : a.default.options.delimiter || "&") + n),
+          t = t.toLowerCase();
+
+        var i = o.default(t, e.data)
+        // var u = (0, r.default)(t, e.data, (0, s.default)());
+
+        // /api/order/paycountdownstrategy?ignorepromotion= => 8346c36767493d5a4f7b
+        // 
+        // 60299a5b7e9da6f3bbb1dfe38d94b685359d9b85c2fc70945533a1f43a42fa56
+        // 60299A5B7E9DA6F3BBB1DFE38D94B685359D9B85C2FC70945533A1F43A42FA56
+        console.log(i, t)
       }
-    
-      const url01 = tests('https://www.it0909.com/parent_{{ pid }}/info/{{ uid }}/detail?t=5', {
-        name: '中文',
-        skill: [1,2,3,4],
-        pid: 0,
-        uid: 3568
-      })
-
-      const url02 = tests('https://www.it0909.com?age=10&', {
-        name: '中文',
-        qq: '1174295440'
-      })
-      const url03 = tests('https://www.it0909.com?age=10&', '?&&user=111&age=222')
-
     </script>
   </body>
 </html>

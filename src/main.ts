@@ -73,6 +73,9 @@ export { default as padMinMax } from './libs/padMinMax'
 export { default as treeFilter } from './libs/treeFilter'
 export { default as findLast } from './libs/findLast'
 
+// @ts-ignore
+// export { default as test } from 'query-string'
+
 
 
 

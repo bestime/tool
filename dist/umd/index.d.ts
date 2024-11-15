@@ -1,3 +1,5 @@
+export { default as test } from 'query-string';
+
 /**
  * 强制转化数据为字符串
  * @param data - 处理的值
