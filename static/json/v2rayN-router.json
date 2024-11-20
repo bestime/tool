@@ -20,7 +20,9 @@
       "regexp:mwbbiz.com",
       "int.mwbbiz.com",
       "chatgpt.com",
-      "npmjs.com"
+      "npmjs.com",
+      "regexp:ucloud",
+      "regexp:jiuse"
     ],
     "enabled": true
   },
