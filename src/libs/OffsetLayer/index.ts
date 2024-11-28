@@ -413,8 +413,9 @@ export default class OffsetLayer extends VectorLayer {
   }
 
   _onReszie () {
-    if(!this._offsetStyle) return;
-    const currentZoom = this.getMap().getZoom()
+    const map = this.getMap()
+    if(!this._offsetStyle || !map) return;
+    const currentZoom = map.getZoom()
     const showGroupIds: string[] = []
     this.forEach((Ogeometry) => {
       const mememberId = Ogeometry.properties?.offsetMemberId     

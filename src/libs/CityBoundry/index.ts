@@ -201,6 +201,7 @@ export default class CityBoundry {
   }
 
   addTo (map: Map) {
+    if(!map) return ;
     this.map = map
     this._layer_01.addTo(map)
     this._layer_02.addTo(map)

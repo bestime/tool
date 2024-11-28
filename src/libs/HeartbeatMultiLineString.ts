@@ -102,9 +102,10 @@ class HeartbeatMultiLineString extends MultiLineString {
   
 
   _flyToFit () {
+    const map = this.getLayer().getMap()
+    if(!map) return;
     if(this._heartbeatConfig.flying) return;
     this._heartbeatConfig.flying = true
-    const map = this.getLayer().getMap()
     const currentCenter = map.getCenter()
     const fromCenter = [currentCenter.x, currentCenter.y, currentCenter.z]
     const extent = this.getExtent();
