@@ -22,7 +22,11 @@
       "chatgpt.com",
       "npmjs.com",
       "regexp:ucloud",
-      "regexp:jiuse"
+      "regexp:jiuse",
+      "regexp:yzyouqian",
+      "regexp:exp-tas",
+      "regexp:msecnd",
+      "regexp:google"
     ],
     "enabled": true
   },
