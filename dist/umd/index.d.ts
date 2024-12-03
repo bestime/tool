@@ -37,6 +37,13 @@ declare function downloadFileByUrl(url: string, fileName: string): void;
 declare function downloadFileByArrayBuffer(data: ArrayBuffer, fileName: string): void;
 
 /**
+ * 下载Blob文件
+ * @param data - 数据
+ * @param fileName - 文件名
+ */
+declare function downloadFileByBolb(data: Blob, fileName: string): void;
+
+/**
  * 移除Dom节点
  * @param dom - 待移除的dom元素
  */
@@ -351,6 +358,7 @@ declare global {
       _default as browser,
       createXLSX,
       downloadFileByArrayBuffer,
+      downloadFileByBolb,
       downloadFileByUrl,
       fullScreen,
       getCookie,
