@@ -72,6 +72,7 @@ export { default as throttle } from './libs/throttle'
 export { default as padMinMax } from './libs/padMinMax'
 export { default as treeFilter } from './libs/treeFilter'
 export { default as findLast } from './libs/findLast'
+export { default as fileSizeFormatter, fileSizeToNumber } from './libs/fileSize'
 
 // @ts-ignore
 // export { default as test } from 'query-string'

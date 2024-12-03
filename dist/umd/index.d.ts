@@ -1,5 +1,3 @@
-export { default as test } from 'query-string';
-
 /**
  * 强制转化数据为字符串
  * @param data - 处理的值
@@ -1082,6 +1080,17 @@ declare function findLast<T>(
   handler: (value: T, index: number, obj: T[]) => boolean
 ): T | undefined;
 
+type TSizeUnit = 'Byte' | 'KB' | 'MB' | 'GB' | 'TB';
+declare function fileSizeFormatter(
+  byte: number,
+  formatter: (data: number) => string
+): {
+  value: number;
+  unit: string;
+  text: string;
+};
+declare function fileSizeToNumber(data: number, unit: TSizeUnit): number;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -1109,6 +1118,8 @@ declare global {
       defualtFormatter,
       difference,
       fieldCheck,
+      fileSizeFormatter,
+      fileSizeToNumber,
       filterWithMove,
       findLast,
       floorFixed,
