@@ -282,12 +282,15 @@ function _groupToList<T extends TKvPair>(
 
 function deepGroup<T extends TKvPair>(data: T[], options: IListGroupOption<T>) {
   const result: TInnerGroup<T> = {};
-  let deps = 0;
+  
 
   function handler(gp: TInnerGroup<T>, children: T[], parentPath: string[]) {
+    const deps = parentPath.length
     for (let index = 0; index < children.length; index++) {
       const item = children[index];
+      
       const uid = getUniqId(options.path[deps].field, item);
+      
 
       gp[uid] = gp[uid] || {
         uidPath: parentPath.concat(uid),
@@ -296,11 +299,9 @@ function deepGroup<T extends TKvPair>(data: T[], options: IListGroupOption<T>) {
         child: {}
       };
       gp[uid].data.push(item);
-      // children.splice(index--, 1)
     }
 
     if (deps < options.path.length - 1) {
-      deps++;
       for (let key in gp) {
         handler(gp[key].child, gp[key].data, gp[key].uidPath);
       }
@@ -309,8 +310,10 @@ function deepGroup<T extends TKvPair>(data: T[], options: IListGroupOption<T>) {
 
   handler(result, data, []);
 
+  
+
   // 将分组映射转为数组
-  const resp = _groupToList(result, deps, 0, options);
+  const resp = _groupToList(result, options.path.length-1, 0, options);
 
   // 转换为数组后先排序，以免计算增长率等项出问题
   (function sortHandler(children: TInnerGroupListItem<T>[], deps: number) {

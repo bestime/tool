@@ -19,7 +19,7 @@ export default function thousands (data: number | string, len?: number, symbol?:
   if(isLikeNumber(target)) {
     const v =_Number(target) 
     isMinus = v < 0
-    target = Math.abs(v).toString()
+    target = target.replace(/^-|\+/, '')
   }
   let res = target.replace(/([^.]*)?(\.)?(.*)?/, function(_, pre, dot, next) {
     return _String(pre).replace(new RegExp('(.(?=(.{'+ len +'})+$))', 'g'), '$1' + symbol) + _String(dot) + _String(next)
