@@ -7,7 +7,7 @@ let voidList:SpeechSynthesisVoice[] = []
 
 function oVoidListChange (ev: any) {
   voidList = synth.getVoices()
-  console.log("语音列表", voidList)
+  
 }
 
 synth.addEventListener('voiceschanged', oVoidListChange)
