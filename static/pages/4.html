@@ -3,10 +3,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title>ArcGIS Maps SDK for JavaScript Tutorials: Display a map</title>
+    <script src="../js/axios.min.js"></script>
+    <script src="../../dist/umd/index.min.cjs"></script>
     <style>
       html,
       body,
-      arcgis-map {
+      #viewDiv {
         padding: 0;
         margin: 0;
         height: 100%;
@@ -15,33 +17,149 @@
     </style>
     <script>
 
+
       var esriConfig = {
-        apiKey: "YOUR_ACCESS_TOKEN"
+        portalUrl: "https://myHostName.esri.com/arcgis"
       };
+
+      async function sleep (t) {
+        return new Promise(function (resolve) {
+          setTimeout(resolve, t)
+        })
+      }
+
+      async function getLocalJson (path) {
+        return axios({
+          url: '../json/' + path
+        }).then(function (c) {
+          return c.data
+        })
+      }
     
     </script>
-    <link rel="stylesheet" href="https://js.arcgis.com/4.31/esri/themes/light/main.css">
+    <!-- Load Calcite components from CDN -->
+    <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/2.13.2/calcite.css" />
+    <script type="module" src="https://js.arcgis.com/calcite-components/2.13.2/calcite.esm.js"></script>
+
+    <!-- Load the ArcGIS Maps SDK for JavaScript from CDN -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.31/esri/themes/light/main.css" />
     <script src="https://js.arcgis.com/4.31/"></script>
+
+    <!-- Load Map components from CDN-->
+    <script
+      type="module"
+      src="https://js.arcgis.com/map-components/4.31/arcgis-map-components.esm.js"
+    ></script>
   </head>
 
   <body>
-    <div id="viewDiv"></div>
+    <arcgis-map center="106.54, 29.59" zoom="9">
+
+      <arcgis-zoom position="top-left"></arcgis-zoom>
+
+    </arcgis-map>
+ 
     <script>
-      require([ "esri/Map", "esri/views/MapView" ], (Map, MapView) => {
+      require(["esri/Graphic", "esri/layers/GraphicsLayer"], (Graphic, GraphicsLayer) => {
 
-        const map = new Map({
-          basemap: "topo-vector"
+        const arcgisMap = document.querySelector("arcgis-map");
+        console.log("arcgisMap", arcgisMap)
+
+        arcgisMap.addEventListener("arcgisViewReadyChange", async () => {
+          console.log("准备")
+          const graphicsLayer = new GraphicsLayer();
+          arcgisMap.addLayer(graphicsLayer);
+
+          
+
+     
+          function getOnePolygon (paths) {
+            const r = jUtilsBase.getRandom(0, 255)
+            const g = jUtilsBase.getRandom(0, 255)
+            const b = jUtilsBase.getRandom(0, 255)
+
+   
+            return  new Graphic({
+              geometry: {
+                type: "polygon",
+                rings: paths
+              },
+              symbol: {
+                type: "simple-fill",
+                color: [r, g, b, 0.8], // Orange, opacity 80%
+                outline: {
+                  color: [255, 255, 255],
+                  width: 1
+                }
+              },
+
+            });
+          }
+
+          function getOneMarker (item) {
+            const text = {
+              type: "text",
+              text: item.properties.name + '\n' + jUtilsBase.getRandom(0, 255) + '家',
+              color: "white",
+              haloColor: 'black',
+              haloSize: 1,
+              backgroundColor: 'transparent',
+              borderLineSize: 0,
+              borderLineColor: 'transparent',
+              rotated: false,
+              kerning: false,
+              lineHeight: 0,
+              xoffset: 0,
+              yoffset: 0,
+              horizontalAlignment: 'center',
+              verticalAlignment: 'middle',
+              font: {
+                size: 10
+              }
+            }
+
+            return new Graphic({
+              geometry: {
+                type: 'point',
+                longitude: item.properties.center[0],
+                latitude: item.properties.center[1]
+              },
+              symbol: text
+            });
+          }
+
+          const cqGeos = await getLocalJson('/geos/500000_full.json')
+
+          const polygonList = []
+          const markerList = []
+          
+          cqGeos.features.forEach(function (item) {
+            if(item.geometry.type === 'MultiPolygon') {
+              // if(item.properties.name !== '九龙坡区') return;
+              markerList.push(getOneMarker(item))
+              item.geometry.coordinates.forEach(function (c, i) {
+                polygonList.push(getOnePolygon(c))
+              })
+            }
+          })
+
+          
+
+          polygonList.forEach(function (item) {
+            graphicsLayer.add(item);
+          })
+          markerList.forEach(function (item) {
+            graphicsLayer.add(item);
+          })
+
+        
+          
+
         });
 
-        const view = new MapView({
-          container: "viewDiv", // reference to the div id
-          map: map,
-          zoom: 4,
-          center: [15, 65]
-        });
+      });
 
-        });
-    </script>
+    </script> 
 
   </body>
 
