@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "moduleResolution": "Bundler",
+    "verbatimModuleSyntax": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["dom", "ESNext"],
+    "strict": true,
+    "noEmit": true,
+    "allowUnreachableCode": true,
+    "allowJs": false,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./"
+  },
+  "exclude": ["node_modules"],
+  "include": ["dist/**/*.d.ts","src/**/*.ts", "static/**/*.js"]
+}
