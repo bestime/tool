@@ -171,7 +171,7 @@ interface IdataCacheCAllback {
  * @param url - 请求地址
  * @returns 处理工具
  */
-declare function dataCache(url: string): IdataCacheCAllback;
+declare function dataCache(url: string, record?: Record<string, any>): IdataCacheCAllback;
 
 /**
  * 检测一个数据是否存在
@@ -466,6 +466,7 @@ declare function forEach<T>(
 
 /**
  * 获取随机颜色
+ * @return rgba颜色值
  */
 declare function randomColor(): string;
 
@@ -1080,6 +1081,17 @@ declare function findLast<T>(
   handler: (value: T, index: number, obj: T[]) => boolean
 ): T | undefined;
 
+/**
+ * 数组find方法的键值对版本
+ * @param data
+ * @param handler
+ * @returns
+ */
+declare function findKvPair<T extends TKvPair>(
+  data: T,
+  handler: (data: TValueOf<T>, key: string) => boolean
+): T[Extract<keyof T, string>] | undefined;
+
 type TSizeUnit = 'Byte' | 'KB' | 'MB' | 'GB' | 'TB';
 declare function fileSizeFormatter(
   byte: number,
@@ -1090,6 +1102,20 @@ declare function fileSizeFormatter(
   text: string;
 };
 declare function fileSizeToNumber(data: number, unit: TSizeUnit): number;
+
+/**
+ * 颜色的rgba转十六进制
+ * @param rgba 带转换颜色字符串。格式： `rgba(0,0,0,1)` 或 `rgb(255,255,255)`
+ * @returns 十六进制值
+ */
+declare function rgbaToHex(rgba: string): string;
+
+/**
+ * 十六进制颜色转rgb
+ * @param hex
+ * @returns
+ */
+declare function hexToRgba(hex: string, alpha?: number): string;
 
 declare global {
   /**
@@ -1121,6 +1147,7 @@ declare global {
       fileSizeFormatter,
       fileSizeToNumber,
       filterWithMove,
+      findKvPair,
       findLast,
       floorFixed,
       forEach,
@@ -1135,6 +1162,7 @@ declare global {
       getRiseRatio,
       getSortIndex,
       getType,
+      hexToRgba,
       isArray,
       isEmpty,
       isFunction,
@@ -1155,6 +1183,7 @@ declare global {
       parseTreeToTableHeader,
       randomColor,
       repeatString,
+      rgbaToHex,
       roundFixed,
       shake,
       export_default as shortNumber,

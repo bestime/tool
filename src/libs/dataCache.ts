@@ -20,10 +20,7 @@ interface IdataCacheCAllback {
   logs: Record<string, any>
 }
 
-const _tmp: {
-  [key: string]: any
-} = {}
-
+const _defaultRecord: Record<string, any> = {}
 
 
 
@@ -32,8 +29,8 @@ const _tmp: {
    * @param url - 请求地址
    * @returns 处理工具
    */
-export default function dataCache (url: string):IdataCacheCAllback {
-  
+export default function dataCache (url: string, record?: Record<string, any>):IdataCacheCAllback {
+  const _tmp = record || _defaultRecord
   
   _tmp[url] = _tmp[url] || {
     count: 0, // 第几次

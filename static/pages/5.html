@@ -1,0 +1,122 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>ArcGIS Maps SDK for JavaScript Tutorials: Display a map</title>
+    <script src="../js/axios.min.js"></script>
+    <script src="../../dist/umd/index.min.cjs"></script>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    <script>
+
+
+      // var esriConfig = {
+      //   portalUrl: "https://myHostName.esri.com/arcgis"
+      // };
+
+      async function sleep (t) {
+        return new Promise(function (resolve) {
+          setTimeout(resolve, t)
+        })
+      }
+
+      async function getLocalJson (path) {
+        return axios({
+          url: '../json/' + path
+        }).then(function (c) {
+          return c.data
+        })
+      }
+    
+    </script>
+    <!-- Load Calcite components from CDN -->
+    <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/2.13.2/calcite.css" />
+    <script type="module" src="https://js.arcgis.com/calcite-components/2.13.2/calcite.esm.js"></script>
+
+    <!-- Load the ArcGIS Maps SDK for JavaScript from CDN -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.31/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.31/"></script>
+
+    <!-- Load Map components from CDN-->
+    <script
+      type="module"
+      src="https://js.arcgis.com/map-components/4.31/arcgis-map-components.esm.js"
+    ></script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+ 
+    <script>
+      require(["esri/Map", "esri/views/MapView", "esri/Graphic", "esri/layers/GraphicsLayer"], (Map, MapView, Graphic, GraphicsLayer) => {
+
+        const iMap = new Map({          
+          basemap: "topo-vector"
+        });        
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: iMap,
+          center: [106.54, 29.59],
+          zoom: 9,
+        });
+
+        const graphicsLayer = new GraphicsLayer();
+        iMap.add(graphicsLayer);
+
+        function addMarker (center, name) {
+          const text = {
+            type: "text",
+            text: name,
+            color: "red",
+            angle: 0,
+            haloColor: 'red',
+            haloSize: 0,
+            backgroundColor: 'transparent',
+            borderLineSize: 0,
+            borderLineColor: 'transparent',
+            rotated: true,
+            kerning: false,
+            lineHeight: 0,
+            xoffset: 0,
+            yoffset: 0,
+            horizontalAlignment: 'center',
+            verticalAlignment: 'middle',
+            font: {
+              size: 20
+            }
+          }
+
+          return new Graphic({
+            geometry: {
+              type: 'point',
+              longitude: center[0],
+              latitude: center[1]
+            },
+            symbol: text
+          });
+        }
+
+        const oCenter = addMarker([106.54, 29.59], '中心点')
+        view.watch("rotation", (rotation) => {
+          // 更新文本符号的角度
+          console.log("选装了", rotation, oCenter.symbol)
+          oCenter.symbol = oCenter.symbol.clone(); // 创建符号的副本
+          oCenter.symbol.angle = rotation; // 设置符号的角度与地图旋转一致
+        });
+        graphicsLayer.add(oCenter);
+      });
+
+    </script> 
+
+  </body>
+
+</html>

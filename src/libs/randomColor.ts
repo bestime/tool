@@ -1,8 +1,9 @@
 import getRandom from "./getRandom";
 
 /**
-   * 获取随机颜色
-   */
+ * 获取随机颜色
+ * @return rgba颜色值
+ */
 export default function randomColor () {
   const r = getRandom(0, 255, true)
   const g = getRandom(0, 255, true)
