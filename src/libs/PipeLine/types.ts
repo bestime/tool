@@ -16,7 +16,8 @@ export interface IPipeLineOption {
   },
   referImage?: {
     url: string,
-    coordinates: IExtentCoordinates
+    coordinates: IExtentCoordinates,
+    opacity: number
   }
 }
 

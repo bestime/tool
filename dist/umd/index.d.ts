@@ -20,6 +20,7 @@ interface IPipeLineOption {
   referImage?: {
     url: string;
     coordinates: IExtentCoordinates;
+    opacity: number;
   };
 }
 interface IEllipseItem {

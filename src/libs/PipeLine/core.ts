@@ -191,7 +191,7 @@ export default class PipeLine {
         'source': layerConfig.referImg.source,
         'paint': {
           'raster-fade-duration': 500,
-          'raster-opacity': 1
+          'raster-opacity': this._config.referImage.opacity
         }
     });
   }

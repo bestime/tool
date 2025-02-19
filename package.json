@@ -1,6 +1,6 @@
 {
   "name": "@bestime/utils_mapbox",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "main": "./dist/esm/index.min.mjs",
   "module": "./dist/esm/index.min.mjs",
   "typings": "./dist/esm/index.d.ts",
