@@ -1,15 +1,13 @@
 import libraryFile from "./libraryFile";
 
 interface IPluginSrc {
+  /** .mjs结尾的主文件 */
   index: string,
+  /** .mjs结尾的worker文件 */
   worker: string
 }
 
-async function loadPdfPlugin (src?: IPluginSrc) {
-  const address = src || {
-    index: '//mozilla.github.io/pdf.js/build/pdf.mjs',
-    worker: '//mozilla.github.io/pdf.js/build/pdf.worker.mjs'
-  }
+async function loadPdfPlugin (address: IPluginSrc) {
   return new Promise(function (resolve) {
     libraryFile({
       type: 'js',
@@ -25,10 +23,11 @@ async function loadPdfPlugin (src?: IPluginSrc) {
   })
 }
 
-export default async function pdfToImage (url: string, canvas: HTMLCanvasElement, src?: IPluginSrc) {
+export default async function pdfToImage (url: string, canvas: HTMLCanvasElement, src: IPluginSrc) {
   const pdfjsLib: any = await loadPdfPlugin(src)
   return new Promise(function (resolve) {
     pdfjsLib.getDocument(url).promise.then(function(pdf: any) {
+      console.log("pdf", pdf)
       pdf.getPage(1).then(function(page: any) {
         var scale = 1;
         var viewport = page.getViewport({scale: scale});
