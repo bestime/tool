@@ -76,6 +76,9 @@ export { default as findKvPair } from './libs/findKvPair'
 export { default as fileSizeFormatter, fileSizeToNumber } from './libs/fileSize'
 export { default as rgbaToHex } from './libs/rgbaToHex'
 export { default as hexToRgba } from './libs/hexToRgba'
+export { default as max } from './libs/max'
+export { default as min } from './libs/min'
+export { default as numberToChinese } from './libs/numberToChinese'
 
 
 // @ts-ignore

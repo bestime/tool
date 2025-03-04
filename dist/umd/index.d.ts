@@ -1117,6 +1117,30 @@ declare function rgbaToHex(rgba: string): string;
  */
 declare function hexToRgba(hex: string, alpha?: number): string;
 
+/**
+ * 获取一个数组中的最大值
+ * @param data 数组
+ * @param handler 迭代函数
+ * @returns 最大值
+ */
+declare function max<T>(data: Array<T>, handler: (item: T) => number): number | undefined;
+
+/**
+ * 获取一个数组中的最小值
+ * @param data 数组
+ * @param handler 迭代函数
+ * @returns 最大值
+ */
+declare function min<T>(data: Array<T>, handler: (item: T) => number): number | undefined;
+
+/**
+ * 将数字转为大写
+ * @param digit
+ * @param isRmb
+ * @returns
+ */
+declare function numberToChinese(digit: number, isRmb?: boolean): string;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -1174,7 +1198,10 @@ declare global {
       listGroup,
       mapKvPair,
       main as mapTree,
+      max,
+      min,
       mixInZeroWidthUnicode,
+      numberToChinese,
       padEnd,
       padMinMax,
       padStart,
