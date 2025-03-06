@@ -1123,7 +1123,10 @@ declare function hexToRgba(hex: string, alpha?: number): string;
  * @param handler 迭代函数
  * @returns 最大值
  */
-declare function max<T>(data: Array<T>, handler: (item: T) => number): number | undefined;
+declare function max<T>(
+  data: Array<T>,
+  handler: (item: T) => number | undefined
+): number | undefined;
 
 /**
  * 获取一个数组中的最小值
@@ -1131,7 +1134,10 @@ declare function max<T>(data: Array<T>, handler: (item: T) => number): number | 
  * @param handler 迭代函数
  * @returns 最大值
  */
-declare function min<T>(data: Array<T>, handler: (item: T) => number): number | undefined;
+declare function min<T>(
+  data: Array<T>,
+  handler: (item: T) => number | undefined
+): number | undefined;
 
 /**
  * 将数字转为大写

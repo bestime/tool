@@ -7,7 +7,7 @@ import isNull from "../isNull"
  * @param handler 
  * @returns 最大值
  */
-export default function getMinOrMax<T> (mode: 'min' | 'max',data: Array<T>, handler: (item: T) => number) {
+export default function getMinOrMax<T> (mode: 'min' | 'max',data: Array<T>, handler: (item: T) => number | undefined) {
   let res: number | undefined
   data.forEach(function (item) {
     const v = handler(item)
