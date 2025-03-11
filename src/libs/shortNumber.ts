@@ -38,6 +38,7 @@ export default function (data: number, formatter: (data: number) => string, unit
   return {
     value: realData,
     fmtValue: formatter(realData),
+    data,
     unit: realUnit
   }
 }

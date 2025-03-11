@@ -862,10 +862,10 @@ declare function getRiseRatio(from?: number, to?: number): number;
  * @param predicate - 迭代回调
  * @returns 筛选的结果
  */
-declare function filterWithMove<T, S extends T>(
+declare function filterWithMove<T>(
   data: T[],
-  predicate: (value: T, index: number, array: T[]) => value is S
-): S[];
+  predicate: (value: T, index: number, array: T[]) => boolean
+): T[];
 
 type TUnits = [number, string];
 /**
@@ -882,6 +882,7 @@ declare function export_default(
 ): {
   value: number;
   fmtValue: string;
+  data: number;
   unit: string;
 };
 

@@ -4,8 +4,8 @@
  * @param predicate - 迭代回调
  * @returns 筛选的结果
  */
-export default function filterWithMove<T, S extends T> (data: T[], predicate: (value: T, index: number, array: T[]) => value is S): S[] {
-  const result: S[] = []
+export default function filterWithMove<T> (data: T[], predicate: (value: T, index: number, array: T[]) => boolean): T[] {
+  const result: T[] = []
   for(let index = 0;index<data.length;index++) {
     const item = data[index]
     const canUse = predicate(item, index, data)
