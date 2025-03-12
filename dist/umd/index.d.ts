@@ -1148,6 +1148,26 @@ declare function min<T>(
  */
 declare function numberToChinese(digit: number, isRmb?: boolean): string;
 
+type ISortItem = number | undefined | null;
+/**
+ * 数组排序的迭代方法（多用于多个条件优先级排序）
+ * @param way 排序方式 asc 从a至b升序；desc 从a至b降序
+ * @param a
+ * @param b
+ * @returns 如果返回数字，怎么不管，如果返回undefined，则继续下一个排序规则，直到排序完成
+ *
+ * @example
+ * ```ts
+ *
+ * data.sort(function (a, b) {
+ *   const sort01 = ortCompare('asc', a.price, b.price)
+ *   const sort02 = ortCompare('asc', a.age, b.age)
+ *   return sort01 ?? sort02 ?? 0
+ * })
+ * ···
+ */
+declare function sortCompare(way: 'asc' | 'desc', a: ISortItem, b: ISortItem): number | undefined;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -1221,6 +1241,7 @@ declare global {
       roundFixed,
       shake,
       export_default as shortNumber,
+      sortCompare,
       sortWithIndex,
       spanTable,
       split,
