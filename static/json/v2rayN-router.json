@@ -6,6 +6,7 @@
       "geoip:telegram"
     ],
     "domain": [
+      "regexp:msauth.net",
       "regexp:digicert.com",
       "regexp:msn.cn",
       "regexp:msn.com",
@@ -43,7 +44,8 @@
       "regexp:yzyouqian",
       "regexp:exp-tas",
       "regexp:msecnd",
-      "regexp:google"
+      "regexp:google",
+      "regexp:codepen.io"
     ],
     "enabled": true
   },

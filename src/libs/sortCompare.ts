@@ -1,3 +1,5 @@
+import isNull from "./isNull";
+
 type ISortItem = number | undefined | null
 
 /**
@@ -19,11 +21,11 @@ type ISortItem = number | undefined | null
  */
 export default function sortCompare (way: 'asc' | 'desc',a: ISortItem, b:ISortItem) { 
   
-  if(jUtilsBase.isNull(a) && jUtilsBase.isNull(b)) {
+  if(isNull(a) && isNull(b)) {
     return ;
-  } else if(jUtilsBase.isNull(a)) {
+  } else if(isNull(a)) {
     return 1;
-  } else if(jUtilsBase.isNull(b)) {
+  } else if(isNull(b)) {
     return -1;
   } else {
     const diff = way === 'asc' ? a - b : b-a

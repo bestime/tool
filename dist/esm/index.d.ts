@@ -215,8 +215,13 @@ declare function deepFindTreePath(
  */
 declare function _Number(data?: any): number;
 
-type TNull = undefined | null | '';
-declare function isNull(data: any): data is TNull;
+/**
+ * 判断数据是否为空
+ * @param data 待判断数据。null、undefined、空字符串 都将视为空
+ * @param whiteList 特殊需求。默认将 [‘-’] 也视为空数据
+ * @returns
+ */
+declare function isNull(data: any, whiteList?: string[]): data is undefined;
 
 /**
  * 匹配数字的正则
@@ -973,12 +978,14 @@ declare function treeLeafs<T extends TKvPair>(list: TreeItem$1<T>[]): TreeItem$1
  * @param placeValue - 无值时返回什么数据
  * @param value - 需要处理的数据
  * @param formatter - 数据格式化
+ * @param whiteList 特殊需求。默认将 [‘-’] 也视为空数据
  * @returns
  */
 declare function defualtFormatter<T, R>(
   placeValue: R,
   value: T,
-  formatter?: (value: NonNullable<T>) => R
+  formatter?: (value: NonNullable<T>) => R,
+  whiteList?: string[]
 ): R;
 
 type TEasingHandler = (
