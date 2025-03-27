@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>无缝滚动</title>
+  <script src="../dist/umd/index.min.cjs"></script>
+  <style>
+    #demo-wrapper{
+      width: 500px;
+      height: 300px;
+      overflow: auto;
+      overflow-x: hidden;
+      outline: #444 solid 2px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      padding: 10px;
+      margin: 10px;   
+      text-align: center;
+      list-style: none;
+      background-color: #eee;
+      color: #444;
+      font-size: 18px;      
+    }
+  </style>
+</head>
+<body>
+  <div id="demo-wrapper">
+    <ul>
+      <li>000000000000</li>
+      <li>111111111111</li>
+      <li>222222222222</li>
+      <li>3333333333333</li>
+      <li>4444444444</li>
+      <li>55555555555</li>
+      <li>6666666666666666</li>
+    </ul>
+  </div>
+
+  <script>
+    const oWrapper = document.getElementById('demo-wrapper')
+    const iScroll = new jUtilsBrowser.SeamlessRolling(oWrapper)
+    console.log("iScroll", iScroll, oWrapper)
+  </script>
+</body>
+</html>

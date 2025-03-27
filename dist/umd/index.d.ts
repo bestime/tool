@@ -334,6 +334,15 @@ declare class TextRainCanvas {
   }[];
 }
 
+declare class SeamlessRolling {
+  _wrapper: HTMLDivElement;
+  _timer: number;
+  constructor(wraper: HTMLDivElement);
+  _updateContent(): void;
+  _doScroll(): void;
+  dispose(): void;
+}
+
 type Tlanguage =
   | 'Microsoft Huihui - Chinese (Simplified, PRC)'
   | 'Microsoft Kangkang - Chinese (Simplified, PRC)'
@@ -349,15 +358,23 @@ declare function speakText(
   }
 ): Promise<void>;
 
+declare function func01(text: string): Promise<void>;
+/**
+ * 复制文本
+ */
+declare const copyText: typeof func01;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
    */
   namespace jUtilsBrowser {
     export {
+      SeamlessRolling,
       TextRainCanvas,
       addClass,
       _default as browser,
+      copyText,
       createXLSX,
       downloadFileByArrayBuffer,
       downloadFileByBolb,
