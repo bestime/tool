@@ -29,17 +29,15 @@ export default function urlToGet (url: string, data: string | TKvPair) {
   
 
   // 解析动态url参数，按 "{{}}" 区分
-  url = url.replace(/({{)(.*?)(}})/g, function (_, pre, key, suf) {
+  url = url.replace(/(\{\{)(.*)?(\}\})/g, function (_, pre, key, suf) {
     key = trim(key)
     const value = realData[key]
     delete realData[key]
     return value
-  })
+  }) 
   
   const oldQuery = parseQuery(url)
-
   
-
   // 覆盖已存在的数据
   realData = Object.assign(oldQuery, realData)
   const str = param(realData)

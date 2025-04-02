@@ -215,13 +215,14 @@ declare function deepFindTreePath(
  */
 declare function _Number(data?: any): number;
 
+type TNull = undefined | null | '';
 /**
  * 判断数据是否为空
  * @param data 待判断数据。null、undefined、空字符串 都将视为空
  * @param whiteList 特殊需求。默认将 [‘-’] 也视为空数据
  * @returns
  */
-declare function isNull(data: any, whiteList?: string[]): data is undefined;
+declare function isNull(data: any, whiteList?: string[]): data is TNull;
 
 /**
  * 匹配数字的正则
@@ -1175,9 +1176,63 @@ type ISortItem = number | undefined | null;
  */
 declare function sortCompare(way: 'asc' | 'desc', a: ISortItem, b: ISortItem): number | undefined;
 
+interface LogItem {
+  id: string;
+  time: string;
+  pid?: string;
+  title: string;
+  data?: string;
+}
+declare function logRecord(title: string, data?: string): (title: string, data?: string) => void;
+declare function logExport(): {
+  flatList: LogItem[];
+  treeList: any[];
+};
+
+type TCallback = (ms: number) => void;
+type THander = (callback: TCallback) => void;
+/**
+ * 每隔一段时间更新服务器时间与本地时间差（为了不频繁去请求服务器）
+ *
+ */
+declare class ServerDate {
+  private _diff;
+  private _interval;
+  private _handler;
+  private _timer;
+  private _actionId;
+  private _isRuning;
+  /**
+   *
+   * @param interval - 多久更新一次时间差
+   * @param _handler - 用户去获取服务器时间的代码
+   */
+  constructor(interval: number, _handler: THander);
+  private _refresh;
+  /**
+   * 更新一次服务器时间
+   */
+  updateOnce(callback: () => void): void;
+  /**
+   * 定时更新服务器时间
+   */
+  play(): this;
+  /**
+   * 暂停定时更新服务器时间
+   * @returns
+   */
+  pause(): this;
+  /**
+   * 获取服务器当前时间戳（请确保play() 已经执行成功）
+   * @returns
+   */
+  getTime(): number;
+}
+
 export {
   Animate,
   Polling,
+  ServerDate,
   TArrayRowToColumnCalculateRow,
   _Array,
   _Boolean,
@@ -1225,6 +1280,8 @@ export {
   isNull,
   isString,
   listGroup,
+  logExport,
+  logRecord,
   mapKvPair,
   main as mapTree,
   max,

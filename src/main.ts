@@ -80,6 +80,8 @@ export { default as max } from './libs/max'
 export { default as min } from './libs/min'
 export { default as numberToChinese } from './libs/numberToChinese'
 export { default as sortCompare } from './libs/sortCompare'
+export { default as logRecord, logExport } from './libs/logRecord'
+export { default as ServerDate } from './libs/ServerDate'
 
 
 // @ts-ignore
