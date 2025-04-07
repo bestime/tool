@@ -203,7 +203,7 @@ declare function export_default$1(
 };
 
 type TCallbackHandler = (next: () => void) => void;
-interface IOptions$1 {
+interface IOptions$2 {
   onBottom?: TCallbackHandler;
   onTop?: TCallbackHandler;
   /** Y轴触底、触顶的差值 */
@@ -216,7 +216,7 @@ interface IOptions$1 {
  */
 declare function export_default(
   el: HTMLElement,
-  config?: IOptions$1
+  config?: IOptions$2
 ): {
   /**
    * 销毁
@@ -286,7 +286,7 @@ declare function infoContainerPosition(options: {
   y: number;
 };
 
-interface IOptions {
+interface IOptions$1 {
   text?: string;
   fontSize?: number;
   color?: string;
@@ -317,7 +317,7 @@ declare class TextRainCanvas {
     currentIndex: number;
     list: IPointItem[];
   }[];
-  constructor(oCanvas: HTMLCanvasElement, option?: IOptions);
+  constructor(oCanvas: HTMLCanvasElement, option?: IOptions$1);
   draw(): void;
   createColumn(
     x: number,
@@ -364,12 +364,66 @@ declare function func01(text: string): Promise<void>;
  */
 declare const copyText: typeof func01;
 
+interface IColorItem {
+  data: number;
+  color: string;
+}
+interface IOptions {
+  fontFamily: string;
+  fontSize: number;
+  tickWidth: number;
+  tickColor: string;
+  fontColor: string;
+  paddingTop: number;
+  paddingBottom: number;
+  colors: IColorItem[];
+}
+interface IUseColorItem {
+  from: {
+    value: number;
+    color: string;
+    ratio: number;
+  };
+  to: {
+    value: number;
+    color: string;
+    ratio: number;
+  };
+  ratio: number;
+  label: string;
+}
+declare class LinearGradientColorLegend {
+  _cfg: IOptions;
+  _canvas: HTMLCanvasElement | undefined;
+  _colorList: IUseColorItem[];
+  _ctx: CanvasRenderingContext2D | undefined;
+  _minValue: number;
+  _maxValue: number;
+  constructor(options: Partial<IOptions>);
+  mount(oCanvas: HTMLCanvasElement): void;
+  _drawAxias(
+    width: number,
+    height: number
+  ): {
+    maxLabelWidth: number;
+  };
+  _draw(): this | undefined;
+  setColors(colors: IColorItem[]): this;
+  /**
+   * 根据值获取颜色
+   * @param value
+   * @returns
+   */
+  getColor(value: number): string;
+}
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
    */
   namespace jUtilsBrowser {
     export {
+      LinearGradientColorLegend,
       SeamlessRolling,
       TextRainCanvas,
       addClass,

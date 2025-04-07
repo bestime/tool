@@ -30,4 +30,5 @@ export { default as TextRainCanvas } from './libs/TextRainCanvas'
 export { default as SeamlessRolling } from './libs/SeamlessRolling'
 export { default as speakText } from './libs/speakText'
 export { default as copyText } from './libs/copyText'
+export { default as LinearGradientColorLegend } from './libs/LinearGradientColorLegend'
 

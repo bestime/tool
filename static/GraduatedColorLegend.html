@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>渐变颜色</title>
+  <style type="text/css">
+    #test{
+      width: 120px;
+      height: 200px;
+    }
+    .demo {
+      height: 200px;
+      align-items: flex-end; 
+      display: inline-flex;
+      gap: 5px;
+    }
+
+    ul {
+      width: 50px;
+      margin: 10px 0;
+      list-style: none;
+      
+      padding: 0;
+      display: flex;
+      flex-direction: column-reverse;
+      align-self: stretch;
+    }
+    li {
+      margin: 0;
+      padding: 0;
+      flex: 1;
+      flex-shrink: 0;
+    }
+  </style>
+  
+  
+  <body>
+
+    <div class="demo">
+      <ul></ul>
+      <ul></ul>
+      <canvas id="test"></canvas>
+    </div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "@bestime/utils_base": "../../base/dist/esm/index.min.mjs"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import {LinearGradientColorLegend} from "../dist/esm/index.mjs"
+      const maxValue = 70
+      const iColor = new LinearGradientColorLegend({
+        fontSize: 12,
+        colors: [
+          {
+            color: '#599bf4',
+            data: 10
+          },
+          {
+            color: '#0b308c',
+            data: maxValue
+          },
+        ]
+      })
+      iColor.mount(document.getElementById('test'))
+      console.log("iColor", iColor)
+
+      const oUl01 = document.getElementsByTagName('ul')[0]
+      const oUl02 = document.getElementsByTagName('ul')[1]
+
+      function setLis(oUl, count){
+        oUl.innerHTML = ''
+        for(let index = 1; index<=count; index++) {
+          const ratio = (index-1)/count*maxValue
+          const color = iColor.getColor(ratio)
+          oUl.innerHTML += `<li style="background:${color}"></li>`
+        }        
+      }
+
+      setLis(oUl01, 200)
+      setLis(oUl02, 15)
+
+      
+
+    </script>
+  </body>
+</html>

@@ -62,7 +62,7 @@ export default [
         }
       },
       {
-        file: `dist/esm/index.min.mjs`,
+        file: `dist/esm/index.mjs`,
         banner: getBanner(),
         format: 'esm',
         strict: true,
