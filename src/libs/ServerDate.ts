@@ -78,6 +78,11 @@ export default class ServerDate {
     return this;
   }
 
+  getDiff () {
+    return this._diff
+  }
+
+
   /**
    * 获取服务器当前时间戳（请确保play() 已经执行成功）
    * @returns 
