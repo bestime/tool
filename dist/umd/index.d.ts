@@ -203,7 +203,7 @@ declare function export_default$1(
 };
 
 type TCallbackHandler = (next: () => void) => void;
-interface IOptions$2 {
+interface IOptions$3 {
   onBottom?: TCallbackHandler;
   onTop?: TCallbackHandler;
   /** Y轴触底、触顶的差值 */
@@ -216,7 +216,7 @@ interface IOptions$2 {
  */
 declare function export_default(
   el: HTMLElement,
-  config?: IOptions$2
+  config?: IOptions$3
 ): {
   /**
    * 销毁
@@ -286,7 +286,7 @@ declare function infoContainerPosition(options: {
   y: number;
 };
 
-interface IOptions$1 {
+interface IOptions$2 {
   text?: string;
   fontSize?: number;
   color?: string;
@@ -308,7 +308,7 @@ declare class TextRainCanvas {
   interval: number;
   width: number;
   height: number;
-  textLineHeight: number;
+  fontLineHeight: number;
   count: number;
   oCanvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
@@ -317,7 +317,7 @@ declare class TextRainCanvas {
     currentIndex: number;
     list: IPointItem[];
   }[];
-  constructor(oCanvas: HTMLCanvasElement, option?: IOptions$1);
+  constructor(oCanvas: HTMLCanvasElement, option?: IOptions$2);
   draw(): void;
   createColumn(
     x: number,
@@ -368,7 +368,7 @@ interface IColorItem {
   data: number;
   color: string;
 }
-interface IOptions {
+interface IOptions$1 {
   fontFamily: string;
   fontSize: number;
   tickWidth: number;
@@ -393,13 +393,13 @@ interface IUseColorItem {
   label: string;
 }
 declare class LinearGradientColorLegend {
-  _cfg: IOptions;
+  _cfg: IOptions$1;
   _canvas: HTMLCanvasElement | undefined;
   _colorList: IUseColorItem[];
   _ctx: CanvasRenderingContext2D | undefined;
   _minValue: number;
   _maxValue: number;
-  constructor(options: Partial<IOptions>);
+  constructor(options: Partial<IOptions$1>);
   mount(oCanvas: HTMLCanvasElement): void;
   _drawAxias(
     width: number,
@@ -417,6 +417,30 @@ declare class LinearGradientColorLegend {
   getColor(value: number): string;
 }
 
+interface IOptions {
+  disabled?: boolean;
+  gapX: number;
+  gapY: number;
+  text: string[];
+  /** 行高（仅支持倍率） */
+  fontLineHeight: number;
+  fontSize: number;
+  fontBackgroundColor: string;
+  fontFamily: string;
+  fontColor: string;
+  /** 旋转角度（0-360） */
+  angle: number;
+}
+declare class WaterMark {
+  _cfg: IOptions;
+  _oWrapper: HTMLDivElement;
+  _canvas: HTMLCanvasElement;
+  constructor(oWrapper: HTMLDivElement, config: Partial<IOptions>);
+  _reload(): HTMLCanvasElement;
+  setConfig(config: Partial<IOptions>): void;
+  _draw(): void;
+}
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -426,6 +450,7 @@ declare global {
       LinearGradientColorLegend,
       SeamlessRolling,
       TextRainCanvas,
+      WaterMark,
       addClass,
       _default as browser,
       copyText,

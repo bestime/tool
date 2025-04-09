@@ -32,7 +32,7 @@ export default class TextRainCanvas {
   interval = 100
   width: number
   height: number
-  textLineHeight: number
+  fontLineHeight: number
   count: number
   oCanvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
@@ -62,8 +62,8 @@ export default class TextRainCanvas {
     
     this.oCanvas = oCanvas
     this.ctx = oCanvas.getContext('2d')!;
-    this.textLineHeight = this.fontSize * 1.2
-    this.count = Math.ceil(this.height / this.textLineHeight)   
+    this.fontLineHeight = this.fontSize * 1.2
+    this.count = Math.ceil(this.height / this.fontLineHeight)   
     
     this.getPointList()
     this.draw()    
@@ -124,7 +124,7 @@ export default class TextRainCanvas {
       res.push({
         text: this.text[textIndex],
         x,
-        y: Math.floor(a*this.textLineHeight),
+        y: Math.floor(a*this.fontLineHeight),
         speed: 1
       })
     }
