@@ -82,6 +82,7 @@ export { default as numberToChinese } from './libs/numberToChinese'
 export { default as sortCompare } from './libs/sortCompare'
 export { default as logRecord, logExport } from './libs/logRecord'
 export { default as ServerDate } from './libs/ServerDate'
+export { default as breakString } from './libs/breakString'
 
 
 // @ts-ignore

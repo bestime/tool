@@ -358,7 +358,7 @@ declare function changeIndex(maxIndex: number, currentIndex: number, increase: n
  * @param length - id长度
  * @returns 生成的ID字符串
  */
-declare function uuid(length: number): string;
+declare function uuid(length?: number): string;
 
 /**
  * 生成指定范围随机数
@@ -1222,12 +1222,15 @@ declare class ServerDate {
    * @returns
    */
   pause(): this;
+  getDiff(): number;
   /**
    * 获取服务器当前时间戳（请确保play() 已经执行成功）
    * @returns
    */
   getTime(): number;
 }
+
+declare function breakString(rowLength: number, data?: string): string[];
 
 declare global {
   /**
@@ -1245,6 +1248,7 @@ declare global {
       _Number,
       _String,
       arrayRowToColumn,
+      breakString,
       changeIndex,
       cloneEasy,
       _default as connectEcharts,
