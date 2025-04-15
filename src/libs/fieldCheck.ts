@@ -3,29 +3,41 @@ import isEmpty from './isEmpty';
 import isLikeNumber from './isLikeNumber';
 
 type CheckType = 'String' | 'Number';
+type TValidator<T> = (data: T) => void | string | undefined
 
-function basicCheck<T>(note: string, data: any, required: boolean, type: CheckType): T {
-  note = `【${note}】`;
+function basicCheck<T>(note: string, data: any, required: boolean, type: CheckType, validator?: TValidator<T>) {  
+  let errorMessage: string | undefined | void
 
   if (required && isEmpty(data)) {
-    throw `字段${note}不能为空`;
+    errorMessage = `不能为空`;
   }
 
   if (getType(data) !== type) {
     switch (type) {
       case 'String':
         data = String(data);
+                
         break;
       case 'Number':
         if (isLikeNumber(data)) {
           data = Number(data);
         } else {
-          throw `字段${note}必须为数字`;
+          errorMessage = `必须为数字`
         }
         break;
     }
   }
-  return data as T;
+
+  if(!errorMessage && validator) {
+    errorMessage = validator(data)
+  }
+  if(errorMessage) {
+    errorMessage = `[${note}]：${errorMessage}`
+  }
+  return {
+    value: data as T,
+    error: errorMessage
+  };
 }
 
 const fieldCheck = {
@@ -36,8 +48,8 @@ const fieldCheck = {
    * @param required - 是否必填
    * @returns 
    */
-  number(title: string, value: any, required = true) {
-    return basicCheck<number>(title, value, required, 'Number');
+  number(title: string, value: any, required?: boolean, validator?: TValidator<number>) {
+    return basicCheck<number>(title, value, !!required, 'Number', validator);
   },
 
   /**
@@ -47,8 +59,8 @@ const fieldCheck = {
    * @param required - 是否必填
    * @returns 
    */
-  string(title: string, value: any, required = false) {
-    return basicCheck<string>(title, value, required, 'String');
+  string(title: string, value: any, required?: boolean, validator?: TValidator<string>) {
+    return basicCheck<string>(title, value, !!required, 'String', validator);
   }
 };
 

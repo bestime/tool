@@ -552,6 +552,7 @@ declare function dataPage<T>(
  */
 declare function parseQuery(str?: string): TKvPair;
 
+type TValidator<T> = (data: T) => void | string | undefined;
 declare const fieldCheck: {
   /**
    * 验证传入的数据是否是数字
@@ -560,7 +561,15 @@ declare const fieldCheck: {
    * @param required - 是否必填
    * @returns
    */
-  number(title: string, value: any, required?: boolean): number;
+  number(
+    title: string,
+    value: any,
+    required?: boolean,
+    validator?: TValidator<number>
+  ): {
+    value: number;
+    error: string | void | undefined;
+  };
   /**
    * 验证传入的数据是否是字符串
    * @param title - 标题
@@ -568,7 +577,15 @@ declare const fieldCheck: {
    * @param required - 是否必填
    * @returns
    */
-  string(title: string, value: any, required?: boolean): string;
+  string(
+    title: string,
+    value: any,
+    required?: boolean,
+    validator?: TValidator<string>
+  ): {
+    value: string;
+    error: string | void | undefined;
+  };
 };
 
 interface ISummary {
