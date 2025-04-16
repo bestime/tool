@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>无缝滚动</title>
+  
+  <style>
+    .seamless_scroll_wrapper{
+      width: 500px;
+      height: 300px;
+      overflow: hidden;
+      outline: #444 solid 2px;
+      position:relative;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    li {
+      padding: 10px;
+      margin: 10px;   
+      text-align: center;
+      list-style: none;
+      background-color: #eee;
+      color: #444;
+      font-size: 18px;      
+    }
+  </style>
+</head>
+<body>
+  <div class="seamless_scroll_wrapper">
+    <div class="seamless_scroll_body">
+      <ul>
+        <li>000000000000</li>
+        <li>111111111111</li>
+        <li>222222222222</li>
+        <li>3333333333333</li>
+        <li>4444444444</li>
+        <li>55555555555</li>
+        <li>6666666666666666</li>
+      </ul>
+      <ul>
+        <li>000000000000</li>
+        <li>111111111111</li>
+        <li>222222222222</li>
+        <li>3333333333333</li>
+        <li>4444444444</li>
+        <li>55555555555</li>
+        <li>6666666666666666</li>
+      </ul>
+    </div>
+    
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "@better-scroll/core": "https://unpkg.com/@better-scroll/core@2.5.1/dist/core.esm.js",
+        "@better-scroll/mouse-wheel": "https://unpkg.com/@better-scroll/mouse-wheel@2.5.1/dist/mouse-wheel.esm.js",
+        "@better-scroll/scroll-bar": "https://unpkg.com/@better-scroll/scroll-bar@2.5.1/dist/scroll-bar.esm.js",
+        "@bestime/utils_base": "../../../base/dist/esm/index.mjs",
+        "@bestime/utils_browser": "../../../browser/dist/esm/index.mjs",
+        "@bestime/scroll": "../../dist/esm/index.mjs"
+      }
+    }
+  </script>
+
+  <script type="module">      
+    import {_Array} from '@bestime/utils_base'
+    import {SeamlessScroll} from '@bestime/scroll'
+    const oWrapper = document.querySelector(".seamless_scroll_wrapper")
+    const iScroll = new SeamlessScroll(oWrapper, {
+      speed:100
+    })
+    window.iScroll = iScroll
+    
+    console.log("SeamlessScroll", iScroll)
+  </script>
+</body>
+</html>
