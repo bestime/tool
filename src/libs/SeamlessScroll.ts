@@ -1,4 +1,6 @@
-import { observeDomResize } from "@bestime/utils_browser"
+
+
+import { addClass, observeDomResize, removeClass } from "@bestime/utils_browser"
 import BScroll from '@better-scroll/core'
 import MouseWheel from '@better-scroll/mouse-wheel'
 import ScrollBar from '@better-scroll/scroll-bar'
@@ -147,10 +149,23 @@ export default class SeamlessScroll {
   }  
 
   _onResize () {
-    console.log("改变了", this._cache)
+    const first = this._cache.ele.querySelector(".seamless_scroll_content") as HTMLDivElement
+    const enabled = first.offsetHeight > this._cache.ele.offsetHeight
     const scroll = this._cache.scroll
+    // console.log("嘎嘎嘎", first.offsetHeight, this._cache.ele.offsetHeight)
+    if(enabled) {
+      scroll.scrollTo(0, 0, 0)
+      addClass(this._cache.ele, 'enabled')
+    }else {
+      // console.log("警用")
+      scroll.scrollTo(0, 0, 0)
+      removeClass(this._cache.ele, 'enabled')
+      
+    }
+    
     scroll.refresh()
-    scroll.scrollTo(0, scroll.y, 0)
+    
+    this.scrollY()
   }
 
   get _limitY () {
