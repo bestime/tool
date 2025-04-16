@@ -441,6 +441,8 @@ declare class WaterMark {
   _draw(): void;
 }
 
+declare const style: (str: string) => void;
+
 export {
   LinearGradientColorLegend,
   SeamlessRolling,
@@ -475,6 +477,7 @@ export {
   setCookie,
   setStorage,
   speakText,
+  style,
   toggleClass
 };
 

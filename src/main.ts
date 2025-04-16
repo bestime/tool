@@ -32,4 +32,7 @@ export { default as speakText } from './libs/speakText'
 export { default as copyText } from './libs/copyText'
 export { default as LinearGradientColorLegend } from './libs/LinearGradientColorLegend'
 export { default as WaterMark } from './libs/WaterMark'
+import createStyle from './libs/createStyle'
+
+export const style = createStyle('bt-browser-core')
 

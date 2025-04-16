@@ -441,6 +441,8 @@ declare class WaterMark {
   _draw(): void;
 }
 
+declare const style: (str: string) => void;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -480,6 +482,7 @@ declare global {
       setCookie,
       setStorage,
       speakText,
+      style,
       toggleClass
     };
   }
