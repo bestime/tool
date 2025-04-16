@@ -12,58 +12,41 @@ type ECharts = echarts.ECharts
 export class EasyEchartsController {  
   private _isDispose = false
   private _options: EChartsOption | undefined
-  private _iChart: {
-    id: string,
-    instance: ECharts
-  }[] = []
-  private count = {
-    option: Number.MIN_SAFE_INTEGER
-  }
+  private _iChart: ECharts | undefined
+
   constructor () {
-    this.setOption = debounce(this.setOption.bind(this), 100)
+    
   }
 
-  _setChart (id: string, instance: ECharts) {
-    if(!this._iChart.some(c=>c.id === id)) {
-      this._iChart.push({
-        id,
-        instance
-      })
-    }
+  _setChart (instance: ECharts) {
+    this._iChart = instance
 
     if(this._options) {
       this.setOption(this._options)
     }    
   }
 
-  setOption (options: EChartsOption) {
-    
+  setOption (options: EChartsOption) {    
     this._options = options
-    const sortId = ++this.count.option    
-    if(sortId !== this.count.option || !this._iChart || this._isDispose) return;    
-    this._iChart.forEach(function (vm) {
-      vm.instance.setOption(options, false)
-    })
+    
+    if(!this._iChart || this._isDispose) return;
+    this._iChart.setOption(options, false)
     return this;
   }
 
   clear () {
-    this._iChart.forEach(function (vm) {
-      vm.instance.clear()
-    })
+    this._options = undefined
+    if(this._iChart) {
+      this._iChart.clear()
+    }
   }
 
-  _dispose (id: string) {
+  _dispose () {
     this._isDispose = true
-    // @ts-ignore
-    this.setOption?.cancel?.()
-    for(let index = 0; index<this._iChart.length; index++) {
-      const vm = this._iChart[index]
-      if(vm.id === id) {
-        vm.instance.clear()
-        vm.instance.dispose()
-        this._iChart.splice(index--, 1)
-      }      
+    if(this._iChart) {
+      this._iChart.clear()
+      this._iChart.dispose()
     }
+    
   }
 }

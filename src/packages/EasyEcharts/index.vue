@@ -38,10 +38,10 @@ const oChart = useTemplateRef('chart-ref')
 const oWrapper = useTemplateRef('chart-wrapper')
 let iChart:echarts.ECharts|undefined;
 let obs: ReturnType<typeof observeDomResize> | undefined
-const vmId = uuid(15)
+
 onMounted(function () {  
   iChart = echarts.init(oChart.value);
-  props.controller._setChart(vmId, iChart);
+  props.controller._setChart(iChart);
 
   obs = observeDomResize(oWrapper.value!, function () {    
     iChart?.resize()
@@ -49,7 +49,7 @@ onMounted(function () {
 })
 
 onBeforeUnmount(function () {
-  props.controller._dispose(vmId)
+  props.controller._dispose()
   obs?.()
   if(iChart && !iChart.isDisposed) {
     iChart.clear()
