@@ -69,7 +69,7 @@ export default class SeamlessScroll {
     this._onScrollEnd = this._onScrollEnd.bind(this)
     this._onMouseenter = this._onMouseenter.bind(this)
     this._onMouseout = this._onMouseout.bind(this)
-    this._onScrolling = this._onScrolling.bind(this)
+    this._onBeforeTo = this._onBeforeTo.bind(this)
 
     ele.addEventListener('mouseenter', this._onMouseenter)
     
@@ -77,7 +77,7 @@ export default class SeamlessScroll {
 
     this._cache.scroll.on('scrollEnd', this._onScrollEnd)
     const hooks = this._cache.scroll.scroller.hooks
-    hooks.on('scrollTo', this._onScrolling)
+    hooks.on('scrollTo', this._onBeforeTo)
     this._obv = observeDomResize(ele, () => {
       this._onResize()
     }, ['width', 'height'], 200)
@@ -96,7 +96,7 @@ export default class SeamlessScroll {
     
   }
 
-  _onScrolling (to: { x: number, y: number }) {
+  _onBeforeTo (to: { x: number, y: number }) {
     if(this._cache.manualing || this._cache.inDistance<0) return;
     
     const scroll = this._cache.scroll
@@ -146,11 +146,16 @@ export default class SeamlessScroll {
     clearTimeout(this._cache.timerLeave)
     this._cache.locking = true
     this._cache.scroll.stop()
-  }  
+  }
+  
+  _checkEnabled () {
+    const first = this._cache.ele.querySelector(".seamless_scroll_content") as HTMLDivElement
+    
+    return first.offsetHeight > this._cache.ele.offsetHeight
+  }
 
   _onResize () {
-    const first = this._cache.ele.querySelector(".seamless_scroll_content") as HTMLDivElement
-    const enabled = first.offsetHeight > this._cache.ele.offsetHeight
+    const enabled = this._checkEnabled()
     const scroll = this._cache.scroll
     // console.log("嘎嘎嘎", first.offsetHeight, this._cache.ele.offsetHeight)
     if(enabled) {
@@ -166,6 +171,7 @@ export default class SeamlessScroll {
     scroll.refresh()
     
     this.scrollY()
+
   }
 
   get _limitY () {
@@ -173,9 +179,8 @@ export default class SeamlessScroll {
   }
 
   scrollY () {
-    // return;
     const scroll = this._cache.scroll
-    if(scroll.maxScrollY === 0) return;
+    if(!this._checkEnabled()) return;
     const { speed } = this._cfg    
     const duration = Math.abs(this._limitY - scroll.y) / speed * 1000
     scroll.scrollTo(0, this._limitY, duration, {
@@ -193,7 +198,7 @@ export default class SeamlessScroll {
     ele.removeEventListener('mouseenter', this._onMouseenter)    
     ele.removeEventListener('mouseleave', this._onMouseout)
     scroll.off('scrollEnd', this._onScrollEnd)
-    scroll.off('scroll', this._onScrolling)
+    scroll.off('scroll', this._onBeforeTo)
     scroll.destroy()
   }
 

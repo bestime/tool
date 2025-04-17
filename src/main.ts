@@ -2,7 +2,7 @@
 
 export { default as SeamlessScroll } from './libs/SeamlessScroll'
 
-// @ts-ignore npm 包未发布，其实已存在
+
 import { style } from "@bestime/utils_browser"
 
 style(`

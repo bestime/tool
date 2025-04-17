@@ -1,8 +1,8 @@
 {
   "name": "@bestime/scroll",
-  "version": "1.0.14",
-  "main": "./dist/esm/index.min.mjs",
-  "module": "./dist/esm/index.min.mjs",
+  "version": "1.0.0",
+  "main": "./dist/esm/index.mjs",
+  "module": "./dist/esm/index.mjs",
   "typings": "./dist/esm/index.d.ts",
   "description": "滚动相关工具",
   "type": "module",
@@ -10,8 +10,7 @@
     "dist/esm"
   ],
   "scripts": {
-    "build": "rollup --config rollup.config.prod.js",
-    "serve": "rollup --config rollup.config.dev.js --watch"
+    "build": "rollup --config rollup.config.prod.js"
   },
   "devDependencies": {
     "@babel/core": "7.18.6",
@@ -51,7 +50,7 @@
   },
   "dependencies": {
     "@bestime/utils_base": "^1.0.14",
-    "@bestime/utils_browser": "^1.0.11",
+    "@bestime/utils_browser": "^1.0.12",
     "@better-scroll/core": "^2.5.1",
     "@better-scroll/mouse-wheel": "^2.5.1",
     "@better-scroll/scroll-bar": "^2.5.1"
