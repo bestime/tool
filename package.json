@@ -2,8 +2,8 @@
   "name": "@bestime/utils_maptalks",
   "version": "1.0.12",
   "main": "./dist/index.min.mjs",
-  "module": "./dist/index.min.mjs",
-  "typings": "./dist/index.min.d.ts",
+  "module": "./dist/index.mjs",
+  "typings": "./dist/index.d.ts",
   "description": "maptalks通用工具封装",
   "type": "module",
   "files": [

@@ -55,7 +55,7 @@ export default [
       '@bestime/utils_base'
     ],
     output: {
-      file: `dist/index.min.mjs`,
+      file: `dist/index.mjs`,
       banner: getBanner(),
       format: 'esm',
       strict: true,
@@ -100,7 +100,7 @@ export default [
   {
     input: './src/main.ts',
     output: [
-      { file: `dist/index.min.d.ts`, format: "es" }
+      { file: `dist/index.d.ts`, format: "es" }
     ],
     plugins: [
       dts(),
