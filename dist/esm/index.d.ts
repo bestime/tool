@@ -1249,6 +1249,28 @@ declare class ServerDate {
 
 declare function breakString(rowLength: number, data?: string): string[];
 
+/**
+ * 获取一个时间是当年第几周
+ * @param endTime - 目标时间
+ * @returns 第几周
+ */
+declare function getWeekSort(endTime: string): number;
+/**
+ * 获取截至指定时间的周列表
+ * @param endTime 截止时间（起始时间为此年初）
+ * @param count 需要几周，如果此年不足数量，则向往年取时间
+ * @returns 周列表
+ */
+declare function getWeeks(
+  endTime: string,
+  count?: number
+): {
+  week: number;
+  label: string;
+  from: string;
+  to: string;
+}[];
+
 export {
   Animate,
   Polling,
@@ -1291,6 +1313,8 @@ export {
   getRiseRatio,
   getSortIndex,
   getType,
+  getWeekSort,
+  getWeeks,
   hexToRgba,
   isArray,
   isEmpty,
