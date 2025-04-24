@@ -6,6 +6,7 @@ function isLick0 (data: any): data is TNull {
 
 /**
  * 计算一个数据变化的增长率
+ * 
  * @param from 
  * @param to 
  * @returns 

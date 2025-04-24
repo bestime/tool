@@ -16,7 +16,7 @@ let _rid = 0
 const recordMap: LogItem[] = []
 
 
-function wirteOneRecord (title: string, data?: string, pid?: string) {
+function wirteOneRecord (title: string, data?: string, pid?: string, print?: boolean) {
   const id = createId()
   const time = formatTime(new Date().getTime())
   recordMap.push({
@@ -27,7 +27,9 @@ function wirteOneRecord (title: string, data?: string, pid?: string) {
     data
   })
 
-  console.log("%c 写入日志", 'background:#dd4215;color:white;font-size:12px;border-radius:4px;padding: 2px 4px 2px 0', `${time} →`, title)
+  if(print) {
+    console.log("%c 写入日志", 'background:#dd4215;color:white;font-size:12px;border-radius:4px;padding: 2px 4px 2px 0', `${time} →`, title)
+  }  
   return id
 }
 
@@ -35,11 +37,11 @@ function createId () {
   return `L${++_rid}`
 }
 
-export default function logRecord (title: string, data?: string) {
-  const pid = wirteOneRecord(title, data, '')
+export default function logRecord (title: string, data?: string, notPrint?: boolean) {
+  const pid = wirteOneRecord(title, data, '', !notPrint)
 
   function add (title: string, data?: string) {
-    wirteOneRecord(title, data, pid)
+    wirteOneRecord(title, data, pid, !notPrint)
   }
 
   return add

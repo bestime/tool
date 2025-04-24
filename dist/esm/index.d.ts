@@ -873,6 +873,7 @@ declare function getRatio(value: number | undefined, base: number | undefined): 
 
 /**
  * 计算一个数据变化的增长率
+ *
  * @param from
  * @param to
  * @returns
@@ -1200,7 +1201,11 @@ interface LogItem {
   title: string;
   data?: string;
 }
-declare function logRecord(title: string, data?: string): (title: string, data?: string) => void;
+declare function logRecord(
+  title: string,
+  data?: string,
+  notPrint?: boolean
+): (title: string, data?: string) => void;
 declare function logExport(): {
   flatList: LogItem[];
   treeList: any[];
