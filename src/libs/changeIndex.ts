@@ -20,5 +20,5 @@ export default function changeIndex (
     currentIndex = currentIndex + length;
   }
   
-  return currentIndex === -0 ? 0 : currentIndex;
+  return currentIndex === 0 ? 0 : currentIndex;
 }

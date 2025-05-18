@@ -1276,6 +1276,16 @@ declare function getWeeks(
   to: string;
 }[];
 
+type TVu = string | number;
+/**
+ * 格式化一个范围
+ * @param from 起始值
+ * @param to 终止值
+ * @param connector 连接符
+ * @returns
+ */
+declare function formatRange(from?: TVu, to?: TVu, connector?: string): string;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -1314,6 +1324,7 @@ declare global {
       forEach,
       forEachKvPair,
       forEachTree,
+      formatRange,
       formatTime,
       fuzzyReplace,
       getLikeNumberRegExp,

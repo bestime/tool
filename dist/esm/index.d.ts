@@ -1276,6 +1276,16 @@ declare function getWeeks(
   to: string;
 }[];
 
+type TVu = string | number;
+/**
+ * 格式化一个范围
+ * @param from 起始值
+ * @param to 终止值
+ * @param connector 连接符
+ * @returns
+ */
+declare function formatRange(from?: TVu, to?: TVu, connector?: string): string;
+
 export {
   Animate,
   Polling,
@@ -1309,6 +1319,7 @@ export {
   forEach,
   forEachKvPair,
   forEachTree,
+  formatRange,
   formatTime,
   fuzzyReplace,
   getLikeNumberRegExp,

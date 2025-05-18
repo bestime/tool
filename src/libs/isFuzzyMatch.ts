@@ -22,7 +22,7 @@ function getReg (data: string) {
  * @return 
  */
 export default function isFuzzyMatch (search: string, data: string, regFlags?: string) {
-  if(isNull(search) || isNull(data)) return false
+  if(isNull(search) || search === '') return false
   search = trim(search, '*')
   let res = true;
   if(search) {

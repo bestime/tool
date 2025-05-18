@@ -15,7 +15,7 @@ export default class ServerDate {
   private _diff = 0
   private _interval: number
   private _handler: THander
-  private _timer = -1
+  private _timer: any
   private _actionId = Number.MIN_SAFE_INTEGER
   private _isRuning = false
 

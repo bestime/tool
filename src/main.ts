@@ -84,6 +84,7 @@ export { default as logRecord, logExport } from './libs/logRecord'
 export { default as ServerDate } from './libs/ServerDate'
 export { default as breakString } from './libs/breakString'
 export { default as getWeeks, getWeekSort } from './libs/getWeeks'
+export { default as formatRange } from './libs/formatRange'
 
 
 
