@@ -17,9 +17,11 @@ export default function formatRange (from?: TVu, to?: TVu, connector?: string) {
   const avTo = !isNull(to)
   let res = ''
   if(avFrom && avTo) {
-    res = `${trim(from)}${mark}${trim(to)}`
-  } else if(from === to) {
-    res = trim(from)
+    if(from === to) {
+      res = trim(from)
+    } else {
+      res = `${trim(from)}${mark}${trim(to)}`
+    }
   } else if(avFrom) {
     res = trim(from)
   } else {
