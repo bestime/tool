@@ -1,4 +1,5 @@
 import _String from './_String'
+import getType from './getType'
 import type { TKvPair } from './help/type-declare'
 import isKvPair from './isKvPair'
 import param from './param'
@@ -25,7 +26,13 @@ import trim from './trim'
 export default function urlToGet (url: string, data: string | TKvPair) {
   url = _String(url)
 
-  let realData = isKvPair(data) ? data : parseQuery(data);
+  let realData:TKvPair = {}
+  if(getType(data) !== 'FormData') {
+    realData = isKvPair(data) ? data : parseQuery(data);
+  }
+
+  
+  
   
 
   // 解析动态url参数，按 "{{}}" 区分
