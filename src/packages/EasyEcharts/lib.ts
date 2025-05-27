@@ -10,7 +10,7 @@ type ECharts = echarts.ECharts
  * - 注意：一个控制器只能控制一个实例。如果绑定多个实例，只会控制最新绑定的那一个
  */
 export class EasyEchartsController {  
-  private _isDispose = false
+  _isDispose = false
   private _options: EChartsOption | undefined
   private _iChart: ECharts | undefined
 
@@ -42,6 +42,7 @@ export class EasyEchartsController {
   }
 
   _dispose () {
+    this._options = undefined
     this._isDispose = true
     if(this._iChart) {
       this._iChart.clear()

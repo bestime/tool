@@ -51,7 +51,7 @@ export default defineConfig(function ({ mode }) {
       lib: {
         formats: ['es'],
         entry: './src/packages/index.ts',
-        fileName: 'index'
+        fileName: 'index.esm'
         
       },
       rollupOptions: {

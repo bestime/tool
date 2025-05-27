@@ -40,6 +40,7 @@ let iChart:echarts.ECharts|undefined;
 let obs: ReturnType<typeof observeDomResize> | undefined
 
 onMounted(function () {  
+  props.controller._isDispose = false
   iChart = echarts.init(oChart.value);
   props.controller._setChart(iChart);
 
