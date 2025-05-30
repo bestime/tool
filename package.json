@@ -49,8 +49,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@bestime/utils_base": "^1.0.14",
-    "@bestime/utils_browser": "^1.0.12",
+    "@bestime/utils_base": "^1.0.16",
+    "@bestime/utils_browser": "^1.0.13",
     "@better-scroll/core": "^2.5.1",
     "@better-scroll/mouse-wheel": "^2.5.1",
     "@better-scroll/scroll-bar": "^2.5.1"

@@ -66,9 +66,9 @@
         "@better-scroll/core": "https://unpkg.com/@better-scroll/core@2.5.1/dist/core.esm.js",
         "@better-scroll/mouse-wheel": "https://unpkg.com/@better-scroll/mouse-wheel@2.5.1/dist/mouse-wheel.esm.js",
         "@better-scroll/scroll-bar": "https://unpkg.com/@better-scroll/scroll-bar@2.5.1/dist/scroll-bar.esm.js",
-        "@bestime/utils_base": "../../../base/dist/esm/index.mjs",
-        "@bestime/utils_browser": "../../../browser/dist/esm/index.mjs",
-        "@bestime/scroll": "../../dist/esm/index.mjs"
+        "@bestime/utils_base": "../../../base/dist/esm/index.min.mjs",
+        "@bestime/utils_browser": "../../../browser/dist/esm/index.min.mjs",
+        "@bestime/scroll": "../../dist/esm/index.min.mjs"
       }
     }
   </script>
@@ -78,7 +78,7 @@
     import {SeamlessScroll} from '@bestime/scroll'
     const oWrapper = document.querySelector(".seamless_scroll_wrapper")
     const iScroll = new SeamlessScroll(oWrapper, {
-      speed:100
+      speed:10
     })
     window.iScroll = iScroll
     

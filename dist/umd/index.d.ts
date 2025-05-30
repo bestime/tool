@@ -10,10 +10,11 @@ declare class SeamlessScroll {
   _cfg: IOptions;
   constructor(ele: HTMLDivElement, options: Partial<IOptions>);
   _mouseTo(x: number, fromY: number, toY: number): void;
-  _onScrolling(to: { x: number; y: number }): void;
+  _onBeforeTo(to: { x: number; y: number }): void;
   _onScrollEnd(): void;
   _onMouseout(): void;
   _onMouseenter(): void;
+  _checkEnabled(): boolean;
   _onResize(): void;
   get _limitY(): number;
   scrollY(): void;
