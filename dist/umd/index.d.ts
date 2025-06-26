@@ -1286,6 +1286,65 @@ type TVu = string | number;
  */
 declare function formatRange(from?: TVu, to?: TVu, connector?: string): string;
 
+/**
+ * 获取一个路径的文件名（最后一级的名称）
+ * @param path 原始路径
+ * @returns 文件名
+ */
+declare function getFileName(path?: string): string;
+
+interface IOption {
+  headers: {
+    attrId: string;
+    attrName: string;
+    attrKey: string;
+  }[];
+  row: {
+    comment: string;
+    completeRate?: number;
+    completeValue?: number;
+    id: string;
+    order: number;
+    parentTaskId: string;
+    scoreActual?: number;
+    attrs: {
+      attrId: string;
+      value: string;
+    }[];
+  }[];
+}
+interface IUseTableHeader {
+  attrId: string;
+  field: string;
+  label: string;
+  colspan: number;
+}
+interface IUseTableCell {
+  id: string;
+  meta: {
+    attrId: string;
+    comment: string;
+    scoreActual: string;
+    completeRate: string;
+    completeValue: string;
+  };
+  colspan: Record<string, number>;
+  rowspan: Record<string, number>;
+  [key: string]: any;
+}
+/**
+ * 智界新科技：解析交易中心业绩合同表为一维数组
+ * @remarks 前台、后台都在使用，为了不让同事误改此方法，所以封装在自己工具库里
+ *
+ * @param query - 接口返回的数据
+ * @returns 给前端方便使用的数据格式
+ */
+declare function zjxkjPerformanceTable(query: IOption): {
+  headers: IUseTableHeader[];
+  body: IUseTableCell[];
+  totalScore: number;
+};
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -1327,6 +1386,7 @@ declare global {
       formatRange,
       formatTime,
       fuzzyReplace,
+      getFileName,
       getLikeNumberRegExp,
       getPiecesWithIndex,
       getRandom,
@@ -1379,7 +1439,8 @@ declare global {
       union,
       urlToGet,
       uuid,
-      variableHasValue
+      variableHasValue,
+      zjxkjPerformanceTable
     };
   }
 }

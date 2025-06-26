@@ -85,12 +85,16 @@ export { default as ServerDate } from './libs/ServerDate'
 export { default as breakString } from './libs/breakString'
 export { default as getWeeks, getWeekSort } from './libs/getWeeks'
 export { default as formatRange } from './libs/formatRange'
+export { default as getFileName } from './libs/getFileName'
 
 
 
-// @ts-ignore
-// export { default as test } from 'query-string'
 
+
+
+
+// 智界科技的，离职后删除
+export { default as zjxkjPerformanceTable } from './libs/zjxkjPerformanceTable'
 
 
 
