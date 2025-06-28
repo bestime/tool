@@ -5,6 +5,7 @@ import { debounce, throttle } from "lodash-es";
 type EChartsOption = echarts.EChartsOption;
 type ECharts = echarts.ECharts
 
+
 /**
  * echart控制器
  * - 注意：一个控制器只能控制一个实例。如果绑定多个实例，只会控制最新绑定的那一个
@@ -25,6 +26,20 @@ export class EasyEchartsController {
       this.setOption(this._options)
     }    
   }
+
+  getInstance () {
+    return this._iChart
+  }
+
+  on(eventName: string, query: string | Record<string, string>, callback:(event: any)=>void) {
+    variableHasValue(() => !!this._iChart, ()=> {
+      this._iChart!.off(eventName, callback)
+      this._iChart!.on(eventName, query, callback)
+    })
+    return this;
+  }
+
+  
 
   setOption (options: EChartsOption) {    
     this._options = options
