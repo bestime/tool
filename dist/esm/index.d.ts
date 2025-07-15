@@ -61,7 +61,7 @@ declare function isString(data: any): data is string;
 declare function _KvPair(data: any): TKvPair;
 
 /**
- * 判断是否为空[null, undefined, '']
+ * 判断是否为空[null, undefined, '','-']
  * @params data - 判断的数据
  * @returns 判断结果
  */
@@ -254,8 +254,8 @@ declare function isLikeNumber(value: any): boolean;
 
 /**
  * 循环复制字符串
- * @param data - 复制目标
- * @param count - 复制几次
+ * @param target - 复制目标
+ * @param count - 目标长度
  * @returns 结果
  */
 declare function repeatString(target: string | number, count: number): string;
@@ -1293,6 +1293,14 @@ declare function formatRange(from?: TVu, to?: TVu, connector?: string): string;
  */
 declare function getFileName(path?: string): string;
 
+/**
+ * 循环补充数组到指定长度
+ * @param data - 复制目标
+ * @param length - 目标长度
+ * @returns 结果
+ */
+declare function repeatArray<T>(target: T[], length: number): T[];
+
 interface IOption {
   headers: {
     attrId: string;
@@ -1416,6 +1424,7 @@ export {
   parseQuery,
   parseTreeToTableHeader,
   randomColor,
+  repeatArray,
   repeatString,
   rgbaToHex,
   roundFixed,

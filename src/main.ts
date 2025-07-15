@@ -86,6 +86,7 @@ export { default as breakString } from './libs/breakString'
 export { default as getWeeks, getWeekSort } from './libs/getWeeks'
 export { default as formatRange } from './libs/formatRange'
 export { default as getFileName } from './libs/getFileName'
+export { default as repeatArray } from './libs/repeatArray'
 
 
 
