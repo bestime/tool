@@ -1,6 +1,6 @@
 {
   "name": "@bestime/utils_base",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "main": "./dist/esm/index.min.mjs",
   "module": "./dist/esm/index.min.mjs",
   "typings": "./dist/esm/index.d.ts",

@@ -1,4 +1,5 @@
 import cloneEasy from './cloneEasy'
+import deepFindItem from './deepFindItem'
 import forEachTree from './forEachTree'
 import type { TKvPair } from './help/type-declare'
 import isArray from './isArray'
@@ -14,7 +15,15 @@ export default function treeFilter<T extends TKvPair> (treeList: TreeItem<T>[], 
   function innerHander<T extends TKvPair> (data: TreeItem<T>[], result: TreeItem<T>[]) {
     for(let a = 0; a<data.length;a++) {
       const item = data[a]
-      const hasChoosed = handler(item)
+      let hasChoosed = handler(item)
+
+      if(isArray(item.children)) {
+        if(!hasChoosed) {
+          hasChoosed = !!deepFindItem(item.children, function (cd) {
+            return handler(cd)
+          })
+        }
+      }
       if(hasChoosed) {
         const newItem: any = {}
         for(let key in item) {

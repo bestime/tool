@@ -1301,6 +1301,8 @@ declare function getFileName(path?: string): string;
  */
 declare function repeatArray<T>(target: T[], length: number): T[];
 
+declare function checkPhone(data: any): boolean;
+
 interface IOption {
   headers: {
     attrId: string;
@@ -1371,6 +1373,7 @@ declare global {
       arrayRowToColumn,
       breakString,
       changeIndex,
+      checkPhone,
       cloneEasy,
       _default as connectEcharts,
       dataCache,
