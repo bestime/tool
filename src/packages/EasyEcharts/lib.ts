@@ -41,11 +41,11 @@ export class EasyEchartsController {
 
   
 
-  setOption (options: EChartsOption) {    
+  setOption (options: EChartsOption, notMerge=false) {    
     this._options = options
     
     if(!this._iChart || this._isDispose) return;
-    this._iChart.setOption(options, false)
+    this._iChart.setOption(options, notMerge)
     return this;
   }
 
