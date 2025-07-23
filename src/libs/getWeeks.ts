@@ -14,7 +14,7 @@ function parseWeek (year: number, month: number, day: number) {
     week = 7
   }
 
-  const yearStart = new Date(t.getFullYear(), 0, 1).getTime()
+  const yearStart = new Date(t.getFullYear()).getTime()
   const startTime = Math.max(t.getTime() - oneDay * (week-1), yearStart)
   const endTime = t.getTime() + oneDay * (7-week)
 
@@ -47,16 +47,20 @@ function getYearWeeks (current: Date) {
     end: string
   }[] = []
   const week = parseWeek(current.getFullYear(), current.getMonth(), current.getDate())
+  const maxTimeStamp = new Date(week.year+'/12/31 00:00:00').getTime()
   const startOfYearStamp = new Date(current.getFullYear(), 0, 1).getTime()
+  
 
   let endStamp = week.endStamp
 
-  while (endStamp>startOfYearStamp) {
+  while (endStamp>=startOfYearStamp) {
+    
     list.push({
       start: formatWeekTime(Math.max(endStamp-oneWeek+oneDay, startOfYearStamp)),
-      end: formatWeekTime(endStamp)
+      end: formatWeekTime(Math.min(endStamp, maxTimeStamp))
     })    
     endStamp -= oneWeek
+    // console.log("week", week, formatTime(startOfYearStamp), formatTime(endStamp))
   }
 
   const length = list.length
@@ -84,7 +88,7 @@ export function getWeekSort (endTime: string) {
 /**
  * 获取截至指定时间的周列表
  * @param endTime 截止时间（起始时间为此年初）
- * @param count 需要几周，如果此年不足数量，则向往年取时间
+ * @param count 需要几周，如果此年不足数量，则向往年取时间，不填则仅后去当年数据
  * @returns 周列表
  */
 export default function getWeeks (endTime: string, count?: number) {
@@ -93,6 +97,7 @@ export default function getWeeks (endTime: string, count?: number) {
   const needCrop = !isNull(count)
   while(needCrop && weekList.length<count) {
     const begin = new Date(weekList[0].from).getTime() - oneDay
+    // console.log("weekList", formatTime(begin), weekList)
     const moreList = getYearWeeks(new Date(begin))
     weekList = moreList.concat(weekList)
   }

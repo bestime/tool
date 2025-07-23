@@ -1263,7 +1263,7 @@ declare function getWeekSort(endTime: string): number;
 /**
  * 获取截至指定时间的周列表
  * @param endTime 截止时间（起始时间为此年初）
- * @param count 需要几周，如果此年不足数量，则向往年取时间
+ * @param count 需要几周，如果此年不足数量，则向往年取时间，不填则仅后去当年数据
  * @returns 周列表
  */
 declare function getWeeks(
