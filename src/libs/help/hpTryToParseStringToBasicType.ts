@@ -1,7 +1,7 @@
 
+import isLikeNumber from '../isLikeNumber';
 import { $falseString, $trueString, $undefinedValue } from './hpConsts'
 import hpJsonParse from './hpJsonParse';
-import _Number from '../_Number';
 
 /**
  * 解析字符串
@@ -23,6 +23,8 @@ export default function hpTryToParseStringToBasicType (data: string): any {
     res = false
   } else if($trueString === data) {
     res = true
+  } else if (isLikeNumber(data)) {
+    res = data
   } else {
     res = hpJsonParse(data, data)
   }
