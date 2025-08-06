@@ -336,27 +336,12 @@ declare class TextRainCanvas {
 
 declare class SeamlessRolling {
   _wrapper: HTMLDivElement;
-  _timer: number;
+  _timer: any;
   constructor(wraper: HTMLDivElement);
   _updateContent(): void;
   _doScroll(): void;
   dispose(): void;
 }
-
-type Tlanguage =
-  | 'Microsoft Huihui - Chinese (Simplified, PRC)'
-  | 'Microsoft Kangkang - Chinese (Simplified, PRC)'
-  | 'Microsoft Kangkang - Chinese (Simplified, PRC)'
-  | 'Microsoft Yaoyao - Chinese (Simplified, PRC)'
-  | 'Google 한국의'
-  | 'Google 日本語'
-  | 'Google 粤語（香港）';
-declare function speakText(
-  message: string,
-  options: {
-    language?: Tlanguage;
-  }
-): Promise<void>;
 
 declare function func01(text: string): Promise<void>;
 /**
@@ -376,6 +361,7 @@ interface IOptions$1 {
   fontColor: string;
   paddingTop: number;
   paddingBottom: number;
+  labelFormatter?: (data: number) => string;
   colors: IColorItem[];
 }
 interface IUseColorItem {
@@ -481,7 +467,6 @@ declare global {
       replaceClass,
       setCookie,
       setStorage,
-      speakText,
       style,
       toggleClass
     };

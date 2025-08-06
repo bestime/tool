@@ -1,6 +1,6 @@
 export default class SeamlessRolling {
   _wrapper: HTMLDivElement
-  _timer = -1
+  _timer:any
   
   constructor (wraper: HTMLDivElement) {
     this._wrapper = wraper    

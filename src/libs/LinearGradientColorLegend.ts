@@ -11,6 +11,7 @@ function rgbStringToList (rgba: string) {
 }
 
 function getColorByRadio(color1: string, color2: string, percentage: number) {
+  percentage = Math.max(percentage, 0)
   percentage = Math.min(percentage, 1)
   let [r1, g1, b1] = rgbStringToList(hexToRgba(color1));
   let [r2, g2, b2] = rgbStringToList(hexToRgba(color2));
@@ -35,6 +36,7 @@ interface IOptions {
   fontColor: string
   paddingTop: number,
   paddingBottom: number,
+  labelFormatter?: (data: number) => string
   colors: IColorItem[]
 }
 
@@ -90,7 +92,7 @@ function convertColors (data:IColorItem[]) {
 
     fromRatio = toRatio
   }  
-  console.log("转换", result)
+
   return {
     data:result,
     max: maxV,
@@ -153,7 +155,9 @@ export default class LinearGradientColorLegend {
     for(let index = 0; index<=count; index++) {
       const ratio = (1-index / count)
 
-      const text =  roundFixed(ratio * (this._maxValue - this._minValue) + this._minValue, 2)
+      const num = ratio * (this._maxValue - this._minValue) + this._minValue
+
+      const text = this._cfg.labelFormatter ? this._cfg.labelFormatter(num) : roundFixed(num, 2)
       const info = ctx.measureText(text)
       maxLabelWidth = Math.max(info.width, maxLabelWidth)
       axisData.push({
@@ -244,13 +248,26 @@ export default class LinearGradientColorLegend {
     }
     const perColor = this._colorList.find(function (c) {
       return value >= c.from.value && value < c.to.value
-    }) ?? this._colorList[this._colorList.length-1]
+    })
+
+    let colorItem:IUseColorItem
+    if(perColor) {
+      colorItem = perColor
+    } else if(value<this._colorList[0].from.value) {
+      colorItem = this._colorList[0]
+    } else {
+      colorItem = this._colorList[this._colorList.length-1]
+    }
+
+
 
     // console.log("获取的颜色", value, perColor, this._colorList)
-
-    const ratio = Math.min(value / (perColor.to.value - perColor.from.value), 1)
+    // value = Math.max(value - perColor.from.value, perColor.from.value)
+    const secValue = value-colorItem.from.value
+    const ratio = Math.min(secValue / (colorItem.to.value - colorItem.from.value), 1)
+    // console.log("哈哈哈", value, '=>',secValue,'=>',ratio, colorItem.to.value, colorItem.from.value)
     
-    return getColorByRadio(perColor.from.color, perColor.to.color, ratio)
+    return getColorByRadio(colorItem.from.color, colorItem.to.color, ratio)
   }
 }
 

@@ -14,7 +14,7 @@ const records: Record<string, {
   interval: number
 }> = {}
 
-let timer: number | undefined
+let timer: any | undefined
 
 
 function stop () {

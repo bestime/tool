@@ -51,19 +51,23 @@
     </script>
 
     <script type="module">
-      import {LinearGradientColorLegend} from "../dist/esm/index.mjs"
+      import {LinearGradientColorLegend} from "../dist/esm/index.min.mjs"
       const maxValue = 70
       const iColor = new LinearGradientColorLegend({
         fontSize: 12,
         colors: [
           {
-            color: '#599bf4',
+            color: '#dd4215',
+            data: 0
+          },
+          {
+            color: '#409eff',
             data: 10
           },
           {
-            color: '#0b308c',
-            data: maxValue
-          },
+            color: '#ffea40',
+            data: 20
+          }
         ]
       })
       iColor.mount(document.getElementById('test'))
@@ -75,9 +79,11 @@
       function setLis(oUl, count){
         oUl.innerHTML = ''
         for(let index = 1; index<=count; index++) {
-          const ratio = (index-1)/count*maxValue
+          
+          let ratio = (index-1)/count*maxValue
+          // ratio = 40
           const color = iColor.getColor(ratio)
-          oUl.innerHTML += `<li style="background:${color}"></li>`
+          oUl.innerHTML += `<li style="background:${color}" data-num="${ratio}"></li>`
         }        
       }
 
