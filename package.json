@@ -1,8 +1,8 @@
 {
   "name": "@bestime/scroll",
-  "version": "1.0.0",
-  "main": "./dist/esm/index.mjs",
-  "module": "./dist/esm/index.mjs",
+  "version": "1.0.2",
+  "main": "./dist/esm/index.min.mjs",
+  "module": "./dist/esm/index.min.mjs",
   "typings": "./dist/esm/index.d.ts",
   "description": "滚动相关工具",
   "type": "module",

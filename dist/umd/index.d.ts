@@ -18,6 +18,7 @@ declare class SeamlessScroll {
   _onResize(): void;
   get _limitY(): number;
   scrollY(): void;
+  refresh(): void;
   dispose(): void;
 }
 

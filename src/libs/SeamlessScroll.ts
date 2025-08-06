@@ -36,6 +36,7 @@ export default class SeamlessScroll {
     this._cfg = Object.assign({
       speed: 60
     }, options)
+
     this._cache = {
       inDistance: 0,
       doInds: false,
@@ -189,6 +190,10 @@ export default class SeamlessScroll {
         return t
       }
     })
+  }
+
+  refresh () {
+    this._onResize()
   }
 
   dispose () {    
