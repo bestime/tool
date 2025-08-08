@@ -1153,7 +1153,7 @@ declare function hexToRgba(hex: string, alpha?: number): string;
 declare function max<T>(
   data: Array<T>,
   handler: (item: T) => number | undefined
-): number | undefined;
+): number | null | undefined;
 
 /**
  * 获取一个数组中的最小值
@@ -1164,7 +1164,7 @@ declare function max<T>(
 declare function min<T>(
   data: Array<T>,
   handler: (item: T) => number | undefined
-): number | undefined;
+): number | null | undefined;
 
 /**
  * 将数字转为大写
@@ -1303,6 +1303,23 @@ declare function repeatArray<T>(target: T[], length: number): T[];
 
 declare function checkPhone(data: any): boolean;
 
+type TReturnV = number | undefined | null;
+/**
+ * 获取书中的最小和最大值
+ * @param data - 原始数据
+ * @param spaceRatio 根据最小、最大值的差值，将最小值减小几倍，将最大值增大几倍
+ * @param handler 迭代函数
+ * @returns
+ */
+declare function getMinAndMax<T>(
+  data: Array<T>,
+  spaceRatio?: number,
+  handler?: (item: T) => TReturnV
+): {
+  min: TReturnV;
+  max: TReturnV;
+};
+
 interface IOption {
   headers: {
     attrId: string;
@@ -1399,6 +1416,7 @@ declare global {
       fuzzyReplace,
       getFileName,
       getLikeNumberRegExp,
+      getMinAndMax,
       getPiecesWithIndex,
       getRandom,
       getRatio,

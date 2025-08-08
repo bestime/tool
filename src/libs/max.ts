@@ -1,4 +1,4 @@
-import getMinOrMax from "./help/getMinOrMax"
+import getMinAndMax from "./getMinAndMax"
 
 
 /**
@@ -8,5 +8,5 @@ import getMinOrMax from "./help/getMinOrMax"
  * @returns 最大值
  */
 export default function max<T> (data: Array<T>, handler: (item: T) => number | undefined) {
-  return getMinOrMax('max', data, handler)
+  return getMinAndMax(data, 0, handler).max
 }

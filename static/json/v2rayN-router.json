@@ -37,12 +37,17 @@
       "domain:mwbbiz.com",
       "domain:chatgpt.com",
       "domain:figma.com",
+      "domain:figma.okta.com",
+      "domain:figma-production-admin.auth.us-west-2.amazoncognito.com",
       "domain:npmjs.com",
       "domain:ucloud",
       "domain:jiuse",
       "domain:yzyouqian",
       "domain:exp-tas",
-      "domain:msecnd",
+      "domain:msecnd.com",
+      "domain:echarts.apache.org",
+      "domain:producthunt.com",
+      
       "domain:oaiusercontent.com",
       "domain:codepen.io",
       
@@ -52,10 +57,9 @@
       "geosite:tld-!cn",
       "challenges.cloudflare.com",
       "openaiapi-site",
-      "echarts.apache.org",
       "int.mwbbiz.com",
 
-      "regexp:google.*"
+      "regexp:google\\..*"
       
     ],
     "enabled": true
