@@ -1307,9 +1307,9 @@ type TReturnV = number | undefined | null;
 /**
  * 获取书中的最小和最大值
  * @param data - 原始数据
- * @param spaceRatio 根据最小、最大值的差值，将最小值减小几倍，将最大值增大几倍
- * @param handler 迭代函数
- * @returns
+ * @param spaceRatio 默认值：0，根据最小、最大值的差值，将最小值减小几倍，将最大值增大几倍
+ * @param handler 迭代函数（复杂结构需要），默认仅处理数字
+ * @returns 计算后的最大、最小值
  */
 declare function getMinAndMax<T>(
   data: Array<T>,
