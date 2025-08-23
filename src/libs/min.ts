@@ -8,5 +8,8 @@ import getMinAndMax from "./getMinAndMax"
  * @returns 最大值
  */
 export default function min<T> (data: Array<T>, handler: (item: T) => number | undefined) {
-  return getMinAndMax(data, 0, handler).min
+  return getMinAndMax(data, {
+    spaceRatio: 0,
+    getter: handler
+  }).min
 }

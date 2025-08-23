@@ -24,9 +24,9 @@ export default function sortCompare (way: 'asc' | 'desc',a: ISortItem, b:ISortIt
   if(isNull(a) && isNull(b)) {
     return ;
   } else if(isNull(a)) {
-    return 1;
+    return  way === 'asc' ? 1 : -1;
   } else if(isNull(b)) {
-    return -1;
+    return way === 'asc' ? -1 : 1;
   } else {
     const diff = way === 'asc' ? a - b : b-a
     return diff === 0 ? undefined :diff

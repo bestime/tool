@@ -89,6 +89,8 @@ export { default as getFileName } from './libs/getFileName'
 export { default as repeatArray } from './libs/repeatArray'
 export { default as checkPhone } from './libs/checkPhone'
 export { default as getMinAndMax } from './libs/getMinAndMax'
+export { default as createIdFactory } from './libs/createIdFactory'
+export { default as getArray } from './libs/getArray'
 
 
 

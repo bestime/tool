@@ -1075,7 +1075,10 @@ declare function throttle<T extends EventHander>(
 };
 
 /**
+ *
+ * @deprecated 已废弃，请使用getMinAndMax
  * 将一堆数字中的极值按差值的比例进行扩大。多用于echarts坐标轴的极值限制
+ *
  * @param ratio 扩大倍数
  * @param data 数据
  * @returns
@@ -1153,7 +1156,7 @@ declare function hexToRgba(hex: string, alpha?: number): string;
 declare function max<T>(
   data: Array<T>,
   handler: (item: T) => number | undefined
-): number | null | undefined;
+): number | undefined;
 
 /**
  * 获取一个数组中的最小值
@@ -1164,7 +1167,7 @@ declare function max<T>(
 declare function min<T>(
   data: Array<T>,
   handler: (item: T) => number | undefined
-): number | null | undefined;
+): number | undefined;
 
 /**
  * 将数字转为大写
@@ -1303,22 +1306,43 @@ declare function repeatArray<T>(target: T[], length: number): T[];
 
 declare function checkPhone(data: any): boolean;
 
-type TReturnV = number | undefined | null;
+type TReturnV = number | undefined;
 /**
- * 获取书中的最小和最大值
+ * 获取数字中的最小和最大值
  * @param data - 原始数据
- * @param spaceRatio 默认值：0，根据最小、最大值的差值，将最小值减小几倍，将最大值增大几倍
- * @param handler 迭代函数（复杂结构需要），默认仅处理数字
+ * @param config - 额外配置项
+ * @param config.spaceRatio - 默认值：0，根据最小、最大值的差值，将最小值减小几倍，将最大值增大几倍
+ * @param config.getter - 迭代函数（复杂结构需要），默认仅处理数字
+ * @param config.formatter - 将最终结果格式化
  * @returns 计算后的最大、最小值
  */
 declare function getMinAndMax<T>(
   data: Array<T>,
-  spaceRatio?: number,
-  handler?: (item: T) => TReturnV
+  config?: {
+    spaceRatio?: number;
+    getter?: (item: T) => TReturnV;
+    formatter?: (item: number) => number;
+  }
 ): {
   min: TReturnV;
   max: TReturnV;
 };
+
+/**
+ * 创建一个ID生成器，用于将字符串变为ID，相同字符串ID不变（进当前会话有效，不可用于固定ID）
+ * @param prefix
+ * @returns
+ */
+declare function createIdFactory(prefix: string): (name: string) => string;
+
+/**
+ * 截取数组从指定索引到指定长度（不改变原数组）
+ * @param data 原始数组
+ * @param fromIndex 开始索引
+ * @param length 获取长度
+ * @returns
+ */
+declare function getArray<T>(data: T[], fromIndex: number, length: number): T[];
 
 interface IOption {
   headers: {
@@ -1388,6 +1412,7 @@ export {
   checkPhone,
   cloneEasy,
   _default as connectEcharts,
+  createIdFactory,
   dataCache,
   dataPage,
   debounce,
@@ -1409,6 +1434,7 @@ export {
   formatRange,
   formatTime,
   fuzzyReplace,
+  getArray,
   getFileName,
   getLikeNumberRegExp,
   getMinAndMax,
