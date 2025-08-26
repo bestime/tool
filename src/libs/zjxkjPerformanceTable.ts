@@ -1,10 +1,13 @@
+import _Array from "./_Array"
 import _Number from "./_Number"
+import cloneEasy from "./cloneEasy"
 import isArray from "./isArray"
 import last from "./last"
 import mapTree from "./mapTree"
 import tree from "./tree"
 import treeLeafs from "./treeLeafs"
 import trim from "./trim"
+import uuid from "./uuid"
 
 /**
  * SCORE_ACTUAL 分值
@@ -12,13 +15,21 @@ import trim from "./trim"
  * COMMENT 备注
  */
 const fixColKeys = ['COMPLETE_VALUE_RATE', 'COMMENT', 'SCORE_ACTUAL']
-
+type TTaskType = 1 | 2 | 3 | 4
 interface IOption {
   headers: {
     attrId: string
     attrName: string
     attrKey: string
   }[]
+  dataInfo: {
+    id: string
+    order: number
+    taskId: string
+    content: string
+    type: TTaskType
+    url: string
+  }[],
   row: {
     comment: string
     completeRate?: number
@@ -60,6 +71,23 @@ interface IUseTableHeader {
   colspan: number
 }
 
+
+
+interface IUseCellV {
+  /** 前端循环用的key */
+  key: string
+  /** 数据类型 */
+  taskType: TTaskType,
+  /** 单元格映射的详情ID */
+  taskId: string | undefined
+  /** 单元格其中一项的内容 */
+  content: string
+  /** 用于具体接口传参用 */
+  apiId: string | undefined
+  /** 点击后跳转的链接 */
+  link: string | undefined
+}
+
 interface IUseTableCell {
   id: string,
   meta: {
@@ -71,7 +99,8 @@ interface IUseTableCell {
   }
   colspan: Record<string, number>
   rowspan: Record<string, number>
-  [key: string]: any
+  cell: Record<string, IUseCellV[]>
+  
 }
 
 function getHeaderField (index: number) {
@@ -79,8 +108,9 @@ function getHeaderField (index: number) {
 }
 
 function insertAttrs (record: IDeptRowItem[], data: IDeptYjTreeItem) {
-
+  
   data.ext.attrs.forEach(function (att: Record<string, any>) {
+    
     record.push({
       dataId: data.id,
       content: att.value,
@@ -88,6 +118,7 @@ function insertAttrs (record: IDeptRowItem[], data: IDeptYjTreeItem) {
       colspan: 1,
       meta: {
         attrId: att.attrId,
+        taskId: att.taskId,
         comment: data.ext.comment,
         scoreActual: data.ext.scoreActual,
         completeRate: data.ext.completeRate,
@@ -110,6 +141,8 @@ function flatDeptTree (deptTree: IDeptYjTreeItem[], result: IDeptRowItem[][], st
         rowspan: gidx>0?0:leafs,
         colspan: 1,
         meta: item.meta,
+        // @ts-ignore
+        test: '===='
       }
 
       result[rowIdx][level] = cellItem
@@ -121,7 +154,7 @@ function flatDeptTree (deptTree: IDeptYjTreeItem[], result: IDeptRowItem[][], st
       }else {
         item.ext.attrs.push({
           attrId: 'SCORE_ACTUAL',
-          value: item.ext.scoreActual
+          value: item.ext.scoreActual,
         })
         item.ext.attrs.push({
           attrId: 'COMMENT',
@@ -190,7 +223,7 @@ function getTableHeader (flatList: IDeptRowItem[][], headers: IOption['headers']
   }
 }
 
-function convertHeaderAndBodyToTable (headers: IHeaderNewItem[], body: IDeptRowItem[][]) {
+function convertHeaderAndBodyToTable (headers: IHeaderNewItem[], body: IDeptRowItem[][], dataInfo: IOption['dataInfo']) {
   const nHeaderList:IUseTableHeader[] = headers.map(function (hd, colIdx) {
     return {
       attrId: hd.attrId,
@@ -212,11 +245,40 @@ function convertHeaderAndBodyToTable (headers: IHeaderNewItem[], body: IDeptRowI
         completeValue:trim(lastItem.meta.completeValue),
       },
       colspan: {},
-      rowspan: {}
+      rowspan: {},
+      cell: {}
     }
     row.forEach(function (colItem, colIdx) {
       const field =getHeaderField(colIdx) 
-      item[field] = trim(colItem.content)
+
+      let cellList:IUseCellV[] = []
+      if(colItem.meta.taskId) {
+        cellList = dataInfo.filter(c=>c.taskId === colItem.meta.taskId).map(function (info) {
+          return {
+            key: uuid(),
+            taskId: colItem.meta.taskId,
+            taskType: info.type,
+            apiId: info.id,
+            link: info.url,
+            content: trim(info.content)
+          }
+        })
+      } else {
+        cellList = [
+          {
+            key: uuid(),
+            taskId: colItem.meta.taskId,
+            taskType: 1,
+            apiId: undefined,
+            link: undefined,
+            content: trim(colItem.content)
+          }
+        ]
+      }
+
+      item.cell[field] = cellList
+
+      
       item.colspan[field] = colItem.colspan
       item.rowspan[field] = colItem.rowspan
     })
@@ -241,6 +303,7 @@ function convertHeaderAndBodyToTable (headers: IHeaderNewItem[], body: IDeptRowI
  * @returns 给前端方便使用的数据格式
  */
 export default function zjxkjPerformanceTable (query: IOption) {
+  query.dataInfo = _Array(query.dataInfo)
   if(query.headers.length === 0) {
     query.row = []
   }
@@ -253,6 +316,7 @@ export default function zjxkjPerformanceTable (query: IOption) {
   let deptTree:IDeptYjTreeItem[] = mapTree(treeData, 'children',function (item) {
     const hasChildren = isArray(item.children) && item.children.length
     const attrItem = hasChildren ? item.attrs[0] : void 0
+    
     return {
       id: item.id,
       pid: item.pid,
@@ -267,15 +331,18 @@ export default function zjxkjPerformanceTable (query: IOption) {
   // const headers = getTableHeader(deptTree, query.headers)
 
   // deptTree = [deptTree[0]]
+
   
+  // console.log("第一步", cloneEasy(deptTree))
   const result = flatDeptTree(deptTree, [], 0, 0)
+  // console.log("第二步", cloneEasy(result))
   const headerInfo = getTableHeader(result, query.headers)
   
   const newList = result.map(function (row, index) {
     const record:IDeptRowItem[] = []
     headerInfo.list.forEach(function (hd, hidx) {
       const arr = row.filter(c=>c.meta.attrId === hd.attrId)
-      const item = arr[hd.attrIndex]
+      const item: IDeptRowItem = arr[hd.attrIndex]
       
       if(item) {
         const colspan = arr[hd.attrIndex+1] ? 1:headerInfo.count[hd.attrId]-hd.attrIndex
@@ -287,7 +354,7 @@ export default function zjxkjPerformanceTable (query: IOption) {
           colspan: 0,
           rowspan: 1,
           meta: {
-            attrId: hd.attrId
+            attrId: hd.attrId,
           },
           content: '占位'
         })
@@ -296,10 +363,10 @@ export default function zjxkjPerformanceTable (query: IOption) {
     return record
   })
 
-  // console.log("最终结果",newList)
+  // console.log("最终结果",cloneEasy(newList))
   // console.log("树", deptTree, headerInfo)
 
-  const realRes = convertHeaderAndBodyToTable(headerInfo.list, newList)
+  const realRes = convertHeaderAndBodyToTable(headerInfo.list, newList, query.dataInfo)
   // console.log("realRes", realRes)
   
   return realRes

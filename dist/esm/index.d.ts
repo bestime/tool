@@ -995,7 +995,7 @@ declare function treeLeafs<T extends TKvPair>(list: TreeItem$1<T>[]): TreeItem$1
 /**
  * 默认数据处理
  * @param placeValue - 无值时返回什么数据
- * @param value - 需要处理的数据
+ * @param value - 需要处理的数据。默认将 undefined、null、'' 视为无值
  * @param formatter - 数据格式化
  * @param whiteList 特殊需求。默认将 [‘-’] 也视为空数据
  * @returns
@@ -1344,11 +1344,20 @@ declare function createIdFactory(prefix: string): (name: string) => string;
  */
 declare function getArray<T>(data: T[], fromIndex: number, length: number): T[];
 
+type TTaskType = 1 | 2 | 3 | 4;
 interface IOption {
   headers: {
     attrId: string;
     attrName: string;
     attrKey: string;
+  }[];
+  dataInfo: {
+    id: string;
+    order: number;
+    taskId: string;
+    content: string;
+    type: TTaskType;
+    url: string;
   }[];
   row: {
     comment: string;
@@ -1370,6 +1379,20 @@ interface IUseTableHeader {
   label: string;
   colspan: number;
 }
+interface IUseCellV {
+  /** 前端循环用的key */
+  key: string;
+  /** 数据类型 */
+  taskType: TTaskType;
+  /** 单元格映射的详情ID */
+  taskId: string | undefined;
+  /** 单元格其中一项的内容 */
+  content: string;
+  /** 用于具体接口传参用 */
+  apiId: string | undefined;
+  /** 点击后跳转的链接 */
+  link: string | undefined;
+}
 interface IUseTableCell {
   id: string;
   meta: {
@@ -1381,7 +1404,7 @@ interface IUseTableCell {
   };
   colspan: Record<string, number>;
   rowspan: Record<string, number>;
-  [key: string]: any;
+  cell: Record<string, IUseCellV[]>;
 }
 /**
  * 智界新科技：解析交易中心业绩合同表为一维数组
