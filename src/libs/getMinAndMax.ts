@@ -7,6 +7,29 @@ import trim from "./trim";
 
 type TReturnV = number | undefined
 
+
+function getDecm (offset: number) {
+  let res = 0;
+  if(offset<0.000009) {
+    res = 7
+  } else if(offset<0.00009) {
+    res = 6
+  }else if(offset<0.0009) {
+    res = 5
+  }else if(offset<0.009) {
+    res = 4
+  }else if(offset<0.09) {
+    res = 3
+  }else if(offset<0.5) {
+    res = 2
+  } else if(offset<1) {
+    res = 1
+  }
+  
+
+  return res
+}
+
 function defaultHandler (data: any):TReturnV {
   if(isLikeNumber(data)) {
     return _Number(data)
@@ -33,27 +56,33 @@ export default function getMinAndMax<T> (data: Array<T>, config?: {
   const spaceRatio = config && config.spaceRatio ? config.spaceRatio : 0
   const getter = config && config.getter
   const formatter = config && config.formatter
+  let realMin: TReturnV
+  let realMax: TReturnV
   let min: TReturnV;
   let max:TReturnV
+  let overNum=0
   // let decimals = 0
   forEach(data, function (item) {
-    const v = getter ? getter(item) :defaultHandler(item)
+    const rn = getter ? getter(item) :defaultHandler(item)
+    const v = isLikeNumber(rn) ? _Number(rn) : undefined
     // decimals = Math.max(trim(v).replace(/^.*\.(.*?)0*$/, '$1').length, decimals)
     if(!isNull(v)) {
-      min = isNull(min) ? v : Math.min(min, v)
-      max = isNull(max) ? v : Math.max(max, v)
+      realMin = isNull(realMin) ? v : Math.min(realMin, v)
+      realMax = isNull(realMax) ? v : Math.max(realMax, v)
     }
   })
 
-  if(!isNull(min) && !isNull(max)) {
-    let diff = max - min
-    const overNum = diff * spaceRatio
-
-    let decimals = diff < 1 ? 4 : 0
-    
-    diff = +roundFixed(diff, decimals)    
-    min = +roundFixed(min - overNum, decimals)
-    max = +roundFixed(max + overNum, decimals)
+  if(!isNull(realMin) && !isNull(realMax)) {
+    let diff = realMax - realMin
+    overNum = diff * spaceRatio   
+    // 小于1的让外部自行处理格式化
+    if(overNum<1) {
+      min = realMin-overNum
+      max = realMax+overNum
+    } else {
+      min = +roundFixed(realMin - overNum, 0)
+      max = +roundFixed(realMax + overNum, 0)
+    }
 
     if(formatter) {
       min = formatter(min)
@@ -61,9 +90,15 @@ export default function getMinAndMax<T> (data: Array<T>, config?: {
     }
   }
 
+
   return {
     min,
     max,
-
+    // _offset: overNum,
+    // _real: {
+    //   min: realMin,
+    //   max: realMax,
+      
+    // }
   }
 }

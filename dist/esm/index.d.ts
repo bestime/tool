@@ -1344,7 +1344,14 @@ declare function createIdFactory(prefix: string): (name: string) => string;
  */
 declare function getArray<T>(data: T[], fromIndex: number, length: number): T[];
 
-type TTaskType = 1 | 2 | 3 | 4;
+/**
+ * 给数字添加正负号
+ * @param data - 原始数字
+ * @returns 正负数字字符串
+ */
+declare function signNumber(data: number | undefined): string;
+
+type TBusinessTypeKey = 1 | 2 | 3 | 4;
 interface IOption {
   headers: {
     attrId: string;
@@ -1356,7 +1363,7 @@ interface IOption {
     order: number;
     taskId: string;
     content: string;
-    type: TTaskType;
+    type: TBusinessTypeKey;
     url: string;
   }[];
   row: {
@@ -1382,16 +1389,19 @@ interface IUseTableHeader {
 interface IUseCellV {
   /** 前端循环用的key */
   key: string;
-  /** 数据类型 */
-  taskType: TTaskType;
-  /** 单元格映射的详情ID */
-  taskId: string | undefined;
+  /** 单元格映射的ID */
+  cellId: string | undefined;
   /** 单元格其中一项的内容 */
   content: string;
+  /** 数据类型 */
+  businessType: TBusinessTypeKey;
+  businessTypeName: string;
   /** 用于具体接口传参用 */
-  apiId: string | undefined;
+  businessId: string | undefined;
   /** 点击后跳转的链接 */
-  link: string | undefined;
+  businessLink: string | undefined;
+  /** 是否可点击 */
+  clickable: boolean;
 }
 interface IUseTableCell {
   id: string;
@@ -1406,6 +1416,9 @@ interface IUseTableCell {
   rowspan: Record<string, number>;
   cell: Record<string, IUseCellV[]>;
 }
+interface IZjxkjPFMTCfg {
+  clickable: boolean;
+}
 /**
  * 智界新科技：解析交易中心业绩合同表为一维数组
  * @remarks 前台、后台都在使用，为了不让同事误改此方法，所以封装在自己工具库里
@@ -1413,7 +1426,10 @@ interface IUseTableCell {
  * @param query - 接口返回的数据
  * @returns 给前端方便使用的数据格式
  */
-declare function zjxkjPerformanceTable(query: IOption): {
+declare function zjxkjPerformanceTable(
+  query: IOption,
+  config?: Record<string, IZjxkjPFMTCfg>
+): {
   headers: IUseTableHeader[];
   body: IUseTableCell[];
   totalScore: number;
@@ -1500,6 +1516,7 @@ export {
   roundFixed,
   shake,
   export_default as shortNumber,
+  signNumber,
   sortCompare,
   sortWithIndex,
   spanTable,

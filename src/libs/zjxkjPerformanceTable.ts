@@ -15,7 +15,23 @@ import uuid from "./uuid"
  * COMMENT 备注
  */
 const fixColKeys = ['COMPLETE_VALUE_RATE', 'COMMENT', 'SCORE_ACTUAL']
-type TTaskType = 1 | 2 | 3 | 4
+
+
+type TBusinessTypeKey = 1 | 2 | 3 | 4
+
+function getBussinessName (v: TBusinessTypeKey) {
+  switch(v) {
+    case 1:
+      return '原始文本';
+    case 2:
+      return '富文本';
+    case 3:
+      return '定制业务';
+    case 4:
+      return '跳转链接';
+  }
+}
+
 interface IOption {
   headers: {
     attrId: string
@@ -27,7 +43,7 @@ interface IOption {
     order: number
     taskId: string
     content: string
-    type: TTaskType
+    type: TBusinessTypeKey
     url: string
   }[],
   row: {
@@ -76,16 +92,23 @@ interface IUseTableHeader {
 interface IUseCellV {
   /** 前端循环用的key */
   key: string
-  /** 数据类型 */
-  taskType: TTaskType,
-  /** 单元格映射的详情ID */
-  taskId: string | undefined
+  
+  /** 单元格映射的ID */
+  cellId: string | undefined
+
   /** 单元格其中一项的内容 */
   content: string
+
+  /** 数据类型 */
+  businessType: TBusinessTypeKey,
+  businessTypeName: string
   /** 用于具体接口传参用 */
-  apiId: string | undefined
+  businessId: string | undefined
   /** 点击后跳转的链接 */
-  link: string | undefined
+  businessLink: string | undefined
+
+  /** 是否可点击 */
+  clickable: boolean
 }
 
 interface IUseTableCell {
@@ -118,7 +141,7 @@ function insertAttrs (record: IDeptRowItem[], data: IDeptYjTreeItem) {
       colspan: 1,
       meta: {
         attrId: att.attrId,
-        taskId: att.taskId,
+        cellId: att.taskId,
         comment: data.ext.comment,
         scoreActual: data.ext.scoreActual,
         completeRate: data.ext.completeRate,
@@ -223,7 +246,7 @@ function getTableHeader (flatList: IDeptRowItem[][], headers: IOption['headers']
   }
 }
 
-function convertHeaderAndBodyToTable (headers: IHeaderNewItem[], body: IDeptRowItem[][], dataInfo: IOption['dataInfo']) {
+function convertHeaderAndBodyToTable (headers: IHeaderNewItem[], body: IDeptRowItem[][], dataInfo: IOption['dataInfo'], config?: Record<string, IZjxkjPFMTCfg>) {
   const nHeaderList:IUseTableHeader[] = headers.map(function (hd, colIdx) {
     return {
       attrId: hd.attrId,
@@ -252,26 +275,31 @@ function convertHeaderAndBodyToTable (headers: IHeaderNewItem[], body: IDeptRowI
       const field =getHeaderField(colIdx) 
 
       let cellList:IUseCellV[] = []
-      if(colItem.meta.taskId) {
-        cellList = dataInfo.filter(c=>c.taskId === colItem.meta.taskId).map(function (info) {
+      if(colItem.meta.cellId) {
+        cellList = dataInfo.filter(c=>c.taskId === colItem.meta.cellId).map(function (info) {
+          const clickable = config?.[info.id]?.clickable ?? false
           return {
             key: uuid(),
-            taskId: colItem.meta.taskId,
-            taskType: info.type,
-            apiId: info.id,
-            link: info.url,
-            content: trim(info.content)
+            cellId: colItem.meta.cellId,
+            businessType: info.type,
+            businessTypeName: getBussinessName(info.type),
+            businessId: info.id,
+            businessLink: info.url,
+            content: trim(info.content),
+            clickable
           }
         })
       } else {
         cellList = [
           {
             key: uuid(),
-            taskId: colItem.meta.taskId,
-            taskType: 1,
-            apiId: undefined,
-            link: undefined,
-            content: trim(colItem.content)
+            cellId: colItem.meta.cellId,
+            businessType: 1,
+            businessTypeName: getBussinessName(1),
+            businessId: undefined,
+            businessLink: undefined,
+            content: trim(colItem.content),
+            clickable: false
           }
         ]
       }
@@ -295,6 +323,11 @@ function convertHeaderAndBodyToTable (headers: IHeaderNewItem[], body: IDeptRowI
   }
 }
 
+
+interface IZjxkjPFMTCfg {
+  clickable: boolean
+}
+
 /**
  * 智界新科技：解析交易中心业绩合同表为一维数组
  * @remarks 前台、后台都在使用，为了不让同事误改此方法，所以封装在自己工具库里
@@ -302,7 +335,7 @@ function convertHeaderAndBodyToTable (headers: IHeaderNewItem[], body: IDeptRowI
  * @param query - 接口返回的数据
  * @returns 给前端方便使用的数据格式
  */
-export default function zjxkjPerformanceTable (query: IOption) {
+export default function zjxkjPerformanceTable (query: IOption, config?: Record<string, IZjxkjPFMTCfg>) {
   query.dataInfo = _Array(query.dataInfo)
   if(query.headers.length === 0) {
     query.row = []
@@ -366,7 +399,10 @@ export default function zjxkjPerformanceTable (query: IOption) {
   // console.log("最终结果",cloneEasy(newList))
   // console.log("树", deptTree, headerInfo)
 
-  const realRes = convertHeaderAndBodyToTable(headerInfo.list, newList, query.dataInfo)
+  const realRes = convertHeaderAndBodyToTable(headerInfo.list, newList, query.dataInfo, config)
+
+  // realRes
+  
   // console.log("realRes", realRes)
   
   return realRes

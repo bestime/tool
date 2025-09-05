@@ -91,6 +91,7 @@ export { default as checkPhone } from './libs/checkPhone'
 export { default as getMinAndMax } from './libs/getMinAndMax'
 export { default as createIdFactory } from './libs/createIdFactory'
 export { default as getArray } from './libs/getArray'
+export { default as signNumber } from './libs/signNumber'
 
 
 
