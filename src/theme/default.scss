@@ -1,0 +1,80 @@
+.scroll_bar_container {
+  position:relative;
+  &.fade:hover,
+  &.visible,
+  &.fade.pressing{
+    .scroll_bar_vertical,
+    .scroll_bar_horizontal {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+.scroll_bar_view{
+  float:left;
+}
+.scroll_bar_wrap {
+  overflow: auto;
+  position: absolute;
+  left: 0;
+  top:0;
+  right: 0;
+  bottom: 0;
+  scrollbar-width: none;
+  
+}
+.scroll_bar_bd {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+
+.scroll_bar_horizontal,
+.scroll_bar_vertical {
+  transition: 0.3s ease-out;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 10;
+  background-color: rgba(0,0,0,0);
+  position: absolute;
+  transition-delay: opacity 0.2s;
+  span {
+    position: absolute;
+    background-color: #00081b;
+    cursor: pointer;
+    box-sizing: border-box;
+    border: white solid 1px;
+    border-radius: 20px;
+  }
+}
+.scroll_bar_horizontal.disabled,
+.scroll_bar_vertical.disabled {
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+.scroll_bar_horizontal {
+  height: 8px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
+  span {
+    left: 0;
+    top: 0;
+    bottom: 0;
+  }
+}
+
+.scroll_bar_vertical {  
+  width: 8px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  span {
+    left: 0;
+    right: 0;
+    top: 0;
+  }
+}

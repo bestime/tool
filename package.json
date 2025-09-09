@@ -1,0 +1,60 @@
+{
+  "name": "@bestime/scroll-bar",
+  "version": "1.0.0",
+  "main": "./dist/index.min.mjs",
+  "module": "./dist/index.min.mjs",
+  "typings": "./dist/index.min.d.ts",
+  "description": "图片、pdf预览插件",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup --config rollup.config.prod.js"
+  },
+  "devDependencies": {
+    "@babel/core": "7.18.6",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-class-static-block": "^7.20.7",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
+    "@babel/plugin-proposal-optional-chaining": "^7.20.7",
+    "@babel/plugin-transform-arrow-functions": "^7.18.6",
+    "@babel/plugin-transform-async-to-generator": "^7.18.6",
+    "@babel/plugin-transform-block-scoping": "7.18.6",
+    "@babel/plugin-transform-classes": "^7.20.2",
+    "@babel/plugin-transform-parameters": "^7.18.8",
+    "@babel/plugin-transform-shorthand-properties": "7.18.6",
+    "@babel/plugin-transform-spread": "^7.18.9",
+    "@babel/plugin-transform-template-literals": "7.18.6",
+    "@rollup/plugin-babel": "6.0.3",
+    "@rollup/plugin-commonjs": "24.0.0",
+    "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-node-resolve": "15.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/lodash-es": "^4.17.12",
+    "axios": "^1.7.7",
+    "cssnano": "^7.0.6",
+    "maptalks": "^1.0.0-rc.37",
+    "prettier": "^3.3.3",
+    "rollup": "^3.21.4",
+    "rollup-plugin-dts": "^5.3.0",
+    "rollup-plugin-livereload": "2.0.5",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-typescript2": "0.34.1",
+    "sass": "^1.80.3",
+    "typescript": "^5.0.4"
+  },
+  "author": "bestime1020@gmail.com",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    
+  },
+  "dependencies": {
+    "@bestime/utils_base": "^1.0.21",
+    "@bestime/utils_browser": "^1.0.14"
+    
+  }
+}
