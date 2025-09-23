@@ -1351,6 +1351,13 @@ declare function getArray<T>(data: T[], fromIndex: number, length: number): T[];
  */
 declare function signNumber(data: number | undefined): string;
 
+/**
+ * 变量名转小驼峰
+ * @param data
+ * @returns
+ */
+declare function toCamelCase(data: string): string;
+
 type TBusinessTypeKey = 1 | 2 | 3 | 4;
 interface IOption {
   headers: {
@@ -1523,6 +1530,7 @@ export {
   split,
   thousands,
   throttle,
+  toCamelCase,
   flatArrayToTree as tree,
   treeFilter,
   treeLeafs,
