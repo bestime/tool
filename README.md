@@ -27,6 +27,6 @@ import "@bestime/scroll-bar/index.min.css
 ```ts
 new ScrollBar({
   el: document.getElementByClassName('scroll_bar_container')[0],
-  fade: true
+  fade: false
 })
 ```

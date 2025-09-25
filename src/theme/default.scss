@@ -21,6 +21,9 @@
   right: 0;
   bottom: 0;
   scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   
 }
 .scroll_bar_bd {
@@ -40,6 +43,7 @@
   background-color: rgba(0,0,0,0);
   position: absolute;
   transition-delay: opacity 0.2s;
+  overflow: hidden;
   span {
     position: absolute;
     background-color: #00081b;

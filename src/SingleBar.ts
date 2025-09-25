@@ -123,12 +123,14 @@ export default class SingleBar {
   }
 
   setSize (wrapperSize: number, contentSize: number) {    
+    let ratio = wrapperSize / contentSize
     if(wrapperSize>=contentSize) {
+      ratio = 0
       this._oBar.classList.add('disabled')
     } else {
       this._oBar.classList.remove('disabled')
     }
-    const ratio = wrapperSize / contentSize
+    
     let size = 0
     switch(this._config.direction) {
       case 'horizontal':
