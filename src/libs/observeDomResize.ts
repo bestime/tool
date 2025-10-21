@@ -13,8 +13,10 @@ export default function observeDomResize(
   element: HTMLElement,
   handler: (element: HTMLElement) => void,
   type?: ('width' | 'height' | 'position')[],
-  interval?: number
+  interval?: number,
+  immediate?: boolean
 ): () => void {
+  immediate = immediate === false ? false : true
   interval = interval || 500;
   let width = [0, 0, false];
   let height = [0, 0, false];
@@ -22,7 +24,10 @@ export default function observeDomResize(
   let posTop = [0,0,false]
 
   const timer = hpInterval.add(timerHandler, interval);
-  timerHandler();
+  if(immediate) {
+    timerHandler();
+  }
+  
 
   function timerHandler() {
     if (!document.body.contains(element)) {      

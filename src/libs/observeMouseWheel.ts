@@ -8,7 +8,7 @@ type Direction = 1 | -1
  * @param isPrevent 是否阻止原生滚动，仅用来获取滚动方向
  * @returns 
  */
-export default function (el: HTMLElement, callback:(direction: Direction) => void, isPrevent: boolean) {
+export default function observeMouseWheel(el: HTMLElement, callback:(direction: Direction) => void, isPrevent: boolean) {
 /**
 	 * ie/chrome : onmousewheel
 	 *    event.wheelDelta

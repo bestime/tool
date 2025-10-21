@@ -19,7 +19,8 @@ declare function observeDomResize(
   element: HTMLElement,
   handler: (element: HTMLElement) => void,
   type?: ('width' | 'height' | 'position')[],
-  interval?: number
+  interval?: number,
+  immediate?: boolean
 ): () => void;
 
 /**
@@ -194,7 +195,7 @@ type Direction = 1 | -1;
  * @param isPrevent 是否阻止原生滚动，仅用来获取滚动方向
  * @returns
  */
-declare function export_default$1(
+declare function observeMouseWheel(
   el: HTMLElement,
   callback: (direction: Direction) => void,
   isPrevent: boolean
@@ -457,7 +458,7 @@ declare global {
       libraryFile,
       observeDomResize,
       export_default as observeDomScroll,
-      export_default$1 as observeMouseWheel,
+      observeMouseWheel,
       pdfToImage,
       prevent,
       removeClass,
