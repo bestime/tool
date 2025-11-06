@@ -39,9 +39,19 @@ export class EasyEchartsController {
     return this;
   }
 
+  resize () {
+    this._iChart?.resize()
+  }
+
   
 
-  setOption (options: EChartsOption, notMerge=false) {    
+  /**
+   * 设置配置项
+   * @param options - 配置项
+   * @param notMerge - 不合并，默认true（官方默认的是false）
+   * @returns 
+   */
+  setOption (options: EChartsOption, notMerge=true) {    
     this._options = options
     
     if(!this._iChart || this._isDispose) return;

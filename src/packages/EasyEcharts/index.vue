@@ -31,7 +31,8 @@ import { uuid } from '@bestime/utils_base';
 type EChartsOption = echarts.EChartsOption;
 
 const props = defineProps<{  
-  controller: EasyEchartsController
+  controller: EasyEchartsController,
+  devicePixelRatio?: number,
 }>()
 
 const oChart = useTemplateRef('chart-ref')
@@ -41,7 +42,9 @@ let obs: ReturnType<typeof observeDomResize> | undefined
 
 onMounted(function () {  
   props.controller._isDispose = false
-  iChart = echarts.init(oChart.value);
+  iChart = echarts.init(oChart.value, undefined, {
+    devicePixelRatio: props.devicePixelRatio
+  });
   props.controller._setChart(iChart);
 
   obs = observeDomResize(oWrapper.value!, function () {    

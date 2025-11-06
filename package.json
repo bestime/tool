@@ -1,6 +1,6 @@
 {
   "name": "@bestime/easy-echarts-vue3",
-  "version": "1.0.5",
+  "version": "1.0.8",
   "type": "module",
   "main": "./dist/index.esm.js",
   "module": "./dist/index.esm.js",
@@ -19,9 +19,7 @@
     "lodash-es": "^4.17.21"
   },
   "peerDependencies": {
-    "vite": "^5.4.4",
-    "vue": "^3.5.4",
-    "vue-router": "^4.5.0"
+    "vue": "^3.5.4"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
