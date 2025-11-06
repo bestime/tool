@@ -22,7 +22,7 @@ export default function deepFindTreePath (
     id: string,
     children: string
   }
-):undefined | any[] {
+):any[] {
   config = Object.assign(DEFAULT_CONFIG, config);
   const path = [];
   const list = cloneEasy(tree);
@@ -41,5 +41,5 @@ export default function deepFindTreePath (
       if (handler(node)) return path;
     }
   }
-  return undefined;
+  return [];
 }

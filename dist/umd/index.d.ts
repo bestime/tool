@@ -206,7 +206,7 @@ declare function deepFindTreePath(
     id: string;
     children: string;
   }
-): undefined | any[];
+): any[];
 
 /**
  * 强制转换数据为字符串。支持百分号、千分位
@@ -1215,7 +1215,7 @@ declare function logExport(): {
 };
 
 type TCallback = (ms: number) => void;
-type THander = (callback: TCallback) => void;
+type THander$1 = (callback: TCallback) => void;
 /**
  * 每隔一段时间更新服务器时间与本地时间差（为了不频繁去请求服务器）
  *
@@ -1232,7 +1232,7 @@ declare class ServerDate {
    * @param interval - 多久更新一次时间差
    * @param _handler - 用户去获取服务器时间的代码
    */
-  constructor(interval: number, _handler: THander);
+  constructor(interval: number, _handler: THander$1);
   private _refresh;
   /**
    * 更新一次服务器时间
@@ -1358,6 +1358,21 @@ declare function signNumber(data: number | undefined): string;
  */
 declare function toCamelCase(data: string): string;
 
+type THander<T> = (item: T) => boolean;
+/**
+ * 移除数组中的数据（直接改变原数组）
+ * @param data - 原始数据
+ * @param handler - 迭代函数
+ */
+declare function arrayRemove<T>(data: T[], handler: THander<T>): void;
+
+/**
+ * 将一维数组按几列分为二维数组
+ * @param data
+ * @param column
+ */
+declare function arrayGroupColumn<T>(data: T[], column: number): T[][];
+
 type TBusinessTypeKey = 1 | 2 | 3 | 4;
 interface IOption {
   headers: {
@@ -1457,6 +1472,8 @@ declare global {
       _KvPair,
       _Number,
       _String,
+      arrayGroupColumn,
+      arrayRemove,
       arrayRowToColumn,
       breakString,
       changeIndex,

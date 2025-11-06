@@ -59,7 +59,11 @@
       "challenges.cloudflare.com",
       "openaiapi-site",
       "int.mwbbiz.com",
+      "mind-elixir.com",
+      "ucloud143.xyz",
+      "yandex.com",
 
+      "regexp:jiuse\\d+\\.cloud",
       "regexp:google\\..*"
       
     ],
