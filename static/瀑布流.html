@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>无缝滚动</title>
+  <script src="../../base/dist/umd/index.min.cjs"></script>
+  <script src="../dist/umd/index.min.cjs"></script>
+  <style>
+    #demo-wrapper{
+      
+      .bt-waterflow-item {
+        width: 300px;
+        box-sizing: border-box;
+        font-size: 0;
+        img {
+          width: 100%;
+        }
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="demo-wrapper"></div>
+
+  <script>
+    const data = [
+      { id: '1', url: '../static/images/pbl/1.jpg' },
+      { id: '2', url: '../static/images/pbl/2.jpg' },
+      { id: '3', url: '../static/images/pbl/3.jpg' },
+      { id: '4', url: '../static/images/pbl/4.jpg' },
+      { id: '5', url: '../static/images/pbl/5.jpg' },
+      { id: '6', url: '../static/images/pbl/6.jpg' },
+      { id: '7', url: '../static/images/pbl/7.jpg' },
+      { id: '8', url: '../static/images/pbl/8.jpg' },
+      { id: '9', url: '../static/images/pbl/9.jpg' },
+      { id: '10', url: '../static/images/pbl/10.jpg' },
+      { id: '11', url: '../static/images/pbl/11.jpg' },
+      { id: '12', url: '../static/images/pbl/12.jpg' },
+    ]
+    const oWrapper = document.getElementById('demo-wrapper')
+    const iWater = new jUtilsBrowser.WaterfallFlow({
+      el: oWrapper,
+      gap: 10,
+      autoResize: 100
+    })
+
+    oWrapper.innerHTML = data.map(function (item) {
+      return `
+        <div class="bt-waterflow-item">
+          <img src="${item.url}"/>
+        </div>
+      `
+    }).join('')
+  </script>
+</body>
+</html>

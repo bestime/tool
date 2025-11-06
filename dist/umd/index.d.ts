@@ -428,6 +428,24 @@ declare class WaterMark {
   _draw(): void;
 }
 
+/**
+ * 将部分属性变为可选
+ */
+type TPartialOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+interface IWaterfallFlowConfig {
+  el: HTMLElement;
+  gap: number;
+  autoResize?: number;
+}
+declare class WaterfallFlow {
+  private _cfg;
+  private _timer;
+  constructor(config: TPartialOptional<IWaterfallFlowConfig, 'gap'>);
+  resize(): void;
+  dispose(): void;
+}
+
 declare const style: (str: string) => void;
 
 declare global {
@@ -440,6 +458,7 @@ declare global {
       SeamlessRolling,
       TextRainCanvas,
       WaterMark,
+      WaterfallFlow,
       addClass,
       _default as browser,
       copyText,
