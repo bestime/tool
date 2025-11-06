@@ -54,14 +54,31 @@ export default [
       'axios',
       '@bestime/utils_base'
     ],
-    output: {
-      file: `dist/index.mjs`,
-      banner: getBanner(),
-      format: 'esm',
-      strict: true,
-      indent: false,
-      sourcemap: false,      
-    },
+    output: [
+      {
+        file:  `dist/index.cjs`,
+        banner: getBanner(),
+        format: 'umd',    
+        strict: true,
+        name: toolName,
+        indent: false,
+        sourcemap: false,   
+        globals: {
+          '@bestime/utils_base': 'jUtilsBase',
+          'lodash-es': '_',
+          'axios': 'axios',
+          'maptalks': 'maptalks',
+        }     
+      },
+      {
+        file: `dist/index.mjs`,
+        banner: getBanner(),
+        format: 'esm',
+        strict: true,
+        indent: false,
+        sourcemap: false,      
+      },
+    ],
     
     plugins: [
       nodeResolve(),

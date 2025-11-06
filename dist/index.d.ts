@@ -173,6 +173,13 @@ declare class HeartbeatMultiLineString extends MultiLineString {
     stopLoop(): this;
 }
 
+declare class MaptalksPluginFlyPath extends MultiLineString {
+    constructor(coordinates: LineStringCoordinatesType[], options: LineStringOptionsType & {
+        targetWidth: number;
+        duration: number;
+    });
+}
+
 declare function export_default(staticBaseUrl: string): void;
 
-export { BorderLayer, CityBoundry, HeartbeatMultiLineString, OffsetLayer, export_default as default };
+export { BorderLayer, CityBoundry, HeartbeatMultiLineString, MaptalksPluginFlyPath, OffsetLayer, export_default as default };

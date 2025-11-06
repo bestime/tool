@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>图层开发示例 - BorderLayer</title>
+  <style type="text/css">
+    html,body{margin:0px;height:100%;width:100%}
+    .container{width:600px;height:600px;margin: 40px auto;}
+  </style>
+  <!-- <link rel="stylesheet" href="https://unpkg.com/maptalks/dist/maptalks.css"> -->
+  <script src="../static/lodash.min.js"></script>
+  <script src="../static/maptalks.min.js"></script>
+  <script src="../static/axios.min.js"></script>
+  <script src="../../base/dist/umd/index.min.cjs"></script>
+  <script src="../dist/index.cjs"></script>
+
+  <body>
+
+    <div id="map" class="container"></div>
+
+    <script>
+      console.log("MaptalksPluginFlyPath", )
+      const line = new jUtilsMaptalks.MaptalksPluginFlyPath()
+      var map = new maptalks.Map('map', {
+        center: [-0.113049,51.498568],
+        zoom: 14,
+        baseLayer: new maptalks.TileLayer('base', {
+          urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+          subdomains: ['a','b','c','d'],
+          attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+        })
+      });
+
+      new jUtilsMaptalks.BorderLayer('hello', {
+        borderColor: 'red',
+        borderWidth: 10,
+        backgroundColor: 'transparent',
+      }, {
+        zIndex: 5,
+        forceRenderOnMoving: true,
+        forceRenderOnZooming: true,
+        forceRenderOnRotating: true
+      }).addTo(map);
+    </script>
+  </body>
+</html>
