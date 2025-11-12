@@ -6,8 +6,9 @@ import type { TPartialOptional } from "./help/types"
 const oStyle = createStyle('bt-waterflow')
 
 oStyle(`
-.bt-waterflow{position:relative;list-style:none;margin:0;padding:0;box-sizing:border-box;}
-.bt-waterflow-item{list-style:none;margin:0;padding:0;position:absolute;bottom:unset;right:unset;left:0;top:0;opacity:0;transition: left 0.5s, top 0.5s;transition-timing-function: cubic-bezier(0.935, 0.070, 0.630, 0.975);}  
+.bt-waterflow-wrapper{position:relative;list-style:none;margin:0;padding:0;box-sizing:border-box;}
+.bt-waterflow-item{list-style:none;margin:0;padding:0;position:absolute;bottom:unset;right:unset;left:0;top:0;opacity:0;transition: 0.5s;transform:scale(0) rotateX(45deg);transform-origin:top center;}  
+.bt-waterflow-item.rendered{transform:scale(1) rotateX(0);opacity: 1;}
 `)
 
 
@@ -21,6 +22,9 @@ interface IItemInfo {
 interface IWaterfallFlowConfig {
   el: HTMLElement
   gap: number
+  /**
+   * 自动播放在第一次主动执行 resize 后生效（避免首次渲染过渡动画卡顿）
+   */
   autoResize?: number
 }
 
@@ -56,14 +60,22 @@ export default class WaterfallFlow {
 
     // console.log("哈哈哈22", this._cfg)
 
+    // this._autoPlay()
+  }  
+
+  _autoPlay () {
+    clearTimeout(this._timer)
     if(this._cfg.autoResize) {
-      this._timer = setInterval(() => {
+      this._timer = setTimeout(() => {
         this.resize()
       }, this._cfg.autoResize);
     }
-  }  
+  }
+
+
 
   resize () {
+    clearTimeout(this._timer)
     const oLis:HTMLCollectionOf<HTMLDivElement> = this._cfg.el.getElementsByClassName('bt-waterflow-item') as any
     if(oLis.length === 0) return;
     const width = this._cfg.el.offsetWidth
@@ -71,7 +83,7 @@ export default class WaterfallFlow {
     const matrix: TMatrix = []
 
     const offestLeft = (width - (columns-1) * this._cfg.gap - oLis[0].offsetWidth * columns) / 2
-    // console.log("offestLeft", offestLeft, '=>', width, (columns-1) * this._cfg.gap, oLis[0].offsetWidth * columns)
+    // console.log("offestLeft", offestLeft, '=>', width, oLis[0].offsetWidth, offestLeft)
 
     // console.log("columns", columns)
     
@@ -97,7 +109,7 @@ export default class WaterfallFlow {
       minMatrix.position.data.push(pos)
       oItem.style.left =pos.left + 'px'
       oItem.style.top =pos.top + 'px'
-      oItem.style.opacity = '1'
+      addClass(oItem, 'rendered')
     }
 
     const maxHeight = max(matrix, function (item) {
@@ -105,11 +117,17 @@ export default class WaterfallFlow {
     }) ?? 0
     this._cfg.el.style.height = maxHeight + 'px'
     // console.log("matrix", matrix)
+    this._autoPlay()
+  }
+
+  pause () {
+    clearTimeout(this._timer)
+    return this
   }
   
 
   dispose () {
-    clearInterval(this._timer)
+    clearTimeout(this._timer)
   }
 }
 

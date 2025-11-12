@@ -436,13 +436,18 @@ type TPartialOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 interface IWaterfallFlowConfig {
   el: HTMLElement;
   gap: number;
+  /**
+   * 自动播放在第一次主动执行 resize 后生效（避免首次渲染过渡动画卡顿）
+   */
   autoResize?: number;
 }
 declare class WaterfallFlow {
   private _cfg;
   private _timer;
   constructor(config: TPartialOptional<IWaterfallFlowConfig, 'gap'>);
+  _autoPlay(): void;
   resize(): void;
+  pause(): this;
   dispose(): void;
 }
 
