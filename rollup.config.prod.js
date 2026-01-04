@@ -42,7 +42,7 @@ function getBanner () {
 
 export default [
   {
-    input: './src/main.ts',
+    input: './src/index.ts',
     external: [
       '@bestime/utils_base',
       '@bestime/utils_browser',
@@ -113,7 +113,7 @@ export default [
     ]
   },
   {
-    input: './src/main.ts',
+    input: './src/index.ts',
     output: [
       { file: `dist/esm/index.d.ts`, format: "es" },
       { file: `dist/umd/index.d.ts`, format: "iife" }
