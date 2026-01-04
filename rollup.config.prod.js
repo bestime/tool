@@ -48,7 +48,7 @@ function getDtsName (type) {
 
 export default [
   {
-    input: './src/main.ts',
+    input: './src/index.ts',
     external: [
       '@bestime/utils_base',
       '@bestime/utils_browser',
@@ -112,7 +112,7 @@ export default [
     ]
   },
   {
-    input: './src/main.ts',
+    input: './src/index.ts',
     output: [
       { file: `dist/index.min.d.ts`, format: "es" }
     ],
