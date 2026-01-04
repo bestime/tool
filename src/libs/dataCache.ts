@@ -17,6 +17,13 @@ interface IdataCacheCAllback {
    */
   get: (success: (data: any) => void) => void;
 
+  /**
+   * 重置缓存数据为初始状态
+   */
+  clear: () => void
+
+  run: () => void
+
   logs: Record<string, any>
 }
 
@@ -62,11 +69,21 @@ export default function dataCache (url: string, record?: Record<string, any>):Id
     }, 100)
   }
 
+  function clear () {
+    _tmp[url].count = 0
+    _tmp[url].complete = false
+    _tmp[url].data = null
+  }
+
   return {
     isExist: isStart,
     set: setData,
     get: getData,
-    logs: _tmp
+    clear,
+    logs: _tmp,
+    run: function () {
+      _tmp[url].count++
+    }
   }
   
 }

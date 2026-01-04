@@ -5,7 +5,8 @@
     "outboundTag": "proxy",
     "ip": [
       "8.8.8.8",
-      "geoip:telegram"
+      "geoip:telegram",
+      "104.16.248.249"
     ],
     "domain": [
       "geosite:google",

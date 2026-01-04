@@ -1,6 +1,6 @@
 {
   "name": "@bestime/utils_base",
-  "version": "1.0.21",
+  "version": "1.0.23",
   "main": "./dist/esm/index.min.mjs",
   "module": "./dist/esm/index.min.mjs",
   "typings": "./dist/esm/index.d.ts",
@@ -47,6 +47,7 @@
   },
   "homepage": "https://github.com/bestime/tool",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   }
 }

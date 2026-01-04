@@ -164,6 +164,11 @@ interface IdataCacheCAllback {
    * @param success - 回调函数
    */
   get: (success: (data: any) => void) => void;
+  /**
+   * 重置缓存数据为初始状态
+   */
+  clear: () => void;
+  run: () => void;
   logs: Record<string, any>;
 }
 /**
