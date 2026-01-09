@@ -47,7 +47,7 @@ function getDtsName (type) {
 
 export default [
   {
-    input: './src/main.ts',
+    input: './src/index.ts',
     external: [
       'maptalks',
       'lodash-es',
@@ -115,7 +115,7 @@ export default [
     ]
   },
   {
-    input: './src/main.ts',
+    input: './src/index.ts',
     output: [
       { file: `dist/index.d.ts`, format: "es" }
     ],
