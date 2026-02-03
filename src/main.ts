@@ -95,6 +95,7 @@ export { default as signNumber } from './libs/signNumber'
 export { default as toCamelCase } from './libs/toCamelCase'
 export { default as arrayRemove } from './libs/arrayRemove'
 export { default as arrayGroupColumn } from './libs/arrayGroupColumn'
+export { default as formatRangeText } from './libs/formatRangeText'
 
 
 

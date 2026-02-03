@@ -1378,6 +1378,8 @@ declare function arrayRemove<T>(data: T[], handler: THander<T>): void;
  */
 declare function arrayGroupColumn<T>(data: T[], column: number): T[][];
 
+declare function formatRangeText(name: string, from: any, to: any, unit?: string): string;
+
 type TBusinessTypeKey = 1 | 2 | 3 | 4;
 interface IOption {
   headers: {
@@ -1505,6 +1507,7 @@ declare global {
       forEachKvPair,
       forEachTree,
       formatRange,
+      formatRangeText,
       formatTime,
       fuzzyReplace,
       getArray,

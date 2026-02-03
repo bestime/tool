@@ -57,7 +57,7 @@ function hander<T extends TargetData> (data: T, options: Options): void {
 
 
 /**
-   * 移除无效数据，包括：空字符串，空对象，空数组。
+   * 移除无效数据，包括：空字符串，空对象，空数组（但不会移除数组里面的空值）
    * 注：数组中的值不做处理，会影响数组长度
    * 
    * @param data - 将数据进行树摇
@@ -77,34 +77,3 @@ export default function shake<T extends TargetData> (
   hander(data, emptyConfig)
   return data
 }
-
-
-
-
-
-
-// interface Student {
-//   name: string,
-//   a: [1, 2],
-//   job: {
-//     test: undefined,
-//     submig:() => number,
-//     log: [
-//       number,
-//       {
-//         name: string
-//       }
-//     ],
-//     fornt: {
-//       year: number
-//     }
-//   }
-// }
-
-
-
-
-
-
-
-
