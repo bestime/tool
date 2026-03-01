@@ -8,8 +8,8 @@ import getSortIndex from './getSortIndex'
  */
 export default function sortWithIndex<T> (data: T[], index: ReturnType<typeof getSortIndex>) {
   const result: T[] = []
-  for(let a =0; a<data.length; a++) {
-    result[a] = data[index[a]]
+  for(let a =0; a<data.length; a++) {    
+    result[index[a]] = data[a]
   }
   return result
 }

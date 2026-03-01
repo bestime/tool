@@ -23,10 +23,15 @@ export default function getSortIndex<T> (data: T[], sortHandler: (a: T, b: T) =>
 
   const cache = getSortList(data)
   const sorted = getSortList(data)
+
+  
   
   sorted.sort(function (a, b) {
     return sortHandler(a.value, b.value)
   })  
+
+
+  // console.log("公国", cloneEasy(cache), cloneEasy(sorted))
   
   const idx = cache.map(function (c) {
     return sorted.findIndex(function (item) {
