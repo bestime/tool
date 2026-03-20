@@ -6,9 +6,11 @@
     "ip": [
       "8.8.8.8",
       "geoip:telegram",
+      "104.16.249.249",
       "104.16.248.249"
     ],
     "domain": [
+      "githubcopilot.com",
       "geosite:google",
       "geosite:facebook",
       "geosite:twitter",
