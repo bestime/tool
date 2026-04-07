@@ -96,6 +96,9 @@ export { default as toCamelCase } from './libs/toCamelCase'
 export { default as arrayRemove } from './libs/arrayRemove'
 export { default as arrayGroupColumn } from './libs/arrayGroupColumn'
 export { default as formatRangeText } from './libs/formatRangeText'
+export { default as detectUniqueValues } from './libs/detectUniqueValues'
+export { default as validatorNumber } from './libs/validatorNumber'
+export { default as getFileTypeFromUrl } from './libs/getFileTypeFromUrl'
 
 
 

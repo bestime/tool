@@ -1380,6 +1380,43 @@ declare function arrayGroupColumn<T>(data: T[], column: number): T[][];
 
 declare function formatRangeText(name: string, from: any, to: any, unit?: string): string;
 
+/**
+ * 判断数组里有没有重复ID
+ * @param key 键
+ * @param data 数组
+ * @returns 没有重复就返回原始数组
+ */
+declare function detectUniqueValues<T extends Record<string, any>>(key: keyof T, data: T[]): T[];
+
+interface INumConfig {
+  min?: number;
+  max?: number;
+  required?: boolean;
+  unit?: string;
+}
+/**
+ * 数字校验
+ * @param name 校验的名称
+ * @param data 校验的数据
+ * @param config 校验其他配置
+ * @returns
+ */
+declare function validatorNumbervalidatorNumber(
+  name: string,
+  data: any,
+  config?: INumConfig
+): {
+  success: boolean;
+  message: string;
+};
+
+/**
+ * 获取文件后缀名
+ * @param url
+ * @returns
+ */
+declare function getFileTypeFromUrl(url: string): string;
+
 type TBusinessTypeKey = 1 | 2 | 3 | 4;
 interface IOption {
   headers: {
@@ -1495,6 +1532,7 @@ declare global {
       deepFindTreePath,
       defineEventBus,
       defualtFormatter,
+      detectUniqueValues,
       difference,
       fieldCheck,
       fileSizeFormatter,
@@ -1512,6 +1550,7 @@ declare global {
       fuzzyReplace,
       getArray,
       getFileName,
+      getFileTypeFromUrl,
       getLikeNumberRegExp,
       getMinAndMax,
       getPiecesWithIndex,
@@ -1568,6 +1607,7 @@ declare global {
       union,
       urlToGet,
       uuid,
+      validatorNumbervalidatorNumber as validatorNumber,
       variableHasValue,
       zjxkjPerformanceTable
     };
