@@ -99,6 +99,8 @@ export { default as formatRangeText } from './libs/formatRangeText'
 export { default as detectUniqueValues } from './libs/detectUniqueValues'
 export { default as validatorNumber } from './libs/validatorNumber'
 export { default as getFileTypeFromUrl } from './libs/getFileTypeFromUrl'
+export { default as raceTask } from './libs/raceTask'
+export { default as readyTask } from './libs/readyTask'
 
 
 

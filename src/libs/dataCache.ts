@@ -32,10 +32,11 @@ const _defaultRecord: Record<string, any> = {}
 
 
 /**
-   * 对相同地址的数据进行缓存
-   * @param url - 请求地址
-   * @returns 处理工具
-   */
+* @deprecated 慎用
+* 对相同地址的数据进行缓存
+* @param url - 请求地址
+* @returns 处理工具
+*/
 export default function dataCache (url: string, record?: Record<string, any>):IdataCacheCAllback {
   const _tmp = record || _defaultRecord
   

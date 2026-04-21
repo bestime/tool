@@ -31,6 +31,7 @@ type BTDeepPartial<T = any> = {
  * */
 type TKvPair = Record<string | number | symbol, any>;
 type TValueOf<T> = T[keyof T];
+type TPromiseCb = (...args: any[]) => Promise<any>;
 
 /**
  * 判断数据是否为对象
@@ -178,7 +179,8 @@ interface IdataCacheCAllback {
  */
 declare function dataCache(url: string, record?: Record<string, any>): IdataCacheCAllback;
 
-/**
+/** @deprecated 慎用，用不好会造成内存泄漏。可移步：readyTask
+ *
  * 检测一个数据是否存在
  *
  * @param handler - 每一次检测的回调， 返回值为Boolean,表示是否检测到数据
@@ -1417,6 +1419,35 @@ declare function validatorNumbervalidatorNumber(
  */
 declare function getFileTypeFromUrl(url: string): string;
 
+/**
+ * 处理竞态问题，只认最后一个执行结果（一般用于异步场景）
+ * @param handler 实际处理函数
+ * @returns
+ *
+ * @example
+ * const taskApiGetData = raceTask(async function (message: string, duration: number) {
+ *    await sleep(duration)
+ *    return message
+ * })
+ */
+declare function raceTask<T extends TPromiseCb>(
+  handler: T
+): (this: ThisParameterType<T>, ...args: Parameters<T>) => Promise<ReturnType<T>>;
+
+/**
+ * 此方法用于准备工作，和等待准备工作完成。记得不用的时候销毁
+ * @param handler 处理函数
+ * @param FPS 每秒执行次数，默认值位5
+ * @returns
+ */
+declare function readyTask<T extends TPromiseCb>(
+  handler: T,
+  FPS?: number
+): {
+  waitting: () => Promise<Awaited<ReturnType<T>>>;
+  dispose: () => void;
+};
+
 type TBusinessTypeKey = 1 | 2 | 3 | 4;
 interface IOption {
   headers: {
@@ -1585,7 +1616,9 @@ declare global {
       param,
       parseQuery,
       parseTreeToTableHeader,
+      raceTask,
       randomColor,
+      readyTask,
       repeatArray,
       repeatString,
       rgbaToHex,

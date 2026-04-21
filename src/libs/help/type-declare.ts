@@ -19,3 +19,6 @@ export type TValueOf<T> = T[keyof T]
 /** 将部分字段设为可选 */
 export type FieldsPartial<T, Union extends keyof T> = Omit<T, Union> & Partial<Pick<T, Union>>;
 
+export type TPromiseCb= (...args: any[]) => Promise<any>
+export type TVoidCb= (...args: any[]) => void
+
