@@ -1,5 +1,5 @@
 import assign from "./assign";
-import defualtFormatter from "./defualtFormatter"
+import get from "./get"
 
 type EventHander = (...args: any[]) => void;
 
@@ -21,7 +21,7 @@ export default function debounce<T extends EventHander> (
     trailing?: boolean
   }
 ) {
-  const fps = defualtFormatter(500, interval)
+  const fps = get(interval, 500)
   const { leading, trailing } = assign({
     leading: false,
     trailing: true

@@ -2,6 +2,8 @@ import isEmpty from "./isEmpty";
 import isNull from "./isNull";
 
 /**
+ * @deprecated 已废弃，单词拼写错误，请使用 “get”，新增了链式路径查找
+ * 
  * 默认数据处理
  * @param placeValue - 无值时返回什么数据
  * @param value - 需要处理的数据。默认将 undefined、null、'' 视为无值

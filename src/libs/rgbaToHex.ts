@@ -1,5 +1,5 @@
 import _Number from "./_Number";
-import defualtFormatter from "./defualtFormatter";
+import get from "./get";
 import split from "./split";
 import trim from "./trim";
 
@@ -15,7 +15,7 @@ export default function rgbaToHex (rgba: string) {
     return _Number(c)
   })
   
-  const a = defualtFormatter(1, list[3])
+  const a = get(list[3], 1)
 
   const r = Math.floor(a * list[0] + (1 - a) * 255);
   const g = Math.floor(a * list[1] + (1 - a) * 255);

@@ -1,35 +1,64 @@
 import { $undefinedValue } from "./help/hpConsts";
 import type { TPromiseCb, TVoidCb } from "./help/type-declare"
-import variableHasValue from "./variableHasValue"
-import NEVER_PROMISE from "./help/NEVER_PROMISE"
+import forEachKvPair from "./forEachKvPair";
+import isNull from "./isNull";
 
 
 /**
- * 此方法用于准备工作，和等待准备工作完成。记得不用的时候销毁
+ * 此方法用于准备工作，和等待准备工作完成。只认第一次执行结果！！！记得不用的时候销毁
+ * 
  * @param handler 处理函数
- * @param FPS 每秒执行次数，默认值位5
+ * @param FPS 每秒执行次数，默认值位5。限制范围为 [1-20]。没必要太小或太大，人眼感觉不出来
  * @returns 
  */
-export default function readyTask<T extends TPromiseCb> (handler: T, FPS=5) {  
+export default function readyTask<T extends TPromiseCb> (handler: T, fps?: number) {  
   let isReady = false
   let isDispose = false
-  let timer: any;
-  let data = $undefinedValue as Awaited<ReturnType<T>>
-  
 
-  // let id=0
-  function waitting () {
-    return new Promise(function (resolve: (data: Awaited<ReturnType<T>>) => void, reject) {
-      clearInterval(timer)
-      timer = setInterval(function () {
-        // console.log("计时中:",++id)
-        if(isReady && !isDispose) {
-          resolve(data)
-          clearInterval(timer)
-        }
-      }, 100)
+  let FPS = isNull(fps) ? 5 : fps
+  FPS = Math.max(FPS, 20)
+
+  // 这个用于每个watting单独分配一个定时器，以免被其他定时器误关闭
+  let timers: Record<number, any> = {};
+  let data = $undefinedValue as string | undefined
+  // 用于标记是否开始执行，防止重复执行
+  let begining = false
+
+  function init () {
+    begining = true;
+    handler().then(function (response) {
+      if(!isDispose) {
+        data = JSON.stringify(response)
+        isReady = true
+      }    
     })
   }
+  
+
+  let taskId=0
+  function waitting (): Promise<Awaited<ReturnType<T>>> {
+    const cid = ++taskId
+    if(!begining) {
+      init()
+    }
+    return new Promise(function (resolve, reject) {
+      function checkData () {
+        // console.log("计时中:",cid, data)
+        if(isReady && !isDispose) {
+          // console.log("成功", cid, isDispose,timers)
+          const res = isNull(data) ? data : JSON.parse(data)
+          resolve(res)
+          clearInterval(timers[cid])
+        }
+      }
+      if(isReady) {
+        checkData()
+      } else if(!isDispose){
+        timers[cid] = setInterval(checkData, 1000/FPS)
+      }
+    })
+  }
+  
 
   let res = {
     waitting,
@@ -37,27 +66,27 @@ export default function readyTask<T extends TPromiseCb> (handler: T, FPS=5) {
   }
 
   function dispose () {
+    forEachKvPair(timers, function (v) {
+      clearInterval(v)
+    })
     // @ts-ignore
-    isDispose = $undefinedValue
+    isDispose = true
     // @ts-ignore
     isReady = $undefinedValue
-    // @ts-ignore
-    timer = $undefinedValue
 
     // @ts-ignore
     data = $undefinedValue
 
     // @ts-ignore
     res = $undefinedValue
-    clearInterval(timer)
-  }
 
-  handler().then(function (response) {
-    if(!isDispose) {
-      data = response
-      isReady = true
-    }    
-  })
+    // @ts-ignore
+    begining = $undefinedValue
+
+    // @ts-ignore
+    timers = $undefinedValue
+    
+  }
   
   return res
 }
@@ -82,17 +111,23 @@ export default function readyTask<T extends TPromiseCb> (handler: T, FPS=5) {
 //   setTimeout(function () {
 //     console.log("关闭")
 //     task_ready.dispose()
-//   }, 1000)
+//   }, 1500)
 
 
-//   task_ready.waitting().then(function (res) {
-    
+
+//   task_ready.waitting().then(function (hh) {
+//     console.log("类型提示不对", hh)
 //   })
-
-//   const b = await task_ready.waitting()
-
+//   const res = await Promise.all([
+//     task_ready.waitting(),
+//     task_ready.waitting(),
+//   ])
   
-  
-
-//   console.log("task_ready", task_ready)
+//   console.log("task_ready-001", res)
 // })();
+
+
+
+
+
+

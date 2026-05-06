@@ -3,7 +3,8 @@ import _Number from "./_Number"
 
 /**
  * 
- * @deprecated 已废弃，请使用getMinAndMax
+ * @deprecated 已废弃，请使用minMax
+ * 
  * 将一堆数字中的极值按差值的比例进行扩大。多用于echarts坐标轴的极值限制
  * 
  * @param ratio 扩大倍数

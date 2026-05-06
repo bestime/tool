@@ -173,6 +173,7 @@ interface IdataCacheCAllback {
   logs: Record<string, any>;
 }
 /**
+ * @deprecated 慎用
  * 对相同地址的数据进行缓存
  * @param url - 请求地址
  * @returns 处理工具
@@ -595,83 +596,6 @@ declare const fieldCheck: {
   };
 };
 
-interface ISummary {
-  /** 值 */
-  value: number;
-  /** 增长率 */
-  riseRatio?: number;
-  /** 比重 */
-  proportion: number;
-}
-interface IARTResultItem<T> {
-  name: string;
-  value: T;
-  data: Record<string, T[]>;
-  summary: Record<string, ISummary>;
-}
-type TArrayRowToColumnColumnSort = (a: string, b: string) => number;
-/**
- * 数字中某个字段由 行转列
- * @param originData - 原始数组
- * @param options - 配置项
- * @returns 转换后的数据
- */
-declare function arrayRowToColumn<T extends Record<string, any>>(
-  originData: T[],
-  options: {
-    /** 唯一行的ID生成器 */
-    uniqueRowId: Array<keyof T>;
-    /** 将此字段转为列 */
-    colField: keyof T;
-    /** 列的排序方法 */
-    colSort?: TArrayRowToColumnColumnSort;
-    /** 生成列信息 */
-    colCreate: (key: string) => {
-      label: string;
-      field: string;
-    };
-    summaryConfig?: IConfig;
-  }
-): {
-  columns: {
-    value: string;
-    label: string;
-    field: string;
-  }[];
-  data: IARTResultItem<T>[];
-  colSummary: Record<string, Record<string, ISummary>>;
-  getExtRow: <T_1 extends keyof ISummary>(
-    groupName: string,
-    field: T_1,
-    formatter: (data: ISummary[T_1]) => string
-  ) => Record<string, string>;
-};
-type TArrayRowToColumnCalculateRow = {
-  proportionBaseField?: string;
-  count:
-    | number
-    | {
-        field: string;
-        mode: 'length' | 'uniqLength' | 'notZeroValue';
-      };
-  value: {
-    field: string;
-    mode: 'sum' | 'uniqLength' | 'avg';
-  };
-};
-interface IConfig {
-  averageField: string;
-  row?: Record<string, TArrayRowToColumnCalculateRow>;
-  column?: TColSumaryConfig;
-}
-type TColSumaryConfig = Record<
-  string,
-  {
-    field: string;
-    mode: 'uniqLength' | 'avg' | 'notZeroLength' | 'sum';
-  }
->;
-
 type ISpanTableItem<T extends TKvPair> = T & {
   $rowSpan: Record<string, number>;
   $colField: Record<string | number, number>;
@@ -944,27 +868,6 @@ declare function parseTreeToTableHeader(header: IInputHeaderItem[]): {
   data: (IParsedHeaderDataItem | undefined)[][];
 };
 
-type TEcharts = Record<string, any>;
-interface IConnectConfigItem {
-  onXAxisCtegoryClick?: (xAxisData: any[], tickIndex: number, chart: TEcharts) => void;
-}
-interface IListItem {
-  config?: IConnectConfigItem;
-  instence: TEcharts;
-  onAxxisCategoryClick?: (ev: { tickIndex: number; needEmit?: boolean }) => void;
-  onAxxisSeriesClick?: (ev: any) => void;
-  timer_01: any;
-}
-declare class ConnectEcharts {
-  _list: Record<string, IListItem[]>;
-  constructor();
-  _resetGroupClickXAxisCategory(chartList: IListItem[]): void;
-  clickXAsisCategory(chart: TEcharts, index: number, notEmit?: boolean): void;
-  add(i: TEcharts, config: IConnectConfigItem): this;
-  remove(chart?: TEcharts): void;
-}
-declare const _default: ConnectEcharts;
-
 interface IRuleItem {
   min: number;
   max: number;
@@ -1000,6 +903,8 @@ type TreeItem$1<T extends TKvPair> = T & {
 declare function treeLeafs<T extends TKvPair>(list: TreeItem$1<T>[]): TreeItem$1<T>[];
 
 /**
+ * @deprecated 已废弃，单词拼写错误，请使用 “get”，新增了链式路径查找
+ *
  * 默认数据处理
  * @param placeValue - 无值时返回什么数据
  * @param value - 需要处理的数据。默认将 undefined、null、'' 视为无值
@@ -1083,7 +988,8 @@ declare function throttle<T extends EventHander>(
 
 /**
  *
- * @deprecated 已废弃，请使用getMinAndMax
+ * @deprecated 已废弃，请使用minMax
+ *
  * 将一堆数字中的极值按差值的比例进行扩大。多用于echarts坐标轴的极值限制
  *
  * @param ratio 扩大倍数
@@ -1204,23 +1110,6 @@ type ISortItem = number | undefined | null;
  */
 declare function sortCompare(way: 'asc' | 'desc', a: ISortItem, b: ISortItem): number | undefined;
 
-interface LogItem {
-  id: string;
-  time: string;
-  pid?: string;
-  title: string;
-  data?: string;
-}
-declare function logRecord(
-  title: string,
-  data?: string,
-  notPrint?: boolean
-): (title: string, data?: string) => void;
-declare function logExport(): {
-  flatList: LogItem[];
-  treeList: any[];
-};
-
 type TCallback = (ms: number) => void;
 type THander$1 = (callback: TCallback) => void;
 /**
@@ -1262,6 +1151,12 @@ declare class ServerDate {
   getTime(): number;
 }
 
+/**
+ * 将字符串按指定长度变为一个数组
+ * @param rowLength
+ * @param data
+ * @returns
+ */
 declare function breakString(rowLength: number, data?: string): string[];
 
 /**
@@ -1313,26 +1208,30 @@ declare function repeatArray<T>(target: T[], length: number): T[];
 
 declare function checkPhone(data: any): boolean;
 
-type TReturnV = number | undefined;
+type TReturnV$1 = number | undefined;
+interface IConfig$1<T> {
+  spaceRatio?: number;
+  decimals?: number;
+  getter?: (item: T) => TReturnV$1;
+  formatter?: (item: number) => number;
+}
 /**
+ * @deprecated 已废弃，请使用minMax
+ *
  * 获取数字中的最小和最大值
  * @param data - 原始数据
  * @param config - 额外配置项
  * @param config.spaceRatio - 默认值：0，根据最小、最大值的差值，将最小值减小几倍，将最大值增大几倍
  * @param config.getter - 迭代函数（复杂结构需要），默认仅处理数字
- * @param config.formatter - 将最终结果格式化
+ * @param config.formatter - 将最终结果格式化（这个选项准备移除）
  * @returns 计算后的最大、最小值
  */
 declare function getMinAndMax<T>(
   data: Array<T>,
-  config?: {
-    spaceRatio?: number;
-    getter?: (item: T) => TReturnV;
-    formatter?: (item: number) => number;
-  }
+  config?: IConfig$1<T>
 ): {
-  min: TReturnV;
-  max: TReturnV;
+  min: number | undefined;
+  max: number | undefined;
 };
 
 /**
@@ -1385,7 +1284,7 @@ declare function formatRangeText(name: string, from: any, to: any, unit?: string
 /**
  * 判断数组里有没有重复ID
  * @param key 键
- * @param data 数组
+ * @param data 数组（可以是树结构）
  * @returns 没有重复就返回原始数组
  */
 declare function detectUniqueValues<T extends Record<string, any>>(key: keyof T, data: T[]): T[];
@@ -1435,18 +1334,79 @@ declare function raceTask<T extends TPromiseCb>(
 ): (this: ThisParameterType<T>, ...args: Parameters<T>) => Promise<ReturnType<T>>;
 
 /**
- * 此方法用于准备工作，和等待准备工作完成。记得不用的时候销毁
+ * 此方法用于准备工作，和等待准备工作完成。只认第一次执行结果！！！记得不用的时候销毁
+ *
  * @param handler 处理函数
- * @param FPS 每秒执行次数，默认值位5
+ * @param FPS 每秒执行次数，默认值位5。限制范围为 [1-20]。没必要太小或太大，人眼感觉不出来
  * @returns
  */
 declare function readyTask<T extends TPromiseCb>(
   handler: T,
-  FPS?: number
+  fps?: number
 ): {
   waitting: () => Promise<Awaited<ReturnType<T>>>;
   dispose: () => void;
 };
+
+/**
+ * 这个用于根据ID缓存数据，防止重复获取无变化的数据。在过期时间内，只认第一次执行结果！！！
+ * @param id
+ * @param handler
+ * @param cacheMillisecond 缓存多久后自动清空。单位：毫秒，默认3分钟。从第一次获取数据成功后开始记时
+ * @returns
+ */
+declare function cacheTask<T extends TPromiseCb>(
+  id: string,
+  handler: T,
+  cacheMillisecond?: number
+): {
+  waitting: () => Promise<Awaited<ReturnType<T>>>;
+  dispose: () => void;
+};
+
+/**
+ * 模板字符串插值，解析 {% abc %}的模板语法
+ * @param tpl
+ * @param params
+ * @returns
+ */
+declare function templateVarReplace(tpl: string, params: Record<string, string>): string;
+
+type TReturnV = number | undefined;
+/**
+ * 取集合中的最小值，最大值，并扩大一定范围（不会去控制范围边界，这个由外部业务处理，比如最小值：0）
+ *
+ * @param data 集合
+ * @param ratio 扩大比例，根据极值之差计算
+ * @param getter 迭代回调
+ * @param decimals 期望小数位
+ * @returns
+ */
+declare function minMax<T>(
+  data: T[],
+  ratio: number,
+  getter?: (item: T) => TReturnV,
+  decimals?: number
+): {
+  min: TReturnV;
+  max: TReturnV;
+};
+
+/**
+ * 简易获取值，主要用于内部库获取参数使用，减少构建体积
+ * @param data 原始数据
+ * @param defaultValue 默认数据。默认将 undefined、null、'', '-' 视为无值
+ * @param path 链式路径
+ * @param whiteList 空数据白名单。默认：[‘-’]
+ * @returns
+ */
+declare function get<T, R>(
+  data: T,
+  defaultValue: R,
+  formatter?: (value: NonNullable<T>) => R,
+  path?: string,
+  whiteList?: string[]
+): R;
 
 type TBusinessTypeKey = 1 | 2 | 3 | 4;
 interface IOption {
@@ -1532,6 +1492,121 @@ declare function zjxkjPerformanceTable(
   totalScore: number;
 };
 
+type TEcharts = Record<string, any>;
+interface IConnectConfigItem {
+  onXAxisCtegoryClick?: (xAxisData: any[], tickIndex: number, chart: TEcharts) => void;
+}
+interface IListItem {
+  config?: IConnectConfigItem;
+  instence: TEcharts;
+  onAxxisCategoryClick?: (ev: { tickIndex: number; needEmit?: boolean }) => void;
+  onAxxisSeriesClick?: (ev: any) => void;
+  timer_01: any;
+}
+declare class ConnectEcharts {
+  _list: Record<string, IListItem[]>;
+  constructor();
+  _resetGroupClickXAxisCategory(chartList: IListItem[]): void;
+  clickXAsisCategory(chart: TEcharts, index: number, notEmit?: boolean): void;
+  add(i: TEcharts, config: IConnectConfigItem): this;
+  remove(chart?: TEcharts): void;
+}
+declare const _default: ConnectEcharts;
+
+interface LogItem {
+  id: string;
+  time: string;
+  pid?: string;
+  title: string;
+  data?: string;
+}
+declare function logRecord(
+  title: string,
+  data?: string,
+  notPrint?: boolean
+): (title: string, data?: string) => void;
+declare function logExport(): {
+  flatList: LogItem[];
+  treeList: any[];
+};
+
+interface ISummary {
+  /** 值 */
+  value: number;
+  /** 增长率 */
+  riseRatio?: number;
+  /** 比重 */
+  proportion: number;
+}
+interface IARTResultItem<T> {
+  name: string;
+  value: T;
+  data: Record<string, T[]>;
+  summary: Record<string, ISummary>;
+}
+type TArrayRowToColumnColumnSort = (a: string, b: string) => number;
+/**
+ * 数字中某个字段由 行转列
+ * @param originData - 原始数组
+ * @param options - 配置项
+ * @returns 转换后的数据
+ */
+declare function arrayRowToColumn<T extends Record<string, any>>(
+  originData: T[],
+  options: {
+    /** 唯一行的ID生成器 */
+    uniqueRowId: Array<keyof T>;
+    /** 将此字段转为列 */
+    colField: keyof T;
+    /** 列的排序方法 */
+    colSort?: TArrayRowToColumnColumnSort;
+    /** 生成列信息 */
+    colCreate: (key: string) => {
+      label: string;
+      field: string;
+    };
+    summaryConfig?: IConfig;
+  }
+): {
+  columns: {
+    value: string;
+    label: string;
+    field: string;
+  }[];
+  data: IARTResultItem<T>[];
+  colSummary: Record<string, Record<string, ISummary>>;
+  getExtRow: <T_1 extends keyof ISummary>(
+    groupName: string,
+    field: T_1,
+    formatter: (data: ISummary[T_1]) => string
+  ) => Record<string, string>;
+};
+type TArrayRowToColumnCalculateRow = {
+  proportionBaseField?: string;
+  count:
+    | number
+    | {
+        field: string;
+        mode: 'length' | 'uniqLength' | 'notZeroValue';
+      };
+  value: {
+    field: string;
+    mode: 'sum' | 'uniqLength' | 'avg';
+  };
+};
+interface IConfig {
+  averageField: string;
+  row?: Record<string, TArrayRowToColumnCalculateRow>;
+  column?: TColSumaryConfig;
+}
+type TColSumaryConfig = Record<
+  string,
+  {
+    field: string;
+    mode: 'uniqLength' | 'avg' | 'notZeroLength' | 'sum';
+  }
+>;
+
 declare global {
   /**
    * 该声明文件用于全局声明（不用npm安装时拷贝到项目中直接使用）
@@ -1551,6 +1626,7 @@ declare global {
       arrayRemove,
       arrayRowToColumn,
       breakString,
+      cacheTask,
       changeIndex,
       checkPhone,
       cloneEasy,
@@ -1579,6 +1655,7 @@ declare global {
       formatRangeText,
       formatTime,
       fuzzyReplace,
+      get,
       getArray,
       getFileName,
       getFileTypeFromUrl,
@@ -1608,6 +1685,7 @@ declare global {
       main as mapTree,
       max,
       min,
+      minMax,
       mixInZeroWidthUnicode,
       numberToChinese,
       padEnd,
@@ -1630,6 +1708,7 @@ declare global {
       sortWithIndex,
       spanTable,
       split,
+      templateVarReplace,
       thousands,
       throttle,
       toCamelCase,

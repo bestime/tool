@@ -1,5 +1,5 @@
 import _Number from "./_Number"
-import defualtFormatter from "./defualtFormatter"
+import get from "./get"
 import isEmpty from "./isEmpty"
 
 
@@ -7,7 +7,7 @@ import isEmpty from "./isEmpty"
 export default function formatRangeText (name: string, from: any, to: any, unit?: string) {
   const hasMin = !isEmpty(from)
   const hasMax = !isEmpty(to)
-  unit = defualtFormatter('', unit)
+  unit = get(unit, '')
   
   
   
