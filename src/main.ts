@@ -98,6 +98,7 @@ export { default as cacheTask } from './libs/cacheTask'
 export { default as templateVarReplace } from './libs/templateVarReplace'
 export { default as minMax } from './libs/minMax'
 export { default as get } from './libs/get'
+export { default as calendar } from './libs/calendar'
 
 
 

@@ -5,9 +5,10 @@ import split from "./split";
 
 
 /**
- * 简易获取值，主要用于内部库获取参数使用，减少构建体积
+ * 简易获取值，支持默认值和格式化
  * @param data 原始数据
  * @param defaultValue 默认数据。默认将 undefined、null、'', '-' 视为无值
+ * @param formatter 自定义格式化
  * @param path 链式路径
  * @param whiteList 空数据白名单。默认：[‘-’]
  * @returns 

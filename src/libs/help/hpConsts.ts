@@ -69,6 +69,7 @@ export const $decodeURIComponent = decodeURIComponent;
 export const $regSpaceStr = '\\s\\uFEFF\\xA0';
 
 export const $zeroWidthCode = '\u200e'
+export const $emptyString = ''
 
 
 

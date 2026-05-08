@@ -1,6 +1,8 @@
 import getType from './getType'
-import { $stringTypeNameBig, $numberTypeNameBig, $regSpaceStr } from './help/hpConsts'
+import { $stringTypeNameBig, $numberTypeNameBig, $regSpaceStr, $emptyString } from './help/hpConsts'
 const baseReg = `[${$regSpaceStr}]+`
+
+
 
 /**
    * 移除空字符串。不清空 "\u200e"
@@ -9,6 +11,7 @@ const baseReg = `[${$regSpaceStr}]+`
    * @returns 字符串
    */
 export default function trim (data: any, pos?: 1 | -1 | '*'): string {
+  if(data === $emptyString) return $emptyString;
   var tp = getType(data)
   
   if(tp === $numberTypeNameBig) {
@@ -17,7 +20,7 @@ export default function trim (data: any, pos?: 1 | -1 | '*'): string {
   }
 
   
-  let regStr = '';
+  let regStr = $emptyString;
   
 
   if(tp === $stringTypeNameBig) {
@@ -35,7 +38,7 @@ export default function trim (data: any, pos?: 1 | -1 | '*'): string {
         regStr = `^${baseReg}|${baseReg}$`
         break;
     }
-    return data.replace(new RegExp(regStr, 'g'), '')
+    return data.replace(new RegExp(regStr, 'g'), $emptyString)
   } else {
     return ''
   }

@@ -1393,9 +1393,10 @@ declare function minMax<T>(
 };
 
 /**
- * 简易获取值，主要用于内部库获取参数使用，减少构建体积
+ * 简易获取值，支持默认值和格式化
  * @param data 原始数据
  * @param defaultValue 默认数据。默认将 undefined、null、'', '-' 视为无值
+ * @param formatter 自定义格式化
  * @param path 链式路径
  * @param whiteList 空数据白名单。默认：[‘-’]
  * @returns
@@ -1407,6 +1408,22 @@ declare function get<T, R>(
   path?: string,
   whiteList?: string[]
 ): R;
+
+interface IMonthDay {
+  date: string;
+  week: number;
+  timestamp: number;
+  targetMonth: boolean;
+}
+type TBeginWeek = 'sunday' | 'monday';
+/**
+ * 获取一份日历数据。日和周请根据数据自行格式化。
+ * @param year 年
+ * @param month 月
+ * @param beginWeek 第一列为周一还是周日
+ * @returns
+ */
+declare function calendar(year: number, month: number, beginWeek?: TBeginWeek): IMonthDay[][];
 
 type TBusinessTypeKey = 1 | 2 | 3 | 4;
 interface IOption {
@@ -1627,6 +1644,7 @@ declare global {
       arrayRowToColumn,
       breakString,
       cacheTask,
+      calendar,
       changeIndex,
       checkPhone,
       cloneEasy,
