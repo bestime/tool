@@ -5,7 +5,7 @@ import trim from "./trim"
 type TVu = string | number
 
 /**
- * 格式化一个范围
+ * @deprecated 格式化一个范围
  * @param from 起始值
  * @param to 终止值
  * @param connector 连接符

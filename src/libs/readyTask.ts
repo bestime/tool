@@ -2,6 +2,7 @@ import { $undefinedValue } from "./help/hpConsts";
 import type { TPromiseCb, TVoidCb } from "./help/type-declare"
 import forEachKvPair from "./forEachKvPair";
 import isNull from "./isNull";
+import get from "./get";
 
 
 /**
@@ -15,8 +16,7 @@ export default function readyTask<T extends TPromiseCb> (handler: T, fps?: numbe
   let isReady = false
   let isDispose = false
 
-  let FPS = isNull(fps) ? 5 : fps
-  FPS = Math.max(FPS, 20)
+  const FPS = Math.max(get(fps, 5), 20)
 
   // 这个用于每个watting单独分配一个定时器，以免被其他定时器误关闭
   let timers: Record<number, any> = {};

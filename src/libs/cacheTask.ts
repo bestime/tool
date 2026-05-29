@@ -3,6 +3,7 @@ import type { TPromiseCb, TVoidCb } from "./help/type-declare"
 import hpTimeStamp from './help/hpTimeStamp'
 import forEachKvPair from './forEachKvPair'
 import isNull from './isNull'
+import hpObjectKeys from './help/hpObjectKeys'
 interface ICacheTaskItem {
   expiration: number
   handler: ReturnType<typeof readyTask>
@@ -24,7 +25,7 @@ function checkToClear () {
       }
     })
     
-    if(Object.keys(records).length === 0) {
+    if(hpObjectKeys(records).length === 0) {
       clearInterval(timer)
     }
   }, 1000)  

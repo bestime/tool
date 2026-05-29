@@ -18,8 +18,8 @@ import type { TPromiseCb } from "./help/type-declare"
  */
 export default function raceTask<T extends TPromiseCb> (handler: T) {
   let taskId = 0
-
-  return async function (this: ThisParameterType<T>, ...args:Parameters<T>): Promise<ReturnType<T>> {
+  
+  return function (this: ThisParameterType<T>, ...args:Parameters<T>): Promise<ReturnType<T>> {
     const flag = ++taskId
     // console.log(`任务开始：${flag}/${taskId}`)
     

@@ -12,8 +12,6 @@ export { default as urlToGet } from './libs/urlToGet'
 export { default as trim } from './libs/trim'
 export { default as shake } from './libs/shake'
 export { default as _Array } from './libs/_Array'
-export { default as dataCache } from './libs/dataCache'
-export { default as variableHasValue } from './libs/variableHasValue'
 export { default as deepFindTreePath } from './libs/deepFindTreePath'
 export { default as _Number } from './libs/_Number'
 export { default as isNull } from './libs/isNull'
@@ -59,11 +57,9 @@ export { default as parseTreeToTableHeader } from './libs/parseTreeToTableHeader
 export { default as getPiecesWithIndex } from './libs/getPiecesWithIndex'
 export { default as difference } from './libs/difference'
 export { default as treeLeafs } from './libs/treeLeafs'
-export { default as defualtFormatter } from './libs/defualtFormatter'
 export { default as Animate } from './libs/Animate'
 export { default as debounce } from './libs/debounce'
 export { default as throttle } from './libs/throttle'
-export { default as padMinMax } from './libs/padMinMax'
 export { default as treeFilter } from './libs/treeFilter'
 export { default as findLast } from './libs/findLast'
 export { default as findKvPair } from './libs/findKvPair'
@@ -77,18 +73,15 @@ export { default as sortCompare } from './libs/sortCompare'
 export { default as ServerDate } from './libs/ServerDate'
 export { default as breakString } from './libs/breakString'
 export { default as getWeeks, getWeekSort } from './libs/getWeeks'
-export { default as formatRange } from './libs/formatRange'
 export { default as getFileName } from './libs/getFileName'
 export { default as repeatArray } from './libs/repeatArray'
 export { default as checkPhone } from './libs/checkPhone'
-export { default as getMinAndMax } from './libs/getMinAndMax'
 export { default as createIdFactory } from './libs/createIdFactory'
 export { default as getArray } from './libs/getArray'
 export { default as signNumber } from './libs/signNumber'
 export { default as toCamelCase } from './libs/toCamelCase'
 export { default as arrayRemove } from './libs/arrayRemove'
 export { default as arrayGroupColumn } from './libs/arrayGroupColumn'
-export { default as formatRangeText } from './libs/formatRangeText'
 export { default as detectUniqueValues } from './libs/detectUniqueValues'
 export { default as validatorNumber } from './libs/validatorNumber'
 export { default as getFileTypeFromUrl } from './libs/getFileTypeFromUrl'
@@ -99,6 +92,9 @@ export { default as templateVarReplace } from './libs/templateVarReplace'
 export { default as minMax } from './libs/minMax'
 export { default as get } from './libs/get'
 export { default as calendar } from './libs/calendar'
+export { default as rangeText } from './libs/rangeText'
+export { default as isEmptyObject } from './libs/isEmptyObject'
+export { default as last } from './libs/last'
 
 
 
@@ -112,13 +108,10 @@ export { default as connectEcharts } from './libs/connectEcharts'
 export { default as logRecord, logExport } from './libs/logRecord'
 export { default as arrayRowToColumn } from './libs/arrayRowToColumn'
 export type { TArrayRowToColumnCalculateRow } from './libs/arrayRowToColumn'
-
-
-
-
-
-
-
-
-
-
+export { default as dataCache } from './libs/dataCache'
+export { default as defualtFormatter } from './libs/defualtFormatter'
+export { default as formatRangeText } from './libs/formatRangeText'
+export { default as formatRange } from './libs/formatRange'
+export { default as getMinAndMax } from './libs/getMinAndMax'
+export { default as padMinMax } from './libs/padMinMax'
+export { default as variableHasValue } from './libs/variableHasValue'

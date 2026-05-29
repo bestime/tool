@@ -1,6 +1,7 @@
 import { $ArrayTypeNameBig, $ObjectTypeNameBig, $FunctionTypeNameBig, $ClassTypeNameBig } from './help/hpConsts';
 import getType from './getType';
 import forEach from './forEach';
+import hpObjectKeys from './help/hpObjectKeys';
 
 
 /**
@@ -26,7 +27,7 @@ export default function cloneEasy<T extends [] | Record<any, any> | Function>(da
       break;
     case $ObjectTypeNameBig:
       ret = {};
-      forEach(Object.keys(data), function (key) {
+      forEach(hpObjectKeys(data), function (key) {
         // @ts-ignore
         ret[key] = cloneEasy(data[key] as T);
       })

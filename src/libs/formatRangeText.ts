@@ -4,6 +4,14 @@ import isEmpty from "./isEmpty"
 
 
 
+/**
+ * @deprecated
+ * @param name 
+ * @param from 
+ * @param to 
+ * @param unit 
+ * @returns 
+ */
 export default function formatRangeText (name: string, from: any, to: any, unit?: string) {
   const hasMin = !isEmpty(from)
   const hasMax = !isEmpty(to)
