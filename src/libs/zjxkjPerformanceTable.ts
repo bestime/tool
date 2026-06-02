@@ -175,6 +175,7 @@ function flatDeptTree (deptTree: IDeptYjTreeItem[], result: IDeptRowItem[][], st
           flatDeptTree(item.children, result, rowIdx, level+1)
         }
       }else {
+        console.log("哈哈哈哈", item)
         item.ext.attrs.push({
           attrId: 'SCORE_ACTUAL',
           value: item.ext.scoreActual,
