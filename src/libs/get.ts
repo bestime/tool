@@ -1,4 +1,5 @@
 import { $undefinedValue } from "./help/hpConsts";
+import isEmpty from "./isEmpty";
 import isNull from "./isNull";
 import split from "./split";
 
@@ -39,7 +40,7 @@ export default function get<T, R> (
   }
   
 
-  if(isNull(data, whiteList)) {
+  if(isNull(data, whiteList) || isEmpty(data)) {
     // @ts-ignore
     data = defaultValue
   } else if(formatter) {

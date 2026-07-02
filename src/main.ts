@@ -1,4 +1,6 @@
 
+export { default as tweenQuartEaseInOut } from './libs/tweenQuartEaseInOut'
+export { default as tweenLinear } from './libs/tweenLinear'
 export { default as _String } from './libs/_String'
 export { default as getType } from './libs/getType'
 export { default as isArray } from './libs/isArray'
@@ -85,7 +87,6 @@ export { default as arrayGroupColumn } from './libs/arrayGroupColumn'
 export { default as detectUniqueValues } from './libs/detectUniqueValues'
 export { default as validatorNumber } from './libs/validatorNumber'
 export { default as getFileTypeFromUrl } from './libs/getFileTypeFromUrl'
-export { default as raceTask } from './libs/raceTask'
 export { default as readyTask } from './libs/readyTask'
 export { default as cacheTask } from './libs/cacheTask'
 export { default as templateVarReplace } from './libs/templateVarReplace'
@@ -95,6 +96,42 @@ export { default as calendar } from './libs/calendar'
 export { default as rangeText } from './libs/rangeText'
 export { default as isEmptyObject } from './libs/isEmptyObject'
 export { default as last } from './libs/last'
+export { default as isImageType } from './libs/isImageType'
+export { default as raceTaskPlus } from './libs/raceTaskPlus'
+export { default as base64ToHex } from './libs/base64ToHex'
+export { default as hexToBase64 } from './libs/hexToBase64'
+export { default as stringToHex } from './libs/stringToHex'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -115,3 +152,4 @@ export { default as formatRange } from './libs/formatRange'
 export { default as getMinAndMax } from './libs/getMinAndMax'
 export { default as padMinMax } from './libs/padMinMax'
 export { default as variableHasValue } from './libs/variableHasValue'
+export { default as raceTask } from './libs/raceTask'

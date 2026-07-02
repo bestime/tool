@@ -19,7 +19,7 @@ interface INumConfig {
  * @param config 校验其他配置
  * @returns 
  */
-export default function validatorNumbervalidatorNumber (name: string, data: any, config?: INumConfig) {
+export default function validatorNumber (name: string, data: any, config?: INumConfig) {
   config = _KvPair(config)
   let message = ''
   let success = true

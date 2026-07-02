@@ -6,6 +6,7 @@ import type { TPromiseCb } from "./help/type-declare"
 
 
 /**
+ * @deprecated 慎用，功能没问题，使用起来代码结构不易阅读。可移步raceTaskPlus
  * 处理竞态问题，只认最后一个执行结果（一般用于异步场景）
  * @param handler 实际处理函数
  * @returns 

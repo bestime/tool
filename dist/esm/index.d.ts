@@ -1,4 +1,24 @@
 /**
+ * 缓动函数 quartEaseInOut
+ * @param t
+ * @param b
+ * @param c
+ * @param d
+ * @returns
+ */
+declare function tweenQuartEaseInOut(t: number, b: number, c: number, d: number): number;
+
+/**
+ * 缓动函数 linear
+ * @param t
+ * @param b
+ * @param c
+ * @param d
+ * @returns
+ */
+declare function tweenLinear(t: number, b: number, c: number, d: number): number;
+
+/**
  * 强制转化数据为字符串
  * @param data - 处理的值
  * @returns 实际值2
@@ -1075,6 +1095,7 @@ declare class ServerDate {
  */
 declare function breakString(rowLength: number, data?: string): string[];
 
+type TWeekNum = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 /**
  * 获取一个时间是当年第几周
  * @param endTime - 目标时间
@@ -1085,12 +1106,20 @@ declare function getWeekSort(endTime: string): number;
  * 获取截至指定时间的周列表
  * @param endTime 截止时间（起始时间为此年初）
  * @param count 需要几周，如果此年不足数量，则向往年取时间，不填则仅后去当年数据
+ * @param config 额外配置
+ * @param config.beginWeek 从星期几开始。可选范围为（1-7）默认 1
+ * @param config.cut 是否切断上年尾，下年首。默认 true
  * @returns 周列表
  */
 declare function getWeeks(
   endTime: string,
-  count?: number
+  count?: number,
+  config?: {
+    beginWeek?: TWeekNum;
+    cut?: boolean;
+  }
 ): {
+  key: string;
   week: number;
   label: string;
   from: string;
@@ -1135,7 +1164,7 @@ declare function getArray<T>(data: T[], fromIndex: number, length: number): T[];
  * @param data - 原始数字
  * @returns 正负数字字符串
  */
-declare function signNumber(data: number | undefined): string;
+declare function signNumber(data: number | string | undefined): string;
 
 /**
  * 变量名转小驼峰
@@ -1180,7 +1209,7 @@ interface INumConfig {
  * @param config 校验其他配置
  * @returns
  */
-declare function validatorNumbervalidatorNumber(
+declare function validatorNumber(
   name: string,
   data: any,
   config?: INumConfig
@@ -1195,21 +1224,6 @@ declare function validatorNumbervalidatorNumber(
  * @returns
  */
 declare function getFileTypeFromUrl(url: string): string;
-
-/**
- * 处理竞态问题，只认最后一个执行结果（一般用于异步场景）
- * @param handler 实际处理函数
- * @returns
- *
- * @example
- * const taskApiGetData = raceTask(async function (message: string, duration: number) {
- *    await sleep(duration)
- *    return message
- * })
- */
-declare function raceTask<T extends TPromiseCb>(
-  handler: T
-): (this: ThisParameterType<T>, ...args: Parameters<T>) => Promise<ReturnType<T>>;
 
 /**
  * 此方法用于准备工作，和等待准备工作完成。只认第一次执行结果！！！记得不用的时候销毁
@@ -1293,18 +1307,23 @@ interface IMonthDay {
   timestamp: number;
   targetMonth: boolean;
 }
-type TBeginWeek = 'sunday' | 'monday';
 /**
  * 获取一份日历数据。日和周请根据数据自行格式化。
  * @param year 年
- * @param month 月
- * @param beginWeek 第一列为周一还是周日
+ * @param month 月（1-12）
+ * @param beginWeek 第一列为星期几，范围为（1-7）
+ * @param removeEmptyRow 是否移除没有当月的行
  * @returns
  */
-declare function calendar(year: number, month: number, beginWeek?: TBeginWeek): IMonthDay[][];
+declare function calendar(
+  year: number,
+  month: number,
+  beginWeek?: number,
+  removeEmptyRow?: boolean
+): IMonthDay[][];
 
 /**
- * 格式化一个范文字符串
+ * 格式化一个范围字符串
  * @param from
  * @param connector
  * @param to
@@ -1324,6 +1343,57 @@ declare function isEmptyObject(data: any): boolean;
  * @returns
  */
 declare function last<T>(data: T[], count?: number): T;
+
+/**
+ * 判断文件类型是否是图片
+ * @param fileType
+ * @returns
+ */
+declare function isImageType(fileType: string): boolean;
+
+/**
+ * 控制器
+ */
+interface IController {
+  /**
+   * 校验是否可以继续往下执行
+   * @returns
+   */
+  validate: () => boolean;
+}
+type Thander = (controller: IController, ...args: any[]) => any;
+/**
+ * 处理竞态问题，只认最后一个执行结果（一般用于异步场景）
+ * @param handler 际处理函数
+ * @returns
+ */
+declare function raceTaskPlus<T extends Thander>(
+  handler: T
+): (
+  this: ThisParameterType<T>,
+  ...args: Parameters<T> extends [any, ...infer P] ? P : []
+) => ReturnType<T>;
+
+/**
+ * base64转16进制
+ * @param base64Str
+ * @returns
+ */
+declare function base64ToHex(base64Str: string): string;
+
+/**
+ * 16进制转base64
+ * @param hexStr 16进制字符串
+ * @returns
+ */
+declare function hexToBase64(hexStr: string): string;
+
+/**
+ * 字符串转16禁止
+ * @param data - 普通文本
+ * @returns
+ */
+declare function stringToHex(daga: string): string;
 
 type TBusinessTypeKey = 1 | 2 | 3 | 4;
 interface IOption {
@@ -1634,8 +1704,7 @@ declare function padMinMax(
   max: number | undefined;
 };
 
-/** @deprecated 慎用，用不好会造成内存泄漏。可移步：readyTask
- *
+/**  *
  * 检测一个数据是否存在
  *
  * @param handler - 每一次检测的回调， 返回值为Boolean,表示是否检测到数据
@@ -1654,6 +1723,22 @@ declare namespace variableHasValue {
   ) => Promise<unknown>;
 }
 
+/**
+ * @deprecated 慎用，功能没问题，使用起来代码结构不易阅读。可移步raceTaskPlus
+ * 处理竞态问题，只认最后一个执行结果（一般用于异步场景）
+ * @param handler 实际处理函数
+ * @returns
+ *
+ * @example
+ * const taskApiGetData = raceTask(async function (message: string, duration: number) {
+ *    await sleep(duration)
+ *    return message
+ * })
+ */
+declare function raceTask<T extends TPromiseCb>(
+  handler: T
+): (this: ThisParameterType<T>, ...args: Parameters<T>) => Promise<ReturnType<T>>;
+
 export {
   Animate,
   Polling,
@@ -1667,6 +1752,7 @@ export {
   arrayGroupColumn,
   arrayRemove,
   arrayRowToColumn,
+  base64ToHex,
   breakString,
   cacheTask,
   calendar,
@@ -1712,12 +1798,14 @@ export {
   getType,
   getWeekSort,
   getWeeks,
+  hexToBase64,
   hexToRgba,
   isArray,
   isEmpty,
   isEmptyObject,
   isFunction,
   isFuzzyMatch,
+  isImageType,
   isKvPair,
   isLikeNumber,
   isNull,
@@ -1740,6 +1828,7 @@ export {
   parseQuery,
   parseTreeToTableHeader,
   raceTask,
+  raceTaskPlus,
   randomColor,
   rangeText,
   readyTask,
@@ -1754,6 +1843,7 @@ export {
   sortWithIndex,
   spanTable,
   split,
+  stringToHex,
   templateVarReplace,
   thousands,
   throttle,
@@ -1762,10 +1852,12 @@ export {
   treeFilter,
   treeLeafs,
   trim,
+  tweenLinear,
+  tweenQuartEaseInOut,
   union,
   urlToGet,
   uuid,
-  validatorNumbervalidatorNumber as validatorNumber,
+  validatorNumber,
   variableHasValue,
   zjxkjPerformanceTable
 };

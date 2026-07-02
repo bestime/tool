@@ -1,4 +1,5 @@
 
+import { $JSON_STRING } from './help/hpConsts';
 import hpJsonParse from './help/hpJsonParse'
 import variableHasValue from './variableHasValue'
 
@@ -58,7 +59,7 @@ export default function dataCache (url: string, record?: Record<string, any>):Id
   /** 对相同请求设置数据 */
   function setData (data: any) {
     item.complete = true
-    item.data = JSON.stringify(data)
+    item.data = $JSON_STRING(data)
   }
 
   /** 获取数据 */

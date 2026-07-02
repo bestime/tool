@@ -1,4 +1,6 @@
 import formatTime from "./formatTime"
+import get from "./get"
+import { $undefinedValue } from "./help/hpConsts"
 import isNull from "./isNull"
 import isNumber from "./isNumber"
 import padStart from "./padStart"
@@ -7,7 +9,9 @@ import padStart from "./padStart"
 const oneDay = 1000 * 60 * 60 * 24
 const oneWeek = oneDay * 7
 
-function parseWeek (year: number, month: number, day: number) {  
+type TWeekNum = 1 | 2 | 3 | 4 | 5 | 6 | 7
+
+function parseWeek (year: number, month: number, day: number, firstColWeek: TWeekNum) {  
   const t = new Date(year, month, day)
   let week = t.getDay()
   if(week === 0) {
@@ -15,8 +19,15 @@ function parseWeek (year: number, month: number, day: number) {
   }
 
   const yearStart = new Date(t.getFullYear()).getTime()
-  const startTime = Math.max(t.getTime() - oneDay * (week-1), yearStart)
-  const endTime = t.getTime() + oneDay * (7-week)
+  let diffPrev = week-firstColWeek
+  if(diffPrev<0) {
+    diffPrev+=7
+  }
+  const startTime = Math.max(t.getTime() - oneDay * diffPrev, yearStart)
+  const endTime = startTime + oneDay * 6
+
+  // console.log("开始", firstColWeek, `${year}/${month+1}/${day}`,week, formatTime(startTime),diffPrev)
+  
 
 
   return {
@@ -38,15 +49,15 @@ function formatWeekTime (stamp: number) {
   const y = t.getFullYear()
   const month = t.getMonth() + 1
   const day = t.getDate()
-  return `${padStart(y, 4, '0')}-${padStart(month, 2, '0')}-${padStart(day, 2, '0')}`
+  return `${padStart(y, 4, '0')}/${padStart(month, 2, '0')}/${padStart(day, 2, '0')}`
 }
 
-function getYearWeeks (current: Date) {
+function getYearWeeks (current: Date, firstColWeek: TWeekNum, cut?: boolean) {
   const list: {
     start: string,
     end: string
   }[] = []
-  const week = parseWeek(current.getFullYear(), current.getMonth(), current.getDate())
+  const week = parseWeek(current.getFullYear(), current.getMonth(), current.getDate(), firstColWeek)
   const maxTimeStamp = new Date(week.year+'/12/31 00:00:00').getTime()
   const startOfYearStamp = new Date(current.getFullYear(), 0, 1).getTime()
   
@@ -54,10 +65,16 @@ function getYearWeeks (current: Date) {
   let endStamp = week.endStamp
 
   while (endStamp>=startOfYearStamp) {
+    let rS = endStamp-oneWeek+oneDay
+    let rE = endStamp
+    if(cut) {
+      rS = Math.max(rS, startOfYearStamp)
+      rE = Math.min(rE, maxTimeStamp)
+    }
     
     list.push({
-      start: formatWeekTime(Math.max(endStamp-oneWeek+oneDay, startOfYearStamp)),
-      end: formatWeekTime(Math.min(endStamp, maxTimeStamp))
+      start: formatWeekTime(rS),
+      end: formatWeekTime(rE)
     })    
     endStamp -= oneWeek
     // console.log("week", week, formatTime(startOfYearStamp), formatTime(endStamp))
@@ -65,10 +82,13 @@ function getYearWeeks (current: Date) {
 
   const length = list.length
 
+  
   return list.map(function (item, index) {
+    const weekSort = length - index
     return {
-      week: length - index,
-      label: `第${length - index}周`,
+      key: `${current.getFullYear()}_${weekSort}`,
+      week: weekSort,
+      label: `第${weekSort}周`,
       from: item.start,
       to: item.end
     }
@@ -89,16 +109,24 @@ export function getWeekSort (endTime: string) {
  * 获取截至指定时间的周列表
  * @param endTime 截止时间（起始时间为此年初）
  * @param count 需要几周，如果此年不足数量，则向往年取时间，不填则仅后去当年数据
+ * @param config 额外配置
+ * @param config.beginWeek 从星期几开始。可选范围为（1-7）默认 1
+ * @param config.cut 是否切断上年尾，下年首。默认 true
  * @returns 周列表
  */
-export default function getWeeks (endTime: string, count?: number) {
+export default function getWeeks (endTime: string, count?: number, config?: {
+  beginWeek?: TWeekNum
+  cut?: boolean
+}) {
+  const firstColWeek = get(config, 1, $undefinedValue, 'beginWeek')
+  const cut = get(config, true, $undefinedValue, 'cut')
   const eD = new Date(endTime)  
-  let weekList = getYearWeeks(eD)
+  let weekList = getYearWeeks(eD, firstColWeek, cut)
   const needCrop = !isNull(count)
   while(needCrop && weekList.length<count) {
-    const begin = new Date(weekList[0].from).getTime() - oneDay
+    const begin = new Date(weekList[0].to).getTime() - oneDay*6
     // console.log("weekList", formatTime(begin), weekList)
-    const moreList = getYearWeeks(new Date(begin))
+    const moreList = getYearWeeks(new Date(begin), firstColWeek, cut)
     weekList = moreList.concat(weekList)
   }
   if(needCrop) {

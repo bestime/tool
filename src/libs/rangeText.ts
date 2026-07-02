@@ -3,7 +3,7 @@ import trim from "./trim";
 
 
 /**
- * 格式化一个范文字符串
+ * 格式化一个范围字符串
  * @param from 
  * @param connector 
  * @param to 

@@ -73,6 +73,10 @@ export const $emptyString = ''
 
 export const $maxNum = Number.MAX_SAFE_INTEGER
 
+export const $MIN_NUMBER = Number.MIN_SAFE_INTEGER
+
+export const $JSON_STRING = JSON.stringify
+
 
 
 

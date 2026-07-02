@@ -1,4 +1,4 @@
-import { $undefinedValue } from "./help/hpConsts";
+import { $JSON_STRING, $undefinedValue } from "./help/hpConsts";
 import type { TPromiseCb, TVoidCb } from "./help/type-declare"
 import forEachKvPair from "./forEachKvPair";
 import isNull from "./isNull";
@@ -28,7 +28,7 @@ export default function readyTask<T extends TPromiseCb> (handler: T, fps?: numbe
     begining = true;
     handler().then(function (response) {
       if(!isDispose) {
-        data = JSON.stringify(response)
+        data = $JSON_STRING(response)
         isReady = true
       }    
     })
