@@ -32,6 +32,7 @@ export { default as SeamlessRolling } from './libs/SeamlessRolling'
 export { default as copyText } from './libs/copyText'
 export { default as LinearGradientColorLegend } from './libs/LinearGradientColorLegend'
 export { default as WaterMark } from './libs/WaterMark'
+export { default as graphicalVerificationCode } from './libs/graphicalVerificationCode'
 
 import createStyle from './libs/createStyle'
 export const style = createStyle('bt-browser-core')

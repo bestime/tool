@@ -428,6 +428,18 @@ declare class WaterMark {
   _draw(): void;
 }
 
+interface IConfig {
+  width?: number;
+  height?: number;
+  fontSize?: number;
+}
+declare function graphicalVerificationCode(
+  oCanvas: HTMLCanvasElement,
+  config?: IConfig
+): {
+  refresh: () => string;
+};
+
 /**
  * 将部分属性变为可选
  */
@@ -478,6 +490,7 @@ declare global {
       getRelativePos,
       getStorage,
       getWindowSize,
+      graphicalVerificationCode,
       infoContainerPosition,
       libraryFile,
       observeDomResize,

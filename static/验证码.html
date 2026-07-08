@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>无缝滚动</title>
+  <script src="../../base/dist/umd/index.min.cjs"></script>
+  <script src="../dist/umd/index.min.cjs"></script>
+  <style>
+    #demo-wrapper{
+      
+     
+    }
+  </style>
+</head>
+<body>
+  <canvas id="img-code"></canvas>
+  <button id="demo">刷新</button>
+  <script>
+    
+    const iCode = jUtilsBrowser.graphicalVerificationCode(document.getElementById('img-code'))
+    function updateImg () {
+      const text = iCode.refresh()
+      console.log("验证码", text)
+    }
+
+    updateImg()
+    document.getElementById('demo').onclick = function () {
+      updateImg()
+    }
+  </script>
+</body>
+</html>
