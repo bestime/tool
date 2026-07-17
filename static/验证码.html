@@ -16,6 +16,8 @@
 <body>
   <canvas id="img-code"></canvas>
   <button id="demo">刷新</button>
+  <div id="jianting" style="height: 2000px;"></div>
+  <div id="img-test01" style="width: 200px;height:200px;background: red;"></div>
   <script>
     
     const iCode = jUtilsBrowser.graphicalVerificationCode(document.getElementById('img-code'))
@@ -25,7 +27,14 @@
     }
 
     updateImg()
+
+    const imgTest01 = document.getElementById('img-test01')
+
+    jUtilsBrowser.lazyContainer(imgTest01, function () {
+      console.log("改变图片")
+    })
     document.getElementById('demo').onclick = function () {
+      document.getElementById('jianting').style.height = 0
       updateImg()
     }
   </script>

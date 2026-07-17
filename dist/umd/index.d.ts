@@ -440,6 +440,25 @@ declare function graphicalVerificationCode(
   refresh: () => string;
 };
 
+type TCb = () => void;
+/**
+ * 还没开发完
+ * @param el
+ * @param callback
+ */
+declare function lazyContainer(el: Element, callback: TCb): void;
+
+declare function loadSortImage(
+  groupName: string,
+  imgId: string,
+  el: HTMLImageElement,
+  src: string,
+  sort: number
+): {
+  add: (id: string, el: HTMLImageElement, src: string, sort: number) => void;
+  remove: (id: string, sort: number) => void;
+};
+
 /**
  * 将部分属性变为可选
  */
@@ -492,7 +511,9 @@ declare global {
       getWindowSize,
       graphicalVerificationCode,
       infoContainerPosition,
+      lazyContainer,
       libraryFile,
+      loadSortImage,
       observeDomResize,
       export_default as observeDomScroll,
       observeMouseWheel,

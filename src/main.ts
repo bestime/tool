@@ -33,6 +33,8 @@ export { default as copyText } from './libs/copyText'
 export { default as LinearGradientColorLegend } from './libs/LinearGradientColorLegend'
 export { default as WaterMark } from './libs/WaterMark'
 export { default as graphicalVerificationCode } from './libs/graphicalVerificationCode'
+export { default as lazyContainer } from './libs/lazyContainer'
+export { default as loadSortImage } from './libs/loadSortImage'
 
 import createStyle from './libs/createStyle'
 export const style = createStyle('bt-browser-core')
