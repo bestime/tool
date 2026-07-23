@@ -448,6 +448,15 @@ type TCb = () => void;
  */
 declare function lazyContainer(el: Element, callback: TCb): void;
 
+/**
+ * 图片设置加载顺序。0开始，值越大优先级越低
+ * @param groupName 分组。每个分组中的sort独立计算
+ * @param imgId 图片ID。不用element的原因是可能节点移除后导致内部删除失效
+ * @param el 图片节点
+ * @param src 图片地址
+ * @param sort 图片顺序
+ * @returns
+ */
 declare function loadSortImage(
   groupName: string,
   imgId: string,
@@ -458,6 +467,26 @@ declare function loadSortImage(
   add: (id: string, el: HTMLImageElement, src: string, sort: number) => void;
   remove: (id: string, sort: number) => void;
 };
+
+interface ICustomEchartsTooltip {
+  /** 根节点className */
+  rootClassName?: 'g-echarts-tool-tip';
+  /** 标题 */
+  title: string;
+  /** 列表项 */
+  list: Array<{
+    color: string;
+    name: string;
+    value: string;
+    unit?: string;
+  }>;
+}
+/**
+ * 自定义echarts的tooltip。对标题，值、单位的个性化。需要自行实现样式。默认根节点类名为 g-echarts-tool-tip
+ * @param res
+ * @returns
+ */
+declare function createEchartsToolTip(res: ICustomEchartsTooltip): string;
 
 /**
  * 将部分属性变为可选
@@ -498,6 +527,7 @@ declare global {
       addClass,
       _default as browser,
       copyText,
+      createEchartsToolTip,
       createXLSX,
       downloadFileByArrayBuffer,
       downloadFileByBolb,

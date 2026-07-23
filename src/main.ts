@@ -35,6 +35,7 @@ export { default as WaterMark } from './libs/WaterMark'
 export { default as graphicalVerificationCode } from './libs/graphicalVerificationCode'
 export { default as lazyContainer } from './libs/lazyContainer'
 export { default as loadSortImage } from './libs/loadSortImage'
+export { default as createEchartsToolTip } from './libs/createEchartsToolTip'
 
 import createStyle from './libs/createStyle'
 export const style = createStyle('bt-browser-core')

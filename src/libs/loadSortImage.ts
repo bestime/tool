@@ -83,6 +83,15 @@ function refactor(groupName: string) {
   }
 }
 
+/**
+ * 图片设置加载顺序。0开始，值越大优先级越低
+ * @param groupName 分组。每个分组中的sort独立计算
+ * @param imgId 图片ID。不用element的原因是可能节点移除后导致内部删除失效
+ * @param el 图片节点
+ * @param src 图片地址
+ * @param sort 图片顺序
+ * @returns 
+ */
 export default function loadSortImage (groupName: string, imgId: string, el:HTMLImageElement, src: string, sort: number) {
   // console.log("新增图片", arguments)
   
