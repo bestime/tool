@@ -473,6 +473,8 @@ interface ICustomEchartsTooltip {
   rootClassName?: 'g-echarts-tool-tip';
   /** 标题 */
   title: string;
+  /** 子标题 */
+  subTitle?: string;
   /** 列表项 */
   list: Array<{
     color: string;
@@ -481,11 +483,6 @@ interface ICustomEchartsTooltip {
     unit?: string;
   }>;
 }
-/**
- * 自定义echarts的tooltip。对标题，值、单位的个性化。需要自行实现样式。默认根节点类名为 g-echarts-tool-tip
- * @param res
- * @returns
- */
 declare function createEchartsToolTip(res: ICustomEchartsTooltip): string;
 
 /**

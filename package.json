@@ -1,6 +1,6 @@
 {
   "name": "@bestime/utils_browser",
-  "version": "1.0.15",
+  "version": "1.0.18",
   "main": "./dist/esm/index.min.mjs",
   "module": "./dist/esm/index.min.mjs",
   "types": "./dist/esm/index.d.ts",
@@ -14,7 +14,7 @@
   },
   
   "dependencies": {
-    "@bestime/utils_base": "^git+https://gitee.com/bestime/npmmirror.git#jUtilsBase-v1.0.27"
+    "@bestime/utils_base": "^git+https://gitee.com/bestime/npmmirror.git#jUtilsBase-v1.0.35"
   },
   "devDependencies": {
     "@babel/core": "7.18.6",
