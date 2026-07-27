@@ -1,8 +1,10 @@
+import _String from "./_String"
 import formatTime from "./formatTime"
 import get from "./get"
 import { $undefinedValue } from "./help/hpConsts"
 import isNull from "./isNull"
 import isNumber from "./isNumber"
+import last from "./last"
 import padStart from "./padStart"
 
 
@@ -12,6 +14,7 @@ const oneWeek = oneDay * 7
 type TWeekNum = 1 | 2 | 3 | 4 | 5 | 6 | 7
 
 function parseWeek (year: number, month: number, day: number, firstColWeek: TWeekNum) {  
+
   const t = new Date(year, month, day)
   let week = t.getDay()
   if(week === 0) {
@@ -80,10 +83,17 @@ function getYearWeeks (current: Date, firstColWeek: TWeekNum, cut?: boolean) {
     // console.log("week", week, formatTime(startOfYearStamp), formatTime(endStamp))
   }
 
+
+  // 如果不截掉跨年的首位，则删除第一周不满一周的数据，算到上年去
+  const lastWeek = last(list)!
+  if(!cut && lastWeek.start.substring(0, 4) !== _String(week.year)) {
+    list.pop()
+  }
+
   const length = list.length
 
   
-  return list.map(function (item, index) {
+  const res =  list.map(function (item, index) {
     const weekSort = length - index
     return {
       key: `${current.getFullYear()}_${weekSort}`,
@@ -93,6 +103,9 @@ function getYearWeeks (current: Date, firstColWeek: TWeekNum, cut?: boolean) {
       to: item.end
     }
   }).reverse()
+
+
+  return res
 }
 
 /**
@@ -111,7 +124,7 @@ export function getWeekSort (endTime: string) {
  * @param count 需要几周，如果此年不足数量，则向往年取时间，不填则仅后去当年数据
  * @param config 额外配置
  * @param config.beginWeek 从星期几开始。可选范围为（1-7）默认 1
- * @param config.cut 是否切断上年尾，下年首。默认 true
+ * @param config.cut 是否切断上年尾，下年首。默认 true。如果不切，第一周未满7天则算入上一年
  * @returns 周列表
  */
 export default function getWeeks (endTime: string, count?: number, config?: {
@@ -119,14 +132,15 @@ export default function getWeeks (endTime: string, count?: number, config?: {
   cut?: boolean
 }) {
   const firstColWeek = get(config, 1, $undefinedValue, 'beginWeek')
+  
   const cut = get(config, true, $undefinedValue, 'cut')
-  const eD = new Date(endTime)  
+  let eD = new Date(endTime)  
   let weekList = getYearWeeks(eD, firstColWeek, cut)
   const needCrop = !isNull(count)
   while(needCrop && weekList.length<count) {
-    const begin = new Date(weekList[0].to).getTime() - oneDay*6
-    // console.log("weekList", formatTime(begin), weekList)
-    const moreList = getYearWeeks(new Date(begin), firstColWeek, cut)
+    eD = new Date(eD.getFullYear()-1, 11, 31)
+    const maxDate = eD.getTime()
+    const moreList = getYearWeeks(new Date(maxDate), firstColWeek, cut)
     weekList = moreList.concat(weekList)
   }
   if(needCrop) {

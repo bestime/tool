@@ -1108,7 +1108,7 @@ declare function getWeekSort(endTime: string): number;
  * @param count 需要几周，如果此年不足数量，则向往年取时间，不填则仅后去当年数据
  * @param config 额外配置
  * @param config.beginWeek 从星期几开始。可选范围为（1-7）默认 1
- * @param config.cut 是否切断上年尾，下年首。默认 true
+ * @param config.cut 是否切断上年尾，下年首。默认 true。如果不切，第一周未满7天则算入上一年
  * @returns 周列表
  */
 declare function getWeeks(
