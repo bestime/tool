@@ -1,4 +1,4 @@
-import { uglify } from 'rollup-plugin-uglify'
+import terser from '@rollup/plugin-terser'
 import babel from '@rollup/plugin-babel';
 import typescript from "typescript"
 import rollupTypescript from "rollup-plugin-typescript2"
@@ -92,19 +92,18 @@ export default [
           '.ts',
           '.js'
         ]
-      }),
-  
-      uglify({
+      }),  
+
+      terser({
         ie8: true,
-        warnings: false,
         compress: true,
         output: {
           beautify: false,
           comments: function(node, comment) {
-              return /浏览器工具库/i.test(comment.value);
+            return /浏览器工具库/i.test(comment.value);
           }
         }
-      }),    
+      }),  
     ]
   },
   {
