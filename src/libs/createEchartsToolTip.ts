@@ -3,6 +3,7 @@ import createStyle from "./createStyle"
 const oStyle = createStyle('bt-echartstooltip')
 
 oStyle(`
+.g-echarts-tool-tip {background: transparent;padding:10px;}
 .g-echarts-tool-tip em {width: 10px;height: 10px;margin: 0 5px 0 0;border-radius: 50%;}
 .g-echarts-tool-tip h4 {font-weight: normal;font-size: 14px;}
 .g-echarts-tool-tip h5 {font-weight: normal;font-size: 14px;}
@@ -33,14 +34,10 @@ interface ICustomEchartsTooltip {
 
 
 
-/*默认样式
-
-
-
 
 /**
  * 自定义echarts的tooltip。对标题，值、单位的个性化。需要自行实现样式。默认根节点类名为 g-echarts-tool-tip
- * @param res 
+ * @param res 组装的数据
  * @returns 
  */
 export default function createEchartsToolTip (res: ICustomEchartsTooltip) {

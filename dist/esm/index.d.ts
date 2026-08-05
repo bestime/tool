@@ -483,6 +483,11 @@ interface ICustomEchartsTooltip {
     unit?: string;
   }>;
 }
+/**
+ * 自定义echarts的tooltip。对标题，值、单位的个性化。需要自行实现样式。默认根节点类名为 g-echarts-tool-tip
+ * @param res 组装的数据
+ * @returns
+ */
 declare function createEchartsToolTip(res: ICustomEchartsTooltip): string;
 
 /**

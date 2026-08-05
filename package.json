@@ -14,7 +14,7 @@
   },
   
   "dependencies": {
-    "@bestime/utils_base": "^git+https://gitee.com/bestime/npmmirror.git#jUtilsBase-v1.0.35"
+    "@bestime/utils_base": "git+https://gitee.com/bestime/npmmirror.git#jUtilsBase-zjxkj"
   },
   "devDependencies": {
     "@babel/core": "7.18.6",
