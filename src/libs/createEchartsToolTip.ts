@@ -3,15 +3,16 @@ import createStyle from "./createStyle"
 const oStyle = createStyle('bt-echartstooltip')
 
 oStyle(`
-.g-echarts-tool-tip {background: transparent;padding:10px;}
+.g-echarts-tool-tip {background: transparent;padding:10px 15px;max-width:400px;}
 .g-echarts-tool-tip em {width: 10px;height: 10px;margin: 0 5px 0 0;border-radius: 50%;}
 .g-echarts-tool-tip h4 {font-weight: normal;font-size: 14px;}
 .g-echarts-tool-tip h5 {font-weight: normal;font-size: 14px;}
-.g-echarts-tool-tip p {padding: 0 0 0 15px;gap: 4px;}
-.g-echarts-tool-tip b {font-size: 14px;}
+.g-echarts-tool-tip .item-label {margin: 0 20px 0 0;}
+.g-echarts-tool-tip .content {margin: 0 0 0 auto;padding: 0 0 0 0;gap: 4px;text-indent:0;}
+.g-echarts-tool-tip b {font-size: 14px;margin:0;text-align:justify;}
 .g-echarts-tool-tip i {font-size: 12px;font-style:normal;}
-.g-echarts-tool-tip ul {gap: 4px;list-style:none;}
-.g-echarts-tool-tip li {line-height: normal;list-style:none;}
+.g-echarts-tool-tip ul {gap: 4px;list-style:none;padding:0;}
+.g-echarts-tool-tip li {line-height: normal;list-style:none;margin:0;padding:0;}
 `)
 
 
@@ -46,17 +47,17 @@ export default function createEchartsToolTip (res: ICustomEchartsTooltip) {
     const fmtVal = isEmpty(item.value) ? '-' : item.value
     const fmtUnit = isEmpty(item.value) ? '' : item.unit
     return `<li class="jy-flex jy-items-center">
-      <em style="background:${item.color};"></em>
-      ${item.name}
-      <p class="jy-ml-auto jy-flex jy-items-center">
-        <b>${fmtVal}</b>
+      <em style="background:${item.color};" class="jy-shrink-0"></em>
+      <span class="item-label">${item.name}</span>
+      <div class="content jy-flex jy-items-center">
+        <b class="jy-break-pre-wrap">${fmtVal}</b>
         <i class="jy-reset">${fmtUnit}</i>
-      </p>
+      </div>
     </li>`
   })
 
   const subTitleHtml = res.subTitle ? `<h5>${res.subTitle}</h5>` : ''
-  return `<div class="${rootClassName}">
+  return `<div class="jy-border-box ${rootClassName}">
     <div class="jy-flex jy-items-center jy-gap-10">
       <h4 class="jy-reset">${res.title}</h4>
       ${subTitleHtml}      

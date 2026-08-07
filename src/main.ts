@@ -36,6 +36,7 @@ export { default as graphicalVerificationCode } from './libs/graphicalVerificati
 export { default as lazyContainer } from './libs/lazyContainer'
 export { default as loadSortImage } from './libs/loadSortImage'
 export { default as createEchartsToolTip } from './libs/createEchartsToolTip'
+export { default as nextTick } from './libs/nextTick'
 
 import createStyle from './libs/createStyle'
 export const style = createStyle('bt-browser-core')

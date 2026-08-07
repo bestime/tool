@@ -1,5 +1,6 @@
 import { _String, trim } from "@bestime/utils_base";
 import fillHtml from "./fillHtml";
+import { $globalCache } from "./help/hpConsts";
 
 
 
@@ -14,6 +15,10 @@ let id = 0
  * @return 相同类名 => 修改 , 不同类名 => 追加
  */
 export default function createStyle (className: string) {
+  if($globalCache.domStyle[className]) {
+    return $globalCache.domStyle[className];
+  }
+  
   id++
   className = trim(className)
   if(!className || /^[0-9]/.test(className)) {
@@ -24,8 +29,7 @@ export default function createStyle (className: string) {
   CSS_BOX.className = className;
   document.getElementsByTagName("head")[0].appendChild(CSS_BOX);
 
-
-  return function (str: string) {
+  $globalCache.domStyle[className] = function (str: string) {
     var find;
     temp = computedCssStr
     _String(str).replace(/(.*?)({.*?})/g, function (_, newKey, newValue) {
@@ -43,4 +47,6 @@ export default function createStyle (className: string) {
       fillHtml(CSS_BOX, computedCssStr)
     }
   }
+
+  return $globalCache.domStyle[className]
 }

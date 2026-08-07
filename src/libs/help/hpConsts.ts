@@ -14,3 +14,17 @@ export const $browserGlobal = window
 
 export const $headElement = document.getElementsByTagName('head')[0];
 
+
+// @ts-ignore
+$browserGlobal._jUtilsBrowser = {
+  domStyle: {}
+} as IGlobalCache
+
+interface IGlobalCache {
+  domStyle: Record<string, (data: string) => void>
+}
+
+// @ts-ignore
+export const $globalCache: IGlobalCache = $browserGlobal._jUtilsBrowser
+
+

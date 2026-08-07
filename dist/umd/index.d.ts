@@ -490,6 +490,14 @@ interface ICustomEchartsTooltip {
  */
 declare function createEchartsToolTip(res: ICustomEchartsTooltip): string;
 
+type TFunLibHander = (callback: () => void) => void;
+type TFunLibHanderPromise = () => Promise<void>;
+/**
+ * 用于dom动画入场动画失效的hack。确保dom已经加载并渲染
+ * @returns
+ */
+declare function nextTick(libNextTickHander?: TFunLibHander | TFunLibHanderPromise): Promise<void>;
+
 /**
  * 将部分属性变为可选
  */
@@ -513,7 +521,7 @@ declare class WaterfallFlow {
   dispose(): void;
 }
 
-declare const style: (str: string) => void;
+declare const style: (data: string) => void;
 
 declare global {
   /**
@@ -546,6 +554,7 @@ declare global {
       lazyContainer,
       libraryFile,
       loadSortImage,
+      nextTick,
       observeDomResize,
       export_default as observeDomScroll,
       observeMouseWheel,
