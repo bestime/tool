@@ -1,4 +1,4 @@
-import { isEmpty } from "@bestime/utils_base"
+import { get, isEmpty } from "@bestime/utils_base"
 import createStyle from "./createStyle"
 const oStyle = createStyle('bt-echartstooltip')
 
@@ -30,6 +30,8 @@ interface ICustomEchartsTooltip {
     name: string
     value: string,
     unit?: string
+    /** 值放几行 */
+    valueEllipsis?: 1 | 2 | 3
   }>
 }
 
@@ -46,11 +48,12 @@ export default function createEchartsToolTip (res: ICustomEchartsTooltip) {
   const _html_lis = res.list.map(function (item) {
     const fmtVal = isEmpty(item.value) ? '-' : item.value
     const fmtUnit = isEmpty(item.value) ? '' : item.unit
+    const valueEllipsisClassName = 'jy-ellipsis-' + get(item.valueEllipsis, 1)
     return `<li class="jy-flex jy-items-center">
       <em style="background:${item.color};" class="jy-shrink-0"></em>
       <span class="item-label">${item.name}</span>
       <div class="content jy-flex jy-items-center">
-        <b class="jy-break-pre-wrap">${fmtVal}</b>
+        <b class="jy-break-pre-wrap ${valueEllipsisClassName}">${fmtVal}</b>
         <i class="jy-reset">${fmtUnit}</i>
       </div>
     </li>`

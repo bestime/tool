@@ -481,6 +481,8 @@ interface ICustomEchartsTooltip {
     name: string;
     value: string;
     unit?: string;
+    /** 值放几行 */
+    valueEllipsis?: 1 | 2 | 3;
   }>;
 }
 /**
