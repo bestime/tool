@@ -101,6 +101,8 @@ export { default as raceTaskPlus } from './libs/raceTaskPlus'
 export { default as base64ToHex } from './libs/base64ToHex'
 export { default as hexToBase64 } from './libs/hexToBase64'
 export { default as stringToHex } from './libs/stringToHex'
+export { default as getUniqSessionId } from './libs/getUniqSessionId'
+
 
 
 

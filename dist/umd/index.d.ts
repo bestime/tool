@@ -1028,11 +1028,11 @@ declare function numberToChinese(digit: number, isRmb?: boolean): string;
 
 type ISortItem = number | undefined | null;
 /**
- * 数组排序的迭代方法（多用于多个条件优先级排序）
+ * 数组排序的迭代方法（多用于多个条件优先级排序，此方法会将空值放在最后）
  * @param way 排序方式 asc 从a至b升序；desc 从a至b降序
  * @param a
  * @param b
- * @returns 如果返回数字，怎么不管，如果返回undefined，则继续下一个排序规则，直到排序完成
+ * @returns 如果返回数字，则不管，如果返回undefined，则继续下一个排序规则，直到排序完成
  *
  * @example
  * ```ts
@@ -1394,6 +1394,11 @@ declare function hexToBase64(hexStr: string): string;
  * @returns
  */
 declare function stringToHex(daga: string): string;
+
+/**
+ * 获取当前app自增的唯一会话ID，仅用来区分key值，每次程序运行结果可能不一样
+ */
+declare function getUniqSessionId(): string;
 
 type TBusinessTypeKey = 1 | 2 | 3 | 4;
 interface IOption {
@@ -1801,6 +1806,7 @@ declare global {
       getRiseRatio,
       getSortIndex,
       getType,
+      getUniqSessionId,
       getWeekSort,
       getWeeks,
       hexToBase64,

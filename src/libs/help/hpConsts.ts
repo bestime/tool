@@ -1,4 +1,4 @@
-
+export const $toolName = "jUtilsBase"
 
 export const $letters = [
   'A',
