@@ -987,7 +987,7 @@ declare function fileSizeToNumber(data: number, unit: TSizeUnit): number;
  * @param rgba 带转换颜色字符串。格式： `rgba(0,0,0,1)` 或 `rgb(255,255,255)`
  * @returns 十六进制值
  */
-declare function rgbaToHex(rgba: string): string;
+declare function rgbaToHex(rgbaColor: string): string;
 
 /**
  * 十六进制颜色转rgb
@@ -1173,7 +1173,7 @@ declare function signNumber(data: number | string | undefined): string;
  */
 declare function toCamelCase(data: string): string;
 
-type THander<T> = (item: T) => boolean;
+type THander<T> = (item: T, index: number) => boolean;
 /**
  * 移除数组中的数据（直接改变原数组）
  * @param data - 原始数据
@@ -1399,6 +1399,21 @@ declare function stringToHex(daga: string): string;
  * 获取当前app自增的唯一会话ID，仅用来区分key值，每次程序运行结果可能不一样
  */
 declare function getUniqSessionId(): string;
+
+/**
+ * 将颜色变淡
+ * @param rgbaColor 颜色字符串
+ * @param ratio 变淡多少倍。范围0-1
+ * @returns
+ */
+declare function rgbaToLighten(rgbaColor: string, ratio: number): string;
+
+declare function rgbaToObject(rgbaColor: string): {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+};
 
 type TBusinessTypeKey = 1 | 2 | 3 | 4;
 interface IOption {
@@ -1846,6 +1861,8 @@ declare global {
       repeatArray,
       repeatString,
       rgbaToHex,
+      rgbaToLighten,
+      rgbaToObject,
       roundFixed,
       shake,
       export_default as shortNumber,
