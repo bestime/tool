@@ -43,11 +43,12 @@ export default function numberToChinese (digit: number, isRmb?:boolean) {
     return '超出最大处理数字';
   }
   
-  var res = '';
   var list = split(digit.toString(), '.');
   var price = list[0], decimals = list[1] || '';
   var unitItem, unitIndex;
   var zeroCount = 0, bigIndex;
+  var res = price === '0' ? getChinese(0) : '';
+
 
   
   

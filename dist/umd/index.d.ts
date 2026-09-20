@@ -314,7 +314,7 @@ declare function deepFindItem<T>(
  * @param props.children - 子项字段
  * @returns 结果
  */
-declare function flatArrayToTree(
+declare function tree(
   list: any[],
   props?: {
     id?: string;
@@ -440,7 +440,7 @@ declare function defineEventBus<T extends EventHander$2>(
  */
 declare function forEachTree<T extends TKvPair>(
   data: T[],
-  handle: (data: T, parents: T[]) => void,
+  handle: (data: T, parents: T[], index: number) => void,
   childKey?: keyof T
 ): void;
 
@@ -497,8 +497,12 @@ declare class Polling {
   constructor(setting: Partial<PollingOption>);
   private _next;
   private _doOnce;
-  /** 开始 */
-  start(): this;
+  /**
+   * 开始轮询
+   * @param immediate 是否立即执行一次。默认true
+   * @returns
+   */
+  start(immediate?: boolean): this;
   /** 完成 */
   done(): this;
   /** 销毁 */
@@ -1415,6 +1419,35 @@ declare function rgbaToObject(rgbaColor: string): {
   a: number;
 };
 
+interface IConfig$3 {
+  id: string;
+  pid: string;
+  children: string;
+}
+/**
+ * 将树扁平化为一维结构。将会自动添加一下字段 $id, $pid, $isLeaf, $index, $level
+ * @param tree
+ * @param config
+ * @returns
+ */
+declare function flatTree(tree: any[], config?: Partial<IConfig$3>): any[];
+
+interface IDataTwoDiItem<T> {
+  label: string;
+  data: T[];
+}
+interface IConfig$2 {
+  timeFieldName: string;
+  timeFormatter: (timestamp: number) => string;
+}
+declare function interpolationDate<T>(
+  dataTwoDi: Array<IDataTwoDiItem<T>>,
+  config: IConfig$2
+): {
+  timeList: string[];
+  data: IDataTwoDiItem<T>[];
+};
+
 type TBusinessTypeKey = 1 | 2 | 3 | 4;
 interface IOption {
   headers: {
@@ -1801,6 +1834,7 @@ declare global {
       filterWithMove,
       findKvPair,
       findLast,
+      flatTree,
       floorFixed,
       forEach,
       forEachKvPair,
@@ -1826,6 +1860,7 @@ declare global {
       getWeeks,
       hexToBase64,
       hexToRgba,
+      interpolationDate,
       isArray,
       isEmpty,
       isEmptyObject,
@@ -1876,7 +1911,7 @@ declare global {
       thousands,
       throttle,
       toCamelCase,
-      flatArrayToTree as tree,
+      tree,
       treeFilter,
       treeLeafs,
       trim,

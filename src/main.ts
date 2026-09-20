@@ -104,6 +104,9 @@ export { default as stringToHex } from './libs/stringToHex'
 export { default as getUniqSessionId } from './libs/getUniqSessionId'
 export { default as rgbaToLighten } from './libs/rgbaToLighten'
 export { default as rgbaToObject } from './libs/rgbaToObject'
+export { default as flatTree } from './libs/flatTree'
+export { default as interpolationDate } from './libs/interpolationDate'
+
 
 
 

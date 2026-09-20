@@ -1,6 +1,7 @@
 import deepFindItem from './deepFindItem';
 import _Array from './_Array';
 import _KvPair from './_KvPair';
+import cloneEasy from './cloneEasy';
 
 /*
 
@@ -55,7 +56,7 @@ console.log(treeList)
  * @param props.children - 子项字段
  * @returns 结果
  */
-export default function flatArrayToTree(
+export default function tree(
   list: any[],
   props?: {
     id?: string;
@@ -70,6 +71,7 @@ export default function flatArrayToTree(
 
   for (var a = 0, item: any, father; a < list.length; a++) {
     var item = list[a];
+    // console.log("item", cloneEasy(item))
     // item[children] = _Array(item[children]);
     father = deepFindItem(
       list,

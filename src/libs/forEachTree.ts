@@ -13,17 +13,22 @@ import isArray from './isArray';
 
 export default function forEachTree<T extends TKvPair>(
   data: T[],
-  handle: (data: T, parents: T[]) => void,
+  handle: (data: T, parents: T[], index: number) => void,
   childKey?: keyof T
 ): void{
   childKey = childKey || 'children';
   (function handleOneList(list, parents: T[]) {
     for (let index = 0; index < list.length; index++) {
       const iParaents = cloneEasy(parents)
-      handle(list[index], iParaents);
-      if (isArray(list[index][childKey])) {
+      handle(list[index], iParaents, index);
+      if (isArray(list[index][childKey]) && list[index][childKey].length) {
         iParaents.push(list[index])
         handleOneList(list[index][childKey], iParaents);
+        // @ts-ignore
+        list[index].$isLeaf = false
+      } else {
+        // @ts-ignore
+        list[index].$isLeaf = true
       }
     }
   })(data, []);

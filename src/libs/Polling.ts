@@ -71,11 +71,21 @@ export default class Polling  {
     this._option.handler(this._next, this.done)
   }
 
-  /** 开始 */
-  start () {
+  /**
+   * 开始轮询
+   * @param immediate 是否立即执行一次。默认true
+   * @returns 
+   */
+  start (immediate?: boolean) {
+    immediate = immediate === false ? false : true
     this._stamp = +new Date()
     this.done()
-    this._doOnce()
+    if(immediate) {
+      this._doOnce()
+    } else {
+      this._next()
+    }
+    
     let pass = 0
     let last = 0
     if(this._option.onMessage) {
