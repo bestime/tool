@@ -428,14 +428,14 @@ declare class WaterMark {
   _draw(): void;
 }
 
-interface IConfig {
+interface IConfig$1 {
   width?: number;
   height?: number;
   fontSize?: number;
 }
 declare function graphicalVerificationCode(
   oCanvas: HTMLCanvasElement,
-  config?: IConfig
+  config?: IConfig$1
 ): {
   refresh: () => string;
 };
@@ -523,6 +523,29 @@ declare class WaterfallFlow {
   dispose(): void;
 }
 
+interface IConfig {
+  el: HTMLDivElement;
+  itemWidth: number;
+  itemGap: number;
+  backgroundColor?: string;
+  activeColor?: string;
+}
+/**
+ * 进度条canvas电池版。如果容器太长，会自动缩短到最佳尺寸
+ */
+declare class ProgressBar {
+  _canvas: HTMLCanvasElement;
+  _ctx: CanvasRenderingContext2D;
+  _width: number;
+  _height: number;
+  _confg: IConfig;
+  _itemCount: number;
+  constructor(config: IConfig);
+  size(width: number, height: number): this;
+  percent(percent: number): this;
+  dispose(): void;
+}
+
 declare const style: (data: string) => void;
 
 declare global {
@@ -532,6 +555,7 @@ declare global {
   namespace jUtilsBrowser {
     export {
       LinearGradientColorLegend,
+      ProgressBar,
       SeamlessRolling,
       TextRainCanvas,
       WaterMark,

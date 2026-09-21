@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>进度条</title>
+  <script src="../../base/dist/umd/index.min.cjs"></script>
+  <script src="../dist/umd/index.min.cjs"></script>
+  <style>
+    #demo-wrapper{
+      
+      .bt-waterflow-item {
+        width: 300px;
+        box-sizing: border-box;
+        font-size: 0;
+        img {
+          width: 100%;
+        }
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="demo-01"></div>
+  <div id="demo-02"></div>
+
+  <script>
+    
+    const iPb01 = new jUtilsBrowser.ProgressBar({
+      el: document.getElementById('demo-01'),
+      itemWidth: 5,
+      itemGap: 1,
+      activeColor: 'green'
+    }).size(210, 10).percent(80)
+    const iPb02 = new jUtilsBrowser.ProgressBar({
+      el: document.getElementById('demo-02'),
+      itemWidth: 4,
+      itemGap: 1
+    }).size(180, 10).percent(90)
+  </script>
+</body>
+</html>

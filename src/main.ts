@@ -41,4 +41,5 @@ export { default as nextTick } from './libs/nextTick'
 import createStyle from './libs/createStyle'
 export const style = createStyle('bt-browser-core')
 export { default as WaterfallFlow } from './libs/WaterfallFlow'
+export { default as ProgressBar } from './libs/ProgressBar'
 
