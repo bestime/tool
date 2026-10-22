@@ -805,7 +805,7 @@ type TUnits = [number, string];
  * @param units - 格式化规则，可自定义
  * @returns 数字简写
  */
-declare function export_default(
+declare function shortNumber(
   data: number,
   formatter: (data: number) => string,
   units?: TUnits[]
@@ -1440,6 +1440,12 @@ interface IConfig$2 {
   timeFieldName: string;
   timeFormatter: (timestamp: number) => string;
 }
+/**
+ * 补全所有列表中不存在的日期
+ * @param dataTwoDi
+ * @param config
+ * @returns
+ */
 declare function interpolationDate<T>(
   dataTwoDi: Array<IDataTwoDiItem<T>>,
   config: IConfig$2
@@ -1447,6 +1453,20 @@ declare function interpolationDate<T>(
   timeList: string[];
   data: IDataTwoDiItem<T>[];
 };
+
+/**
+ * 数组赋值，不改变原数组地址
+ * @param originArr
+ * @param data
+ */
+declare function arrayContentReplace<T>(originArr: T[], data: T[]): void;
+
+/**
+ * 通用选择ID处理
+ * @param data
+ * @param id
+ */
+declare function checkIds<T>(data: T[], id: T): void;
 
 type TBusinessTypeKey = 1 | 2 | 3 | 4;
 interface IOption {
@@ -1802,6 +1822,7 @@ export {
   _KvPair,
   _Number,
   _String,
+  arrayContentReplace,
   arrayGroupColumn,
   arrayRemove,
   arrayRowToColumn,
@@ -1810,6 +1831,7 @@ export {
   cacheTask,
   calendar,
   changeIndex,
+  checkIds,
   checkPhone,
   cloneEasy,
   _default as connectEcharts,
@@ -1895,7 +1917,7 @@ export {
   rgbaToObject,
   roundFixed,
   shake,
-  export_default as shortNumber,
+  shortNumber,
   signNumber,
   sortCompare,
   sortWithIndex,

@@ -14,7 +14,7 @@ const defaUnits: TUnits[] = [
  * @param units - 格式化规则，可自定义
  * @returns 数字简写
  */
-export default function (data: number, formatter: (data: number) => string, units?: TUnits[]) {
+export default function shortNumber (data: number, formatter: (data: number) => string, units?: TUnits[]) {
   
   const ruleList = isNull(units) ? defaUnits : units
   ruleList.sort(function (a, b) {

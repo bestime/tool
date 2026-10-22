@@ -106,6 +106,8 @@ export { default as rgbaToLighten } from './libs/rgbaToLighten'
 export { default as rgbaToObject } from './libs/rgbaToObject'
 export { default as flatTree } from './libs/flatTree'
 export { default as interpolationDate } from './libs/interpolationDate'
+export { default as arrayContentReplace } from './libs/arrayContentReplace'
+export { default as checkIds } from './libs/checkIds'
 
 
 
