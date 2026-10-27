@@ -42,4 +42,5 @@ import createStyle from './libs/createStyle'
 export const style = createStyle('bt-browser-core')
 export { default as WaterfallFlow } from './libs/WaterfallFlow'
 export { default as ProgressBar } from './libs/ProgressBar'
+export { default as getFileNameFromContentDisposition } from './libs/getFileNameFromContentDisposition'
 

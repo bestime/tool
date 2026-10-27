@@ -546,6 +546,17 @@ declare class ProgressBar {
   dispose(): void;
 }
 
+/**
+ * 从下载接口的请求头中获取文件名
+ * @param responseHeader
+ * @param fieldName
+ * @returns
+ */
+declare function getFileNameFromContentDisposition(
+  responseHeader: Record<string, any>,
+  fieldName?: string
+): string;
+
 declare const style: (data: string) => void;
 
 declare global {
@@ -570,6 +581,7 @@ declare global {
       downloadFileByUrl,
       fullScreen,
       getCookie,
+      getFileNameFromContentDisposition,
       getJsFileBaseUrl,
       getRatio,
       getRelativePos,
