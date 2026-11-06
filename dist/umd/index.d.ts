@@ -428,14 +428,14 @@ declare class WaterMark {
   _draw(): void;
 }
 
-interface IConfig$1 {
+interface IConfig$2 {
   width?: number;
   height?: number;
   fontSize?: number;
 }
 declare function graphicalVerificationCode(
   oCanvas: HTMLCanvasElement,
-  config?: IConfig$1
+  config?: IConfig$2
 ): {
   refresh: () => string;
 };
@@ -523,7 +523,7 @@ declare class WaterfallFlow {
   dispose(): void;
 }
 
-interface IConfig {
+interface IConfig$1 {
   el: HTMLDivElement;
   itemWidth: number;
   itemGap: number;
@@ -538,9 +538,9 @@ declare class ProgressBar {
   _ctx: CanvasRenderingContext2D;
   _width: number;
   _height: number;
-  _confg: IConfig;
+  _confg: IConfig$1;
   _itemCount: number;
-  constructor(config: IConfig);
+  constructor(config: IConfig$1);
   size(width: number, height: number): this;
   percent(percent: number): this;
   dispose(): void;
@@ -557,6 +557,21 @@ declare function getFileNameFromContentDisposition(
   fieldName?: string
 ): string;
 
+interface IConfig {
+  el: HTMLDivElement;
+  text: string;
+  /** 每秒走几px */
+  step?: number;
+}
+declare class MarqueeText {
+  #private;
+  constructor(setting: IConfig);
+  play(): this;
+  pause(): this;
+  setText(text: string): this;
+  dispose(): void;
+}
+
 declare const style: (data: string) => void;
 
 declare global {
@@ -566,6 +581,7 @@ declare global {
   namespace jUtilsBrowser {
     export {
       LinearGradientColorLegend,
+      MarqueeText,
       ProgressBar,
       SeamlessRolling,
       TextRainCanvas,
