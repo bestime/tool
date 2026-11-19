@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>easyPostMessage页面二</title>
+  <script src="../../base/dist/umd/index.min.cjs"></script>
+  <script src="../dist/umd/index.min.cjs"></script>
+  <style>
+    #demo-wrapper{
+      
+     
+    }
+  </style>
+</head>
+<body>
+  
+  <button id="demo">发送消息</button>
+  <iframe id="page01" src="/tool/browser/static/easyPostMessage%E9%A1%B5%E9%9D%A2%E4%BA%8C.html"></iframe>
+  <script>    
+    let count = 0
+    const iPageWin = document.getElementById('page01')
+    // console.log("iPageWin", iPageWin.contentWindow)
+    var iEasyMessage = jUtilsBrowser.easyPostMessage('父级',window, function (data) {
+      console.log("W1 →收到消息", data)
+    })
+    document.getElementById('demo').onclick = function () {
+      
+      const message = {
+        id: 'W1 → ' + jUtilsBase.uuid(),
+        data: "W1 → " + count++
+      }
+      iEasyMessage.send(message, function (ev) {
+        console.log("请求的消息，得到回复", ev)
+      })
+    }
+  </script>
+</body>
+</html>

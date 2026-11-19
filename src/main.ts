@@ -44,4 +44,5 @@ export { default as WaterfallFlow } from './libs/WaterfallFlow'
 export { default as ProgressBar } from './libs/ProgressBar'
 export { default as getFileNameFromContentDisposition } from './libs/getFileNameFromContentDisposition'
 export { default as MarqueeText } from './libs/MarqueeText'
+export { default as easyPostMessage } from './libs/easyPostMessage'
 

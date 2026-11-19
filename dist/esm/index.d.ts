@@ -572,6 +572,33 @@ declare class MarqueeText {
   dispose(): void;
 }
 
+interface IMessage {
+  id?: string;
+  type?: string;
+  /** 超时时间：毫秒。默认值 1000 * 60 */
+  timeout?: number;
+  data: any;
+}
+interface IReciveMessage extends IMessage {
+  channelId: string;
+}
+type EventHander = (event: IReciveMessage) => void;
+declare function easyPostMessage(
+  channelId: string,
+  targetWindow: Window,
+  onMessage?: EventHander
+): {
+  send: (data: IMessage, callback?: EventHander) => void;
+  dispose: () => void;
+  bus: {
+    on: (hander: (...args: any[]) => void) => void;
+    emit: (...args: any[]) => void;
+    off: (hander: (...args: any[]) => void) => void;
+    dispose: () => void;
+    eventList: () => ((...args: any[]) => void)[];
+  };
+};
+
 declare const style: (data: string) => void;
 
 export {
@@ -590,6 +617,7 @@ export {
   downloadFileByArrayBuffer,
   downloadFileByBolb,
   downloadFileByUrl,
+  easyPostMessage,
   fullScreen,
   getCookie,
   getFileNameFromContentDisposition,
