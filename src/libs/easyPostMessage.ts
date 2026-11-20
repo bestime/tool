@@ -18,37 +18,50 @@ interface IReciveMessage extends IMessage {
 
 
 type EventHander = (event: IReciveMessage) => void;
+type ErrorCallback = (error: {
+  code: string,
+  message: string
+}) => void;
 
 
 
 
-export default function easyPostMessage (channelId: string, targetWindow: Window, onMessage?: EventHander) {
+export default function easyPostMessage (channelId: string, targetWindow: Window, options: {
+  targetOrigin?: string
+  onMessage?: EventHander,
+  transformResponse?: (data: any) => IReciveMessage
+}) {
   const bus = defineEventBus(uuid())
+  const targetOrigin = get(options.targetOrigin, '*')
 
   const replyCache: Array<string> = []
   // console.log("初始化", onMessage)
 
   function onWindowMessage (ev: any) {
     
+    
     const _channelId = get(ev, $undefinedValue, $undefinedValue, 'data.channelId')
-
+    
     // 不接收自己的消息
     if(_channelId === channelId) return;
+    const realData: IReciveMessage = options.transformResponse ? options.transformResponse(ev.data) : ev.data
+    // realData.channelId = _channelId
+    // console.log(channelId, "源消息：", realData)
     // if(ev.source === targetWindow) return;
     
-    const bid: string | undefined = get(ev, $undefinedValue, $undefinedValue, 'data.id')
-    // console.log(channelId,"【收到原始消息#####】", ev.data, _channelId, bid)
+    const bid: string | undefined = get(realData, $undefinedValue, $undefinedValue, 'id')
+    
     if(replyCache.includes(bid!)) {
-      bus.emit(ev.data)
-    }else if(onMessage){
-      onMessage(ev.data)
+      bus.emit(realData)
+    }else if(options.onMessage){
+      options.onMessage(realData)
     }
     
   }
 
   targetWindow.addEventListener('message', onWindowMessage)
 
-  function send (data: IMessage, callback?: EventHander) {
+  function send (data: IMessage, callback?: EventHander, errCallback?: ErrorCallback) {
     
 
     // @ts-ignore
@@ -79,10 +92,15 @@ export default function easyPostMessage (channelId: string, targetWindow: Window
       bus.on(busOnMessage)
       timer = setTimeout(function (){
         bus.off(busOnMessage)
+
+        errCallback && errCallback({
+          code: 'timeout',
+          message: '请求超时'
+        })
       }, timeout)
     }
     
-    targetWindow.postMessage(data, "*")
+    targetWindow.postMessage(data, targetOrigin)
   }
   return {
     send,

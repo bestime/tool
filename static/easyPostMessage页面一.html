@@ -16,22 +16,34 @@
 <body>
   
   <button id="demo">发送消息</button>
-  <iframe id="page01" src="/tool/browser/static/easyPostMessage%E9%A1%B5%E9%9D%A2%E4%BA%8C.html"></iframe>
+  <iframe src="/tool/browser/static/easyPostMessage%E9%A1%B5%E9%9D%A2%E4%BA%8C.html"></iframe>
   <script>    
     let count = 0
-    const iPageWin = document.getElementById('page01')
-    // console.log("iPageWin", iPageWin.contentWindow)
-    var iEasyMessage = jUtilsBrowser.easyPostMessage('父级',window, function (data) {
-      console.log("W1 →收到消息", data)
+    var iEasyMessage = jUtilsBrowser.easyPostMessage('父级',window, {
+      transformResponse: function (data) {
+        data = jUtilsBase._KvPair(data)
+        return {
+          channelId: data.channelId,
+          id: data.requestId,
+          type: data.key,
+          data
+        }
+      },
+      onMessage: function (data) {
+        console.log("W1 → 收到消息", data)
+      }
     })
     document.getElementById('demo').onclick = function () {
       
       const message = {
         id: 'W1 → ' + jUtilsBase.uuid(),
-        data: "W1 → " + count++
+        data: "W1 → " + count++,
+        timeout: 5000
       }
       iEasyMessage.send(message, function (ev) {
         console.log("请求的消息，得到回复", ev)
+      }, function (err) {
+        console.log("报错了", err, message)
       })
     }
   </script>

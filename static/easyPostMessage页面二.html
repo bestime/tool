@@ -18,22 +18,27 @@
   <button id="demo">发送消息</button>
   <script>    
     let count = 0
-    const iEasyMessage = jUtilsBrowser.easyPostMessage('子页面',window.parent, function (data) {
-      console.log("w2 收到消息", data)
-      iEasyMessage.send({
-        id: data.id,
-        data: "W2 回复 " + data.id
-      })
+    const iEasyMessage = jUtilsBrowser.easyPostMessage('子页面',window.parent, {
+      onMessage: function (data) {
+        console.log("w2 收到消息", data)
+        iEasyMessage.send({
+          requestId: data.id,
+          key: 'reply',
+          data: "W2 回复 " + data.id
+        })
+      }
     })
     document.getElementById('demo').onclick = function () {
       const message = {
-        id: 'W2 → ' + jUtilsBase.uuid(),
+        requestId: 'W2 → ' + jUtilsBase.uuid(),
+        key: 'chat',
         data: "W2 → " + count++
       }
       iEasyMessage.send(message)
     }
     iEasyMessage.send({
-      type: 'ready',
+      key: 'infraReady',
+
       data: '初始化'
     })
 

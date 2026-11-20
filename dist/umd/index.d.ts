@@ -580,15 +580,20 @@ interface IMessage {
   data: any;
 }
 interface IReciveMessage extends IMessage {
+  /** 来自哪个频道 */
   channelId: string;
 }
 type EventHander = (event: IReciveMessage) => void;
+type ErrorCallback = (error: { code: string; message: string }) => void;
 declare function easyPostMessage(
   channelId: string,
   targetWindow: Window,
-  onMessage?: EventHander
+  options: {
+    onMessage?: EventHander;
+    transformResponse?: (data: any) => IReciveMessage;
+  }
 ): {
-  send: (data: IMessage, callback?: EventHander) => void;
+  send: (data: IMessage, callback?: EventHander, errCallback?: ErrorCallback) => void;
   dispose: () => void;
   bus: {
     on: (hander: (...args: any[]) => void) => void;
